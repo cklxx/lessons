@@ -34,3 +34,35 @@ nav:
   - 书架:
       - 示例书: books/example-book/index.md
       - 示例书 / 第一章: books/example-book/chapter-1.md
+      - 如何在 AI 的辅助下完成一个软件产品:
+          - 概览: books/ai-assisted-software-product/index.md
+          - 第一部分：方法论与工作流:
+              - 第 1 章：全流程方法论与 AI 工作台: books/ai-assisted-software-product/01-method.md
+          - 第二部分：需求挖掘与 PRD:
+              - 第 2 章：需求挖掘：从问题到机会: books/ai-assisted-software-product/02-discovery.md
+              - 第 3 章：PRD 书写：从愿景到验收: books/ai-assisted-software-product/03-prd.md
+          - 第三部分：原型与 UI 设计:
+              - 第 4 章：原型与信息架构：用最小成本验证: books/ai-assisted-software-product/04-prototype.md
+              - 第 5 章：UI 设计：设计系统、交互与可访问性: books/ai-assisted-software-product/05-ui.md
+          - 第四部分：工程实现与后端架构:
+              - 第 6 章：工程化与代码编程：把 AI 纳入流水线: books/ai-assisted-software-product/06-engineering.md
+              - 第 7 章：前端实现：组件化、状态与体验指标: books/ai-assisted-software-product/07-frontend.md
+              - 第 8 章：后端架构：服务边界、数据与可观测性: books/ai-assisted-software-product/08-backend.md
+              - 第 9 章：Agent 架构与 RAG：检索、工具与评测: books/ai-assisted-software-product/09-agent-rag.md
+              - 第 10 章：用户模块：认证、授权与审计: books/ai-assisted-software-product/10-user.md
+              - 第 11 章：付费模块：订阅、计费与风控: books/ai-assisted-software-product/11-billing.md
+          - 第五部分：LLM 训练:
+              - 第 12 章：数据收集与清洗：从语料到可训练数据集: books/ai-assisted-software-product/12-data.md
+              - 第 13 章：预训练：目标、栈与成本核算: books/ai-assisted-software-product/13-pretrain.md
+              - 第 14 章：后训练：SFT/DPO/RLHF 与 Agent 强化学习: books/ai-assisted-software-product/14-posttrain-rl.md
+          - 第六部分：推理与部署:
+              - 第 15 章：推理优化：延迟、吞吐与成本: books/ai-assisted-software-product/15-inference.md
+              - 第 16 章：部署与运维：灰度、监控与迭代: books/ai-assisted-software-product/16-deployment.md
+              - 第 17 章：评测体系：离线/在线、红队与回归: books/ai-assisted-software-product/17-evaluation.md
+          - 第七部分：增长与治理:
+              - 第 18 章：迭代与增长：路线图、实验与定价: books/ai-assisted-software-product/18-iteration.md
+              - 第 19 章：合规与伦理：数据、版权与安全: books/ai-assisted-software-product/19-governance.md
+          - 附录:
+              - 附录 A：模板库（PRD / 访谈 / 架构 / 评测）: books/ai-assisted-software-product/A-templates.md
+              - 附录 B：提示词与工作流配方: books/ai-assisted-software-product/B-prompts.md
+              - 附录 C：上线清单（隐私 / 安全 / 成本）: books/ai-assisted-software-product/C-checklists.md
