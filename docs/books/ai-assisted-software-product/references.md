@@ -52,3 +52,9 @@
 50. H. Zheng et al., "Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena," NeurIPS, 2023.
 51. J. Rawte et al., "Guardrails for Generative AI," arXiv:2307.08715, 2023.
 52. E. Raymond, *The Cathedral and the Bazaar*, O'Reilly, 1999.
+53. W3C Design Tokens Community Group, *Design Tokens Format Module*, Draft, https://www.designtokens.org/TR/drafts/format/, accessed 2025-12-16.
+54. Deque Systems, *axe-core*, documentation, https://github.com/dequelabs/axe-core, accessed 2025-12-16.
+55. Google, *Lighthouse*, documentation, https://developer.chrome.com/docs/lighthouse/, accessed 2025-12-16.
+56. Storybook, *Writing Tests: Test Runner*, documentation, https://storybook.js.org/docs/writing-tests/integrations/test-runner, accessed 2025-12-16.
+57. Microsoft, *Playwright*, documentation, https://playwright.dev/, accessed 2025-12-16.
+58. W3C, *CSS Writing Modes Level 3*, Recommendation, 2019, https://www.w3.org/TR/css-writing-modes-3/.

@@ -114,7 +114,7 @@ workflow.add_conditional_edges("search", should_continue)
 - **DPO：** 三元组 `(prompt, chosen, rejected)` 训练，优化偏好与安全边界。[42]
 - **模板：**
 ```yaml
-model_name_or_path: meta-llama/Llama-3-8b-Instruct
+model_name_or_path: meta-llama/Meta-Llama-3-8B-Instruct
 stage: sft
 finetuning_type: lora
 lora_target: q_proj,v_proj
