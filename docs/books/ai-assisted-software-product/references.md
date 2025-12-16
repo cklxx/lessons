@@ -66,3 +66,7 @@
 64. Grafana Labs, *Grafana Documentation*, https://grafana.com/docs/grafana/latest/, accessed 2025-12-16.
 65. Stoplight, *Spectral (OpenAPI linter)*, documentation, https://github.com/stoplightio/spectral, accessed 2025-12-16.
 66. C. Xu et al., "WizardLM: Empowering large pre-trained language models to follow complex instructions," arXiv:2304.12244, 2023.
+67. OpenAPI Initiative, *OpenAPI Specification*, https://spec.openapis.org/oas/latest.html, accessed 2025-12-16.
+68. OWASP Foundation, *Application Security Verification Standard (ASVS)*, https://owasp.org/www-project-application-security-verification-standard/, accessed 2025-12-16.
+69. OpenID Foundation, *OpenID Connect Core 1.0*, https://openid.net/specs/openid-connect-core-1_0.html, accessed 2025-12-16.
+70. IETF, "JSON Web Token (JWT)," RFC 7519, 2015, https://www.rfc-editor.org/rfc/rfc7519, accessed 2025-12-16.
