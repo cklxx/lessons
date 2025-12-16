@@ -34,3 +34,22 @@ nav:
   - 书架:
       - 示例书: books/example-book/index.md
       - 示例书 / 第一章: books/example-book/chapter-1.md
+      - 写给未来的超级个体：AI 全栈产品开发实战:
+          - 总览: books/ai-assisted-software-product/index.md
+          - 精华版（打印友好）: books/ai-assisted-software-product/condensed-master-guide.md
+          - 序言：一人即是一支队伍: books/ai-assisted-software-product/preface.md
+          - 第 1 章：需求挖掘与市场验证: books/ai-assisted-software-product/chapter-01-demand.md
+          - 第 2 章：PRD 自动化与架构蓝图: books/ai-assisted-software-product/chapter-02-prd.md
+          - 第 3 章：生成式 UI/UX 设计: books/ai-assisted-software-product/chapter-03-ui.md
+          - 第 4 章：AI 辅助的高效编码工作流: books/ai-assisted-software-product/chapter-04-workflow.md
+          - 第 5 章：后端核心模块实战: books/ai-assisted-software-product/chapter-05-backend.md
+          - 第 6 章：RAG —— 赋予 AI 记忆: books/ai-assisted-software-product/chapter-06-rag.md
+          - 第 7 章：Agent —— 赋予 AI 手脚: books/ai-assisted-software-product/chapter-07-agent.md
+          - 第 8 章：数据工程 —— 训练的燃料: books/ai-assisted-software-product/chapter-08-data.md
+          - 第 9 章：LLM 预训练与增量预训练: books/ai-assisted-software-product/chapter-09-pretrain.md
+          - 第 10 章：后训练 —— 微调与对齐: books/ai-assisted-software-product/chapter-10-posttrain.md
+          - 第 11 章：推理加速与生产级部署: books/ai-assisted-software-product/chapter-11-inference.md
+          - 第 12 章：LLMOps —— 监控与评估: books/ai-assisted-software-product/chapter-12-llmops.md
+          - 结语：通往 AGI 时代的船票: books/ai-assisted-software-product/conclusion.md
+          - 参考文献: books/ai-assisted-software-product/references.md
+          - 全书质量控制与复现清单: books/ai-assisted-software-product/quality-checklist.md
