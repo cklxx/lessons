@@ -18,34 +18,58 @@
 2. **设计稿转代码：** 通过 v0.dev / Galileo 将描述直接转为 React 组件，并由 LLM 清理语义化标记。[15]
 3. **自动化审查：** 用多模态模型与 Lighthouse/axe 扫描可访问性、对比设计稿差异。[17]
 
+![图：生成式 UI 工作流概览](../../assets/fig-placeholder.svg)
+
+*图：生成式 UI 工作流：从文字规格到可回归组件的代码化闭环*
+<!-- TODO: replace figure with a real workflow diagram for Ch03 -->
+
 ## 实战路径
-- 示例（可复制）：从文字规格生成可回归的 UI 组件
-
 ```text
-目标：
-为“登录表单（含错误提示与加载态）”生成 React/Tailwind 组件，并补齐可访问性与交互回归用例。
-
-上下文：
-- 组件：packages/ui/src/LoginForm.tsx
-- 回归：packages/ui/src/LoginForm.stories.tsx（含交互）、tests/ui/login-form.spec.ts（Playwright）
-
-约束：
-- 必须满足：键盘可达、错误提示可读、输入框 label/aria 完整。
-- 禁止引入未声明依赖；优先使用现有组件/样式约定。
- 
-
-输出格式：
-- 只输出 unified diff（git diff 格式）
-
-验证命令：
-- make ui-validate
-
-失败判定：
-- axe/Lighthouse/Playwright 任一失败；或缺少交互/异常态覆盖。
-
-回滚：
-- git checkout -- packages/ui/src/LoginForm.tsx packages/ui/src/LoginForm.stories.tsx tests/ui/login-form.spec.ts
+文字规格（含状态机）→ 组件实现（React/Tailwind）→ Storybook 交互演示 → a11y/性能/截图回归 → 发布与迭代
 ```
+
+### 示例（可复制）：从文字规格生成可回归的 UI 组件
+
+**目标：** 为“登录表单（含错误提示与加载态）”生成 React/Tailwind 组件，并补齐可访问性与交互回归用例。[15][17]
+
+**前置条件：**
+- 你有一个可运行的前端工程（React + Tailwind 或等价技术栈）。
+- 你能运行至少一种自动化检查：a11y（axe）、性能（Lighthouse）或 E2E（Playwright）。[17]
+
+**上下文：**
+- 项目形态：组件库（可被多个页面复用）
+- 角色：设计/前端（以“可回归”为目标，而非一次性 Demo）
+- 组件：`packages/ui/src/LoginForm.tsx`
+- 回归：`packages/ui/src/LoginForm.stories.tsx`（含交互）、`tests/ui/login-form.spec.ts`（Playwright）
+
+**约束：**
+- 必须满足：键盘可达、错误提示可读、输入框 label/aria 完整。[17]
+- 必须覆盖：默认态/加载态/错误态/禁用态（至少 4 种），避免只做“好看截图”。[15]
+- 禁止引入未声明依赖；优先使用现有组件/样式约定。
+- 如果你让 AI 帮你改仓库文件：要求它只输出 unified diff（git diff 格式），避免夹带解释文本。
+
+**输出格式：**
+- 产物：组件源码 + Storybook 交互用例 + 至少 1 条自动化回归用例
+- 命名：组件与测试文件名要稳定，避免重构导致历史回归记录失效。
+
+**步骤：**
+1. 写“文字规格”：字段、校验规则、错误文案、加载行为、成功回调，并把状态写成最小状态机（默认/提交中/失败/成功）。[15]
+2. 让 AI 生成组件初稿（React/Tailwind），再手动检查语义化与可访问性（label/aria/焦点顺序）。[17]
+3. 为组件写 Storybook 故事与交互（输入、提交、触发错误），让回归检查可复用。[15]
+4. 写 Playwright 用例覆盖异常路径（错误态、重试），并把 a11y/Lighthouse 报告作为门禁证据。[17]
+
+**验证命令：**
+```bash
+make ui-validate
+# 预期输出包含：axe/Lighthouse/Playwright 至少一种检查通过 + 产出可归档报告或截图差异
+```
+
+**失败判定：**
+- axe/Lighthouse/Playwright 任一失败；或缺少交互/异常态覆盖；或错误态不可复现。[17]
+
+**回滚：**
+- 如果这些文件原本已存在：`git checkout -- packages/ui/src/LoginForm.tsx packages/ui/src/LoginForm.stories.tsx tests/ui/login-form.spec.ts`
+- 如果这些文件是新建且未被 Git 跟踪：`rm -f packages/ui/src/LoginForm.tsx packages/ui/src/LoginForm.stories.tsx tests/ui/login-form.spec.ts`
 
 ### 1. 情绪板与设计约束
 - 设定品牌关键词（如“信任感、极简、效率”），生成 3–5 版情绪板，挑选主色/辅色、字体与组件风格。[14]
@@ -69,9 +93,23 @@
 - CI 若发现对比度或键盘可达性不达标则阻断发布。
 
 ## 常见陷阱
-- **过度装饰：** 页面炫技但转化差，需结合埋点与 A/B 数据迭代。
-- **多语言与 RTL 忽略：** 提前检查字符长度/RTL 支持，减少国际化返工。
-- **设计—代码漂移：** 组件库必须单一来源，禁止局部复制粘贴样式。
+1. **现象：** 组件“很好看”，但转化差、用户找不到关键操作。  
+   **根因：** 视觉装饰压过信息层级；没有用埋点或可用性测试验证“是否更好用”。[14]  
+   **复现：** 把 CTA/错误提示/加载态去掉对比截图，观察信息是否仍清晰；或对比两版文案/布局的点击率。  
+   **修复：** 把“信息层级/转化目标”写进文字规格，并把关键交互埋点纳入验收；用数据而不是审美做裁判。[6]  
+   **回归验证：** 每次 UI 大改提交一份“前后对比”证据（截图差异 + 指标口径），无证据的变更不合并。
+
+2. **现象：** 上线后才发现多语言/长文案溢出、RTL 布局崩坏。  
+   **根因：** 只在单语言、单屏幕尺寸下做设计与回归，忽略 i18n/RTL 的约束。  
+   **复现：** 替换为超长文案与 RTL 语言，运行截图回归；常见问题是按钮挤压、表单错位。  
+   **修复：** 在 Storybook/Playwright 增加多语言样例与 RTL 截图场景，把“字符长度/RTL”变成回归基线。  
+   **回归验证：** 回归报告必须包含：桌面/移动两套截图 + 至少 1 个 RTL 用例的截图差异为 0 或有解释。
+
+3. **现象：** 设计稿与实现逐渐脱节，组件被复制粘贴后不可维护。  
+   **根因：** 没有单一来源（tokens/组件库），局部页面自定义样式扩散导致漂移。[15]  
+   **复现：** 在不同页面搜索同类按钮/表单的 className，你会看到多个不一致版本。  
+   **修复：** 抽取 tokens 与基础组件为单一来源，并要求业务页面只组合组件，不直接复制样式。  
+   **回归验证：** 组件库变更必须附 Storybook 展示与截图回归；业务页面不得新增“自定义按钮样式”而绕过组件库。
 
 ## 延伸练习
 - 尝试用 Stable Diffusion ControlNet 将线框图转高保真视觉，验证 Prompt 与控制图的组合效果。

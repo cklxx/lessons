@@ -33,7 +33,6 @@ markdown_extensions:
   - codehilite
 nav:
   - 首页: index.md
-  - 故障排查: troubleshooting.md
   - 书架:
       - 示例书: books/example-book/index.md
       - 示例书 / 第一章: books/example-book/chapter-1.md

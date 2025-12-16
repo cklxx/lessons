@@ -19,39 +19,80 @@
 2. **检索策略：** 混合检索（BM25 + 向量）、查询重写、重排序，兼顾召回与精度。[27]
 3. **评估闭环：** 构建问答对与引用检查，RAGAS 自动评分，失败则回滚配置。[28]
 
+![图：RAG 端到端工程化管线](../../assets/ch06-rag-pipeline.png)
+
+*图 6-1：RAG 端到端工程化管线——从文档处理到评估回滚的闭环*
+<!-- TODO: replace with your own pipeline diagram or a screenshot from your project -->
+
 ## 实战路径
-- 示例（可复制）：把“引用缺失”变成可阻断合并的评测项
-
 ```text
-目标：
-为 RAG 系统定义“回答必须带引用”的输出格式，并构建最小评测集 + 失败判定。
-
-上下文：
-- 文档源：docs/（Markdown/PDF）
-- 评测集：eval/qa.jsonl（question, expected_sources）
-- 模板：prompts/rag_answer.md（要求引用片段与页码/链接）
-
-约束：
-- 缺少引用视为失败；引用必须来自检索到的片段，不得编造。
-- 评测必须输出质量分数与延迟/成本（独立列）。
- 
-
-输出格式：
-- 只输出 unified diff（git diff 格式）
-
-验证命令：
-- make rag-eval
-
-失败判定：
-- 引用缺失率 > 0；或分数低于阈值且未触发回滚。
-
-回滚：
-- git checkout -- eval/ prompts/ configs/
+评测集（QA+允许引用来源）→ 强制引用的回答模板 → 引用缺失=失败 → CI 阻断 → 分数/延迟/成本三指标联动决策
 ```
+
+### 示例（可复制）：把“引用缺失”变成可阻断合并的评测项
+
+**目标：** 为 RAG 系统定义“回答必须带引用”的输出格式，并构建最小评测集 + 失败判定，让“引用缺失”在 CI 中直接阻断合并。[24][28]
+
+**前置条件：**
+- 你有一份可索引的知识源（Markdown/PDF/网页快照均可），且每个片段能映射到可追溯来源（链接/页码/文件路径）。[24]
+- 你愿意把“引用”当作契约：没有引用的回答，即使看起来正确也视为失败。[24][28]
+
+**上下文：**
+- 项目形态：RAG 问答系统（可被迭代与回归）
+- 角色：架构/工程（把质量门槛写成可执行检查）
+- 文档源：`docs/`（Markdown/PDF）
+- 评测集：`eval/qa.jsonl`（`question, expected_sources`）
+- 模板：`prompts/rag_answer.md`（强制引用片段与页码/链接）
+
+**约束：**
+- 缺少引用视为失败；引用必须来自检索到的片段，不得编造。[24][28]
+- 评测必须同时输出：质量分数 + 延迟 + 成本（独立列，避免“更准但更慢/更贵”被忽略）。[25]
+- 如果你让 AI 帮你改仓库文件：要求它只输出 unified diff（git diff 格式）。
+
+**输出格式：**
+- 产物：`eval/qa.jsonl`、`prompts/rag_answer.md`、`configs/rag.yml`（或等价配置）
+- 命名：评测集与配置必须可版本化（便于回滚与对比）。[28]
+
+**步骤：**
+1. 选 20–50 个高频问题，标注“允许引用的来源”（文件路径/链接/页码），写入 `eval/qa.jsonl`。[28]
+2. 写回答模板 `prompts/rag_answer.md`：要求结构化输出 + 引用列表（source_id + 摘录），并明确“无引用=失败”。[24]
+3. 在评测脚本里实现三类判定：引用缺失率、质量分数阈值、延迟/成本阈值；任一失败都阻断合并。[28]
+4. 把评测接入 CI：每次改动检索参数/切分策略/重排序模型都必须跑评测并产出对比表。[28][50]
+
+**验证命令：**
+```bash
+make rag-eval
+# 预期输出包含：引用缺失率=0 + 质量分数>=阈值 + 延迟/成本在门槛内（产出 CSV/Markdown 报告）
+```
+
+**失败判定：**
+- 引用缺失率 > 0；或分数低于阈值且未触发回滚；或延迟/成本显著退化但仍合并。[28]
+
+**回滚：**
+- `git checkout -- eval/ prompts/ configs/`
 
 ### 1. 数据清洗与分块
 - 使用 `langchain`/`llamaindex` 解析 PDF/Markdown，去除页眉页脚与目录噪声。
 - 采用语义分块（按主题/标题）+ 固定长度混合策略，块内保留来源页码。
+
+建议把“分块策略”当作一等公民配置，而不是散落在代码里：
+
+```yaml
+# configs/chunking.yml（示意）
+chunking:
+  mode: hybrid            # semantic | fixed | hybrid
+  chunk_size: 800
+  chunk_overlap: 120
+  keep_headings: true
+  keep_page_number: true  # PDF
+  min_chars: 200
+  max_chars: 1200
+```
+
+![图：分块粒度对检索质量的影响](../../assets/ch06-chunking-strategy.png)
+
+*图 6-2：分块粒度对检索质量的影响——过大引入噪声，过小导致语义断裂，混合策略求稳*
+<!-- TODO: replace with a screenshot comparing your chunking strategies on a real dataset -->
 
 ### 2. 索引与检索
 ```python
@@ -65,13 +106,57 @@ print(query_engine.query("How to handle retries?"))
 - 对比 Pinecone/Milvus/pgvector：记录建库时间、QPS、P95 延迟、存储成本。
 - 结合 BM25/keyword 检索做混合召回，减少语义漂移。
 
+建议把“检索结果”做成可审查的结构化输出（用于人工抽查与回归对比）：
+
+```json
+{
+  "query": "How to handle retries?",
+  "top_k": [
+    {"source_id": "docs/engineering/retries.md#L1", "score": 0.83, "snippet": "..."},
+    {"source_id": "docs/backend/webhook.md#L42", "score": 0.79, "snippet": "..."}
+  ]
+}
+```
+
 ### 3. 重排序与引用
 - 使用 Cross-Encoder（如 `cross-encoder/ms-marco-MiniLM-L-6-v2`）重排序 top-K 结果。
 - 在生成阶段强制输出引用（原文片段与页码），引用缺失即判定失败。
 
+一个“强制引用”的回答模板（示意，可直接落地为 `prompts/rag_answer.md`）：
+
+```markdown
+你是企业知识库问答助手。请只依据检索到的证据回答。
+
+输出格式（必须严格遵守）：
+1) Answer: 用中文给出简洁回答（最多 8 句）
+2) Citations: 列出所有引用（每条包含 source_id + 摘录），格式：
+   - [source_id] "verbatim quote"
+
+规则：
+- 如果证据不足以回答：输出 "Answer: 我不知道" 并解释缺失什么证据。
+- 禁止编造引用；Citations 只能来自检索到的片段。
+```
+
+![图：强制引用的结构化响应示例](../../assets/ch06-structured-output.png)
+
+*图 6-3：强制引用的结构化响应示例——Answer 与 Citations 分离以防幻觉并支持追溯*
+<!-- TODO: replace with a real screenshot from your UI (Answer + Citations) -->
+
 ### 4. 自动评估
 - 构造 100–200 对问答基准，标注参考答案与允许的引用片段。
 - 运行 RAGAS/LLM-as-a-Judge，常用指标包含 Faithfulness、Answer Relevance、Context Precision/Recall 等（以你使用的版本为准）。[28][50]
+
+一个最小评测样例（`eval/qa.jsonl` 单行示意）：
+
+```json
+{"id":"q-001","question":"Webhook 事件重复到达如何处理？","expected_sources":["docs/books/ai-assisted-software-product/chapter-05-backend.md"],"notes":"必须提到验签、幂等、可重放"}
+```
+
+建议把评测输出固定成“可对比表”，并把阈值写进配置（避免每次手动解释）：[28]
+
+| id | faithfulness | relevance | citation_missing | latency_ms | cost_usd | verdict |
+|---|---:|---:|---:|---:|---:|---|
+| q-001 |  |  |  |  |  |  |
 
 ## 复现检查（落地建议）
 - `make rag-build`：清洗、切分、索引与基准数据生成。
@@ -79,9 +164,29 @@ print(query_engine.query("How to handle retries?"))
 - CI 存档检索延迟与成本对比表，便于决策。
 
 ## 常见陷阱
-- **块过长/过短：** 过长导致噪声，过短导致上下文断裂，需结合语义与长度混合。
-- **引用缺失：** 生成模型未携带来源，需在模板中强制格式，并在评测中处罚。
-- **数据漂移：** 文档更新未重建索引，需设定增量刷新与一致性校验。
+1. **现象：** 回答“看起来合理”，但经常引用不到位或引用错段。  
+   **根因：** 没把引用当契约；模板未强制结构化引用；评测没把“引用缺失”设为失败。[24][28]  
+   **复现：** 随机抽 20 次问答，统计引用缺失率与引用是否来自检索片段。  
+   **修复：** 用模板强制输出 `Answer + Citations`，并在评测中将 `citation_missing` 设为硬门禁条件。[24][28]  
+   **回归验证：** `make rag-eval` 输出引用缺失率=0（或低于门槛）且可追溯到 source_id。
+
+2. **现象：** 换个问法就检索不到，或召回很多噪声片段。  
+   **根因：** 分块策略不稳：块过长=噪声，过短=断裂；元数据缺失导致过滤与追溯失败。[24][27]  
+   **复现：** 在同一评测集上扫 `chunk_size/overlap` 组合，观察召回与引用准确率变化。  
+   **修复：** 将切分参数配置化并版本化；用少量标注问答先筛策略，再做大规模索引与调参。[24][27]  
+   **回归验证：** 关键问题的 top-k 证据稳定（或差异可解释），并能产出可对比报告。[28]
+
+3. **现象：** 文档更新后，回答引用旧内容或出现“查不到”。  
+   **根因：** 数据漂移：索引未增量刷新或元数据未对齐；embedding/model 版本变更未触发重建。[24]  
+   **复现：** 更新一份文档后不重建索引，询问该文档新内容；观察是否无法引用。  
+   **修复：** 为文档与索引建立版本号（快照）；定义增量刷新策略与一致性校验（新旧索引对比）。  
+   **回归验证：** `make rag-build` 后同一问题的引用指向新版本 source_id，且评测分数不退化。[28]
+
+4. **现象：** “更准了”但线上变慢、成本飙升，最终被迫回退。  
+   **根因：** 只盯质量分数，忽略延迟/成本；重排序模型过重或 top_k 过大导致尾延迟。[25][28]  
+   **复现：** 逐步增大 `top_k` 或启用更重 rerank，记录 P95 延迟与成本变化。  
+   **修复：** 把延迟/成本作为独立门槛；用缓存、分层检索、轻量 rerank 组合实现“够好且够快”。[25]  
+   **回归验证：** 评测报告同时给出质量/延迟/成本，任一超过门槛触发回滚配置。[28]
 
 ## 延伸练习
 - 对比 Dense Retriever（E5/ColBERT）与 Sparse（BM25）在你数据集上的指标差异。

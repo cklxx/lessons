@@ -18,38 +18,86 @@
 2. **质量控制：** 去重、内容安全过滤、格式标准化；质量指标纳入 CI。[35]
 3. **数据合成：** 用强模型生成指令/对话，增加多样性与难度，人工抽样验收。[36]
 
+![图：数据工程端到端管线](../../assets/fig-placeholder.svg)
+
+*图 8-1：数据工程端到端管线——采集与存证、去重去毒、脱敏、格式化、抽样审查与版本化回滚（示意）*
+<!-- TODO: replace with your own data pipeline diagram (sources -> quarantine -> cleaned -> training jsonl -> reports) -->
+
 ## 实战路径
-- 示例（可复制）：把原始文本转为可训练 JSONL 并生成 datasheet
-
 ```text
-目标：
-将 `raw/*.txt` 清洗为训练用 JSONL（instruction/input/output），并生成 datasheet（来源/许可/脱敏说明）。
-
-上下文：
-- 输入：raw/（原始文本）
-- 输出：data/sft.jsonl、datasheets/sft.yml、reports/data_audit.md、quarantine/
-
-约束：
-- 必须执行：去重、PII 过滤、格式校验；并输出统计（长度分布/重复率/过滤率）。
-- 任何无法确认许可证的数据必须被隔离到 quarantine/。
- 
-
-输出格式：
-- 只输出 unified diff（git diff 格式）
-
-验证命令：
-- make data-clean
-
-失败判定：
-- JSONL 格式不合法；或未产出统计与 datasheet；或 PII 过滤缺失。
-
-回滚：
-- git checkout -- data/ datasheets/ reports/
+采集与存证（hash+license）→ 过滤与隔离（quarantine）→ 去重/去毒/脱敏 → 格式化 JSONL → 统计与抽检 → 版本化与回滚
 ```
+
+### 示例（可复制）：把原始文本转为可训练 JSONL 并生成 datasheet
+
+**目标：** 将 `raw/*.txt` 清洗为训练用 JSONL（`instruction/input/output`），并生成 datasheet（来源/许可/脱敏说明），把“数据是否可用”变成可验证的门槛。[34][35]
+
+**前置条件：**
+- 你能把原始数据落盘到某个目录（例如 `raw/`），并为每个来源记录：获取方式、采集时间、用途与许可证。[34]
+- 你愿意为“不确定/不可用”的数据提供隔离区（`quarantine/`），而不是硬塞进训练集。[34]
+
+**上下文：**
+- 项目形态：数据清洗与训练数据构建流水线
+- 角色：数据/模型/合规（把训练输入变成可审计资产）
+- 输入：`raw/`（原始文本）
+- 输出：`data/sft.jsonl`、`datasheets/sft.yml`、`reports/data_audit.md`、`quarantine/`
+
+**约束：**
+- 必须执行：去重、PII 过滤、格式校验；并输出统计（长度分布/重复率/过滤率）。[35]
+- 任何无法确认许可证的数据必须被隔离到 `quarantine/`，并在报告中说明原因。[34]
+- 如果你让 AI 帮你改仓库文件：要求它只输出 unified diff（git diff 格式）。
+
+**输出格式：**
+- 产物：`data/sft.jsonl`（每行一个样本）、`datasheets/sft.yml`（元数据）、`reports/data_audit.md`（统计与抽检）
+- 命名：建议包含数据版本号（如 `data/sft.v20251216.jsonl`），并把版本写入 datasheet。[34]
+
+**步骤：**
+1. **采集与存证：** 下载原始数据后立刻生成 `sha256` 与来源/许可证记录；无法确认许可→直接进 `quarantine/`。[34]
+2. **基础清洗：** 统一编码、去掉明显模板噪声（页眉页脚/导航/重复段落），并保留最小来源字段（source/url/ts）。[34]
+3. **去重：** 使用 MinHash/LSH 或其他近似去重方法计算重复率，并把“去重前后规模变化”写进报告。[35]
+4. **去毒与脱敏：** 对毒性/暴力/隐私风险打标签；PII 命中样本视策略“剔除或脱敏重写”，但必须可审计。[35]
+5. **格式化：** 将样本统一成 JSONL 的三段结构（instruction/input/output），并跑 schema 校验（字段缺失=失败）。[35]
+6. **抽样审查：** 对清洗后样本做分层抽样（按来源/长度/标签），人工抽检并记录拒绝原因，形成反馈闭环。[34]
+
+**验证命令：**
+```bash
+make data-clean
+# 预期输出包含：data/sft.jsonl + datasheets/sft.yml + reports/data_audit.md，且报告中包含重复率/过滤率/长度分布
+```
+
+**失败判定：**
+- JSONL 格式不合法；或未产出统计与 datasheet；或 PII 过滤缺失；或 `quarantine/` 未被使用导致“许可不明混入训练集”。[34][35]
+
+**回滚：**
+- `git checkout -- data/ datasheets/ reports/ quarantine/`
 
 ### 1. 采集与存证
 - 使用爬虫/公开数据集，下载后立刻生成 SHA256 与许可证记录。
 - 将元数据写入 `datasheets/*.yml`，字段包含来源、用途、限制、采集人、时间。[34]
+
+一个最小 datasheet（示意，可落地到 `datasheets/sft.yml`）：[34]
+
+```yaml
+name: sft
+version: v20251216
+sources:
+  - id: forum-a
+    acquired_at: "2025-12-16"
+    license: "CC BY-SA 4.0"
+    uri: "https://example.com/dataset"
+    notes: "public posts; exclude deleted content"
+intended_use:
+  - "instruction tuning for product support assistant"
+restricted_use:
+  - "no PII; no credentials; no payment data"
+pii_policy:
+  action: "drop_or_mask"
+  fields: ["email", "phone", "address", "id_number"]
+processing:
+  dedup: {method: "minhash_lsh", threshold: 0.85}
+  toxicity_filter: {enabled: true}
+  format: "jsonl: instruction/input/output"
+```
 
 ### 2. 去重与去毒
 ```python
@@ -60,14 +108,60 @@ lsh = MinHashLSH(threshold=0.85, num_perm=128)
 ```
 - 运行毒性/暴力/隐私检测模型，对高风险样本打标签或剔除。
 
+建议把“去重阈值”当成可调参数，并对阈值做对比实验，而不是凭直觉拍板：[35]
+
+| 阈值 | 去重后保留率 | 验证集 loss 变化 | 备注 |
+|---:|---:|---:|---|
+| 0.80 |  |  | 更激进，风险：丢有效多样性 |
+| 0.85 |  |  | 常用折中 |
+| 0.90 |  |  | 更保守，风险：泄漏与过拟合 |
+
+PII 过滤的最小“禁区清单”（示例，按地区合规要求补齐）：[35]
+- 身份凭据：API key、token、cookie、私钥片段
+- 个人信息：邮箱、手机号、地址、身份证/护照号
+- 支付信息：卡号、CVV、账单地址、支付凭据
+- 内部机密：内网域名、工单号、未公开链接（如果属于公司数据）
+
 ### 3. 格式与统计
 - 统一为 JSONL：`{"instruction": ..., "input": ..., "output": ...}`，确保键完整。
 - 统计词频、长度分布、多样性指标，确保不存在单一领域垄断。
+
+建议把“数据健康度”固定成一页报告（示意，落地到 `reports/data_audit.md`）：[35]
+
+| 指标 | 定义 | 目标/门槛（示例） | 备注 |
+|---|---|---|---|
+| 重复率 | 去重前后差分 | < 15% | 过高=泄漏与模板化 |
+| PII 命中率 | PII detector 命中比例 | < 0.5% | 视场景而定 |
+| 毒性命中率 | toxicity 标签比例 | < 1% | 视场景而定 |
+| 长度分布 | tokens 分位数（P50/P95） | P95 < 上下文窗 * 0.8 | 防止截断 |
+| 领域覆盖 | 来源/标签分布熵 | 不低于基线 | 防止单域垄断 |
+| 语言覆盖 | zh/en/… 占比 | 与目标一致 | 多语需分层 |
 
 ### 4. 合成数据
 - Self-Instruct：用 GPT-4 生成多样指令与答案，涵盖推理、工具使用、对话礼貌。[36]
 - Evol-Instruct：在原指令基础上增加复杂度（多约束、多轮上下文），提升模型推理能力。[66]
 - 对合成样本抽样人工复核，记录拒绝/修改原因，形成反馈数据。
+
+![图：合成数据的生成与审计闭环](../../assets/fig-placeholder.svg)
+
+*图 8-2：合成数据闭环——生成（模型版本与成本记录）→ 过滤（安全/重复/格式）→ 抽检（拒绝原因）→ 反馈回写提示（示意）*
+<!-- TODO: replace with your own synthetic data workflow diagram -->
+
+一个可执行的“合成数据提示约定”（示意，避免生成不可审计样本）：[36][66]
+
+```text
+目标：生成指令微调样本（instruction/input/output），覆盖真实业务边界。
+约束：
+- 必须显式标注“是否需要外部工具/是否允许联网”：默认不允许。
+- 输出必须包含：difficulty（1-5）、tags、safety_flags。
+- 禁止输出：任何凭据样式字符串、PII、支付信息。
+验证：抽样人工审查 50 条，记录 reject_reason 分布。
+```
+
+![图：数据版本化与回滚策略（待补）](../../assets/fig-placeholder.svg)
+
+*图 8-3：数据版本化与回滚——快照、差分统计、训练记录对齐（示意）*
+<!-- TODO: replace with a diagram showing dataset versions -> training runs -> model artifacts -->
 
 ## 复现检查（落地建议）
 - `make data-clean`：执行去重、去毒、PII 过滤与格式化，CI 校验字段与统计。
@@ -75,9 +169,29 @@ lsh = MinHashLSH(threshold=0.85, num_perm=128)
 - 数据版本号写入 `VERSION` 文件，任何变更需更新并在 commit 中说明。
 
 ## 常见陷阱
-- **许可证不清：** 未记录来源与限制，导致后续发布受阻。必须在 datasheet 中写明可用范围。[34]
-- **去重阈值过严/过松：** 过严导致数据损失，过松导致泄漏，需基于验证集性能调节阈值。[35]
-- **合成数据偏见：** 强模型生成的偏见会放大，需多样化人物设定与审查。
+1. **现象：** 数据集看起来“很大”，但训练后无法发布或被合规一票否决。  
+   **根因：** 许可证/用途约束未记录；来源不可追溯，导致无法证明可用范围。[34]  
+   **复现：** 随机抽 100 条样本，问：来自哪里？许可是什么？能否商用？如果答不上来，就是不可审计。  
+   **修复：** 强制 datasheet；许可不明→进入 `quarantine/`；发布前做一次“来源抽查”并记录。[34]  
+   **回归验证：** `reports/data_audit.md` 必须包含来源分布与许可清单，且抽检可回溯到具体 uri。[34]
+
+2. **现象：** 训练集与验证集泄漏，指标虚高，上线后崩。  
+   **根因：** 去重只在单集合内做；跨 split/跨版本未做近似去重，重复样本泄漏。[35]  
+   **复现：** 对 train/valid/test 做跨集合 LSH 去重，统计交集比例。  
+   **修复：** 把去重作为“跨 split”的门禁；对新增数据做增量去重，输出差分统计。[35]  
+   **回归验证：** 数据版本变更时，CI 输出 train/valid/test 泄漏率，超阈值直接失败。
+
+3. **现象：** 合成数据越生成越“像一个人写的”，模型变得模式化。  
+   **根因：** 合成提示单一、人物设定单一、过滤策略过于简单，导致偏见被放大。[36][66]  
+   **复现：** 统计合成数据的 tags/难度/文体分布；若集中在少数模式，说明多样性不足。  
+   **修复：** 引入多 persona、多任务族、多难度层级；对输出做风格去重与多样性约束；人工抽检记录拒绝原因并回写提示。[36]  
+   **回归验证：** 抽检报告显示 reject_reason 下降，多样性指标（如标签熵/覆盖）不低于基线。
+
+4. **现象：** 数据里出现 PII/凭据，训练后模型“学会泄露”。  
+   **根因：** 只做格式化，不做敏感信息检测；或把日志/工单直接入库未脱敏。[35]  
+   **复现：** 对数据集跑一次 PII/secret 扫描，抽查命中样本。  
+   **修复：** 建立禁区清单与过滤策略（drop/mask/重写）；对敏感项目禁止把原始工单正文直接用于训练。[35]  
+   **回归验证：** CI 报告中 PII/secret 命中率低于门槛；抽检样本不包含明显敏感字段。
 
 ## 延伸练习
 - 对比不同去重阈值对下游 SFT loss 的影响，选择收益/成本最优点。

@@ -21,34 +21,56 @@
 4. **观测性与审计并重：** metrics/traces/logs 用于定位故障；审计日志用于回答“谁在何时因为什么做了什么”。[61][62][64]
 5. **安全基线可验收：** 安全不是口号，而是检查项集合；把关键控制点写进 CI 与上线门槛。[68]
 
+![图：后端最小可上线骨架](../../assets/ch05-backend-mvp-skeleton.png)
+
+*图 5-1：后端核心模块依赖关系图——以契约（OpenAPI）为中心的事实源构建*
+<!-- TODO: replace figure with a real architecture diagram for Ch05 -->
+
 ## 实战路径
-- 示例（可复制）：为“可重试写操作”设计幂等与回归用例
-
 ```text
-目标：
-为 POST /v1/usage 设计错误模型与幂等语义（Idempotency-Key），并生成最小单测/集成测用例。
-
-上下文：
-- 契约：openapi.yaml（请求/响应/错误码）
-- 存储：usage_events（账本/事件表）+ idempotency_keys（去重表）
-
-约束：
-- 幂等去重必须基于数据库唯一约束或等价原子语义，禁止“先查再写”。
-- 测试必须覆盖：重复请求、并发重复、非法 key、权限不足。
- 
-
-输出格式：
-- 只输出 unified diff（git diff 格式）
-
-验证命令：
-- make api-test
-
-失败判定：
-- 任一幂等用例不稳定（flaky）或未覆盖并发重复场景。
-
-回滚：
-- git checkout -- openapi.yaml tests/
+契约（OpenAPI）→ 幂等语义（Idempotency-Key）→ 原子去重（UNIQUE）→ 账本落地（events）→ 回归用例（并发/重复）→ 可观测与审计
 ```
+
+### 示例（可复制）：为“可重试写操作”设计幂等与回归用例
+
+**目标：** 为 `POST /v1/usage` 设计错误模型与幂等语义（`Idempotency-Key`），并生成最小单测/集成测用例，确保“重试不会重复扣费/重复写用量”。[20][23]
+
+**前置条件：**
+- 你已经明确这是“会被重试的写操作”（客户端/网关/任务队列可能重试）。
+- 你能落地一张“去重表”（或等价原子语义）和一套最小回归用例（含并发）。[23]
+
+**上下文：**
+- 项目形态：Web API（有契约、有测试、有最小观测）
+- 角色：后端/架构（把风险点变成可验收门槛）
+- 契约：`openapi.yaml`（请求/响应/错误码/幂等头）
+- 存储：`usage_events`（账本/事件表）+ `idempotency_keys`（去重表）
+
+**约束：**
+- 幂等去重必须基于数据库唯一约束或等价原子语义，禁止“先查再写”（TOCTOU 竞态）。[23]
+- 测试必须覆盖：重复请求、并发重复、非法 key、权限不足。
+- 如果你让 AI 帮你改仓库文件：要求它只输出 unified diff（git diff 格式）。
+
+**输出格式：**
+- 产物：`openapi.yaml`（补充 header 与错误模型）+ `tests/`（新增幂等相关用例）
+- 命名：用例名显式包含场景（`test_usage__idempotency__duplicate_returns_same_effect`）
+
+**步骤：**
+1. 在 OpenAPI 中声明 `Idempotency-Key` 头的语义（适用范围、长度/格式、重复请求的行为）。[67]
+2. 在数据库中建立 `idempotency_keys` 去重表（`UNIQUE(tenant_id, key)` 或等价），并把“claim + 业务落地”放进同一事务。[23]
+3. 定义错误模型与可重试/不可重试边界（例如 `RATE_LIMITED` 可重试、`FORBIDDEN` 不可重试）。[20]
+4. 添加回归用例：同 key 重复请求返回 200/201 且不重复记账；并发重复只有一个成功写入，其余走幂等返回。[23]
+
+**验证命令：**
+```bash
+make api-test
+# 预期输出包含：幂等相关单测/集成测稳定通过（非 flaky）
+```
+
+**失败判定：**
+- 任一幂等用例不稳定（flaky）或未覆盖并发重复场景；或重复请求造成重复写入/重复扣费。[23]
+
+**回滚：**
+- `git checkout -- openapi.yaml tests/`
 
 ### 1. 接口契约与错误模型（contract-first）
 - 用 OpenAPI 定义：资源、鉴权方式、分页/排序、错误码、幂等键与重试语义；并将其作为前后端协作与生成 SDK 的依据。[67]
@@ -66,6 +88,32 @@
 
 - 对“会重试”的写操作（创建订单、发起扣费、写入用量）提供[幂等](glossary.md#idempotency)机制：例如 `Idempotency-Key` 头 + 服务端去重表；并定义可重试错误与不可重试错误。
 
+建议把“错误码 × 是否可重试 × 是否计费”显式化，避免客户端/网关乱重试：
+
+| error.code | HTTP | 是否可重试 | 是否可能已产生副作用 | 说明 |
+|---|---:|---|---|---|
+| `RATE_LIMITED` | 429 | 是（退避） | 否 | 入口层/配额触发 |
+| `TIMEOUT` | 504 | 是（有限次） | 可能 | 必须配合幂等键 |
+| `CONFLICT` | 409 | 视语义 | 否/是 | 版本冲突/幂等冲突 |
+| `FORBIDDEN` | 403 | 否 | 否 | 权限不足 |
+| `INVALID_ARGUMENT` | 400 | 否 | 否 | 参数不合法 |
+
+OpenAPI 中建议显式声明幂等头（示意）：
+
+```yaml
+parameters:
+  - in: header
+    name: Idempotency-Key
+    required: false
+    schema:
+      type: string
+      minLength: 8
+      maxLength: 128
+    description: >
+      Optional. When provided, repeated requests with the same key MUST be idempotent
+      within a tenant scope.
+```
+
 ### 2. 身份、会话与授权：先把概念讲清楚
 - **[AuthN/AuthZ（认证/授权）](glossary.md#authn-authz)**：你是谁 / 你能做什么。不要把“登录”与“权限校验”混在同一层。
 - **会话 vs token**：浏览器侧常用安全 Cookie 会话；面向 API/多端时常用短期 access token（例如 JWT）+ 刷新策略。无论采用哪种方式，都要把过期、撤销与密钥轮换当成必做项。[70]
@@ -75,6 +123,17 @@
 1. **Gateway/Edge（入口层）**：做 AuthN（验签/过期/撤销/黑名单），尽早拒绝无效流量；产出稳定的 `principal`（user/app/tenant）。
 2. **Service Middleware（通用层）**：做粗粒度 AuthZ（RBAC/Scope/路由级权限），并把 `principal/roles/scopes/tenant_id` 写入上下文与审计字段。
 3. **Business Logic（业务层）**：做细粒度 AuthZ（资源级/所有权/状态机约束），例如“能否操作这条订单/这份数据”，并记录关键业务[审计](glossary.md#audit-log)事件。
+
+![图：请求生命周期分层](../../assets/ch05-request-lifecycle.png)
+
+*图 5-2：请求生命周期分层示意图——从网关认证、中间件授权到业务审计的上下文传递*
+<!-- TODO: replace figure with a request lifecycle diagram -->
+
+一个可直接落地的“授权清单”（按项目裁剪）：
+
+- **资源隔离**：所有查询都带 `tenant_id`，并在数据库层有约束/索引支持（避免只靠应用层过滤）。
+- **最小权限**：默认 deny；新增权限必须有审计事件与回滚（撤销）路径。[68]
+- **密钥轮换**：token 签名密钥轮换方案（多把密钥、kid、过渡期）与撤销策略。[70]
 
 ```python
 # 伪代码：权限依赖（示意）
@@ -90,6 +149,44 @@ def require_permission(permission):
 - **账本是事实源**：将“余额/权益”变更记录成事件（例如 `usage_reported`、`invoice_paid`、`refund_issued`），并为每个事件分配稳定主键；对账与回溯以事件流为准。
 - **Webhook 处理三原则**：签名校验、幂等去重、可重放（持久化原始事件与处理结果）。Webhook 可能重复、乱序或延迟到达；系统必须能承受这些情况。[23]
 - **事务边界（关键）：** 幂等去重（claim/processed 标记）与业务落地（账本/订阅/权益变更）必须在同一原子事务内完成；避免“先查重再处理”的 TOCTOU 竞态（并发下两个请求同时通过 `already_processed`）。可用数据库唯一约束实现“抢占式去重”。[23]
+
+![图：Webhook 幂等与可重放处理流程](../../assets/ch05-webhook-process.png)
+
+*图 5-3：Webhook 幂等处理流程图——基于唯一约束的“抢占式去重”与状态机流转*
+<!-- TODO: replace figure with a webhook flow diagram -->
+
+一个最小可用的数据模型（示意，按你的数据库改写）：
+
+```sql
+-- 幂等键去重（用于会重试的写操作）
+CREATE TABLE idempotency_keys (
+  tenant_id TEXT NOT NULL,
+  idempotency_key TEXT NOT NULL,
+  request_hash TEXT NOT NULL,
+  response_body TEXT NULL,
+  status TEXT NOT NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+  PRIMARY KEY (tenant_id, idempotency_key)
+);
+
+-- Webhook 去重与处理状态
+CREATE TABLE webhook_processed (
+  provider TEXT NOT NULL,
+  event_id TEXT NOT NULL,
+  status TEXT NOT NULL, -- PROCESSING | DONE | FAILED
+  created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
+  PRIMARY KEY (provider, event_id)
+);
+```
+
+建议把 Webhook 的处理状态做成最小状态机（避免“重试时不知道该怎么处理”）：
+
+| 状态 | 含义 | 再次收到同 event_id 的行为 |
+|---|---|---|
+| `PROCESSING` | 已 claim，处理中 | 直接返回 200（幂等成功），避免并发重复处理 |
+| `DONE` | 已应用业务效果 | 返回 200，并允许手工重放（从 raw_event） |
+| `FAILED` | 处理失败（可重试） | 走重试策略或转人工；避免无限重试打爆系统 |
 
 ```python
 # 伪代码：Webhook 处理流程（示意）
@@ -128,10 +225,29 @@ def handle_webhook(headers, body):
 - `make api-observe`：发压并输出指标/追踪截图或导出 JSON，确保在没有 IDE 的情况下也能定位问题。[61][62][64]
 
 ## 常见陷阱
-- **把 Webhook 当事务：** 认为“回调到了就完成了”，忽略重复/乱序/延迟与幂等；必须以事件与账本为准。
-- **把 OAuth2 当登录：** 把授权框架当作认证协议，导致流程设计错误与安全漏洞；要明确身份层与授权层边界。[22][69]
-- **权限过宽且不可审计：** 没有最小权限、没有权限变更审计，出问题无法追责或复盘。[68]
-- **日志泄露敏感信息：** token、密码、支付标识、用户隐私直接落盘；需脱敏与访问控制（并审计查询）。[23][68]
+1. **现象：** “回调收到了”但账对不上，重复扣费或漏记账。  
+   **根因：** 把 Webhook 当事务，忽略重复/乱序/延迟；缺少幂等去重与账本事实源。[23]  
+   **复现：** 对同一 `event_id` 连续发送 2 次回调，并发触发两条处理路径；观察是否出现双写。  
+   **修复：** 验签后先原子 claim（UNIQUE），再在同一事务内应用业务效果；raw_event 落盘用于审计与重放。[23]  
+   **回归验证：** 增加“重复/乱序/延迟”三类用例，`make api-test` 稳定通过且不会产生双写。
+
+2. **现象：** 登录/授权逻辑越来越乱：有人把 OAuth2 当登录，有人把登录当授权。  
+   **根因：** 认证（AuthN）与授权（AuthZ）边界不清，身份层与授权层混在一处，导致漏洞与难以审计。[22][69][70]  
+   **复现：** 让一个拥有 token 但无资源权限的主体访问资源；如果系统只验证 token 而不做资源级校验，就会越权。  
+   **修复：** 分层：入口层做 AuthN，中间件做粗粒度 AuthZ，业务层做资源级 AuthZ，并记录审计事件。[68][70]  
+   **回归验证：** 对关键资源补“越权不可访问”的回归用例，权限变更必须产生日志并可追溯。
+
+3. **现象：** 事故发生后无法回答“谁在何时改了什么/做了什么”。  
+   **根因：** 权限过宽且不可审计；缺少关键操作的审计事件与留存策略。[68]  
+   **复现：** 模拟管理员修改权限/配额/密钥，观察是否存在可查询、可导出的审计记录。  
+   **修复：** 建立审计事件最小集合（登录/权限变更/支付状态/密钥管理/管理员操作），并明确保留期与访问控制。[68]  
+   **回归验证：** `make api-security` 检查关键审计事件完整性；抽样验证能定位到操作者与 request_id/trace_id。[61][68]
+
+4. **现象：** 日志/追踪里出现 token、用户隐私或支付敏感字段，造成二次风险。  
+   **根因：** 没有脱敏策略与访问控制，把生产数据当调试输出写进日志。[23][68]  
+   **复现：** 检索日志中是否包含 `Authorization`、卡号片段、邮箱/手机号等字段。  
+   **修复：** 结构化日志白名单字段；敏感字段默认不落盘或强脱敏；对日志查询本身做审计。[68]  
+   **回归验证：** 增加日志扫描规则（CI 或运行时），发现敏感字段直接阻断发布或告警。
 
 ## 延伸练习
 - 将用户体系切换为外部 IdP（自建或托管），并用同一套审计事件回答“谁有权做什么、何时生效”。[69]
