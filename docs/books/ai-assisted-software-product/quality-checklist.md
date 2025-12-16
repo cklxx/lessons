@@ -7,6 +7,7 @@
 - **可审计性：** 关键数据、模型与配置需有 datasheet / model card，引用来源写明许可证。
 - **可回滚：** 任何指标退化必须有回滚路径与版本记录（Git tag + artifact 路径）。
 - **阈值说明：** 文中的阈值/百分比仅作示例占位，必须基于你的基线、样本量与业务容忍度校准；同时区分“告警阈值”和“发布门禁阈值”。
+- **引用自检：** 建议在发布前检查“正文引用的 `[n]` 是否都能在 `references.md` 找到”。可用本仓库脚本：`.venv/bin/python tools/check_citations.py`（或任意 Python 运行 `tools/check_citations.py`）。
 
 ---
 
@@ -23,27 +24,27 @@
 ## 第二篇 工程师
 - **编码工作流（Ch04）：** 建议的自动化任务（示例：`make test`）
   - 覆盖率阈值（例如 80%）达标；pre-commit、SAST、依赖漏洞扫描无阻塞。
-- **后端模块（Ch05）：** 建议的自动化任务（示例：`make backend-check`）
+- **后端模块（Ch05）：** 建议的自动化任务（示例：`make api-test`）
   - 身份验证、RBAC、速率限制与 Webhook 幂等性单测通过；开放接口生成最新 OpenAPI 文档。
 
 ## 第三篇 架构师
-- **RAG（Ch06）：** 建议的自动化任务（示例：`make rag-benchmark`）
+- **RAG（Ch06）：** 建议的自动化任务（示例：`make rag-eval`）
   - RAGAS `Context Precision`、`Answer Relevance` ≥ 基线；嵌入/检索/重排序参数记录。
-- **Agent（Ch07）：** 建议的自动化任务（示例：`make agent-e2e`）
+- **Agent（Ch07）：** 建议的自动化任务（示例：`make agent-eval`）
   - ReAct/流程编排用例通过；工具调用白名单与速率限制日志齐全；长链路超时与重试策略验证。
 
 ## 第四篇 造物主
-- **数据工程（Ch08）：** 建议的自动化任务（示例：`make data-audit`）
+- **数据工程（Ch08）：** 建议的自动化任务（示例：`make data-clean`）
   - 去重、去毒、PII 过滤报告；合成数据与真实数据分层质量评分。
-- **预训练/增量（Ch09）：** 建议的自动化任务（示例：`make pretrain-smoke`）
+- **预训练/增量（Ch09）：** 建议的自动化任务（示例：`make pretrain-eval`）
   - Tokenizer/语料采样报告；显存/吞吐/成本估算表与实验日志。
 - **后训练（Ch10）：** 建议的自动化任务（示例：`make sft-train && make dpo-train`）
   - Loss/偏好胜率曲线归档；安全红队命中率下降趋势记录；模型卡更新。
 
 ## 第五篇 运维专家
-- **推理部署（Ch11）：** 建议的自动化任务（示例：`make infer-benchmark`）
+- **推理部署（Ch11）：** 建议的自动化任务（示例：`make infer-bench`）
   - 吞吐/延迟与量化精度对比表；限流、熔断、灰度发布日志。
-- **LLMOps（Ch12）：** 建议的自动化任务（示例：`make llmops-audit`）
+- **LLMOps（Ch12）：** 建议的自动化任务（示例：`make llmops-eval`）
   - 观测（LangSmith/日志）与评估（RAGAS/MT-Bench）报告；成本与缓存命中率趋势图。
 
 ---

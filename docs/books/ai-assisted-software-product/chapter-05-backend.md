@@ -22,6 +22,34 @@
 5. **安全基线可验收：** 安全不是口号，而是检查项集合；把关键控制点写进 CI 与上线门槛。[68]
 
 ## 实战路径
+- 示例（可复制）：为“可重试写操作”设计幂等与回归用例
+
+```text
+目标：
+为 POST /v1/usage 设计错误模型与幂等语义（Idempotency-Key），并生成最小单测/集成测用例。
+
+上下文：
+- 契约：openapi.yaml（请求/响应/错误码）
+- 存储：usage_events（账本/事件表）+ idempotency_keys（去重表）
+
+约束：
+- 幂等去重必须基于数据库唯一约束或等价原子语义，禁止“先查再写”。
+- 测试必须覆盖：重复请求、并发重复、非法 key、权限不足。
+ 
+
+输出格式：
+- 只输出 unified diff（git diff 格式）
+
+验证命令：
+- make api-test
+
+失败判定：
+- 任一幂等用例不稳定（flaky）或未覆盖并发重复场景。
+
+回滚：
+- git checkout -- openapi.yaml tests/
+```
+
 ### 1. 接口契约与错误模型（contract-first）
 - 用 OpenAPI 定义：资源、鉴权方式、分页/排序、错误码、幂等键与重试语义；并将其作为前后端协作与生成 SDK 的依据。[67]
 - 统一错误结构（示例）：
@@ -36,17 +64,22 @@
 }
 ```
 
-- 对“会重试”的写操作（创建订单、发起扣费、写入用量）提供幂等机制：例如 `Idempotency-Key` 头 + 服务端去重表；并定义可重试错误与不可重试错误。
+- 对“会重试”的写操作（创建订单、发起扣费、写入用量）提供[幂等](glossary.md#idempotency)机制：例如 `Idempotency-Key` 头 + 服务端去重表；并定义可重试错误与不可重试错误。
 
 ### 2. 身份、会话与授权：先把概念讲清楚
-- **认证（Authentication）**：你是谁；**授权（Authorization）**：你能做什么。不要把“登录”与“权限校验”混在同一层。
+- **[AuthN/AuthZ（认证/授权）](glossary.md#authn-authz)**：你是谁 / 你能做什么。不要把“登录”与“权限校验”混在同一层。
 - **会话 vs token**：浏览器侧常用安全 Cookie 会话；面向 API/多端时常用短期 access token（例如 JWT）+ 刷新策略。无论采用哪种方式，都要把过期、撤销与密钥轮换当成必做项。[70]
 - **对外开放 API**：优先采用 OAuth2/OIDC 的标准流程，避免依赖密码直传等高风险做法；实现细节以你的 IdP/网关文档为准。[22][69]
+
+请求生命周期（建议分层放置）：
+1. **Gateway/Edge（入口层）**：做 AuthN（验签/过期/撤销/黑名单），尽早拒绝无效流量；产出稳定的 `principal`（user/app/tenant）。
+2. **Service Middleware（通用层）**：做粗粒度 AuthZ（RBAC/Scope/路由级权限），并把 `principal/roles/scopes/tenant_id` 写入上下文与审计字段。
+3. **Business Logic（业务层）**：做细粒度 AuthZ（资源级/所有权/状态机约束），例如“能否操作这条订单/这份数据”，并记录关键业务[审计](glossary.md#audit-log)事件。
 
 ```python
 # 伪代码：权限依赖（示意）
 def require_permission(permission):
-    principal = authenticate_request()  # session cookie / access token
+    principal = get_principal_from_context()  # AuthN 已在网关/中间件完成
     if not principal.has(permission):
         raise Forbidden()
     audit_log(principal, action=permission)
@@ -56,19 +89,25 @@ def require_permission(permission):
 ### 3. 计费、配额与 Webhook：用“账本 + 幂等”对抗现实
 - **账本是事实源**：将“余额/权益”变更记录成事件（例如 `usage_reported`、`invoice_paid`、`refund_issued`），并为每个事件分配稳定主键；对账与回溯以事件流为准。
 - **Webhook 处理三原则**：签名校验、幂等去重、可重放（持久化原始事件与处理结果）。Webhook 可能重复、乱序或延迟到达；系统必须能承受这些情况。[23]
+- **事务边界（关键）：** 幂等去重（claim/processed 标记）与业务落地（账本/订阅/权益变更）必须在同一原子事务内完成；避免“先查重再处理”的 TOCTOU 竞态（并发下两个请求同时通过 `already_processed`）。可用数据库唯一约束实现“抢占式去重”。[23]
 
 ```python
 # 伪代码：Webhook 处理流程（示意）
 def handle_webhook(headers, body):
     verify_signature(headers, body)          # 供应商提供的算法/SDK
-    event = parse_event(body)
-    if already_processed(event.id):          # 唯一约束 + 去重表
-        return 200
+    event = parse_event(body)               # event.id 必须稳定（供应商事件主键）
     with transaction():
-        store_raw_event(event)               # 便于审计与重放（注意脱敏）
-        apply_business_effect(event)         # 更新账本/订阅/权益
-        mark_processed(event.id)
+        claimed = try_claim_event(event.id)  # UNIQUE(event_id)，插入成功才继续
+        if not claimed:
+            return 200                       # 重复事件：幂等返回成功
+        store_raw_event(event, body)         # 便于审计与重放（注意脱敏/访问控制）
+        apply_business_effect(event)         # 更新账本/订阅/权益（尽量短事务）
+        mark_done(event.id)                  # 可选：若只需要“存在性”，事务提交即代表完成
     return 200
+
+# 伪代码：claim 的语义（示意）
+# INSERT INTO webhook_processed(event_id, status) VALUES (:id, 'PROCESSING')
+#   ON CONFLICT (event_id) DO NOTHING;
 ```
 
 - **PCI 边界提醒**：尽量不接触卡号等敏感认证数据；采用托管收单/托管表单可显著降低合规范围，但仍需按集成方式评估你的 PCI 义务与日志脱敏策略。[23]
@@ -104,7 +143,9 @@ def handle_webhook(headers, body):
 - 计费闭环：事件表/账本、Webhook 幂等与签名校验、对账脚本与异常处置流程。[23]
 - 观测性：指标/追踪/日志的最小闭环与仪表盘，支持离线审查与复盘。[61][62][64]
 
-## 正文扩展稿（用于成书排版）
+下面把本章的“可上线门槛”抽象为可迁移原则，便于你在不同框架/不同云环境复用同一套验收清单。
+
+## 深度解析：核心原则
 1. **后端的第一性原理：事实、契约与可追溯**：后端不是“把接口跑起来”，而是提供产品运行的事实源。事实包括用户身份、权限、权益、用量与账本；契约包括 API 的输入输出与错误语义；可追溯包括审计事件与可观测数据。三者缺一，产品都难以长期运营。[20][67]
 2. **把“认证/授权/计费”拆成可验收的门槛**：能登录不代表安全，能扣费不代表账对得上。把验收写成检查项：是否能撤销 token、是否能追溯权限变更、Webhook 是否幂等可重放、是否能对账定位差异，且这些检查是否在 CI 中自动化。[22][23][68][70]
 3. **把 Webhook 当作不可信输入**：现实世界里，回调会重复、乱序、延迟、甚至被伪造。正确做法是“先校验，再落盘，再幂等应用”，并允许你在未来对同一事件重放处理逻辑（例如补 bug、补偿丢失事件）。[23]

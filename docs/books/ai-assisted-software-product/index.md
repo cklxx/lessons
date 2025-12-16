@@ -45,8 +45,11 @@
   - [第 11 章 推理加速与生产级部署](chapter-11-inference.md)
   - [第 12 章 LLMOps —— 监控与评估](chapter-12-llmops.md)
 - **结语：** [通往 AGI 时代的船票](conclusion.md)
+- **术语表：** [全书统一术语（Glossary）](glossary.md)
 - **参考文献：** [统一引用列表](references.md)
 - **质量守门：** [全书质量控制与复现清单](quality-checklist.md)
+- **写作/修订：** [后续书写/修订任务清单（Backlog）](writing-backlog.md)
+- **AI 审稿：** [AI 校对与审稿 SOP](ai-editor-sop.md)
 
 ---
 

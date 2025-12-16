@@ -23,6 +23,34 @@
 - **性能先行：** 针对高并发接口，提前给出分区键、限流策略和幂等设计，避免上线后返工。
 
 ## 实战路径
+- 示例（可复制）：生成可机读 PRD（YAML）并通过字段校验
+
+```text
+目标：
+为“带登录与订阅计费的 SaaS”生成可机读 PRD（YAML），覆盖异常流，并可被 CI 校验通过。
+
+上下文：
+- 输出：prd/mvp.yml（YAML PRD），diagrams/auth.mmd（时序图），openapi.yaml（契约草案）
+- 约定：字段必须满足本章 JSON Schema 校验器的 required 列表
+
+约束：
+- PRD 必须包含：用户故事、埋点、错误语义、SLO、幂等与重试策略。
+- 时序图必须包含失败/补偿路径（超时、重试、退款）。
+ 
+
+输出格式：
+- 只输出 unified diff（git diff 格式）
+
+验证命令：
+- make prd-validate
+
+失败判定：
+- YAML/图表/契约任一校验失败；或 PRD 缺失 required 字段。
+
+回滚：
+- git checkout -- prd/mvp.yml diagrams/auth.mmd openapi.yaml
+```
+
 ### 1. PRD 模板与校验
 ```python
 import yaml, jsonschema, pathlib
@@ -73,7 +101,9 @@ for path in pathlib.Path("prd").glob("*.yml"):
 - `diagrams/*.mmd` 与渲染 PNG：包含异常/补偿路径。
 - `schemas/`：SQL/NoSQL DDL、基准报告与容量估算表。
 
-## 正文扩展稿（用于成书排版）
+下面把本章的实战路径抽象为可迁移的原则，避免换团队/换工具后文档与实现漂移。
+
+## 深度解析：核心原则
 1. **对话到架构的一致性**：先让 LLM 生成“领域词汇表”，再用这些词汇驱动 PRD、时序图、API 合约与 Schema，避免不同文档使用不同名词导致歧义。所有文档引用同一份词汇表文件 `prd/vocabulary.yml`，CI 校验引用一致。[11][18]
 2. **PRD 可信度与变更记录**：每个功能块附“证据来源、样本量、实验计划、决策编号”，变更时在 YAML 中递增 `revision` 并链接到决策记录，保证读者能追踪“为何修改”。[4]
 3. **流水线化生成**：示例：用 `make prd` 自动生成 Markdown/HTML PRD、Mermaid 图、OpenAPI 草案与 PDF；用 `make prd-check` 运行 OpenAPI lint（例如 Spectral）、Mermaid 渲染和字段必填校验。失败即阻止合并，确保文档可视、可编译、可消费。[5][65]

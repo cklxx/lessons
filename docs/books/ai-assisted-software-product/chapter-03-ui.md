@@ -19,6 +19,34 @@
 3. **自动化审查：** 用多模态模型与 Lighthouse/axe 扫描可访问性、对比设计稿差异。[17]
 
 ## 实战路径
+- 示例（可复制）：从文字规格生成可回归的 UI 组件
+
+```text
+目标：
+为“登录表单（含错误提示与加载态）”生成 React/Tailwind 组件，并补齐可访问性与交互回归用例。
+
+上下文：
+- 组件：packages/ui/src/LoginForm.tsx
+- 回归：packages/ui/src/LoginForm.stories.tsx（含交互）、tests/ui/login-form.spec.ts（Playwright）
+
+约束：
+- 必须满足：键盘可达、错误提示可读、输入框 label/aria 完整。
+- 禁止引入未声明依赖；优先使用现有组件/样式约定。
+ 
+
+输出格式：
+- 只输出 unified diff（git diff 格式）
+
+验证命令：
+- make ui-validate
+
+失败判定：
+- axe/Lighthouse/Playwright 任一失败；或缺少交互/异常态覆盖。
+
+回滚：
+- git checkout -- packages/ui/src/LoginForm.tsx packages/ui/src/LoginForm.stories.tsx tests/ui/login-form.spec.ts
+```
+
 ### 1. 情绪板与设计约束
 - 设定品牌关键词（如“信任感、极简、效率”），生成 3–5 版情绪板，挑选主色/辅色、字体与组件风格。[14]
 - 记录设计决策：对齐产品定位的证据（用户画像、行业期望）。
@@ -54,7 +82,9 @@
 - `packages/ui` 组件库源码、Storybook 文档与截图对比报告。
 - Lighthouse、axe、Playwright 报告归档；未达标项必须在 PR 中说明豁免理由。
 
-## 正文扩展稿（用于成书排版）
+下面把本章的实战路径抽象为可迁移的原则，确保“好看”与“可用”都能被复现与验收。
+
+## 深度解析：核心原则
 1. **从文字到界面的闭环**：以用户故事和品牌关键词为 Prompt，生成情绪板后立即落盘到 `design/moodboard/`，再以同一 Prompt 触发 v0.dev/Galileo 产出 React/Tailwind 初稿，形成“文字→视觉→代码”单一路径，减少语义漂移。[14][15]
 2. **设计 Token 统一源**：将颜色、字号、间距、圆角、阴影等 Token 写入 `design-tokens.json`，组件必须引用 Token 而非自定义样式；CI 通过 lint 确保未出现硬编码颜色/字号，保障全站可重构性。[53]
 3. **可访问性基线**：在 Storybook 为每个组件添加 axe-core 检查与 Lighthouse 指标，生成报告保存 `ui/reports/`。未达到对比度或键盘可达性基线的组件不得发布到内部 npm 包。[17][54][55]
