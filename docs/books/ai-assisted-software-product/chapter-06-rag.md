@@ -1,14 +1,18 @@
 # 第 6 章：RAG（检索增强生成）—— 赋予 AI 记忆
 
-> 通过向量检索 + 重排序 + 过滤策略，让模型回答始终“有出处、有证据、有稳定延迟”。[24][25][27][28]
+> 通过向量检索 + 重排序 + 过滤策略，让模型回答“有出处、有证据”；并通过工程化手段把延迟控制在可接受范围。[24][25][27][28]
+
+!!! note "关于复现、目录与 CI"
+    本章中出现的 `make ...`、`CI`、以及示例目录/文件路径（例如 `path/to/file`）均为落地约定，用于说明如何把方法落实到你自己的工程仓库中。本仓库仅提供文档，读者需自行实现或用等价工具链替代。
 
 ## 章节定位
-本章解决“模型记不住/答不准”的问题。你将搭建完整的 RAG 管线：数据清洗、切分、索引、检索、重排序与引用追踪，并用自动化评估量化改动收益。[24][28]
+本章解决“模型记不住/答不准”的问题。你将搭建完整的 [RAG](glossary.md#rag) 管线：数据清洗、切分、索引、检索、重排序与引用追踪，并用自动化评估量化改动收益。[24][28]
 
 ## 你将收获什么
-- 可切换的向量数据库方案（Milvus/Pinecone/pgvector），附性能与成本对比。[25]
+- 可切换的[向量](glossary.md#embedding)数据库方案（Milvus/Pinecone/pgvector 等），并给出对比维度与压测方法。
 - 语义分块、BM25 + 向量混合检索、重排序的组合策略与可复现脚本。[24][27]
-- RAGAS/LLM-as-a-Judge 评测流水线，量化准确率、引用率与延迟。[28]
+- RAGAS/LLM-as-a-Judge 评测流水线，量化回答质量与引用一致性（延迟/成本作为独立指标监控）。[28][50]
+- 向量相似检索的底层索引与加速背景，可作为理解检索性能边界的参考。[25]
 
 ## 方法论速览
 1. **数据处理：** PDF/Markdown 清洗、语义分块、元数据对齐，确保来源可追踪。[24]
@@ -16,6 +20,35 @@
 3. **评估闭环：** 构建问答对与引用检查，RAGAS 自动评分，失败则回滚配置。[28]
 
 ## 实战路径
+- 示例（可复制）：把“引用缺失”变成可阻断合并的评测项
+
+```text
+目标：
+为 RAG 系统定义“回答必须带引用”的输出格式，并构建最小评测集 + 失败判定。
+
+上下文：
+- 文档源：docs/（Markdown/PDF）
+- 评测集：eval/qa.jsonl（question, expected_sources）
+- 模板：prompts/rag_answer.md（要求引用片段与页码/链接）
+
+约束：
+- 缺少引用视为失败；引用必须来自检索到的片段，不得编造。
+- 评测必须输出质量分数与延迟/成本（独立列）。
+ 
+
+输出格式：
+- 只输出 unified diff（git diff 格式）
+
+验证命令：
+- make rag-eval
+
+失败判定：
+- 引用缺失率 > 0；或分数低于阈值且未触发回滚。
+
+回滚：
+- git checkout -- eval/ prompts/ configs/
+```
+
 ### 1. 数据清洗与分块
 - 使用 `langchain`/`llamaindex` 解析 PDF/Markdown，去除页眉页脚与目录噪声。
 - 采用语义分块（按主题/标题）+ 固定长度混合策略，块内保留来源页码。
@@ -23,13 +56,13 @@
 ### 2. 索引与检索
 ```python
 from llama_index.core import VectorStoreIndex
-from llama_index.vector_stores import MilvusVectorStore
 
-index = VectorStoreIndex.from_documents(docs, vector_store=MilvusVectorStore())
+# 示例（伪代码）：Vector Store 的接入方式随 LlamaIndex 版本/插件而变化
+index = VectorStoreIndex.from_documents(docs)
 query_engine = index.as_query_engine(similarity_top_k=5)
 print(query_engine.query("How to handle retries?"))
 ```
-- 对比 Pinecone/Milvus/pgvector：记录建库时间、QPS、P95 延迟、存储成本。[25]
+- 对比 Pinecone/Milvus/pgvector：记录建库时间、QPS、P95 延迟、存储成本。
 - 结合 BM25/keyword 检索做混合召回，减少语义漂移。
 
 ### 3. 重排序与引用
@@ -38,9 +71,9 @@ print(query_engine.query("How to handle retries?"))
 
 ### 4. 自动评估
 - 构造 100–200 对问答基准，标注参考答案与允许的引用片段。
-- 运行 RAGAS/LLM-as-a-Judge，指标包含 Faithfulness、Answer Correctness、Context Precision。[28][50]
+- 运行 RAGAS/LLM-as-a-Judge，常用指标包含 Faithfulness、Answer Relevance、Context Precision/Recall 等（以你使用的版本为准）。[28][50]
 
-## 复现检查
+## 复现检查（落地建议）
 - `make rag-build`：清洗、切分、索引与基准数据生成。
 - `make rag-eval`：执行 RAGAS 评估并输出 CSV；低于阈值自动退回上一个版本。
 - CI 存档检索延迟与成本对比表，便于决策。
@@ -54,10 +87,18 @@ print(query_engine.query("How to handle retries?"))
 - 对比 Dense Retriever（E5/ColBERT）与 Sparse（BM25）在你数据集上的指标差异。
 - 尝试基于 rerank 模型蒸馏一个轻量 Cross-Encoder，验证延迟下降幅度。
 
-## 交付物与验收
+## 交付物与验收（落地建议）
 - 清洗脚本、切分配置与索引构建脚本；所有步骤可重放。
 - 评估报告（RAGAS + 真实用户问答）；性能与成本对比表。
 - 生成提示模板与引用格式说明，缺失引用的响应在 CI 中视为失败。
+
+下面把本章的 RAG 落地路径抽象为可迁移原则：你可以换框架/向量库，但不换“证据与回归”的验收方式。
+
+## 深度解析：核心原则
+1. **证据优先**：把“引用可追踪”当作第一契约——答案必须回指到检索片段（页码/链接），缺失引用直接判失败而不是“看起来合理”。[24][28]
+2. **切分决定上限**：切分不是实现细节，而是信息检索的建模假设；先用少量标注问答对验证切分策略，再谈召回/重排的优化。[24][27]
+3. **评估驱动回归**：任何参数改动（top_k、chunk_size、rerank、过滤）都必须触发评测与对比表；分数低于阈值就回滚配置而不是“口头解释”。[28][50]
+4. **成本/延迟独立度量**：质量分数与延迟/成本分开看、一起决策；避免用“更准”掩盖“变慢/变贵”。[25]
 
 ## 参考
 详见本书统一参考文献列表：[`references.md`](references.md)。

@@ -2,13 +2,16 @@
 
 > 让 AI 成为设计加速器：从情绪板到可运行的 React/Tailwind 代码，再到可无障碍访问的交互验证。[14][15][17]
 
+!!! note "关于复现、目录与 CI"
+    本章中出现的 `make ...`、`CI`、以及示例目录/文件路径（例如 `path/to/file`）均为落地约定，用于说明如何把方法落实到你自己的工程仓库中。本仓库仅提供文档，读者需自行实现或用等价工具链替代。
+
 ## 章节定位
-本章解决“好看且可用”的问题。你将用生成式模型构思视觉风格、用多模态模型审视交互缺陷，并输出直接可运行的组件代码，减少设计—前端之间的摩擦。[14][15][16]
+本章解决“好看且可用”的问题。你将用生成式模型构思视觉风格、用多模态模型审视交互缺陷，并输出可移植到工程中的组件代码，减少设计—前端之间的摩擦。[14][15][16]
 
 ## 你将收获什么
 - 一套由文字驱动的 UI 生成工作流，从 Mood Board 到 Figma/代码的自动迁移。[14]
 - 针对组件的可访问性与响应式检查清单，借助自动化工具提前发现问题。[17]
-- 可复制的组件库脚本：Prompt → React/Tailwind → Storybook/Playwright 回归用例。[15]
+- 可复制的组件库工作流：Prompt → React/Tailwind → Storybook/Playwright 回归用例。[15]
 
 ## 方法论速览
 1. **视觉灵感生成：** 用扩散模型生成多版情绪板，明确配色、排版、信息层级。[14]
@@ -16,6 +19,34 @@
 3. **自动化审查：** 用多模态模型与 Lighthouse/axe 扫描可访问性、对比设计稿差异。[17]
 
 ## 实战路径
+- 示例（可复制）：从文字规格生成可回归的 UI 组件
+
+```text
+目标：
+为“登录表单（含错误提示与加载态）”生成 React/Tailwind 组件，并补齐可访问性与交互回归用例。
+
+上下文：
+- 组件：packages/ui/src/LoginForm.tsx
+- 回归：packages/ui/src/LoginForm.stories.tsx（含交互）、tests/ui/login-form.spec.ts（Playwright）
+
+约束：
+- 必须满足：键盘可达、错误提示可读、输入框 label/aria 完整。
+- 禁止引入未声明依赖；优先使用现有组件/样式约定。
+ 
+
+输出格式：
+- 只输出 unified diff（git diff 格式）
+
+验证命令：
+- make ui-validate
+
+失败判定：
+- axe/Lighthouse/Playwright 任一失败；或缺少交互/异常态覆盖。
+
+回滚：
+- git checkout -- packages/ui/src/LoginForm.tsx packages/ui/src/LoginForm.stories.tsx tests/ui/login-form.spec.ts
+```
+
 ### 1. 情绪板与设计约束
 - 设定品牌关键词（如“信任感、极简、效率”），生成 3–5 版情绪板，挑选主色/辅色、字体与组件风格。[14]
 - 记录设计决策：对齐产品定位的证据（用户画像、行业期望）。
@@ -25,14 +56,14 @@
 - 将生成代码导入 Storybook，运行 `npm run storybook` + `playwright test` 做可视化与交互回归。[15]
 
 ### 3. 多模态走查
-- 使用 GPT-4V 或同类多模态模型读取截图，对比设计稿与代码渲染，列出视觉偏差与交互风险。
+- 使用具备视觉输入能力的多模态模型读取截图，对比设计稿与代码渲染，列出视觉偏差与交互风险。
 - 使用 `axe-core`、`lighthouse-ci` 检查语义化、对比度、键盘可达性与性能指标。[17]
 
 ### 4. 设计系统沉淀
 - 抽取常用组件（按钮、表单、通知、卡片）形成 tokens（颜色、间距、阴影），存入 `design-tokens.json`。
 - 建立 `packages/ui` 组件库，暴露 Props 类型与可视化 Demo，CI 对每个组件运行截图对比。
 
-## 复现检查
+## 复现检查（落地建议）
 - `make ui-generate`：生成情绪板与初始代码，产出截图供审查。
 - `make ui-validate`：运行 axe + Lighthouse + Playwright，对比基线截图并输出报告。
 - CI 若发现对比度或键盘可达性不达标则阻断发布。
@@ -44,19 +75,21 @@
 
 ## 延伸练习
 - 尝试用 Stable Diffusion ControlNet 将线框图转高保真视觉，验证 Prompt 与控制图的组合效果。
-- 用 Galilei/v0.dev 直接生成“支付失败重试”弹窗组件，并写 Playwright 覆盖异常流程。
+- 用 Galileo/v0.dev 生成“支付失败重试”弹窗组件，并写 Playwright 覆盖异常流程。
 
-## 交付物与验收
+## 交付物与验收（落地建议）
 - `design/moodboard/*.png` 与决策说明文档。
 - `packages/ui` 组件库源码、Storybook 文档与截图对比报告。
 - Lighthouse、axe、Playwright 报告归档；未达标项必须在 PR 中说明豁免理由。
 
-## 正文扩展稿（用于成书排版）
+下面把本章的实战路径抽象为可迁移的原则，确保“好看”与“可用”都能被复现与验收。
+
+## 深度解析：核心原则
 1. **从文字到界面的闭环**：以用户故事和品牌关键词为 Prompt，生成情绪板后立即落盘到 `design/moodboard/`，再以同一 Prompt 触发 v0.dev/Galileo 产出 React/Tailwind 初稿，形成“文字→视觉→代码”单一路径，减少语义漂移。[14][15]
-2. **设计 Token 统一源**：将颜色、字号、间距、圆角、阴影等 Token 写入 `design-tokens.json`，组件必须引用 Token 而非自定义样式；CI 通过 lint 确保未出现硬编码颜色/字号，保障全站可重构性。[28]
-3. **可访问性基线**：在 Storybook 为每个组件添加 axe/pa11y 检查与 Lighthouse 指标，生成报告保存 `ui/reports/`。未达到对比度或键盘可达性基线的组件不得发布到内部 npm 包。[17][29]
-4. **交互与回归**：Storybook Play 函数覆盖表单验证、焦点顺序、错误提示与国际化（多语言占位长度）。`yarn test-storybook` 在 CI 跑视觉与交互回归，任何 >2% 截图差异需附变更理由与产品确认。[30]
-5. **多端适配检查**：使用 Playwright 生成桌面/平板/移动截图，存档到 `ui/screenshots/` 并运行视觉回归。对 RTL 语言运行翻转检查，确保布局与对齐未破坏，支持快速进入国际化市场。[12]
+2. **设计 Token 统一源**：将颜色、字号、间距、圆角、阴影等 Token 写入 `design-tokens.json`，组件必须引用 Token 而非自定义样式；CI 通过 lint 确保未出现硬编码颜色/字号，保障全站可重构性。[53]
+3. **可访问性基线**：在 Storybook 为每个组件添加 axe-core 检查与 Lighthouse 指标，生成报告保存 `ui/reports/`。未达到对比度或键盘可达性基线的组件不得发布到内部 npm 包。[17][54][55]
+4. **交互与回归**：Storybook Play 函数覆盖表单验证、焦点顺序、错误提示与国际化（多语言占位长度）。`yarn test-storybook` 在 CI 跑视觉与交互回归，任何 >2% 截图差异需附变更理由与产品确认。[56][57]
+5. **多端适配检查**：使用 Playwright 生成桌面/平板/移动截图，存档到 `ui/screenshots/` 并运行视觉回归。对 RTL 语言运行翻转检查，确保布局与对齐未破坏，支持快速进入国际化市场。[57][58]
 
 ## 参考
 详见本书统一参考文献列表：[`references.md`](references.md)。

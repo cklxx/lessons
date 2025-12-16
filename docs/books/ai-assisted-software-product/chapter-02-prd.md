@@ -2,6 +2,9 @@
 
 > 通过对话生成标准化 PRD、流程图和数据库 Schema，减少沟通歧义并提前暴露性能瓶颈。[11][12]
 
+!!! note "关于复现、目录与 CI"
+    本章中出现的 `make ...`、`CI`、以及示例目录/文件路径（例如 `path/to/file`）均为落地约定，用于说明如何把方法落实到你自己的工程仓库中。本仓库仅提供文档，读者需自行实现或用等价工具链替代。
+
 ## 章节定位
 从“需求”到“可执行设计”的桥梁。你将让 AI 生成可机读的 PRD、自动渲染流程/时序图，并产出具备容量估算的数据库设计，确保后续编码无歧义、无遗漏。[11][12][13]
 
@@ -20,6 +23,34 @@
 - **性能先行：** 针对高并发接口，提前给出分区键、限流策略和幂等设计，避免上线后返工。
 
 ## 实战路径
+- 示例（可复制）：生成可机读 PRD（YAML）并通过字段校验
+
+```text
+目标：
+为“带登录与订阅计费的 SaaS”生成可机读 PRD（YAML），覆盖异常流，并可被 CI 校验通过。
+
+上下文：
+- 输出：prd/mvp.yml（YAML PRD），diagrams/auth.mmd（时序图），openapi.yaml（契约草案）
+- 约定：字段必须满足本章 JSON Schema 校验器的 required 列表
+
+约束：
+- PRD 必须包含：用户故事、埋点、错误语义、SLO、幂等与重试策略。
+- 时序图必须包含失败/补偿路径（超时、重试、退款）。
+ 
+
+输出格式：
+- 只输出 unified diff（git diff 格式）
+
+验证命令：
+- make prd-validate
+
+失败判定：
+- YAML/图表/契约任一校验失败；或 PRD 缺失 required 字段。
+
+回滚：
+- git checkout -- prd/mvp.yml diagrams/auth.mmd openapi.yaml
+```
+
 ### 1. PRD 模板与校验
 ```python
 import yaml, jsonschema, pathlib
@@ -51,7 +82,7 @@ for path in pathlib.Path("prd").glob("*.yml"):
 - 生成 OpenAPI 规范，自动导出客户端 SDK，确保前后端并行开发。[20]
 - 在 PRD 中写清埋点需求，生成事件名、属性与采样率，接入监控后回流到假设验证。
 
-## 复现检查
+## 复现检查（落地建议）
 - `make prd-validate`：校验 YAML/JSON 结构、渲染 Mermaid、生成 OpenAPI。
 - `make schema-benchmark`：自动基准测试 SQL/NoSQL 方案并输出 CSV 报告。
 - PRD 与图表均需在 CI 产出 PDF 供审稿人下载。
@@ -65,17 +96,19 @@ for path in pathlib.Path("prd").glob("*.yml"):
 - 让 LLM 根据埋点自动生成可视化仪表盘配置（如 Grafana JSON），上线后直接复用。
 - 对比两种不同的分区策略（按用户 vs 按时间），测算成本与查询延迟差异。
 
-## 交付物与验收
+## 交付物与验收（落地建议）
 - `prd/*.yml`：可机读 PRD，CI 校验通过。
 - `diagrams/*.mmd` 与渲染 PNG：包含异常/补偿路径。
 - `schemas/`：SQL/NoSQL DDL、基准报告与容量估算表。
 
-## 正文扩展稿（用于成书排版）
+下面把本章的实战路径抽象为可迁移的原则，避免换团队/换工具后文档与实现漂移。
+
+## 深度解析：核心原则
 1. **对话到架构的一致性**：先让 LLM 生成“领域词汇表”，再用这些词汇驱动 PRD、时序图、API 合约与 Schema，避免不同文档使用不同名词导致歧义。所有文档引用同一份词汇表文件 `prd/vocabulary.yml`，CI 校验引用一致。[11][18]
 2. **PRD 可信度与变更记录**：每个功能块附“证据来源、样本量、实验计划、决策编号”，变更时在 YAML 中递增 `revision` 并链接到决策记录，保证读者能追踪“为何修改”。[4]
-3. **流水线化生成**：`make prd` 自动生成 Markdown/HTML PRD、Mermaid 图、OpenAPI 草案与 PDF；`make prd-check` 运行 speccy lint、Mermaid 渲染和字段必填校验。失败即阻止合并，确保文档可视、可编译、可消费。[5]
+3. **流水线化生成**：示例：用 `make prd` 自动生成 Markdown/HTML PRD、Mermaid 图、OpenAPI 草案与 PDF；用 `make prd-check` 运行 OpenAPI lint（例如 Spectral）、Mermaid 渲染和字段必填校验。失败即阻止合并，确保文档可视、可编译、可消费。[5][65]
 4. **容量与性能假设显式化**：Schema 文件内以注释注明预估 QPS、热键分布、索引覆盖率；附基准脚本与结果 CSV。若实测 P95 超出预算则强制回到设计环节重新评审。[13]
-5. **指标与埋点闭环**：在 PRD 中为注册、登录、支付、核心留存行为定义事件名与校验 SQL；提供 `tests/metrics/test_metrics_contract.py` 检查埋点字段存在、类型正确，发布前必须通过以避免“上线无数据”。[6]
+5. **指标与埋点闭环**：在 PRD 中为注册、登录、支付、核心留存行为定义事件名与校验 SQL；建议提供一个“埋点契约测试”（示例路径：`tests/metrics/test_metrics_contract.py`）检查字段存在、类型正确，并将其设为发布门禁以避免“上线无数据”。[6]
 
 ## 参考
 详见本书统一参考文献列表：[`references.md`](references.md)。

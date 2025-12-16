@@ -1,11 +1,14 @@
 # 写给未来的超级个体：AI 全栈产品开发实战 · 精华版
 
-> 作为上下文受限的“V1.0 精华版”，本篇把全书 12 章的核心方法、可运行代码与架构思维压缩在一份文档里。每个断言均可追溯到论文、标准或权威著作，并提供验证脚本或工具链提示，方便读者在本地重现。[2][4][5][24][29][40][42][45]
+> 作为上下文受限的“V1.0 精华版”，本篇把全书 12 章的核心方法、关键概念与最小示例压缩在一份文档里。引用用于指向概念来源；示例代码用于说明落地方式，但不保证在本仓库直接可运行（你需要在自己的工程环境中补齐依赖、数据与上下文）。[2][4][5][24][29][40][42][45]
 
 ## 如何使用本篇
 - **快速总览：** 先通读本篇，锁定与你场景相关的章节，再跳转至对应长文档获取详解与验收清单。
-- **即刻复现：** 复制代码片段至 `notebooks/` 或 `scripts/`，按提示安装依赖并运行，生成可审计的基线报告。
-- **持续扩充：** 本篇是可打印版本，后续可将实验记录、评估报告附在对应章节目录下，形成个人“作战手册”。
+- **即刻复现：** 把代码片段复制到你自己的项目仓库（例如 `scripts/` 或 `notebooks/`），按章节的前置条件安装依赖并运行，生成可审计的基线报告。
+- **持续扩充：** 本篇是可打印版本；建议把实验记录、评估报告与决策记录版本化沉淀，形成可审计的个人“作战手册”。[1][5]
+
+!!! note "关于示例代码与命令"
+    文中出现的 `make ...`、`CI`、目录名（如 `data/`、`reports/`）属于“推荐的工程化落地方式”。本仓库仅提供文档，你需要在自己的项目中按需实现这些任务或用任意任务编排工具替代。
 
 ---
 
@@ -47,7 +50,7 @@ Validate auth, rate limit, idempotency, and multi-tenant constraints.
 ```
 
 ### 第 3 章 生成式 UI/UX 设计（速览版）
-- **工作流：** Mood Board (Midjourney) → 视觉走查 (GPT-4V) → v0.dev 生成 React/Tailwind 代码 → Playwright 可访问性与回归测试。[15][17]
+- **工作流：** Mood Board（生成式图像工具）→ 视觉走查（多模态模型）→ v0.dev 生成 React/Tailwind 代码 → Playwright 可访问性与回归测试。[15][17]
 - **验证脚本：** `pnpm exec playwright test --project=chromium --reporter=html` 确认表单标签、对比度、Tab 序正确。[17]
 
 ---
@@ -93,13 +96,13 @@ workflow.add_node("writer", writer_node)
 workflow.set_entry_point("search")
 workflow.add_conditional_edges("search", should_continue)
 ```
-- **安全：** 工具调用白名单、幂等性、速率与配额治理；记录调用链便于审计。[30][31]
+- **安全：** 工具调用白名单、幂等性、速率与配额治理；记录调用链便于审计。[31][51]
 
 ---
 
 ## 第四篇 造物主：模型训练与演进
 ### 第 8 章 数据工程（速览版）
-- **数据合成：** Self-Instruct/Evol-Instruct 生成高质量指令数据；保留 JSONL 与采集参数。[36]
+- **数据合成：** Self-Instruct/Evol-Instruct 生成高质量指令数据；保留 JSONL 与采集参数。[36][66]
 - **清洗：** 去重（MinHashLSH）、去毒、PII 过滤，附 datasheet 与质量分级。[34][35]
 
 ### 第 9 章 LLM 预训练与增量预训练（速览版）
@@ -111,7 +114,7 @@ workflow.add_conditional_edges("search", should_continue)
 - **DPO：** 三元组 `(prompt, chosen, rejected)` 训练，优化偏好与安全边界。[42]
 - **模板：**
 ```yaml
-model_name_or_path: meta-llama/Llama-3-8b-Instruct
+model_name_or_path: meta-llama/Meta-Llama-3-8B-Instruct
 stage: sft
 finetuning_type: lora
 lora_target: q_proj,v_proj
@@ -142,7 +145,7 @@ python -m vllm.entrypoints.openai.api_server \
 ---
 
 ## 结语：一人一队的作战原则
-- **能跑：** 每节提供 CI 可执行脚本与日志基线。
+- **能跑：** 每节给出可验证的检查点（评测集/基准/日志/回归指标）；建议把关键检查自动化进 CI，作为合并与发布门禁。[5][28]
 - **能卖：** 从需求到支付闭环，强调定价、留存与合规。
 - **能演进：** 数据—模型—评估的持续循环，记录决策与回归结果，形成可审计的知识资产。[5][52]
 

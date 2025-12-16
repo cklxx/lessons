@@ -1,41 +1,79 @@
 # 第 11 章：推理加速与生产级部署
 
-> 让模型“跑得快、成本低、可水平扩展”：vLLM/TensorRT-LLM、量化（AWQ/GPTQ）与 TGI 部署实战。[45][46][48][49]
+> 让模型“跑得快、成本低、可水平扩展”：推理引擎（vLLM/TensorRT-LLM）、权重量化（AWQ/GPTQ）与推理服务（例如 TGI/KServe）的落地要点。[45][46][48][49][59][63]
+
+!!! note "关于复现、目录与 CI"
+    本章中出现的 `make ...`、`CI`、以及示例目录/文件路径（例如 `path/to/file`）均为落地约定，用于说明如何把方法落实到你自己的工程仓库中。本仓库仅提供文档，读者需自行实现或用等价工具链替代。
 
 ## 章节定位
 本章解决“上线后又慢又贵”的问题。你将对比不同推理引擎与量化方案，完成容器化部署，并通过压测与观测确保 SLA。[45][48]
 
 ## 你将收获什么
-- vLLM 与 TensorRT-LLM 部署脚本，包含批处理、KV cache 与并发配置。[45][46]
-- 量化流水线（AWQ/GPTQ/QLoRA 推理），在消费级 GPU 上达成可用吞吐。[48]
-- TGI/KServe 部署模板，接入网关、鉴权、限流与观测。
+- vLLM 与 TensorRT-LLM 的关键配置项清单（批处理、KV cache、并发等）与取舍要点。[45][46]
+- 权重量化的落地与验证流程（AWQ/GPTQ 等），以及与训练侧 4-bit（QLoRA）的区别与衔接。[47][48][59]
+- TGI/KServe 等推理服务的部署与接入要点（网关、鉴权、限流、观测）。[49][63]
 
 ## 方法论速览
 1. **推理引擎选择：** 依据模型大小、硬件与延迟目标选择 vLLM（高吞吐）或 TensorRT-LLM（低延迟）。[45][46]
-2. **量化策略：** 评估 AWQ/GPTQ 对精度与延迟的影响，配合 INT4/INT8 部署。[48]
-3. **部署与观测：** 容器化 + API 网关 + metrics/logging/tracing，确保可水平扩展。[49]
+2. **量化策略：** 评估 AWQ/GPTQ 对质量与延迟/吞吐/显存的影响，按业务可接受退化选择 INT4/INT8 等配置。[48][59]
+3. **部署与观测：** 容器化 + API 网关 + metrics/logs/traces，确保可水平扩展与可追责。[61][62]
 
 ## 实战路径
+- 示例（可复制）：量化 + 部署 + 压测的最小闭环
+
+```text
+目标：
+对同一模型产出 BF16 与 INT4（AWQ/GPTQ）版本，部署到推理服务，并用压测/观测对比成本与 SLA。
+
+上下文：
+- 模型：/path/to/model
+- 输出：awq_cache/ quant_cache/（量化权重），deploy/（容器与网关配置），reports/infer_bench.md
+
+约束：
+- 质量评测、吞吐/延迟、显存占用必须同表对比；不得只报“更快了”。
+- 推理入口必须包含鉴权、限流与审计；健康检查失败即视为不可上线。
+ 
+
+输出格式：
+- 只输出 unified diff（git diff 格式）
+
+验证命令：
+- make infer-bench
+
+失败判定：
+- 退化超阈值或 SLA 不达标且未给出回滚；或缺少对比报告。
+
+回滚：
+- git checkout -- deploy/ reports/
+```
+
 ### 1. 量化与导出
 ```bash
-python3 -m awq.entry --model_path llama-7b --w_bit 4 --q_group_size 128 \
-  --run_awq --dump_quant
+# 示例：基于 AWQ 官方脚本风格（llm-awq），参数/路径以你的环境为准
+MODEL_PATH=/path/to/model
+python -m awq.entry --model_path "$MODEL_PATH" \
+  --w_bit 4 --q_group_size 128 \
+  --run_awq --dump_awq awq_cache/model-w4-g128.pt
+python -m awq.entry --model_path "$MODEL_PATH" \
+  --w_bit 4 --q_group_size 128 \
+  --load_awq awq_cache/model-w4-g128.pt \
+  --q_backend real --dump_quant quant_cache/model-w4-g128-awq.pt
 ```
-- 记录量化前后 perplexity/ROUGE 变化；若下降超阈值则调整 bitwidth。
+- 用与你业务一致的评测集/回归用例验证量化前后质量，并同时记录吞吐、延迟与显存占用；若退化超出可接受范围，则调整位宽、分组或校准数据。[48][59]
 
 ### 2. 引擎对比
 - vLLM：配置 `--tensor-parallel-size`、`--max-num-batched-tokens`，适合高吞吐。[45]
 - TensorRT-LLM：编译 engine，适合低延迟场景；注意 warmup 与 engine 版本。[46]
 
 ### 3. 容器化部署
-- 使用 TGI/fastapi 作为入口，加入 JWT/AK/SK 鉴权与速率限制。
-- 通过 Prometheus + Grafana 观测 QPS、P95、OOM、队列长度。
+- 使用 TGI/自研 API（例如 FastAPI）作为入口，加入鉴权、速率限制与审计日志。[49]
+- 用 Prometheus + Grafana 观测 QPS、P95、OOM、队列长度，并将 traces 打通到请求级排查。[61][62][64]
 
 ### 4. 压测
 - 使用 `wrk`/`hey`/`locust` 发压，记录吞吐与延迟；发现抖动时调整批处理/并发。
 - 对比不同量化与 engine 组合，选出性价比最高的配置。
 
-## 复现检查
+## 复现检查（落地建议）
 - `make infer-quant`：执行 AWQ/GPTQ 量化并输出精度对比表。
 - `make infer-serve`：启动 vLLM/TensorRT-LLM + 网关，运行健康检查。
 - `make infer-bench`：压测并产出延迟/吞吐/成本图表。
@@ -49,10 +87,18 @@ python3 -m awq.entry --model_path llama-7b --w_bit 4 --q_group_size 128 \
 - 对同一模型分别使用 vLLM 与 TensorRT-LLM，比较延迟—吞吐曲线与成本。
 - 尝试在边缘设备上部署 INT4 量化模型，测算能耗与响应时间。
 
-## 交付物与验收
+## 交付物与验收（落地建议）
 - 量化脚本与评估报告；推理引擎配置文件与容器镜像。
 - 压测报告与 SLA 目标对比；告警与自动扩缩容策略。
 - 安全与鉴权配置（网关/令牌/速率限制）。
+
+下面把本章的推理加速与部署实践抽象为可迁移原则：你可以换引擎/换量化，但不换“对比表 + 门禁 + 回滚”的验收方式。
+
+## 深度解析：核心原则
+1. **只以对比表说话**：吞吐/延迟/显存/质量必须同表对比（同评测集、同负载），否则“更快/更省”无意义。[48][59]
+2. **配置即版本**：量化参数、引擎参数与路由策略要版本化并可回滚；发现退化时先回滚再解释原因。[45]
+3. **入口层要可审计**：推理服务不是“起个端口”，必须有鉴权、限流与审计事件，才能长期运营与追责。[68]
+4. **观测先于扩容**：没有请求级 trace/logs，扩容只会掩盖问题；先定位瓶颈再谈水平扩展。[61][62][64]
 
 ## 参考
 详见本书统一参考文献列表：[`references.md`](references.md)。

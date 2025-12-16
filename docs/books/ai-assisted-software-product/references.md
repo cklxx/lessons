@@ -2,15 +2,15 @@
 
 1. D. Sculley et al., "Hidden Technical Debt in Machine Learning Systems," NeurIPS, 2015.
 2. A. Vaswani et al., "Attention Is All You Need," NeurIPS, 2017.
-3. N. Parmar et al., "The Next Generation of Early-Exit Transformers," ACL, 2022.
+3. J. Xin et al., "DeeBERT: Dynamic Early Exiting for Accelerating BERT Inference," ACL, 2020, arXiv:2004.12993.
 4. E. Ries, *The Lean Startup*, Crown Business, 2011.
 5. J. Humble & D. Farley, *Continuous Delivery*, Addison-Wesley, 2010.
-6. M. Fowler, "Architecture Kata," ThoughtWorks, 2020.
-7. T. Mikolov et al., "Efficient Estimation of Word Representations in Vector Space," ICLR, 2013.
+6. N. Forsgren, J. Humble, and G. Kim, *Accelerate: The Science of Lean Software and DevOps*, IT Revolution, 2018.
+7. T. Mikolov et al., "Efficient Estimation of Word Representations in Vector Space," arXiv:1301.3781, 2013.
 8. D. Blei et al., "Latent Dirichlet Allocation," JMLR, 2003.
 9. M. Grootendorst, "BERTopic: Neural Topic Modeling with a Class-Based TF-IDF Procedure," EMNLP, 2022.
-10. S. Shah et al., "Simulating Human Conversations for UX Research," CHI, 2021.
-11. R. Feldt et al., "Automated Software Requirements Generation," RE Conf., 2010.
+10. J. S. Park et al., "Generative Agents: Interactive Simulacra of Human Behavior," arXiv:2304.03442, 2023.
+11. ISO/IEC/IEEE International Standard - Systems and software engineering -- Life cycle processes -- Requirements engineering (IEEE Std 29148-2018), 2018, DOI: 10.1109/IEEESTD.2018.8559686.
 12. UML 2.5 Specification, OMG, 2015.
 13. E. Evans, *Domain-Driven Design*, Addison-Wesley, 2003.
 14. P. Isola et al., "Image-to-Image Translation with Conditional GANs," CVPR, 2017.
@@ -29,7 +29,7 @@
 27. S. Robertson & H. Zaragoza, "The Probabilistic Relevance Framework: BM25 and Beyond," Foundations and Trends in IR, 2009.
 28. P. Li et al., "RAGAS: Automated Evaluation of Retrieval-Augmented Generation," arXiv:2402.01761, 2024.
 29. S. Yao et al., "ReAct: Synergizing Reasoning and Acting in Language Models," ICLR, 2023.
-30. Y. Chen et al., "Agents: An Open-source Framework for Building LLM Applications," 2023.
+30. Q. Wu et al., "AutoGen: Enabling Next-Gen LLM Applications via Multi-Agent Conversation," arXiv:2308.08155, 2023.
 31. OpenAI, "Function Calling and Tool Use," 2023.
 32. C. Yeh et al., "ChartLLM: A Benchmark for Chart Reasoning," EMNLP, 2023.
 33. A. Zhang et al., *Dive into Deep Learning*, 2021.
@@ -42,7 +42,7 @@
 40. E. Hu et al., "LoRA: Low-Rank Adaptation of Large Language Models," ICLR, 2022.
 41. L. Ouyang et al., "Training Language Models to Follow Instructions with Human Feedback," NeurIPS, 2022.
 42. S. Rafailov et al., "Direct Preference Optimization: Your Language Model is Secretly a Reward Model," NeurIPS, 2023.
-43. N. Brown et al., "Automated Reasoning and Tool Use in Large Language Models," 2023.
+43. T. Schick et al., "Toolformer: Language Models Can Teach Themselves to Use Tools," arXiv:2302.04761, 2023.
 44. D. Patterson et al., "Carbon Emissions and Large Neural Network Training," arXiv:2104.10350, 2021.
 45. H. Kwon et al., "vLLM: Fast and Cheap LLM Serving with PagedAttention," SOSP, 2023.
 46. NVIDIA, "TensorRT-LLM Technical Overview," Whitepaper, 2023.
@@ -52,3 +52,21 @@
 50. H. Zheng et al., "Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena," NeurIPS, 2023.
 51. J. Rawte et al., "Guardrails for Generative AI," arXiv:2307.08715, 2023.
 52. E. Raymond, *The Cathedral and the Bazaar*, O'Reilly, 1999.
+53. W3C Design Tokens Community Group, *Design Tokens Format Module*, Draft, https://www.designtokens.org/TR/drafts/format/, accessed 2025-12-16.
+54. Deque Systems, *axe-core*, documentation, https://github.com/dequelabs/axe-core, accessed 2025-12-16.
+55. Google, *Lighthouse*, documentation, https://developer.chrome.com/docs/lighthouse/, accessed 2025-12-16.
+56. Storybook, *Writing Tests: Test Runner*, documentation, https://storybook.js.org/docs/writing-tests/integrations/test-runner, accessed 2025-12-16.
+57. Microsoft, *Playwright*, documentation, https://playwright.dev/, accessed 2025-12-16.
+58. W3C, *CSS Writing Modes Level 3*, Recommendation, 2019, https://www.w3.org/TR/css-writing-modes-3/.
+59. J. Lin et al., "AWQ: Activation-aware Weight Quantization for LLM Compression and Acceleration," arXiv:2306.00978, 2023.
+60. LangChain, *LangGraph*, documentation, https://langchain-ai.github.io/langgraph/, accessed 2025-12-16.
+61. OpenTelemetry, *OpenTelemetry Documentation*, https://opentelemetry.io/docs/, accessed 2025-12-16.
+62. Prometheus Authors, *Prometheus Documentation*, https://prometheus.io/docs/introduction/overview/, accessed 2025-12-16.
+63. KServe Authors, *KServe Documentation*, https://kserve.github.io/website/, accessed 2025-12-16.
+64. Grafana Labs, *Grafana Documentation*, https://grafana.com/docs/grafana/latest/, accessed 2025-12-16.
+65. Stoplight, *Spectral (OpenAPI linter)*, documentation, https://github.com/stoplightio/spectral, accessed 2025-12-16.
+66. C. Xu et al., "WizardLM: Empowering large pre-trained language models to follow complex instructions," arXiv:2304.12244, 2023.
+67. OpenAPI Initiative, *OpenAPI Specification*, https://spec.openapis.org/oas/latest.html, accessed 2025-12-16.
+68. OWASP Foundation, *Application Security Verification Standard (ASVS)*, https://owasp.org/www-project-application-security-verification-standard/, accessed 2025-12-16.
+69. OpenID Foundation, *OpenID Connect Core 1.0*, https://openid.net/specs/openid-connect-core-1_0.html, accessed 2025-12-16.
+70. IETF, "JSON Web Token (JWT)," RFC 7519, 2015, https://www.rfc-editor.org/rfc/rfc7519, accessed 2025-12-16.
