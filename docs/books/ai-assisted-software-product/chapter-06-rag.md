@@ -2,6 +2,9 @@
 
 > 通过向量检索 + 重排序 + 过滤策略，让模型回答始终“有出处、有证据、有稳定延迟”。[24][25][27][28]
 
+!!! note "关于复现、目录与 CI"
+    本章中出现的 `make ...`、`CI`、目录名（如 `data/`、`tests/`、`reports/` 等）用于说明一种可复现的工程化落地方式。本仓库仅提供文档，读者需要在自己的项目仓库中按需实现/调整这些脚本与自动化门禁。
+
 ## 章节定位
 本章解决“模型记不住/答不准”的问题。你将搭建完整的 RAG 管线：数据清洗、切分、索引、检索、重排序与引用追踪，并用自动化评估量化改动收益。[24][28]
 
@@ -40,7 +43,7 @@ print(query_engine.query("How to handle retries?"))
 - 构造 100–200 对问答基准，标注参考答案与允许的引用片段。
 - 运行 RAGAS/LLM-as-a-Judge，指标包含 Faithfulness、Answer Correctness、Context Precision。[28][50]
 
-## 复现检查
+## 复现检查（落地建议）
 - `make rag-build`：清洗、切分、索引与基准数据生成。
 - `make rag-eval`：执行 RAGAS 评估并输出 CSV；低于阈值自动退回上一个版本。
 - CI 存档检索延迟与成本对比表，便于决策。
@@ -54,7 +57,7 @@ print(query_engine.query("How to handle retries?"))
 - 对比 Dense Retriever（E5/ColBERT）与 Sparse（BM25）在你数据集上的指标差异。
 - 尝试基于 rerank 模型蒸馏一个轻量 Cross-Encoder，验证延迟下降幅度。
 
-## 交付物与验收
+## 交付物与验收（落地建议）
 - 清洗脚本、切分配置与索引构建脚本；所有步骤可重放。
 - 评估报告（RAGAS + 真实用户问答）；性能与成本对比表。
 - 生成提示模板与引用格式说明，缺失引用的响应在 CI 中视为失败。

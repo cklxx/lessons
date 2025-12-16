@@ -2,6 +2,9 @@
 
 > 用 AI 快速搭建“能跑、能扩、能审计”的后端：认证授权、支付回调、安全基线与可观测性一次到位。[20][22][23]
 
+!!! note "关于复现、目录与 CI"
+    本章中出现的 `make ...`、`CI`、目录名（如 `data/`、`tests/`、`reports/` 等）用于说明一种可复现的工程化落地方式。本仓库仅提供文档，读者需要在自己的项目仓库中按需实现/调整这些脚本与自动化门禁。
+
 ## 章节定位
 本章回答“如何让产品可上线并守住底线”。重点涵盖用户体系、支付闭环、API 设计与日志监控，提供可直接部署的 FastAPI/Next.js 脚手架和安全基线。[20][22]
 
@@ -45,7 +48,7 @@ def login(form: OAuth2PasswordRequestForm = Depends()):
 - 日志统一使用 JSON（包含 trace_id/user_id）；错误事件写入审计表便于排查。
 - 集成 Prometheus/Grafana：QPS、错误率、P95 延迟、支付成功率与退款率。
 
-## 复现检查
+## 复现检查（落地建议）
 - `make backend-dev`：启动本地栈（API + DB + Redis），跑通过 Auth/支付集成测试。
 - `make backend-security`：运行 `bandit`/`semgrep`、JWT 过期测试、支付重放攻击模拟。
 - `make backend-observe`：发压基准并生成延迟、错误率、追踪图。
@@ -59,7 +62,7 @@ def login(form: OAuth2PasswordRequestForm = Depends()):
 - 将用户模块改为外部 IdP（如 Auth0/Keycloak），比较延迟与安全性取舍。
 - 为支付对账脚本添加“增量重试”与“异常票据”机制，模拟真实财务流程。
 
-## 交付物与验收
+## 交付物与验收（落地建议）
 - `services/api` 源码与 Docker Compose；集成测试、对账脚本、基准报告齐全。
 - 安全扫描与审计日志样例；支付幂等与签名校验必须在 CI 有自动化测试。
 - OpenAPI 文档与限流/配额策略说明。

@@ -2,6 +2,9 @@
 
 > 让 AI 成为设计加速器：从情绪板到可运行的 React/Tailwind 代码，再到可无障碍访问的交互验证。[14][15][17]
 
+!!! note "关于复现、目录与 CI"
+    本章中出现的 `make ...`、`CI`、目录名（如 `data/`、`tests/`、`reports/` 等）用于说明一种可复现的工程化落地方式。本仓库仅提供文档，读者需要在自己的项目仓库中按需实现/调整这些脚本与自动化门禁。
+
 ## 章节定位
 本章解决“好看且可用”的问题。你将用生成式模型构思视觉风格、用多模态模型审视交互缺陷，并输出直接可运行的组件代码，减少设计—前端之间的摩擦。[14][15][16]
 
@@ -32,7 +35,7 @@
 - 抽取常用组件（按钮、表单、通知、卡片）形成 tokens（颜色、间距、阴影），存入 `design-tokens.json`。
 - 建立 `packages/ui` 组件库，暴露 Props 类型与可视化 Demo，CI 对每个组件运行截图对比。
 
-## 复现检查
+## 复现检查（落地建议）
 - `make ui-generate`：生成情绪板与初始代码，产出截图供审查。
 - `make ui-validate`：运行 axe + Lighthouse + Playwright，对比基线截图并输出报告。
 - CI 若发现对比度或键盘可达性不达标则阻断发布。
@@ -46,7 +49,7 @@
 - 尝试用 Stable Diffusion ControlNet 将线框图转高保真视觉，验证 Prompt 与控制图的组合效果。
 - 用 Galilei/v0.dev 直接生成“支付失败重试”弹窗组件，并写 Playwright 覆盖异常流程。
 
-## 交付物与验收
+## 交付物与验收（落地建议）
 - `design/moodboard/*.png` 与决策说明文档。
 - `packages/ui` 组件库源码、Storybook 文档与截图对比报告。
 - Lighthouse、axe、Playwright 报告归档；未达标项必须在 PR 中说明豁免理由。

@@ -6,14 +6,14 @@
     <h1>用 Markdown 写书，用优雅界面沉浸阅读</h1>
     <p class="subtitle">精心打磨的 Material 主题，支持全文搜索、章节导航与代码高亮。每一册都可以独立维护、快速发布。</p>
     <div class="hero-actions">
-      <a class="md-button md-button--primary" href="books/example-book/index/">开始阅读示例书</a>
+      <a class="md-button md-button--primary" href="books/example-book/">开始阅读示例书</a>
       <a class="md-button" href="#快速开始">本地构建指南</a>
     </div>
   </div>
   <div class="hero-card">
     <p class="eyebrow">站点状态</p>
     <ul class="checklist">
-      <li>✅ 一键 `mkdocs build` 生成静态站点</li>
+      <li>✅ 一键 <code>mkdocs build</code> 生成静态站点</li>
       <li>✅ GitHub Actions 自动打包并发布 Pages</li>
       <li>✅ 自定义主题与卡片式导航</li>
     </ul>
@@ -28,13 +28,13 @@
     <p class="eyebrow">教程 · 示例书</p>
     <h3>示例书（模板）</h3>
     <p>从封面、章节到导航的最小示例，适合作为新书的起点。</p>
-    <a class="text-link" href="books/example-book/index/">快速浏览 →</a>
+    <a class="text-link" href="books/example-book/">快速浏览 →</a>
   </div>
   <div class="glass-card">
     <p class="eyebrow">AI 产品方法论</p>
     <h3>如何在 AI 的辅助下完成一个软件产品</h3>
     <p>从需求挖掘到上线评测的全链路方法，覆盖原型、工程实现与增长治理。</p>
-    <a class="text-link" href="books/ai-assisted-software-product/index/">进入目录 →</a>
+    <a class="text-link" href="books/ai-assisted-software-product/">进入目录 →</a>
   </div>
 </div>
 
@@ -67,6 +67,11 @@
 4. CI/CD 自动发布：
 
    推送到 `main` 后，GitHub Actions 会自动构建并发布静态页面，失败信息会在 Actions 日志中给出。
+
+## 发布前自检（严谨模式）
+
+- 运行 `mkdocs build --strict`，确保构建阶段没有警告/错误（例如链接与元数据问题）。
+- 确认首页卡片链接可正常跳转（原始 HTML 中的链接不会被 MkDocs 自动改写，需手动保持与实际 URL 一致）。
 
 ## 结构约定
 

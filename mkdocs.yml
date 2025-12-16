@@ -22,6 +22,8 @@ extra_css:
   - styles/overrides.css
 plugins:
   - search
+exclude_docs: |
+  books/ai-assisted-software-product/[0-9][0-9]-*.md
 markdown_extensions:
   - toc:
       permalink: true
@@ -31,6 +33,7 @@ markdown_extensions:
   - codehilite
 nav:
   - 首页: index.md
+  - 故障排查: troubleshooting.md
   - 书架:
       - 示例书: books/example-book/index.md
       - 示例书 / 第一章: books/example-book/chapter-1.md
@@ -53,3 +56,6 @@ nav:
           - 结语：通往 AGI 时代的船票: books/ai-assisted-software-product/conclusion.md
           - 参考文献: books/ai-assisted-software-product/references.md
           - 全书质量控制与复现清单: books/ai-assisted-software-product/quality-checklist.md
+          - 附录 A：模板库: books/ai-assisted-software-product/A-templates.md
+          - 附录 B：提示词与工作流配方: books/ai-assisted-software-product/B-prompts.md
+          - 附录 C：上线清单: books/ai-assisted-software-product/C-checklists.md
