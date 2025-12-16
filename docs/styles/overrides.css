@@ -1,0 +1,25 @@
+:root {
+  --md-primary-fg-color: #3949ab;
+  --md-accent-fg-color: #009688;
+  --md-text-font: "Inter", "Noto Sans SC", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+/* 提升正文可读性 */
+.md-typeset {
+  line-height: 1.7;
+  font-size: 17px;
+}
+
+/* 卡片式封面提示 */
+.hero-card {
+  background: linear-gradient(135deg, rgba(57,73,171,0.08), rgba(0,150,136,0.08));
+  border: 1px solid rgba(0,0,0,0.05);
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.04);
+}
+
+/* 目录列表更紧凑 */
+.md-typeset ul {
+  margin-top: 0.4rem;
+}
