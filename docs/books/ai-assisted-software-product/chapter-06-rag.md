@@ -1,6 +1,6 @@
 # 第 6 章：RAG（检索增强生成）—— 赋予 AI 记忆
 
-> 通过向量检索 + 重排序 + 过滤策略，让模型回答始终“有出处、有证据、有稳定延迟”。[24][25][27][28]
+> 通过向量检索 + 重排序 + 过滤策略，让模型回答“有出处、有证据”；并通过工程化手段把延迟控制在可接受范围。[24][25][27][28]
 
 !!! note "关于复现、目录与 CI"
     本章中出现的 `make ...`、`CI`、以及示例目录/文件路径（例如 `path/to/file`）均为落地约定，用于说明如何把方法落实到你自己的工程仓库中。本仓库仅提供文档，读者需自行实现或用等价工具链替代。
@@ -9,9 +9,10 @@
 本章解决“模型记不住/答不准”的问题。你将搭建完整的 RAG 管线：数据清洗、切分、索引、检索、重排序与引用追踪，并用自动化评估量化改动收益。[24][28]
 
 ## 你将收获什么
-- 可切换的向量数据库方案（Milvus/Pinecone/pgvector），附性能与成本对比。[25]
+- 可切换的向量数据库方案（Milvus/Pinecone/pgvector 等），并给出对比维度与压测方法。
 - 语义分块、BM25 + 向量混合检索、重排序的组合策略与可复现脚本。[24][27]
-- RAGAS/LLM-as-a-Judge 评测流水线，量化准确率、引用率与延迟。[28]
+- RAGAS/LLM-as-a-Judge 评测流水线，量化回答质量与引用一致性（延迟/成本作为独立指标监控）。[28][50]
+- 向量相似检索的底层索引与加速背景，可作为理解检索性能边界的参考。[25]
 
 ## 方法论速览
 1. **数据处理：** PDF/Markdown 清洗、语义分块、元数据对齐，确保来源可追踪。[24]
@@ -26,13 +27,13 @@
 ### 2. 索引与检索
 ```python
 from llama_index.core import VectorStoreIndex
-from llama_index.vector_stores import MilvusVectorStore
 
-index = VectorStoreIndex.from_documents(docs, vector_store=MilvusVectorStore())
+# 示例（伪代码）：Vector Store 的接入方式随 LlamaIndex 版本/插件而变化
+index = VectorStoreIndex.from_documents(docs)
 query_engine = index.as_query_engine(similarity_top_k=5)
 print(query_engine.query("How to handle retries?"))
 ```
-- 对比 Pinecone/Milvus/pgvector：记录建库时间、QPS、P95 延迟、存储成本。[25]
+- 对比 Pinecone/Milvus/pgvector：记录建库时间、QPS、P95 延迟、存储成本。
 - 结合 BM25/keyword 检索做混合召回，减少语义漂移。
 
 ### 3. 重排序与引用
@@ -41,7 +42,7 @@ print(query_engine.query("How to handle retries?"))
 
 ### 4. 自动评估
 - 构造 100–200 对问答基准，标注参考答案与允许的引用片段。
-- 运行 RAGAS/LLM-as-a-Judge，指标包含 Faithfulness、Answer Correctness、Context Precision。[28][50]
+- 运行 RAGAS/LLM-as-a-Judge，常用指标包含 Faithfulness、Answer Relevance、Context Precision/Recall 等（以你使用的版本为准）。[28][50]
 
 ## 复现检查（落地建议）
 - `make rag-build`：清洗、切分、索引与基准数据生成。

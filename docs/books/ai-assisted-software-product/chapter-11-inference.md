@@ -1,6 +1,6 @@
 # 第 11 章：推理加速与生产级部署
 
-> 让模型“跑得快、成本低、可水平扩展”：vLLM/TensorRT-LLM、量化（AWQ/GPTQ）与 TGI 部署实战。[45][46][48][49]
+> 让模型“跑得快、成本低、可水平扩展”：推理引擎（vLLM/TensorRT-LLM）、权重量化（AWQ/GPTQ）与推理服务（例如 TGI/KServe）的落地要点。[45][46][48][49][59][63]
 
 !!! note "关于复现、目录与 CI"
     本章中出现的 `make ...`、`CI`、以及示例目录/文件路径（例如 `path/to/file`）均为落地约定，用于说明如何把方法落实到你自己的工程仓库中。本仓库仅提供文档，读者需自行实现或用等价工具链替代。
@@ -9,30 +9,37 @@
 本章解决“上线后又慢又贵”的问题。你将对比不同推理引擎与量化方案，完成容器化部署，并通过压测与观测确保 SLA。[45][48]
 
 ## 你将收获什么
-- vLLM 与 TensorRT-LLM 部署脚本，包含批处理、KV cache 与并发配置。[45][46]
-- 量化流水线（AWQ/GPTQ/QLoRA 推理），在消费级 GPU 上达成可用吞吐。[48]
-- TGI/KServe 部署模板，接入网关、鉴权、限流与观测。
+- vLLM 与 TensorRT-LLM 的关键配置项清单（批处理、KV cache、并发等）与取舍要点。[45][46]
+- 权重量化的落地与验证流程（AWQ/GPTQ 等），以及与训练侧 4-bit（QLoRA）的区别与衔接。[47][48][59]
+- TGI/KServe 等推理服务的部署与接入要点（网关、鉴权、限流、观测）。[49][63]
 
 ## 方法论速览
 1. **推理引擎选择：** 依据模型大小、硬件与延迟目标选择 vLLM（高吞吐）或 TensorRT-LLM（低延迟）。[45][46]
-2. **量化策略：** 评估 AWQ/GPTQ 对精度与延迟的影响，配合 INT4/INT8 部署。[48]
-3. **部署与观测：** 容器化 + API 网关 + metrics/logging/tracing，确保可水平扩展。[49]
+2. **量化策略：** 评估 AWQ/GPTQ 对质量与延迟/吞吐/显存的影响，按业务可接受退化选择 INT4/INT8 等配置。[48][59]
+3. **部署与观测：** 容器化 + API 网关 + metrics/logs/traces，确保可水平扩展与可追责。[61][62]
 
 ## 实战路径
 ### 1. 量化与导出
 ```bash
-python3 -m awq.entry --model_path llama-7b --w_bit 4 --q_group_size 128 \
-  --run_awq --dump_quant
+# 示例：基于 AWQ 官方脚本风格（llm-awq），参数/路径以你的环境为准
+MODEL_PATH=/path/to/model
+python -m awq.entry --model_path "$MODEL_PATH" \
+  --w_bit 4 --q_group_size 128 \
+  --run_awq --dump_awq awq_cache/model-w4-g128.pt
+python -m awq.entry --model_path "$MODEL_PATH" \
+  --w_bit 4 --q_group_size 128 \
+  --load_awq awq_cache/model-w4-g128.pt \
+  --q_backend real --dump_quant quant_cache/model-w4-g128-awq.pt
 ```
-- 记录量化前后 perplexity/ROUGE 变化；若下降超阈值则调整 bitwidth。
+- 用与你业务一致的评测集/回归用例验证量化前后质量，并同时记录吞吐、延迟与显存占用；若退化超出可接受范围，则调整位宽、分组或校准数据。[48][59]
 
 ### 2. 引擎对比
 - vLLM：配置 `--tensor-parallel-size`、`--max-num-batched-tokens`，适合高吞吐。[45]
 - TensorRT-LLM：编译 engine，适合低延迟场景；注意 warmup 与 engine 版本。[46]
 
 ### 3. 容器化部署
-- 使用 TGI/fastapi 作为入口，加入 JWT/AK/SK 鉴权与速率限制。
-- 通过 Prometheus + Grafana 观测 QPS、P95、OOM、队列长度。
+- 使用 TGI/自研 API（例如 FastAPI）作为入口，加入鉴权、速率限制与审计日志。[49]
+- 用 Prometheus + Grafana 观测 QPS、P95、OOM、队列长度，并将 traces 打通到请求级排查。[61][62][64]
 
 ### 4. 压测
 - 使用 `wrk`/`hey`/`locust` 发压，记录吞吐与延迟；发现抖动时调整批处理/并发。

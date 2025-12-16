@@ -50,7 +50,7 @@ Validate auth, rate limit, idempotency, and multi-tenant constraints.
 ```
 
 ### 第 3 章 生成式 UI/UX 设计（速览版）
-- **工作流：** Mood Board (Midjourney) → 视觉走查 (GPT-4V) → v0.dev 生成 React/Tailwind 代码 → Playwright 可访问性与回归测试。[15][17]
+- **工作流：** Mood Board（生成式图像工具）→ 视觉走查（多模态模型）→ v0.dev 生成 React/Tailwind 代码 → Playwright 可访问性与回归测试。[15][17]
 - **验证脚本：** `pnpm exec playwright test --project=chromium --reporter=html` 确认表单标签、对比度、Tab 序正确。[17]
 
 ---
@@ -96,13 +96,13 @@ workflow.add_node("writer", writer_node)
 workflow.set_entry_point("search")
 workflow.add_conditional_edges("search", should_continue)
 ```
-- **安全：** 工具调用白名单、幂等性、速率与配额治理；记录调用链便于审计。[30][31]
+- **安全：** 工具调用白名单、幂等性、速率与配额治理；记录调用链便于审计。[31][51]
 
 ---
 
 ## 第四篇 造物主：模型训练与演进
 ### 第 8 章 数据工程（速览版）
-- **数据合成：** Self-Instruct/Evol-Instruct 生成高质量指令数据；保留 JSONL 与采集参数。[36]
+- **数据合成：** Self-Instruct/Evol-Instruct 生成高质量指令数据；保留 JSONL 与采集参数。[36][66]
 - **清洗：** 去重（MinHashLSH）、去毒、PII 过滤，附 datasheet 与质量分级。[34][35]
 
 ### 第 9 章 LLM 预训练与增量预训练（速览版）

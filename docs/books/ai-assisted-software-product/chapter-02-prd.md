@@ -76,7 +76,7 @@ for path in pathlib.Path("prd").glob("*.yml"):
 ## 正文扩展稿（用于成书排版）
 1. **对话到架构的一致性**：先让 LLM 生成“领域词汇表”，再用这些词汇驱动 PRD、时序图、API 合约与 Schema，避免不同文档使用不同名词导致歧义。所有文档引用同一份词汇表文件 `prd/vocabulary.yml`，CI 校验引用一致。[11][18]
 2. **PRD 可信度与变更记录**：每个功能块附“证据来源、样本量、实验计划、决策编号”，变更时在 YAML 中递增 `revision` 并链接到决策记录，保证读者能追踪“为何修改”。[4]
-3. **流水线化生成**：示例：用 `make prd` 自动生成 Markdown/HTML PRD、Mermaid 图、OpenAPI 草案与 PDF；用 `make prd-check` 运行 speccy lint、Mermaid 渲染和字段必填校验。失败即阻止合并，确保文档可视、可编译、可消费。[5]
+3. **流水线化生成**：示例：用 `make prd` 自动生成 Markdown/HTML PRD、Mermaid 图、OpenAPI 草案与 PDF；用 `make prd-check` 运行 OpenAPI lint（例如 Spectral）、Mermaid 渲染和字段必填校验。失败即阻止合并，确保文档可视、可编译、可消费。[5][65]
 4. **容量与性能假设显式化**：Schema 文件内以注释注明预估 QPS、热键分布、索引覆盖率；附基准脚本与结果 CSV。若实测 P95 超出预算则强制回到设计环节重新评审。[13]
 5. **指标与埋点闭环**：在 PRD 中为注册、登录、支付、核心留存行为定义事件名与校验 SQL；建议提供一个“埋点契约测试”（示例路径：`tests/metrics/test_metrics_contract.py`）检查字段存在、类型正确，并将其设为发布门禁以避免“上线无数据”。[6]
 

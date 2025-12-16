@@ -10,7 +10,7 @@
 
 ## 你将收获什么
 - ReAct + Function Calling 的可复现模板，包含计划、执行、回退与记忆管理。[29][31]
-- LangGraph/AutoGen 的多 Agent 编排示例，涵盖角色分工、对话压缩与长程记忆。[30]
+- LangGraph/AutoGen 的多 Agent 编排示例，涵盖角色分工、对话压缩与长程记忆。[30][60]
 - 安全护栏：工具白名单、参数校验、速率限制与审计日志。
 
 ## 方法论速览
@@ -34,7 +34,7 @@ for step in plan:
 - 加入“反思”提示，若结果无用则改写查询或切换工具。
 
 ### 2. 多智能体协作
-- 使用 LangGraph/AutoGen 定义 Writer、Researcher、Critic 三个角色；限制轮数与 token 上限。
+- 使用 LangGraph/AutoGen 定义 Writer、Researcher、Critic 三个角色；限制轮数与 token 上限。[30][60]
 - 对于长文档任务，使用摘要链或检索记忆，防止上下文爆炸。
 
 ### 3. 安全与可观测
