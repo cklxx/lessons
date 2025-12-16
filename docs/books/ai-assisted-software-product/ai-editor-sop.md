@@ -58,6 +58,71 @@ prompt+=$'\n>>>\n'
 gemini -p "$prompt"
 ```
 
+### 2.4 术语表与链接一致性检查（首次出现应链接）
+```bash
+target_file="docs/books/ai-assisted-software-product/chapter-05-backend.md"
+excerpt=$(sed -n '1,160p' "$target_file")
+glossary_index=$(grep '^## ' docs/books/ai-assisted-software-product/glossary.md)
+prompt=$(cat <<'EOF'
+你是中文技术书编辑。请检查下面章节摘录的术语一致性与链接一致性：
+1) 哪些概念应在“首次出现处”链接到 glossary（给出建议锚点，如 glossary.md#authn-authz）；
+2) 哪些概念在正文里出现了同义词/多译混用（给出统一用法建议）；
+3) 哪些概念应补进 glossary（给出建议条目名：中文 + 英文）。
+
+已存在的 glossary 条目（仅标题）：
+<<<
+EOF
+)
+prompt+="$glossary_index"
+prompt+=$'\n>>>\n\n章节摘录：\n<<<\n'
+prompt+="$excerpt"
+prompt+=$'\n>>>\n'
+gemini -p "$prompt"
+```
+
+### 2.5 把“常见陷阱”改写为失败样本驱动模板
+```bash
+target_file="docs/books/ai-assisted-software-product/chapter-06-rag.md"
+excerpt=$(sed -n '70,120p' "$target_file") # 覆盖“常见陷阱”附近的行
+prompt=$(cat <<'EOF'
+你是资深技术审稿人。请把下面的“常见陷阱”按统一模板改写为至少 3 条：
+- 现象（读者会看到什么）
+- 根因（为什么会发生）
+- 复现（最小复现步骤/条件）
+- 修复（怎么改）
+- 回归验证（怎么确认修好了，给出命令/日志/指标）
+
+要求：输出为可直接粘贴的 Markdown；不要引入未在文本中声明的外部工具。
+
+原文摘录：
+<<<
+EOF
+)
+prompt+="$excerpt"
+prompt+=$'\n>>>\n'
+gemini -p "$prompt"
+```
+
+### 2.6 生成“纯文本流程图/表格”（不依赖 Mermaid）
+```bash
+target_file="docs/books/ai-assisted-software-product/chapter-07-agent.md"
+excerpt=$(sed -n '18,80p' "$target_file")
+prompt=$(cat <<'EOF'
+你是中文技术书编辑。请基于下面内容，生成 1 张“纯文本流程图/表格”（二选一）来表达关键闭环：
+- 流程图：用缩进 + 箭头表示分支与回路；或
+- 表格：列出步骤/输入/输出/验证/失败判定。
+
+要求：能直接粘贴进 Markdown；内容必须覆盖“工具调用边界/失败回退/验证动作”。
+
+章节摘录：
+<<<
+EOF
+)
+prompt+="$excerpt"
+prompt+=$'\n>>>\n'
+gemini -p "$prompt"
+```
+
 ## 3) 采纳规则（作者作为裁判）
 - 只采纳能落到“可验收改动”的建议（新增示例、补步骤、改标题、补约束、补失败判定）。
 - 对“工具/框架推荐”默认谨慎：优先保留范式与可迁移原则，工具清单放附录。

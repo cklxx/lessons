@@ -50,7 +50,7 @@ mkdocs build --strict
 首次使用需要一次性配置：
 
 1. 仓库 Settings → Pages → Source 选择 “GitHub Actions”。
-2. 若仓库/组织策略禁用了 Pages 或限制了令牌权限，请先放开（见故障排查）。
+2. 若仓库/组织策略禁用了 Pages 或限制了令牌权限，请先放开。
 
 如果你确实需要本地手动发布（不推荐与 Actions 混用）：
 
@@ -60,16 +60,9 @@ mkdocs gh-deploy
 
 该命令会构建并推送到 `gh-pages` 分支；注意这要求你对远端仓库有写权限，并且需要自行处理分支保护/发布策略。
 
-### Pages 部署故障排查
-
-如果在 Actions 日志中看到类似 “Resource not accessible by integration” 的
-错误（通常来自 `actions/configure-pages`），请参见
-[`docs/troubleshooting.md`](docs/troubleshooting.md) 获取常见原因与解决步骤。
-
 ## 目录示例
 
 - `mkdocs.yml`：站点配置与导航
 - `docs/index.md`：站点首页
-- `docs/troubleshooting.md`：GitHub Pages 部署故障排查
 - `docs/books/`：书籍内容（每本书一个目录）
 - `docs/styles/overrides.css`：自定义配色与排版样式
