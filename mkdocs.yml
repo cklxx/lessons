@@ -1,0 +1,36 @@
+site_name: My Library
+site_description: Personal collection of books and lessons
+site_url: https://example.github.io/lessons
+repo_url: https://github.com/example/lessons
+edit_uri: edit/main/docs/
+theme:
+  name: material
+  language: zh
+  palette:
+    scheme: default
+    primary: indigo
+    accent: teal
+  features:
+    - navigation.instant
+    - navigation.expand
+    - navigation.tracking
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - content.action.edit
+extra_css:
+  - styles/overrides.css
+plugins:
+  - search
+markdown_extensions:
+  - toc:
+      permalink: true
+  - footnotes
+  - tables
+  - admonition
+  - codehilite
+nav:
+  - 首页: index.md
+  - 书架:
+      - 示例书: books/example-book/index.md
+      - 示例书 / 第一章: books/example-book/chapter-1.md
