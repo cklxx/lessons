@@ -46,7 +46,7 @@
 - 质量评测、吞吐/延迟、显存占用必须同表对比；不得只报“更快了”。[48][59]
 - 推理入口必须包含鉴权、限流与审计；健康检查失败即视为不可上线。[68]
 - 若退化超阈值或 SLA 不达标，必须回滚到 BF16 或上一版稳定配置。[45]
-- 如果你让 AI 帮你改仓库文件：要求它只输出 unified diff（git diff 格式）。
+- 若使用 AI 辅助修改代码库文件：要求它只输出统一差异格式（unified diff，git diff 格式）。
 
 **输出格式：**
 - 产物：量化权重 + 部署配置 + 压测与观测对比报告
@@ -93,7 +93,7 @@ python -m awq.entry --model_path "$MODEL_PATH" \
 | AWQ | 4 |  |  |  |  |  |
 | GPTQ | 4 |  |  |  |  |  |
 
-![图：量化权衡曲线（待补）](../../assets/fig-placeholder.svg)
+![图：量化权衡曲线](../../assets/fig-placeholder.svg)
 
 *图 11-2：量化权衡曲线——质量 vs 延迟/吞吐 vs 显存/成本（示意）*
 <!-- TODO: replace with a real plot from your benchmark results -->
@@ -121,7 +121,7 @@ python -m awq.entry --model_path "$MODEL_PATH" \
 - **审计**：记录 request_id/trace_id/principal/model_version/params_hash，支持事后追溯。[61][68]
 - **灰度**：新版本先 1% 流量；监控退化自动回滚。[45]
 
-![图：灰度发布与回滚（待补）](../../assets/fig-placeholder.svg)
+![图：灰度发布与回滚](../../assets/fig-placeholder.svg)
 
 *图 11-3：灰度发布与回滚——多版本路由、门禁阈值与自动回退（示意）*
 <!-- TODO: replace with a diagram showing canary routing + rollback triggers -->

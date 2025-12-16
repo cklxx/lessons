@@ -44,7 +44,7 @@ Agent 的本质是一个“状态机 + 工具路由器”。在进入代码前�
 - 工具必须有参数校验、超时、重试；敏感参数（收件人/内容）要脱敏落盘（例如只记录 hash/长度/域名）。[31]
 - 必须有“拒绝调用”用例：当 principal 缺少权限时，Agent 不得触发工具执行。
 - 必须有“二次确认”用例：当内容包含潜在敏感/高风险（例如批量群发、外部域名、包含凭据样式）时，需要显式确认 token 才能继续。
-- 如果你让 AI 帮你改仓库文件：要求它只输出 unified diff（git diff 格式）。
+- 若使用 AI 辅助修改代码库文件：要求它只输出统一差异格式（unified diff，git diff 格式）。
 
 **输出格式：**
 - 产物：`tools/registry.json`、`tests/test_tool_authorization.py`（或等价测试文件）、审计日志字段说明（可写在 `docs/`）
@@ -93,7 +93,7 @@ for step in plan:
 | `REFLECT` | history | next action | 无限循环 | 触发熔断；输出“我不知道/需要人工” |
 | `DONE` | - | final answer | 引用缺失 | 要求给证据/产物；否则失败 |
 
-![图：Agent 状态机与停止条件（待补）](../../assets/fig-placeholder.svg)
+![图：Agent 状态机与停止条件](../../assets/fig-placeholder.svg)
 
 *图 7-2：Agent 状态机与停止条件——预算、重试、熔断与人工接管（示意）*
 <!-- TODO: draw: PLAN->ACT->OBSERVE->REFLECT loop; exits to DONE; budget counters; circuit breaker; HITL approval. -->
@@ -136,7 +136,7 @@ agent:
 - **轮数与预算**：每个 Agent 有自己的 `max_turns`；Manager 有总预算；超过预算必须停止并给出“未完成清单”。
 - **冲突仲裁**：Writer 与 Critic 冲突时，以“证据/引用/可验证检查”裁决，而不是以语气裁决。
 
-![图：多 Agent 协作与仲裁（待补）](../../assets/fig-placeholder.svg)
+![图：多 Agent 协作与仲裁](../../assets/fig-placeholder.svg)
 
 *图 7-3：多 Agent 协作与仲裁——角色分工、消息结构与停止条件（示意）*
 <!-- TODO: draw: Manager dispatches to Researcher/Writer/Critic; Critic feedback loop; stop at max_turns; evidence-based arbitration. -->

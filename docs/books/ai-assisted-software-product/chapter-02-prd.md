@@ -49,7 +49,7 @@
 - PRD 必须包含：用户故事、埋点、错误语义、SLO、幂等与重试策略。[6][11]
 - 图表必须包含失败/补偿路径（超时、重试、退款），避免“只画成功路径”。[12]
 - 字段必须满足本章 Schema 校验器的 required 列表；缺失字段视为 PRD 不可用。[11]
-- 如果你让 AI 帮你改仓库文件：要求它只输出 unified diff（git diff 格式），避免夹带解释文本。
+- 若使用 AI 辅助修改代码库文件：要求它只输出统一差异格式（unified diff，git diff 格式），避免夹带解释文本。
 
 **输出格式：**
 - 产物：`prd/mvp.yml`、`diagrams/auth.mmd`、`openapi.yaml`

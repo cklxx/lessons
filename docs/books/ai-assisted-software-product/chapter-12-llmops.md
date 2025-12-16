@@ -45,7 +45,7 @@
 **约束：**
 - 必须区分：告警阈值 vs 发布门禁阈值；并给出回滚动作。[6]
 - 审计日志要能关联到 `request_id/trace_id`，支持离线复盘与追责。[61]
-- 如果你让 AI 帮你改仓库文件：要求它只输出 unified diff（git diff 格式）。
+- 若使用 AI 辅助修改代码库文件：要求它只输出统一差异格式（unified diff，git diff 格式）。
 
 **输出格式：**
 - 产物：评测集、日报报告、门禁阈值配置（可版本化）
@@ -96,7 +96,7 @@ make llmops-eval
 - 错误分类：超时、限流、上游失败、解析失败、工具失败
 - 安全事件：注入命中、越狱命中、PII 命中、拒答触发
 
-![图：门禁与告警的分离（待补）](../../assets/fig-placeholder.svg)
+![图：门禁与告警的分离](../../assets/fig-placeholder.svg)
 
 *图 12-2：门禁与告警的分离——门禁用于阻断发布，告警用于提醒排障，两者阈值与动作不同（示意）*
 <!-- TODO: replace with a runbook diagram: alert -> triage; gate -> rollback -->
