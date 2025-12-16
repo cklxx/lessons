@@ -21,10 +21,19 @@
 ## 实战路径
 Agent 的本质是一个“状态机 + 工具路由器”。在进入代码前，先把数据流画清楚：输入从哪来、工具能做什么、如何记录证据、如何停止。否则你会很快得到一个“看起来能跑”的 Demo，但它会在生产里以更高速度放大风险。[29][31]
 
-![图：Agent 核心闭环与护栏位置](../../assets/fig-placeholder.svg)
+```text
+用户输入
+  → 输入过滤/注入检测（Guardrail）
+  → Planner（LLM：PLAN）
+  → 工具路由（白名单 + Schema + 权限）
+  → 工具执行（timeout/retry + 审计）
+  → Observation（截断/摘要 + source_id）
+  → Memory（短期/长期）
+  → Planner（REFLECT）→ … → 最终输出
+             ↘（预算耗尽/高风险工具）等待人工确认/停止
+```
 
-*图 7-1：Agent 核心闭环与护栏位置——输入过滤、工具白名单、审计记录与停止条件（示意）*
-<!-- TODO: draw: User input -> Planner (LLM) -> Tool router -> Tool exec -> Observation -> Memory -> Planner; mark guardrails at input & tool exec; mark budget/stop. -->
+*图 7-1：Agent 核心闭环与护栏位置——输入过滤、工具白名单、审计记录与停止条件（纯文本示意）*
 
 ### 示例（可复制）：定义安全工具接口并验证“越权不可用”
 
@@ -93,10 +102,19 @@ for step in plan:
 | `REFLECT` | history | next action | 无限循环 | 触发熔断；输出“我不知道/需要人工” |
 | `DONE` | - | final answer | 引用缺失 | 要求给证据/产物；否则失败 |
 
-![图：Agent 状态机与停止条件](../../assets/fig-placeholder.svg)
+```text
+PLAN → ACT → OBSERVE → REFLECT ──┐
+ ^                               │
+ └──────────（未达成目标）────────┘
 
-*图 7-2：Agent 状态机与停止条件——预算、重试、熔断与人工接管（示意）*
-<!-- TODO: draw: PLAN->ACT->OBSERVE->REFLECT loop; exits to DONE; budget counters; circuit breaker; HITL approval. -->
+退出条件（任一触发即停止）：
+- 达成 success_criteria → DONE
+- 超过 max_steps / max_wall_time_ms / max_total_tokens → STOP（输出未完成清单）
+- same_tool_same_args_max 达到 → CIRCUIT_BREAK（人工接管/降级）
+- 高风险工具需要 approval_token → WAIT_FOR_APPROVAL
+```
+
+*图 7-2：Agent 状态机与停止条件——预算、重试、熔断与人工接管（纯文本示意）*
 
 ### 1.1 停止条件与预算（必须显式化）
 
@@ -136,10 +154,17 @@ agent:
 - **轮数与预算**：每个 Agent 有自己的 `max_turns`；Manager 有总预算；超过预算必须停止并给出“未完成清单”。
 - **冲突仲裁**：Writer 与 Critic 冲突时，以“证据/引用/可验证检查”裁决，而不是以语气裁决。
 
-![图：多 Agent 协作与仲裁](../../assets/fig-placeholder.svg)
+```text
+Manager（路由/停止）
+  ├─ Researcher（只检索 + 给出处）
+  ├─ Writer（只产出草稿）
+  ├─ Critic（只找漏洞/反例/边界）
+  └─ Executor（只跑工具/收集日志）
 
-*图 7-3：多 Agent 协作与仲裁——角色分工、消息结构与停止条件（示意）*
-<!-- TODO: draw: Manager dispatches to Researcher/Writer/Critic; Critic feedback loop; stop at max_turns; evidence-based arbitration. -->
+仲裁规则：冲突时以“引用/证据/可验证检查”为裁判；超出 max_turns/max_budget → 输出未完成清单并停止
+```
+
+*图 7-3：多 Agent 协作与仲裁——角色分工、消息结构与停止条件（纯文本示意）*
 
 ### 3. 安全与可观测
 - 工具白名单 + 参数校验 + 速率限制；错误集中到[审计日志](glossary.md#audit-log)。

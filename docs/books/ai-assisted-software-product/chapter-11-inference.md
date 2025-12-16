@@ -18,10 +18,21 @@
 2. **量化策略：** 评估 AWQ/GPTQ 对质量与延迟/吞吐/显存的影响，按业务可接受退化选择 INT4/INT8 等配置。[48][59]
 3. **部署与观测：** 容器化 + API 网关 + metrics/logs/traces，确保可水平扩展与可追责。[61][62]
 
-![图：推理服务架构总览](../../assets/fig-placeholder.svg)
+```text
+Client
+  → API Gateway（鉴权/限流/配额/审计）
+  → Router（多模型/多版本路由；灰度）
+  → Inference Engine（vLLM / TensorRT-LLM）
+  → Cache（语义缓存/前缀缓存；可选）
+  → Post-process（结构化输出/过滤/脱敏）
 
-*图 11-1：推理服务架构总览——模型权重/引擎/网关/鉴权/限流/缓存/观测/灰度回滚（示意）*
-<!-- TODO: replace with your own architecture diagram (gateway -> inference -> observability) -->
+Observability（贯穿全链路）：
+- metrics：QPS、P95、GPU、队列长度、错误率
+- logs：request_id/trace_id/principal/model_version/params_hash
+- traces：网关→检索（如有）→推理→工具调用（如有）
+```
+
+*图 11-1：推理服务架构总览——模型权重/引擎/网关/鉴权/限流/缓存/观测/灰度回滚（纯文本示意）*
 
 ## 实战路径
 ```text
@@ -93,10 +104,18 @@ python -m awq.entry --model_path "$MODEL_PATH" \
 | AWQ | 4 |  |  |  |  |  |
 | GPTQ | 4 |  |  |  |  |  |
 
-![图：量化权衡曲线](../../assets/fig-placeholder.svg)
+```text
+质量（越高越好）
+^
+|  BF16 *
+|        \
+|         * INT8
+|           \
+|            * INT4（AWQ/GPTQ）
++------------------------------> 延迟/成本（越低越好）
+```
 
-*图 11-2：量化权衡曲线——质量 vs 延迟/吞吐 vs 显存/成本（示意）*
-<!-- TODO: replace with a real plot from your benchmark results -->
+*图 11-2：量化权衡曲线——质量 vs 延迟/吞吐 vs 显存/成本（纯文本示意；最终以你的基准结果落点为准）*
 
 ### 2. 引擎对比
 - vLLM：配置 `--tensor-parallel-size`、`--max-num-batched-tokens`，适合高吞吐。[45]
@@ -121,10 +140,19 @@ python -m awq.entry --model_path "$MODEL_PATH" \
 - **审计**：记录 request_id/trace_id/principal/model_version/params_hash，支持事后追溯。[61][68]
 - **灰度**：新版本先 1% 流量；监控退化自动回滚。[45]
 
-![图：灰度发布与回滚](../../assets/fig-placeholder.svg)
+```text
+vA（稳定） + vB（候选）
+  → 1%（vB）→ 5% → 25% → 100%
 
-*图 11-3：灰度发布与回滚——多版本路由、门禁阈值与自动回退（示意）*
-<!-- TODO: replace with a diagram showing canary routing + rollback triggers -->
+门禁阈值（任一触发即回滚到 vA）：
+- P95 延迟↑ / 错误率↑ / OOM↑ / 质量退化↑ / 成本↑
+
+回滚动作：
+- Router 立即把 vB 流量切回 vA
+- 记录 incident：版本/配置/负载/证据；冻结 vB 进一步发布
+```
+
+*图 11-3：灰度发布与回滚——多版本路由、门禁阈值与自动回退（纯文本示意）*
 
 ### 4. 压测
 - 使用 `wrk`/`hey`/`locust` 发压，记录吞吐与延迟；发现抖动时调整批处理/并发。

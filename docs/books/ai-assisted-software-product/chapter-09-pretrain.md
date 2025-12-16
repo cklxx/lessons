@@ -18,10 +18,16 @@
 2. **分词器策略：** 基于领域语料扩展词表，减少[词表外（OOV, Out-of-Vocabulary）](glossary.md#oov)；保持旧词表兼容，降低迁移成本。[38]
 3. **继续预训练：** 采用小学习率在领域语料上训练数千 steps，监控困惑度与灾难性遗忘指标。[37]
 
-![图：继续预训练的端到端流程](../../assets/fig-placeholder.svg)
+```text
+语料（许可 + 去重 + 版本号）
+  → 分词器策略（增量扩词表 + 兼容性检查）
+  → 继续预训练（小 LR + 有限步数 + 预算上限）
+  → 双基线评测（领域↑ / 通用不降）
+  → 选择 checkpoint（记录 run_id + 成本 + 证据）
+      ↘ 未达标：回滚 checkpoint/配置；必要时回滚分词器
+```
 
-*图 9-1：继续预训练端到端流程——语料与许可、分词器策略、训练配置、评测与回滚门槛（示意）*
-<!-- TODO: replace with a diagram showing: data -> tokenizer -> training -> eval -> checkpoint selection/rollback -->
+*图 9-1：继续预训练端到端流程——语料与许可、分词器策略、训练配置、评测与回滚门槛（纯文本示意）*
 
 ## 实战路径
 ```text
@@ -83,10 +89,15 @@ make pretrain-eval
 - **特殊符号**：代码/公式/标点是否被合理切分？（避免把关键 token 切碎）
 - **版本锁定**：分词器文件（vocab/merges）是否版本化？是否写入[模型卡片（Model Card）](glossary.md#model-card)？
 
-![图：词表变更的影响面](../../assets/fig-placeholder.svg)
+| 影响面 | 你会看到什么 | 最小应对动作（示例） |
+|---|---|---|
+| 训练 | loss/困惑度曲线不连续 | 记录 tokenizer 版本；从头训练或明确迁移策略 |
+| 推理 | 同输入输出变化/质量波动 | 回归集对比；必要时回滚 tokenizer |
+| Embedding/RAG | 向量分布漂移、检索质量下降 | 重新建索引；固定 embedding 模型与 tokenizer |
+| 评测 | 分数不可比（基线漂移） | 同版本对比；报告注明 tokenizer 变更 |
+| 下游工具 | tokenization 相关报错/格式失真 | 兼容性测试（典型输入集）纳入门禁 |
 
-*图 9-2：词表变更影响面——训练、推理、评测与下游应用的兼容性（示意）*
-<!-- TODO: replace with a diagram showing tokenizer change ripple effects -->
+*图 9-2：词表变更影响面——训练、推理、评测与下游应用的兼容性（表格化示意）*
 
 ### 2. 继续预训练
 ```bash
@@ -126,10 +137,13 @@ accelerate launch pretrain.py \
 | 预估时长 |  | hours |
 | 预估成本 |  | $ |
 
-![图：成本/吞吐/显存三角关系](../../assets/fig-placeholder.svg)
+```text
+你想要：更长上下文（seq_len↑）  →  代价：显存↑、吞吐↓、P95↑
+你想要：更高吞吐（batch↑）      →  代价：显存↑、队列抖动↑
+你想要：更低显存（ZeRO/ckpt）    →  代价：工程复杂度↑、训练/推理开销↑
+```
 
-*图 9-3：成本/吞吐/显存三角关系——序列长度、batch 与并行策略的取舍（示意）*
-<!-- TODO: replace with a plot/table from your actual benchmarks -->
+*图 9-3：成本/吞吐/显存三角关系——序列长度、batch 与并行策略的取舍（纯文本示意；最终以你的基准表为准）*
 
 ### 4. 质量评估
 - 构建领域特定评测集（例如法律问答、API 代码生成），对比预训练前后的指标。
