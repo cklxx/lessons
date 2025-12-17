@@ -23,7 +23,7 @@
 ## 第 7 章：Agent（智能体）
 
 - ReAct（Yao et al., 2023）https://arxiv.org/abs/2210.03629 （笔记：[笔记](../notes/ref-029-react.md)）
-- LangGraph 文档 https://langchain-ai.github.io/langgraph/ （笔记：[笔记](../notes/ref-060-langgraph.md)）
+- LangGraph 文档 https://docs.langchain.com/oss/python/langgraph/overview/ （笔记：[笔记](../notes/ref-060-langgraph.md)）
 - AutoGen（Wu et al., 2023）https://arxiv.org/abs/2308.08155 （笔记：[笔记](../notes/ref-030-autogen.md)）
 - OpenAI Tool Use / Function Calling（文档入口）https://platform.openai.com/docs/ （笔记：[笔记](../notes/ref-031-openai-tool-use.md)）
 

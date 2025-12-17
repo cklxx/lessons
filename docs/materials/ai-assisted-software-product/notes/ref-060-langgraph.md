@@ -1,7 +1,7 @@
 # [60] LangGraph：把 Agent 变成可控的工作流
 
 - 资料类型：官方文档
-- 原始来源：https://langchain-ai.github.io/langgraph/
+- 原始来源：https://docs.langchain.com/oss/python/langgraph/overview/
 - 对应章节：第 7 章（Agent）
 
 ## 一句话
@@ -17,4 +17,3 @@
 
 ## 常见误用
 - 让 Agent 自己决定“什么时候结束”，没有硬性停止条件与超时策略，最后变成无限循环或成本爆炸。
-

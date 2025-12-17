@@ -370,6 +370,11 @@ def build_parser() -> argparse.ArgumentParser:
         action="store_true",
         help='Include generated indexes markdown files (e.g. indexes.md). Usually not desired for URL discovery.',
     )
+    parser.add_argument(
+        "--include-deepresearch",
+        action="store_true",
+        help='Include generated deepresearch markdown files. Usually not desired for URL discovery.',
+    )
     parser.add_argument("--timeout", type=int, default=30, help="Per-request timeout in seconds.")
     parser.add_argument(
         "--user-agent",
@@ -401,6 +406,8 @@ def main() -> int:
         excluded_parts.add("sources")
     if not args.include_gemini:
         excluded_parts.add("gemini")
+    if not args.include_deepresearch:
+        excluded_parts.add("deepresearch")
     if excluded_parts:
         md_files = [p for p in md_files if not any(part in excluded_parts for part in p.parts)]
     if not args.include_indexes:

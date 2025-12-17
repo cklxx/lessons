@@ -78,7 +78,7 @@
 
 | # | Score | Title | Tags | Notes | Source | Score breakdown |
 | --- | --- | --- | --- | --- | --- | --- |
-| 1 | 8.40 | [[2005.11401] Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks](sources/md/arxiv-org-abs-2005-11401-02ad74cdb0c9.md) | RAG, 检索增强生成, 大型语言模型, 知识密集型任务, NLP, 问答, 生成模型, DPR, BART, NeurIPS | [note](notes/ref-024-rag-paper.md) | [link](https://arxiv.org/abs/2005.11401) | R 9.0 / A 9.0 / Re 5.0 / D 9.0 / Ac 9.0 |
-| 2 | 8.00 | [now publishers - The Probabilistic Relevance Framework: BM25 and Beyond](sources/md/www-nowpublishers-com-article-details-inr-019-5b5f92061906.md) | 概率相关性框架, PRF, BM25, BM25F, 信息检索, 文档检索, 搜索算法, RAG, 文本挖掘, 算法原理 | [note](notes/ref-027-bm25.md) | [link](https://www.nowpublishers.com/article/Details/INR-019) | R 9.0 / A 10.0 / Re 3.0 / D 9.0 / Ac 7.0 |
-| 3 | 6.15 | [Redirecting to LangGraph Documentation](sources/md/langchain-ai-github-io-langgraph-e95d095a4970.md) | LangGraph, 文档, 重定向, LangChain, 代理, AI | [note](notes/ref-060-langgraph.md) | [link](https://langchain-ai.github.io/langgraph/) | R 6.0 / A 9.0 / Re 9.0 / D 2.0 / Ac 4.0 |
+| 1 | 8.75 | [LangGraph overview - Docs by LangChain](sources/md/docs-langchain-com-oss-python-langgraph-overview-38f4f5c73818.md) | LangGraph, LangChain, 代理, 编排, LLM, 状态管理, 持久执行, 人工干预, 内存, 部署 | [note](notes/ref-060-langgraph.md) | [link](https://docs.langchain.com/oss/python/langgraph/overview/) | R 9.0 / A 10.0 / Re 9.0 / D 7.0 / Ac 8.0 |
+| 2 | 8.40 | [[2005.11401] Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks](sources/md/arxiv-org-abs-2005-11401-02ad74cdb0c9.md) | RAG, 检索增强生成, 大型语言模型, 知识密集型任务, NLP, 问答, 生成模型, DPR, BART, NeurIPS | [note](notes/ref-024-rag-paper.md) | [link](https://arxiv.org/abs/2005.11401) | R 9.0 / A 9.0 / Re 5.0 / D 9.0 / Ac 9.0 |
+| 3 | 8.00 | [now publishers - The Probabilistic Relevance Framework: BM25 and Beyond](sources/md/www-nowpublishers-com-article-details-inr-019-5b5f92061906.md) | 概率相关性框架, PRF, BM25, BM25F, 信息检索, 文档检索, 搜索算法, RAG, 文本挖掘, 算法原理 | [note](notes/ref-027-bm25.md) | [link](https://www.nowpublishers.com/article/Details/INR-019) | R 9.0 / A 10.0 / Re 3.0 / D 9.0 / Ac 7.0 |
 
