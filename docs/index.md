@@ -54,11 +54,11 @@
 
 | 你的目标 | 建议先读 | 读完你应该得到的产物 |
 |---|---|---|
-| 产品落地 | [第 1 章：需求](books/ai-assisted-software-product/chapter-01-demand.md) → [第 2 章：PRD](books/ai-assisted-software-product/chapter-02-prd.md) → [第 3 章：UI](books/ai-assisted-software-product/chapter-03-ui.md) | PRD + 原型 + 验收清单 |
-| 流程化开发 | [第 4 章：工作流](books/ai-assisted-software-product/chapter-04-workflow.md) → [模板库](books/ai-assisted-software-product/A-templates.md) | Prompt/任务模板 + 回归门禁 |
-| RAG / Agent | [第 6 章：RAG](books/ai-assisted-software-product/chapter-06-rag.md) → [第 7 章：Agent](books/ai-assisted-software-product/chapter-07-agent.md) | 检索评估 + 失败模式 + 回滚策略 |
-| 训练 / 部署 | [第 8 章：数据](books/ai-assisted-software-product/chapter-08-data.md) → [第 9 章：预训练](books/ai-assisted-software-product/chapter-09-pretrain.md) → [第 10 章：后训练](books/ai-assisted-software-product/chapter-10-posttrain.md) | 数据/模型卡 + 阈值门禁 + 审计链 |
-| 线上治理 | [第 11 章：推理](books/ai-assisted-software-product/chapter-11-inference.md) → [第 12 章：LLMOps](books/ai-assisted-software-product/chapter-12-llmops.md) | 灰度/回滚 Runbook + 监控口径 |
+| 产品落地 | [第 2 章：需求挖掘](books/ai-assisted-software-product/02-discovery.md) → [第 3 章：PRD](books/ai-assisted-software-product/03-prd.md) → [第 4 章：原型](books/ai-assisted-software-product/04-prototype.md) → [第 5 章：验证与打磨](books/ai-assisted-software-product/05-validation.md) → [第 6 章：UI](books/ai-assisted-software-product/06-ui.md) | PRD + 原型验证记录 + 迭代卡片 + 验收清单 |
+| 流程化开发 | [第 7 章：工程化](books/ai-assisted-software-product/07-engineering.md) → [模板库](books/ai-assisted-software-product/A-templates.md) | 质量门禁 + 回归/回滚协议 |
+| RAG / Agent | [第 10 章：总览](books/ai-assisted-software-product/10-agent-rag.md) → [RAG 深入](books/ai-assisted-software-product/10-agent-rag-rag.md) → [Agent 深入](books/ai-assisted-software-product/10-agent-rag-agent.md) | 证据链 + 工具边界 + 回归基线 |
+| 训练 / 推理 | [第 13 章：数据](books/ai-assisted-software-product/13-data.md) → [第 14 章：预训练](books/ai-assisted-software-product/14-pretrain.md) → [第 15 章：后训练](books/ai-assisted-software-product/15-posttrain-rl.md) → [第 16 章：推理](books/ai-assisted-software-product/16-inference.md) | 数据/模型资产 + 对比表 + 回滚策略 |
+| 线上治理 | [第 17 章：部署与运维](books/ai-assisted-software-product/17-deployment.md) → [第 18 章：评测](books/ai-assisted-software-product/18-evaluation.md) → [第 20 章：合规](books/ai-assisted-software-product/20-governance.md) | 灰度/回滚 Runbook + 评测门禁 + 审计边界 |
 
 ## 快捷入口
 

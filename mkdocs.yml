@@ -24,7 +24,7 @@ extra_css:
 plugins:
   - search
 exclude_docs: |
-  books/ai-assisted-software-product/[0-9][0-9]-*.md
+  books/ai-assisted-software-product/drafts/*.md
 markdown_extensions:
   - toc:
       permalink: true
@@ -39,18 +39,28 @@ nav:
           - 总览: books/ai-assisted-software-product/index.md
           - 精华版（打印友好）: books/ai-assisted-software-product/condensed-master-guide.md
           - 序言：一人即是一支队伍: books/ai-assisted-software-product/preface.md
-          - 第 1 章：需求挖掘与市场验证: books/ai-assisted-software-product/chapter-01-demand.md
-          - 第 2 章：PRD 自动化与架构蓝图: books/ai-assisted-software-product/chapter-02-prd.md
-          - 第 3 章：生成式 UI/UX 设计: books/ai-assisted-software-product/chapter-03-ui.md
-          - 第 4 章：AI 辅助的高效编码工作流: books/ai-assisted-software-product/chapter-04-workflow.md
-          - 第 5 章：后端核心模块实战: books/ai-assisted-software-product/chapter-05-backend.md
-          - 第 6 章：RAG —— 赋予 AI 记忆: books/ai-assisted-software-product/chapter-06-rag.md
-          - 第 7 章：Agent —— 赋予 AI 手脚: books/ai-assisted-software-product/chapter-07-agent.md
-          - 第 8 章：数据工程 —— 训练的燃料: books/ai-assisted-software-product/chapter-08-data.md
-          - 第 9 章：LLM 预训练与增量预训练: books/ai-assisted-software-product/chapter-09-pretrain.md
-          - 第 10 章：后训练 —— 微调与对齐: books/ai-assisted-software-product/chapter-10-posttrain.md
-          - 第 11 章：推理加速与生产级部署: books/ai-assisted-software-product/chapter-11-inference.md
-          - 第 12 章：LLMOps —— 监控与评估: books/ai-assisted-software-product/chapter-12-llmops.md
+          - 第 1 章：全流程方法论与 AI 工作台: books/ai-assisted-software-product/01-method.md
+          - 第 2 章：需求挖掘：从问题到机会: books/ai-assisted-software-product/02-discovery.md
+          - 第 3 章：PRD 书写：从愿景到验收: books/ai-assisted-software-product/03-prd.md
+          - 第 4 章：原型与信息架构：用最小成本验证: books/ai-assisted-software-product/04-prototype.md
+          - 第 5 章：产品验证与打磨：把 0→1 做成闭环: books/ai-assisted-software-product/05-validation.md
+          - 第 6 章：UI 设计：设计系统、交互与可访问性: books/ai-assisted-software-product/06-ui.md
+          - 第 7 章：工程化与代码编程：把 AI 纳入流水线: books/ai-assisted-software-product/07-engineering.md
+          - 第 8 章：前端实现：组件化、状态与体验指标: books/ai-assisted-software-product/08-frontend.md
+          - 第 9 章：后端架构：服务边界、数据与可观测性: books/ai-assisted-software-product/09-backend.md
+          - 第 10 章：Agent 架构与 RAG（总览）: books/ai-assisted-software-product/10-agent-rag.md
+          - 第 10 章（RAG 深入）: books/ai-assisted-software-product/10-agent-rag-rag.md
+          - 第 10 章（Agent 深入）: books/ai-assisted-software-product/10-agent-rag-agent.md
+          - 第 11 章：用户模块：认证、授权与审计: books/ai-assisted-software-product/11-user.md
+          - 第 12 章：付费模块：订阅、计费与风控: books/ai-assisted-software-product/12-billing.md
+          - 第 13 章：数据收集与清洗：从语料到可训练数据集: books/ai-assisted-software-product/13-data.md
+          - 第 14 章：预训练：目标、栈与成本核算: books/ai-assisted-software-product/14-pretrain.md
+          - 第 15 章：后训练：SFT/DPO/RLHF 与 Agent 强化学习: books/ai-assisted-software-product/15-posttrain-rl.md
+          - 第 16 章：推理优化：延迟、吞吐与成本: books/ai-assisted-software-product/16-inference.md
+          - 第 17 章：部署与运维：灰度、监控与迭代: books/ai-assisted-software-product/17-deployment.md
+          - 第 18 章：评测体系：离线/在线、红队与回归: books/ai-assisted-software-product/18-evaluation.md
+          - 第 19 章：迭代与增长：路线图、实验与定价: books/ai-assisted-software-product/19-iteration.md
+          - 第 20 章：合规与伦理：数据、版权与安全: books/ai-assisted-software-product/20-governance.md
           - 结语：通往 AGI 时代的船票: books/ai-assisted-software-product/conclusion.md
           - 术语表（Glossary）: books/ai-assisted-software-product/glossary.md
           - 参考文献: books/ai-assisted-software-product/references.md
