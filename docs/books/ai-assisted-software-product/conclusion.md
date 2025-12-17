@@ -1,4 +1,5 @@
 # 结语：通往 AGI 时代的船票
+![Conclusion Header](../../assets/figure-placeholder.svg)
 
 > 本书不是终点，而是一套可迁移的工程与实验方法：在不确定的模型迭代中，用证据驱动决策，用自动化守住质量。[4][5][6]
 

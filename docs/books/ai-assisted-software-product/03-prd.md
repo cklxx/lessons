@@ -1,4 +1,4 @@
-# 第 3 章：PRD 书写：从愿景到验收
+# 第 3 章：PRD 与工程合同（Definition）![Chapter 3 Header](../../assets/figure-placeholder.svg)书写：从愿景到验收
 
 > PRD 不是“需求作文”，而是一份可裁决的合同：它要让争议有裁判，让交付有门槛，让回滚有预案。写得短可以，但不能写得含糊。[11][12]
 

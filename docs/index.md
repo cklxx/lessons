@@ -67,9 +67,3 @@
 - [AI 辅助写作 SOP：如何用模型做校对与补强](books/ai-assisted-software-product/ai-editor-sop.md)
 - [路线图（Roadmap）：后续更新计划](books/ai-assisted-software-product/writing-backlog.md)
 
-<div class="fineprint">
-  <p><strong>提示</strong>：支持全文搜索与目录大纲，适合“随用随查”。</p>
-  <p><strong>本地预览</strong>：<code>pip install -r requirements.txt</code> → <code>mkdocs serve</code>（<code>http://127.0.0.1:8000</code>）。</p>
-  <p><strong>发布</strong>：推送 <code>main</code> 由 GitHub Actions 自动构建；发布前自检可跑 <code>mkdocs build --strict</code>。</p>
-  <p><strong>章节结构</strong>：定位 → 最小路径 → 验收/门禁 → 失败模式 → 回归/回滚。</p>
-</div>
