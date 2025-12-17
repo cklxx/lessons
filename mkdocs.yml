@@ -1,7 +1,8 @@
-site_name: My Library
-site_description: Personal collection of books and lessons
-site_url: https://example.github.io/lessons
-repo_url: https://github.com/example/lessons
+site_name: 我的数字书架
+site_description: 基于 MkDocs Material 的个人数字书架/笔记库
+site_url: https://cklxx.github.io/lessons/
+repo_url: https://github.com/cklxx/lessons
+repo_name: cklxx/lessons
 edit_uri: edit/main/docs/
 theme:
   name: material
@@ -61,3 +62,6 @@ nav:
           - 附录 A：模板库: books/ai-assisted-software-product/A-templates.md
           - 附录 B：提示词与工作流配方: books/ai-assisted-software-product/B-prompts.md
           - 附录 C：上线清单: books/ai-assisted-software-product/C-checklists.md
+  - 资料池:
+      - AI 辅助软件产品 / 资料池说明: materials/ai-assisted-software-product/README.md
+      - AI 辅助软件产品 / 精选资料: materials/ai-assisted-software-product/filtered/top-resources.md

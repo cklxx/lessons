@@ -18,10 +18,18 @@
 2. **流程与时序：** 先写文字用例，再自动转 Mermaid/PlantUML；必须包含失败/补偿路径。[12]
 3. **数据建模：** 从领域事件推导聚合与边界上下文，生成 SQL/NoSQL 对照方案，明确索引与容量预算。[13]
 
-![图：PRD 到 Schema 的自动化流水线](../../assets/fig-placeholder.svg)
+```text
+需求对话/用例清单
+  → PRD（YAML/JSON，Schema 校验）
+  → 流程/时序图（覆盖失败与补偿）
+  → OpenAPI（lint + 生成 SDK/契约测试）
+  → DB Schema（DDL + 索引 + 容量假设）
+  → 基准/压测（P50/P95 + 成本）
+  → 评审（决策编号 + 变更记录）
+  ※ 任一环节失败：阻断合并/发布，回到上一步修正
+```
 
-*图：从 YAML PRD 到 Schema/基准的自动化流水线*
-<!-- TODO: replace figure with a pipeline diagram for Ch02 -->
+*图 2-1：从 YAML PRD 到 Schema/基准的自动化流水线（纯文本示意）*
 
 ## 典型场景
 - **MVP 规划：** 两小时内完成登录、支付、内容推荐的全链路 PRD 草稿并自动校验必填字段。

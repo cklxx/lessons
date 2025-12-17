@@ -7,8 +7,9 @@
     <p class="subtitle">不仅是教程，更是一套可直接拷贝复用的资产：需求模板、验收清单、失败模式库、门禁阈值与回滚策略。</p>
     <div class="hero-actions">
       <a class="md-button md-button--primary" href="books/ai-assisted-software-product/">开始阅读：AI 辅助完成软件产品</a>
-      <a class="md-button" href="#guide-path">按角色选路径</a>
-      <a class="md-button" href="#quickstart">本地构建</a>
+      <a class="md-button" href="./#guide-path">阅读路径</a>
+      <a class="md-button" href="materials/ai-assisted-software-product/filtered/top-resources/">精选资料</a>
+      <a class="md-button" href="./#quickstart">本地预览</a>
     </div>
   </div>
   <div class="hero-card">
@@ -30,10 +31,16 @@
 - **示例（可复制）优先**：尽量把“怎么做”写成可以直接拷贝到你项目里的骨架（目录、字段、门禁与报告）。
 - **图文并茂**：重要闭环优先用图或表表达；你可以把图替换成真实截图或你的架构图。
 
-![图：写作结构与验收闭环（占位）](assets/fig-placeholder.svg)
+```text
+方法论（原则与边界）
+  → 模板（可复制的标准块）
+  → 示例（可复现的最小路径）
+  → 验证（命令/指标/失败判定）
+  → 回归（门禁/基线对比/回滚）
+  → 复盘（决策记录与证据链）
+```
 
-*图 0-1：写作结构与验收闭环——方法论→模板→示例→验证→回归（示意）*
-<!-- TODO: replace with a real diagram (e.g., my writing workflow / review loop) -->
+*图 0-1：写作结构与验收闭环——方法论→模板→示例→验证→回归*
 
 ## 目录总览（当前重点）
 
@@ -59,6 +66,12 @@
     <h3>示例书（模板）</h3>
     <p>最小可用的书籍结构（封面/章节/导航），适合作为“新书起点”。</p>
     <a class="text-link" href="books/example-book/">快速浏览 →</a>
+  </div>
+  <div class="glass-card">
+    <p class="eyebrow">资料池 · 延伸阅读</p>
+    <h3>精选资料：按章可直接用</h3>
+    <p>从全书参考文献与标准中，提取“最值得优先读”的权威资料，并按章节主题归类。</p>
+    <a class="text-link" href="materials/ai-assisted-software-product/filtered/top-resources/">打开精选资料 →</a>
   </div>
 </div>
 

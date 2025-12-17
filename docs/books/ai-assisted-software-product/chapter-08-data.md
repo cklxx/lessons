@@ -18,10 +18,19 @@
 2. **质量控制：** 去重、有害内容过滤、格式标准化；质量指标纳入 CI。[35]
 3. **数据合成：** 用强模型生成指令/对话，增加多样性与难度，人工抽样验收。[36]
 
-![图：数据工程端到端管线](../../assets/fig-placeholder.svg)
+```text
+采集与存证（hash + 许可证 + 时间窗）
+  → 隔离（许可不明/高风险 → quarantine/）
+  → 清洗（去噪/结构化）
+  → 去重（MinHash/LSH，输出重复率）
+  → 过滤（有害内容/PII/secret，输出过滤率）
+  → 格式化（JSONL + schema 校验）
+  → 抽检与审计（分层抽样 + reject_reason）
+  → 版本化（快照 + diff 统计）→ 训练/评测
+                       ↘（不达标/追溯失败）回滚到上一版数据快照
+```
 
-*图 8-1：数据工程端到端管线——采集与存证、去重与有害内容过滤、脱敏、格式化、抽样审查与版本化回滚（示意）*
-<!-- TODO: replace with your own data pipeline diagram (sources -> quarantine -> cleaned -> training jsonl -> reports) -->
+*图 8-1：数据工程端到端管线——采集与存证、去重与有害内容过滤、脱敏、格式化、抽样审查与版本化回滚（纯文本示意）*
 
 ## 实战路径
 ```text
@@ -142,10 +151,15 @@ PII 过滤的最小“禁区清单”（示例，按地区合规要求补齐）�
 - Evol-Instruct：在原指令基础上增加复杂度（多约束、多轮上下文），提升模型推理能力。[66]
 - 对合成样本抽样人工复核，记录拒绝/修改原因，形成反馈数据。
 
-![图：合成数据的生成与审计闭环](../../assets/fig-placeholder.svg)
+```text
+生成（记录 model_version + prompt_version + cost）
+  → 过滤（安全/重复/格式；不合格进 quarantine/）
+  → 抽检（人工复核 + reject_reason）
+  → 汇总（失败样本/分布偏差/高频拒绝原因）
+  → 反馈（改提示/改过滤器/补规则）→ 回到“生成”
+```
 
-*图 8-2：合成数据闭环——生成（模型版本与成本记录）→ 过滤（安全/重复/格式）→ 抽检（拒绝原因）→ 反馈回写提示（示意）*
-<!-- TODO: replace with your own synthetic data workflow diagram -->
+*图 8-2：合成数据闭环——生成→过滤→抽检→反馈回写提示（纯文本示意）*
 
 一个可执行的“合成数据提示约定”（示意，避免生成不可审计样本）：[36][66]
 
@@ -158,10 +172,15 @@ PII 过滤的最小“禁区清单”（示例，按地区合规要求补齐）�
 验证：抽样人工审查 50 条，记录拒绝原因（`reject_reason`）分布。
 ```
 
-![图：数据版本化与回滚策略](../../assets/fig-placeholder.svg)
+| 对齐对象 | 最小字段（示例） | 目的 |
+|---|---|---|
+| 数据版本 | `dataset_version` / `snapshot_hash` / `sources` | 可追溯“训练用了哪些数据” |
+| 清洗与过滤 | `dedup_params` / `filter_ruleset_version` / `pii_policy` | 可解释“为什么变了/能否复现” |
+| 训练运行 | `run_id` / `git_sha` / `config_hash` | 可定位到代码与配置 |
+| 模型产物 | `model_version` / `checkpoint` / `artifact_hash` | 可回滚到稳定权重 |
+| 报告证据 | `reports/*` / `sample_audit.csv` | 可离线审查与对比 |
 
-*图 8-3：数据版本化与回滚——快照、差分统计、训练记录对齐（示意）*
-<!-- TODO: replace with a diagram showing dataset versions -> training runs -> model artifacts -->
+*图 8-3：数据版本化与回滚——快照、差分统计、训练记录对齐（表格化示意）*
 
 ## 复现检查（落地建议）
 - `make data-clean`：执行去重、有害内容过滤、PII 过滤与格式化，CI 校验字段与统计。
