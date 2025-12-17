@@ -85,7 +85,7 @@ def hybrid_search(query):
     return reranker.rank(query, dense + sparse)[:5]
 ```
 - **评估：** RAGAS 指标（Context Precision/Answer Relevance），回归基线在 CI 跑分。[28]
-- **验收标准（最低门槛）：** 无引用即视为幻觉，直接打回；改参数必须看对比表（质量/延迟/成本），别凭感觉调优。[24][28]
+- **验收标准（最低门槛）：** 无引用即视为幻觉，强制拦截（例如在 UI 标注“证据不足”并折叠回答）；改参数必须看对比表（质量/延迟/成本），别凭感觉调优。[24][28]
 
 ### 第 7 章 Agent —— 赋予 AI 手脚（速览版）
 - **范式：** ReAct 循环（Thought→Action→Observation），每一步都可观测、可回滚。[29]
@@ -112,7 +112,7 @@ workflow.add_conditional_edges("search", should_continue)
 
 ### 第 10 章 后训练 —— 微调与对齐（速览版）
 - **SFT：** 先从 LoRA/QLoRA 这种低成本方案开始，先跑出对比报告再加预算。[40][47]
-- **DPO：** 用偏好对（chosen/rejected）塑造行为，但必须配合回归与安全门禁。[42]
+- **DPO：** 用偏好对（chosen/rejected）塑造行为；难点通常不在算法，而在构建高质量的偏好对数据；必须配合回归与安全门禁。[42]
 - **模板：**
 ```yaml
 model_name_or_path: meta-llama/Meta-Llama-3-8B-Instruct
