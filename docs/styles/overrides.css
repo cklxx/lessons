@@ -106,3 +106,21 @@
 .md-typeset ul {
   margin-top: 0.4rem;
 }
+
+/* 首页底部补充说明：小字 */
+.fineprint {
+  margin-top: 1.25rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: var(--md-default-fg-color--light);
+}
+
+.fineprint p {
+  margin: 0.4rem 0;
+}
+
+.fineprint code {
+  font-size: 0.95em;
+}
