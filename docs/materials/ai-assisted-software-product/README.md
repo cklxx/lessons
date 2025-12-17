@@ -8,6 +8,7 @@
 - `raw/link-index-batch1.csv`：首批 500 条已评分的外部链接。
 - `raw/link-index-batch2.csv`：第二批去重后的 500 条外部链接，附带每个维度的打分理由。
 - `filtered/`：人工筛选后的清单（可直接用），并补充“为什么值得读/用于哪一章”。
+- `notes/`：从精选资料中再做一层“可复用笔记”（每份资料一篇独立 Markdown），用于写作改写与落地执行。
 
 ## 使用建议
 
@@ -25,4 +26,10 @@
 
 ```bash
 python3 tools/download_materials.py
+```
+
+如果你在公司网络/代理环境下遇到 `CERTIFICATE_VERIFY_FAILED`，可临时使用不校验证书的方式下载（不安全，仅用于离线快照场景）：
+
+```bash
+python3 tools/download_materials.py --insecure
 ```

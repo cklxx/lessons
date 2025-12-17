@@ -5,6 +5,7 @@ import argparse
 import hashlib
 import os
 import re
+import ssl
 import time
 import urllib.error
 import urllib.request
@@ -50,7 +51,9 @@ def _slugify(value: str, max_len: int = 48) -> str:
     return value[:max_len].strip("-")
 
 
-def _download(url: str, out_dir: Path, timeout_s: int, user_agent: str, sleep_ms: int) -> DownloadResult:
+def _download(
+    url: str, out_dir: Path, timeout_s: int, user_agent: str, sleep_ms: int, insecure: bool
+) -> DownloadResult:
     start = time.time()
     status: int | None = None
     target: Path | None = None
@@ -59,7 +62,12 @@ def _download(url: str, out_dir: Path, timeout_s: int, user_agent: str, sleep_ms
 
     try:
         req = urllib.request.Request(url, headers={"User-Agent": user_agent})
-        with urllib.request.urlopen(req, timeout=timeout_s) as resp:
+        context = None
+        if insecure:
+            context = ssl.create_default_context()
+            context.check_hostname = False
+            context.verify_mode = ssl.CERT_NONE
+        with urllib.request.urlopen(req, timeout=timeout_s, context=context) as resp:
             status = getattr(resp, "status", None) or 200
             content = resp.read()
 
@@ -105,6 +113,11 @@ def build_parser() -> argparse.ArgumentParser:
         default="lessons-material-downloader/1.0",
         help="User-Agent header used for HTTP requests.",
     )
+    parser.add_argument(
+        "--insecure",
+        action="store_true",
+        help="Disable TLS certificate verification (useful behind corporate proxies; insecure).",
+    )
     parser.add_argument("--sleep-ms", type=int, default=100, help="Sleep between requests (ms).")
     parser.add_argument("--dry-run", action="store_true", help="Only print extracted URLs; do not download.")
     return parser
@@ -129,9 +142,11 @@ def main() -> int:
     out_dir.mkdir(parents=True, exist_ok=True)
 
     results: list[DownloadResult] = []
+    if args.insecure:
+        print("WARNING: TLS verification disabled (--insecure). Snapshots may be vulnerable to MITM.")
     for i, url in enumerate(urls, start=1):
         print(f"[{i}/{len(urls)}] {url}")
-        results.append(_download(url, out_dir, args.timeout, args.user_agent, args.sleep_ms))
+        results.append(_download(url, out_dir, args.timeout, args.user_agent, args.sleep_ms, args.insecure))
 
     ok = sum(1 for r in results if r.ok)
     failed = len(results) - ok
@@ -166,4 +181,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-
