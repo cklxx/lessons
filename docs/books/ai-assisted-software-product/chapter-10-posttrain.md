@@ -3,7 +3,7 @@
 > 微调不是魔法。你想让模型“更像你要的样子”，前提是你先把“什么算好/什么算坏”变成数据与门禁。[40][41][42]
 
 !!! note "关于复现、目录与 CI"
-    本章中出现的 `make ...`、`CI`、以及示例目录/文件路径（例如 `path/to/file`）均为落地约定，用于说明如何把方法落实到你自己的工程仓库中。本仓库仅提供文档，读者需自行实现或用等价工具链替代。
+    本章中出现的 `make ...`、`CI`、以及示例目录/文件路径（例如 `path/to/file`）均为工程约定，用于演示如何将方法应用到你自己的工程仓库中。本仓库仅提供文档，读者需自行实现或用等价工具链替代。
 
 ## 章节定位
 本章解决“模型适配业务场景、符合价值导向”的问题。你将搭建低成本[后训练（Post-training）](glossary.md#post-training)流水线（含微调与偏好对齐），把失败样本变成可回归资产：数据准备、训练、评估与安全审查一条龙。[40][42]
@@ -217,6 +217,8 @@ accelerate launch sft.py \
 
 ## 资料笔记（可选）
 - [LoRA（低成本微调的起手式）](../../materials/ai-assisted-software-product/notes/ref-040-lora.md)
+- [QLoRA（4-bit 微调）](../../materials/ai-assisted-software-product/notes/ref-047-qlora.md)
+- [RLHF（对齐与回归）](../../materials/ai-assisted-software-product/notes/ref-041-rlhf.md)
 - [DPO（偏好对齐的核心思路与边界）](../../materials/ai-assisted-software-product/notes/ref-042-dpo.md)
 
 ## 参考

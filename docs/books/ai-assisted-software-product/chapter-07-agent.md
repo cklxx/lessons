@@ -3,7 +3,7 @@
 > 让模型别只会“回答”，还会“去查、去做、做完留证据”，并且不越权、不乱用工具。[29][30][31]
 
 !!! note "关于复现、目录与 CI"
-    本章中出现的 `make ...`、`CI`、以及示例目录/文件路径（例如 `path/to/file`）均为落地约定，用于说明如何把方法落实到你自己的工程仓库中。本仓库仅提供文档，读者需自行实现或用等价工具链替代。
+    本章中出现的 `make ...`、`CI`、以及示例目录/文件路径（例如 `path/to/file`）均为工程约定，用于演示如何将方法应用到你自己的工程仓库中。本仓库仅提供文档，读者需自行实现或用等价工具链替代。
 
 ## 章节定位
 本章解决“模型只会说不会做（或做了但不可控）”的问题。你将实现 ReAct/工具调用/多智能体协作，重点把工具接口与权限边界写清楚，并用基准任务验证 [Agent（智能体）](glossary.md#agent) 的有效性与鲁棒性。[29][31]
@@ -240,6 +240,8 @@ Agent 的评估要同时覆盖三件事：**能否完成任务**、**是否遵�
 
 ## 资料笔记（可选）
 - [ReAct（推理—行动—观察循环）](../../materials/ai-assisted-software-product/notes/ref-029-react.md)
+- [AutoGen（多智能体协作）](../../materials/ai-assisted-software-product/notes/ref-030-autogen.md)
+- [Tool Use / Function Calling（工具调用接口）](../../materials/ai-assisted-software-product/notes/ref-031-openai-tool-use.md)
 - [LangGraph（把 Agent 画成可回归的工作流）](../../materials/ai-assisted-software-product/notes/ref-060-langgraph.md)
 - [OpenTelemetry（工具调用链路的 trace/log 语义）](../../materials/ai-assisted-software-product/notes/ref-061-opentelemetry.md)
 

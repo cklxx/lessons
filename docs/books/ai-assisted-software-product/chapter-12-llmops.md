@@ -3,7 +3,7 @@
 > 上线才开始算账就晚了。本章把评估、观测与安全做成日常门槛：退化就告警，严重就阻断与回滚。[28][50][51][61][62]
 
 !!! note "关于复现、目录与 CI"
-    本章中出现的 `make ...`、`CI`、以及示例目录/文件路径（例如 `path/to/file`）均为落地约定，用于说明如何把方法落实到你自己的工程仓库中。本仓库仅提供文档，读者需自行实现或用等价工具链替代。
+    本章中出现的 `make ...`、`CI`、以及示例目录/文件路径（例如 `path/to/file`）均为工程约定，用于演示如何将方法应用到你自己的工程仓库中。本仓库仅提供文档，读者需自行实现或用等价工具链替代。
 
 ## 章节定位
 本章解决“上线后怎么管”的问题。你将构建自动化评估、观测与安全监控体系，把 RAG/Agent/推理的关键指标纳入日常运维，让“质量回退/成本爆炸/越狱成功”都能被及时发现与处置。[28][50]
@@ -196,7 +196,10 @@ make llmops-eval
 ## 资料笔记（可选）
 - [RAGAS（离线评估与回归门禁）](../../materials/ai-assisted-software-product/notes/ref-028-ragas.md)
 - [LLM-as-a-Judge（能用在哪、不能用在哪）](../../materials/ai-assisted-software-product/notes/ref-050-llm-as-a-judge.md)
+- [Guardrails（护栏与安全）](../../materials/ai-assisted-software-product/notes/ref-051-guardrails.md)
 - [OpenTelemetry（观测口径与链路追踪）](../../materials/ai-assisted-software-product/notes/ref-061-opentelemetry.md)
+- [Prometheus（指标监控）](../../materials/ai-assisted-software-product/notes/ref-062-prometheus.md)
+- [Grafana（可视化看板）](../../materials/ai-assisted-software-product/notes/ref-064-grafana.md)
 - [OWASP ASVS（安全检查项怎么落地到门禁）](../../materials/ai-assisted-software-product/notes/ref-068-owasp-asvs.md)
 
 ## 参考

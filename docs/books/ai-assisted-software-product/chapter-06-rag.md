@@ -3,7 +3,7 @@
 > RAG 的目标很朴素：不知道就说不知道；知道就把证据贴出来。本章把“带引用的回答”做成可测试、可迭代的系统能力。[24][25][27][28]
 
 !!! note "关于复现、目录与 CI"
-    本章中出现的 `make ...`、`CI`、以及示例目录/文件路径（例如 `path/to/file`）均为落地约定，用于说明如何把方法落实到你自己的工程仓库中。本仓库仅提供文档，读者需自行实现或用等价工具链替代。
+    本章中出现的 `make ...`、`CI`、以及示例目录/文件路径（例如 `path/to/file`）均为工程约定，用于演示如何将方法应用到你自己的工程仓库中。本仓库仅提供文档，读者需自行实现或用等价工具链替代。
 
 ## 章节定位
 本章解决“模型记不住/答不准/答得像但没证据”的问题。你将搭建完整的 [RAG](glossary.md#rag) 管线：数据清洗、切分、索引、检索、重排序与引用追踪，并用自动化评估量化优化效果，避免调参变成玄学。[24][28]
@@ -207,6 +207,8 @@ print(query_engine.query("How to handle retries?"))
 
 ## 资料笔记（可选）
 - [RAG 原始论文（系统分工与证据链）](../../materials/ai-assisted-software-product/notes/ref-024-rag-paper.md)
+- [BM25（关键词检索的底盘）](../../materials/ai-assisted-software-product/notes/ref-027-bm25.md)
+- [FAISS（向量相似检索的工业级底座）](../../materials/ai-assisted-software-product/notes/ref-025-faiss.md)
 - [RAGAS（把评估做成回归门禁）](../../materials/ai-assisted-software-product/notes/ref-028-ragas.md)
 
 ## 参考

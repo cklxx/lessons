@@ -3,8 +3,9 @@
 > 本清单用于把“下一步写什么、怎么验收”结构化；默认以 `chapter-*.md` 为正文，`01-*.md` 为写作底稿（不参与站点导航）。
 
 ## 状态快照（2025-12-17）
-- **资料笔记**：新增 `docs/materials/ai-assisted-software-product/notes/`，已把核心参考文献整理成“单资料单页”笔记；并在各章新增“资料笔记（可选）”回链，便于读者按需深挖。
-- **离线下载**：`tools/download_materials.py` 新增 `--insecure`，用于解决部分代理环境的 `CERTIFICATE_VERIFY_FAILED`（仅用于离线快照，默认仍安全校验）。
+- **资料笔记**：扩展 `docs/materials/ai-assisted-software-product/notes/` 覆盖范围，已把关键论文/标准/工具整理成“单资料单页”笔记；并在各章新增“资料笔记（可选）”回链，便于读者按需深挖。
+- **精选资料清单**：`filtered/top-resources.md` 已为条目补齐笔记链接，并统一“笔记”链接样式（减少视觉噪声）。
+- **离线下载**：`tools/download_materials.py` 新增 `--insecure`，用于解决部分代理环境的 `CERTIFICATE_VERIFY_FAILED`（仅用于离线快照，默认仍安全校验）；少数站点可能返回 403，需要另行处理或跳过。
 - **章节骨架**：`chapter-01` ~ `chapter-12` 继续保持统一一级结构，并对开头文风做了“更说人话”的改写（重点：第 1 章 + 精华版）。
 - **可复制示例**：每章已有 “示例（可复制）” 的选题与字段骨架，但仍有不少示例需要进一步“跑通感”（更像读者能直接照着做）。
 

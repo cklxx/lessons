@@ -3,7 +3,7 @@
 > 上线后最常见的抱怨只有一句：又慢又贵。本章把“更快、更省、更稳”写成可对比、可回滚的部署闭环。[45][46][48][49][59][63]
 
 !!! note "关于复现、目录与 CI"
-    本章中出现的 `make ...`、`CI`、以及示例目录/文件路径（例如 `path/to/file`）均为落地约定，用于说明如何把方法落实到你自己的工程仓库中。本仓库仅提供文档，读者需自行实现或用等价工具链替代。
+    本章中出现的 `make ...`、`CI`、以及示例目录/文件路径（例如 `path/to/file`）均为工程约定，用于演示如何将方法应用到你自己的工程仓库中。本仓库仅提供文档，读者需自行实现或用等价工具链替代。
 
 ## 章节定位
 本章解决“上线后又慢又贵”的问题。你将对比不同推理引擎与量化方案，完成容器化部署，并通过压测与观测确保 SLA；不达标就回滚，而不是硬扛。[45][48]
@@ -207,6 +207,11 @@ vA（稳定） + vB（候选）
 
 ## 资料笔记（可选）
 - [vLLM（吞吐提升的关键点与误区）](../../materials/ai-assisted-software-product/notes/ref-045-vllm.md)
+- [TensorRT-LLM（推理优化）](../../materials/ai-assisted-software-product/notes/ref-046-tensorrt-llm.md)
+- [GPTQ（后训练量化）](../../materials/ai-assisted-software-product/notes/ref-048-gptq.md)
+- [AWQ（后训练量化）](../../materials/ai-assisted-software-product/notes/ref-059-awq.md)
+- [TGI（推理服务）](../../materials/ai-assisted-software-product/notes/ref-049-tgi.md)
+- [KServe（推理服务编排）](../../materials/ai-assisted-software-product/notes/ref-063-kserve.md)
 - [OpenTelemetry（把推理请求的成本与链路串起来）](../../materials/ai-assisted-software-product/notes/ref-061-opentelemetry.md)
 
 ## 参考

@@ -3,7 +3,7 @@
 > 后端最怕三件事：权限乱、钱对不上、出了事查不清。本章用可验收的清单把这些底线守住。[20][22][23]
 
 !!! note "关于复现、目录与 CI"
-    本章中出现的 `make ...`、`CI`、以及示例目录/文件路径（例如 `path/to/file`）均为落地约定，用于说明如何把方法落实到你自己的工程仓库中。本仓库仅提供文档，读者需自行实现或用等价工具链替代。
+    本章中出现的 `make ...`、`CI`、以及示例目录/文件路径（例如 `path/to/file`）均为工程约定，用于演示如何将方法应用到你自己的工程仓库中。本仓库仅提供文档，读者需自行实现或用等价工具链替代。
 
 ## 章节定位
 本章回答“如何让产品可上线并守住底线”。我们以典型 Web API 为背景，给出后端最小骨架：接口契约、身份与授权、计费/配额、Webhook 安全、审计与可观测性。重点讲可迁移的模式与验收标准，而不是某个框架的固定写法。[20][22][23][61][62][64]
@@ -270,6 +270,7 @@ def handle_webhook(headers, body):
 ## 资料笔记（可选）
 - [OWASP ASVS（把安全写成验收项）](../../materials/ai-assisted-software-product/notes/ref-068-owasp-asvs.md)
 - [OpenTelemetry（把一次请求的全链路串起来）](../../materials/ai-assisted-software-product/notes/ref-061-opentelemetry.md)
+- [OpenAPI（接口契约）](../../materials/ai-assisted-software-product/notes/ref-067-openapi-spec.md)
 
 ## 参考
 详见本书统一参考文献列表：[`references.md`](references.md)。

@@ -3,7 +3,7 @@
 > 好看不难，难的是“别人也用得了、下次改了也不会退化”。本章把设计做成可回归的工程产物。[14][15][17]
 
 !!! note "关于复现、目录与 CI"
-    本章中出现的 `make ...`、`CI`、以及示例目录/文件路径（例如 `path/to/file`）均为落地约定，用于说明如何把方法落实到你自己的工程仓库中。本仓库仅提供文档，读者需自行实现或用等价工具链替代。
+    本章中出现的 `make ...`、`CI`、以及示例目录/文件路径（例如 `path/to/file`）均为工程约定，用于演示如何将方法应用到你自己的工程仓库中。本仓库仅提供文档，读者需自行实现或用等价工具链替代。
 
 ## 章节定位
 本章解决“从灵感到可上线 UI”的断层：你会用生成式模型快速出风格，用自动化检查守住可访问性与回归，把设计从“一次性截图”变成“能长期维护的组件”。[14][15][16][17]
@@ -128,6 +128,11 @@ make ui-validate
 
 ## 资料笔记（可选）
 - [WCAG 2.2（可访问性底线与验收项）](../../materials/ai-assisted-software-product/notes/ref-017-wcag-2-2.md)
+- [Design Tokens（设计系统的统一语言）](../../materials/ai-assisted-software-product/notes/ref-053-design-tokens.md)
+- [axe-core（可访问性自动化检查）](../../materials/ai-assisted-software-product/notes/ref-054-axe-core.md)
+- [Lighthouse（网页质量评分与门禁）](../../materials/ai-assisted-software-product/notes/ref-055-lighthouse.md)
+- [Storybook Test Runner（组件级回归）](../../materials/ai-assisted-software-product/notes/ref-056-storybook-test-runner.md)
+- [Playwright（端到端回归）](../../materials/ai-assisted-software-product/notes/ref-057-playwright.md)
 
 ## 参考
 详见本书统一参考文献列表：[`references.md`](references.md)。

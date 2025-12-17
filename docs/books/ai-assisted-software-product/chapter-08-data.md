@@ -3,7 +3,7 @@
 > 垃圾进，垃圾出。想让模型变好，先把数据这关过了：来源清楚、能去重、能脱敏、能回放。[34][35][36]
 
 !!! note "关于复现、目录与 CI"
-    本章中出现的 `make ...`、持续集成（CI）、以及示例目录/文件路径（例如 `path/to/file`）均为落地约定，用于说明如何把方法落实到你自己的工程仓库中。本仓库仅提供文档，读者需自行实现或用等价工具链替代。
+    本章中出现的 `make ...`、持续集成（CI）、以及示例目录/文件路径（例如 `path/to/file`）均为工程约定，用于演示如何将方法应用到你自己的工程仓库中。本仓库仅提供文档，读者需自行实现或用等价工具链替代。
 
 ## 章节定位
 本章奠定“模型好坏先看数据”的基础。你将建立可审计的数据管线（你能说清楚数据从哪来、为什么能用、怎么清洗的），确保版权合规、质量可量化，并通过合成数据放大高质量样本。[34][36]
@@ -204,6 +204,8 @@ PII 过滤的最小“禁区清单”（示例，按地区合规要求补齐）�
 ## 资料笔记（可选）
 - [Datasheets（数据来源/许可/用途的说明模板）](../../materials/ai-assisted-software-product/notes/ref-034-datasheets.md)
 - [数据去重（减少训练污染与评测虚高）](../../materials/ai-assisted-software-product/notes/ref-035-llm-dedup.md)
+- [Self-Instruct（低成本生成指令数据）](../../materials/ai-assisted-software-product/notes/ref-036-self-instruct.md)
+- [WizardLM / Evol-Instruct（进化指令）](../../materials/ai-assisted-software-product/notes/ref-066-wizardlm.md)
 
 ## 参考
 详见本书统一参考文献列表：[`references.md`](references.md)。

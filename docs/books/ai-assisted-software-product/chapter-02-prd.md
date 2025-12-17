@@ -3,7 +3,7 @@
 > PRD 写得再漂亮，只要实现时大家各说各话，就等于白写。本章用“可机读 + 可校验”把歧义压到最小。[11][12]
 
 !!! note "关于复现、目录与 CI"
-    本章中出现的 `make ...`、`CI`、以及示例目录/文件路径（例如 `path/to/file`）均为落地约定，用于说明如何把方法落实到你自己的工程仓库中。本仓库仅提供文档，读者需自行实现或用等价工具链替代。
+    本章中出现的 `make ...`、`CI`、以及示例目录/文件路径（例如 `path/to/file`）均为工程约定，用于演示如何将方法应用到你自己的工程仓库中。本仓库仅提供文档，读者需自行实现或用等价工具链替代。
 
 ## 章节定位
 从“想做什么”到“怎么做、怎么验收”的桥梁。你会把 PRD 从口头描述升级成三类可执行产物：结构化 PRD（能校验字段）、流程/时序图（能渲染且覆盖失败路径）、数据库 Schema（能解释访问模式与容量预算）。[11][12][13]
@@ -146,6 +146,7 @@ for path in pathlib.Path("prd").glob("*.yml"):
 ## 资料笔记（可选）
 - [持续交付（把校验与回滚写成流水线）](../../materials/ai-assisted-software-product/notes/ref-005-continuous-delivery.md)
 - [Accelerate（用指标定义门禁，而非口头评审）](../../materials/ai-assisted-software-product/notes/ref-006-accelerate.md)
+- [OpenAPI（接口契约）](../../materials/ai-assisted-software-product/notes/ref-067-openapi-spec.md)
 
 ## 参考
 详见本书统一参考文献列表：[`references.md`](references.md)。
