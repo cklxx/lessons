@@ -1,7 +1,7 @@
 # KServe
 
 - URL: https://kserve.github.io/website/
-- Retrieved: 2025-12-17T16:14:01.476726+00:00
+- Retrieved: 2025-12-17T17:03:43.771320+00:00
 
 [Skip to main content](#__docusaurus_skipToContent_fallback)
 🎉️ **[KServe has joined CNCF!](https://www.cncf.io/blog/2025/11/11/kserve-becomes-a-cncf-incubating-project/)** 🥳️

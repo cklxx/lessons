@@ -1,7 +1,7 @@
 # The Lean Startup | The Movement That Is Transforming How New Products Are Built And Launched
 
 - URL: https://theleanstartup.com/
-- Retrieved: 2025-12-17T16:08:48.938411+00:00
+- Retrieved: 2025-12-17T16:57:12.477841+00:00
 
 # The Lean Startup
 ## The Movement That is Transforming How   

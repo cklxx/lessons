@@ -1,7 +1,7 @@
 # Fast and reliable end-to-end testing for modern web apps | Playwright
 
 - URL: https://playwright.dev/
-- Retrieved: 2025-12-17T16:14:27.551459+00:00
+- Retrieved: 2025-12-17T17:05:18.578158+00:00
 
 Fast and reliable end-to-end testing for modern web apps | Playwright
 [Skip to main content](#__docusaurus_skipToContent_fallback)

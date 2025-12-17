@@ -2,14 +2,10 @@
 
 - URL: https://arxiv.org/abs/2212.10560
 - PDF: https://arxiv.org/pdf/2212.10560.pdf
-- Retrieved: 2025-12-17T16:10:21.019251+00:00
+- Retrieved: 2025-12-17T16:59:46.747755+00:00
 
 ## Abstract page (HTML → Markdown)
 
-[](#)
-## Happy Open Access Week from arXiv!
-YOU make open access possible! Tell us why you support #openaccess and give to arXiv this week to help keep science open for all.
-[**Donate!**](https://arxiv.salsalabs.org/arXivOAWeek2025)
 [Skip to main content](#content)
 [](https://www.cornell.edu/)
 We gratefully acknowledge support from the Simons Foundation, [member institutions](https://info.arxiv.org/about/ourmembers.html), and all contributors. [Donate](https://info.arxiv.org/about/donate.html)

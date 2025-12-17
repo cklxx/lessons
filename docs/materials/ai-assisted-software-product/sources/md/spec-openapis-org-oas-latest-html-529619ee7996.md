@@ -1,7 +1,7 @@
 # OpenAPI Specification v3.2.0
 
 - URL: https://spec.openapis.org/oas/latest.html
-- Retrieved: 2025-12-17T16:08:58.191668+00:00
+- Retrieved: 2025-12-17T16:57:21.644082+00:00
 
 [ ](https://openapis.org/)
 # OpenAPI Specification v3.2.0 

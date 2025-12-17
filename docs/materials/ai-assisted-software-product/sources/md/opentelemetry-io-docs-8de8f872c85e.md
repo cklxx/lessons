@@ -1,7 +1,7 @@
 # Documentation | OpenTelemetry
 
 - URL: https://opentelemetry.io/docs/
-- Retrieved: 2025-12-17T16:14:03.727730+00:00
+- Retrieved: 2025-12-17T17:03:46.536460+00:00
 
 [The OpenTelemetry LogoOpenTelemetry](/)
   * [Docs](/docs/)

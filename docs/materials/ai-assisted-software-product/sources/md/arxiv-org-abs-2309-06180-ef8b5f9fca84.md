@@ -2,7 +2,7 @@
 
 - URL: https://arxiv.org/abs/2309.06180
 - PDF: https://arxiv.org/pdf/2309.06180.pdf
-- Retrieved: 2025-12-17T16:10:55.504912+00:00
+- Retrieved: 2025-12-17T17:00:36.779745+00:00
 
 ## Abstract page (HTML → Markdown)
 

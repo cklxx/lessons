@@ -1,7 +1,7 @@
 # axe-core
 
 - URL: https://github.com/dequelabs/axe-core
-- Retrieved: 2025-12-17T16:14:23.507694+00:00
+- Retrieved: 2025-12-17T17:05:14.474193+00:00
 - Source: GitHub README (via API)
 
 ----

@@ -1,7 +1,7 @@
 # Lighthouse &nbsp;|&nbsp; Chrome for Developers
 
 - URL: https://developer.chrome.com/docs/lighthouse/
-- Retrieved: 2025-12-17T16:14:25.959928+00:00
+- Retrieved: 2025-12-17T17:05:16.753825+00:00
 
 [ Skip to main content ](#main-content)
 [ ](/)

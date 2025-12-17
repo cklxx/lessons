@@ -1,7 +1,7 @@
 # Test runner | Storybook docs
 
 - URL: https://storybook.js.org/docs/writing-tests/integrations/test-runner
-- Retrieved: 2025-12-17T16:14:34.205921+00:00
+- Retrieved: 2025-12-17T17:05:21.618776+00:00
 
 [Storybook MCP sneak peek: Get early access](https://storybook.js.org/blog/storybook-mcp-sneak-peek/)
 [](/)

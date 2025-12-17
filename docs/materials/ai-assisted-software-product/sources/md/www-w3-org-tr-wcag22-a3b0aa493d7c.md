@@ -1,7 +1,7 @@
 # Web Content Accessibility Guidelines (WCAG) 2.2
 
 - URL: https://www.w3.org/TR/WCAG22/
-- Retrieved: 2025-12-17T16:14:18.458794+00:00
+- Retrieved: 2025-12-17T17:05:09.974067+00:00
 
 [ ](https://www.w3.org/)
 # Web Content Accessibility Guidelines (WCAG) 2.2

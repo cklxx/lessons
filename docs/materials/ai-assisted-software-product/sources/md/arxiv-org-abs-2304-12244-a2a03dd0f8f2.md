@@ -2,7 +2,7 @@
 
 - URL: https://arxiv.org/abs/2304.12244
 - PDF: https://arxiv.org/pdf/2304.12244.pdf
-- Retrieved: 2025-12-17T16:10:33.475270+00:00
+- Retrieved: 2025-12-17T16:59:58.688015+00:00
 
 ## Abstract page (HTML → Markdown)
 

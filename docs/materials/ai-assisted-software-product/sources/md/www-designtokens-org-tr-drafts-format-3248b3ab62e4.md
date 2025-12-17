@@ -1,7 +1,7 @@
 # Design Tokens Format Module 2025.10
 
 - URL: https://www.designtokens.org/TR/drafts/format/
-- Retrieved: 2025-12-17T16:14:21.955420+00:00
+- Retrieved: 2025-12-17T17:05:12.857843+00:00
 
 [ ](https://www.designtokens.org)
 # Design Tokens Format Module 2025.10

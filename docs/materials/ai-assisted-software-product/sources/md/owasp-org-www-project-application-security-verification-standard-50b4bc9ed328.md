@@ -1,7 +1,7 @@
 # OWASP Application Security Verification Standard (ASVS) | OWASP Foundation
 
 - URL: https://owasp.org/www-project-application-security-verification-standard/
-- Retrieved: 2025-12-17T16:08:54.922764+00:00
+- Retrieved: 2025-12-17T16:57:18.253279+00:00
 
 [ __](#) [ ](https://owasp.org/)
 [ ](https://owasp.org/)
@@ -336,10 +336,10 @@ Follow the project on Twitter at: [@OWASP_ASVS](https://twitter.com/OWASP_ASVS)
 
 
 ### Leaders
-  * [Daniel Cuthbert](/cdn-cgi/l/email-protection#4327222d2a262f6d2036372b21263137032c342230336d2c3124)
-  * [Jim Manico](/cdn-cgi/l/email-protection#7c16151152111d12151f133c130b1d0f0c52130e1b)
-  * [Elar Lang](/cdn-cgi/l/email-protection#b8ddd4d9cad4d9d6dff8dfd5d9d1d496dbd7d5)
-  * [Josh Grossman](/cdn-cgi/l/email-protection#741e1b071c5a13061b070719151a341b031507045a1b0613)
+  * [Daniel Cuthbert](/cdn-cgi/l/email-protection#89ede8e7e0ece5a7eafcfde1ebecfbfdc9e6fee8faf9a7e6fbee)
+  * [Jim Manico](/cdn-cgi/l/email-protection#d6bcbfbbf8bbb7b8bfb5b996b9a1b7a5a6f8b9a4b1)
+  * [Elar Lang](/cdn-cgi/l/email-protection#4f2a232e3d232e21280f28222e2623612c2022)
+  * [Josh Grossman](/cdn-cgi/l/email-protection#254f4a564d0b42574a565648444b654a524456550b4a5742)
 
 
 ### Working Group

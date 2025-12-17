@@ -1,7 +1,7 @@
 # now publishers - The Probabilistic Relevance Framework: BM25 and Beyond
 
 - URL: https://www.nowpublishers.com/article/Details/INR-019
-- Retrieved: 2025-12-17T16:09:06.463325+00:00
+- Retrieved: 2025-12-17T16:57:32.639394+00:00
 
 [ ](/)
   * [About Us](/Home/About)

@@ -2,7 +2,7 @@
 
 - URL: https://arxiv.org/abs/2005.11401
 - PDF: https://arxiv.org/pdf/2005.11401.pdf
-- Retrieved: 2025-12-17T16:09:03.852433+00:00
+- Retrieved: 2025-12-17T16:57:30.254232+00:00
 
 ## Abstract page (HTML → Markdown)
 

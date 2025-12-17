@@ -1,7 +1,7 @@
 # Text Generation Inference
 
 - URL: https://github.com/huggingface/text-generation-inference
-- Retrieved: 2025-12-17T16:13:59.339390+00:00
+- Retrieved: 2025-12-17T17:03:42.543470+00:00
 - Source: GitHub README (via API)
 
 ----

@@ -1,7 +1,7 @@
 # Grafana OSS and Enterprise | Grafana documentation
 
 - URL: https://grafana.com/docs/grafana/latest/
-- Retrieved: 2025-12-17T16:14:12.317472+00:00
+- Retrieved: 2025-12-17T17:03:54.258469+00:00
 
 Path:
 Copied!

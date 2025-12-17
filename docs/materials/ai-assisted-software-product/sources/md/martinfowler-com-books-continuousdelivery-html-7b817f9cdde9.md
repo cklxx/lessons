@@ -1,7 +1,7 @@
 # Continuous Delivery
 
 - URL: https://martinfowler.com/books/continuousDelivery.html
-- Retrieved: 2025-12-17T16:08:53.153600+00:00
+- Retrieved: 2025-12-17T16:57:16.495969+00:00
 
 [](https://martinfowler.com)
 [](#navmenu-bottom)

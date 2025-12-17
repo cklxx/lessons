@@ -316,6 +316,25 @@ def _snapshot_url(url: str, out_dir: Path, timeout_s: int, user_agent: str) -> S
     )
 
 
+def _read_cached_snapshot(path: Path) -> tuple[SourceType, str | None]:
+    try:
+        text = path.read_text(encoding="utf-8", errors="replace")
+    except Exception:
+        return "unknown", None
+
+    title: str | None = None
+    for line in text.splitlines():
+        if line.startswith("# "):
+            title = line[2:].strip() or None
+            break
+
+    if "Source: GitHub README" in text:
+        return "github_readme", title
+    if re.search(r"(?m)^- PDF:\\s+https?://", text):
+        return "pdf", title
+    return "html", title
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="materials_to_markdown",
@@ -336,6 +355,21 @@ def build_parser() -> argparse.ArgumentParser:
         action="store_true",
         help='Include "raw/" markdown files (WARNING: may be very large, e.g. link indexes).',
     )
+    parser.add_argument(
+        "--include-sources",
+        action="store_true",
+        help='Include already-generated "sources/" markdown snapshots (usually not desired).',
+    )
+    parser.add_argument(
+        "--include-gemini",
+        action="store_true",
+        help='Include already-generated "gemini/" outputs (usually not desired).',
+    )
+    parser.add_argument(
+        "--include-indexes",
+        action="store_true",
+        help='Include generated indexes markdown files (e.g. indexes.md). Usually not desired for URL discovery.',
+    )
     parser.add_argument("--timeout", type=int, default=30, help="Per-request timeout in seconds.")
     parser.add_argument(
         "--user-agent",
@@ -344,6 +378,11 @@ def build_parser() -> argparse.ArgumentParser:
     )
     parser.add_argument("--sleep-ms", type=int, default=150, help="Sleep between requests (ms).")
     parser.add_argument("--max", type=int, default=0, help="Max URLs to snapshot (0 = no limit).")
+    parser.add_argument(
+        "--force",
+        action="store_true",
+        help="Force re-download even if a cached snapshot file already exists.",
+    )
     parser.add_argument("--dry-run", action="store_true", help="Only print extracted URLs; do not fetch.")
     return parser
 
@@ -355,8 +394,17 @@ def main() -> int:
         raise SystemExit(f"Root not found: {root}")
 
     md_files = sorted(root.rglob("*.md"))
+    excluded_parts: set[str] = set()
     if not args.include_raw:
-        md_files = [p for p in md_files if "raw" not in p.parts]
+        excluded_parts.add("raw")
+    if not args.include_sources:
+        excluded_parts.add("sources")
+    if not args.include_gemini:
+        excluded_parts.add("gemini")
+    if excluded_parts:
+        md_files = [p for p in md_files if not any(part in excluded_parts for part in p.parts)]
+    if not args.include_indexes:
+        md_files = [p for p in md_files if p.name != "indexes.md"]
 
     urls: list[str] = []
     for path in md_files:
@@ -382,8 +430,27 @@ def main() -> int:
 
     results: list[SnapshotResult] = []
     for i, url in enumerate(deduped, start=1):
-        print(f"[{i}/{len(deduped)}] {url}")
-        results.append(_snapshot_url(url, out_dir, args.timeout, args.user_agent))
+        slug = _slugify(url)
+        cached_path = out_dir / f"{slug}-{_hash12(url)}.md"
+        if not args.force and cached_path.exists():
+            source_type, title = _read_cached_snapshot(cached_path)
+            print(f"[{i}/{len(deduped)}] {url} (cached)")
+            results.append(
+                SnapshotResult(
+                    url=url,
+                    ok=True,
+                    status=200,
+                    source_type=source_type,
+                    title=title,
+                    out_path=cached_path,
+                    error=None,
+                    elapsed_ms=0,
+                    extra={},
+                )
+            )
+        else:
+            print(f"[{i}/{len(deduped)}] {url}")
+            results.append(_snapshot_url(url, out_dir, args.timeout, args.user_agent))
         if args.sleep_ms > 0:
             time.sleep(args.sleep_ms / 1000)
 
@@ -418,4 +485,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

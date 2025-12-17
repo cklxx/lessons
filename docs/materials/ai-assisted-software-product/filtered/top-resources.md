@@ -18,7 +18,7 @@
 - RAG 原始论文（Lewis et al., 2020）https://arxiv.org/abs/2005.11401 （笔记：[笔记](../notes/ref-024-rag-paper.md)）
 - BM25 综述（Robertson & Zaragoza, 2009）https://www.nowpublishers.com/article/Details/INR-019 （笔记：[笔记](../notes/ref-027-bm25.md)）
 - FAISS（Johnson et al., 2019）https://arxiv.org/abs/1702.08734 （笔记：[笔记](../notes/ref-025-faiss.md)）
-- RAGAS（Li et al., 2024）https://arxiv.org/abs/2402.01761 （笔记：[笔记](../notes/ref-028-ragas.md)）
+- RAGAS（Shahul et al., 2023）https://arxiv.org/abs/2309.15217 （笔记：[笔记](../notes/ref-028-ragas.md)）
 
 ## 第 7 章：Agent（智能体）
 
@@ -30,7 +30,7 @@
 ## 第 8–10 章：数据工程与后训练
 
 - Datasheets for Datasets（Gebru et al., 2021）https://arxiv.org/abs/1803.09010 （笔记：[笔记](../notes/ref-034-datasheets.md)）
-- LLM 数据去重（Mouli et al., 2023）https://arxiv.org/abs/2307.03195 （笔记：[笔记](../notes/ref-035-llm-dedup.md)）
+- LLM 数据去重（Lee et al., 2021）https://arxiv.org/abs/2107.06499 （笔记：[笔记](../notes/ref-035-llm-dedup.md)）
 - LoRA（Hu et al., 2021/2022）https://arxiv.org/abs/2106.09685 （笔记：[笔记](../notes/ref-040-lora.md)）
 - Self-Instruct（Wang et al., 2023）https://arxiv.org/abs/2212.10560 （笔记：[笔记](../notes/ref-036-self-instruct.md)）
 - WizardLM / Evol-Instruct（Xu et al., 2023）https://arxiv.org/abs/2304.12244 （笔记：[笔记](../notes/ref-066-wizardlm.md)）
@@ -53,7 +53,7 @@
 - LLM-as-a-Judge（Zheng et al., 2023）https://arxiv.org/abs/2306.05685 （笔记：[笔记](../notes/ref-050-llm-as-a-judge.md)）
 - Prometheus https://prometheus.io/docs/introduction/overview/ （笔记：[笔记](../notes/ref-062-prometheus.md)）
 - Grafana https://grafana.com/docs/grafana/latest/ （笔记：[笔记](../notes/ref-064-grafana.md)）
-- Guardrails 综述（Rawte et al., 2023）https://arxiv.org/abs/2307.08715 （笔记：[笔记](../notes/ref-051-guardrails.md)）
+- Guardrails（Building Guardrails for LLMs, 2024）https://arxiv.org/abs/2402.01822 （笔记：[笔记](../notes/ref-051-guardrails.md)）
 
 ## 前端与体验（第 3–4 章常用）
 
