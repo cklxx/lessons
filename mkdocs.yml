@@ -35,8 +35,6 @@ markdown_extensions:
 nav:
   - 首页: index.md
   - 书架:
-      - 示例书: books/example-book/index.md
-      - 示例书 / 第一章: books/example-book/chapter-1.md
       - 写给未来的超级个体：AI 全栈产品开发实战:
           - 总览: books/ai-assisted-software-product/index.md
           - 精华版（打印友好）: books/ai-assisted-software-product/condensed-master-guide.md
@@ -65,3 +63,4 @@ nav:
   - 资料池:
       - AI 辅助软件产品 / 资料池说明: materials/ai-assisted-software-product/README.md
       - AI 辅助软件产品 / 精选资料: materials/ai-assisted-software-product/filtered/top-resources.md
+      - AI 辅助软件产品 / 资料笔记（精选）: materials/ai-assisted-software-product/notes/index.md
