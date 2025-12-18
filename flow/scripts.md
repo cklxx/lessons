@@ -124,3 +124,26 @@ python3 tools/generate_book_edition.py \
 
 - 这个脚本依赖 `gemini --output-format json --allowed-tools read_file` 形态的 CLI 能力。
 - 输出更适合当“改写草稿”，合并回主文前仍建议做事实核验与引用编号统一。
+
+## Gemini CLI：把“文字工作”脚本化的最小套路
+
+你不一定要写新脚本才能“脚本化使用 gemini”。很多时候，一条可复现的命令就够了：把输入通过 stdin 喂给 gemini，再把输出重定向到文件，形成“可回滚的文字变更”。
+
+### 1) 对单个小节做润色（推荐：先小后大）
+
+最小套路：
+
+```bash
+cat input.md | gemini --model gemini-2.5-flash "请把 stdin 的 Markdown 小节润色得更循循善诱，但保持可执行性；只输出 Markdown，不要代码块。"
+```
+
+建议你在 prompt 里加上硬约束：
+
+- 只改写某个小节；
+- 代码块/命令行逐字不改；
+- 不新增引用编号（或保持已有编号不变）；
+- 不编造事实或数据（不确定就标注“待核验”）。
+
+### 2) 把结果落到“可审查的补丁”
+
+你可以把 gemini 的输出写到临时文件，然后用 `git diff` 审查变更范围，再决定是否合入。这比在编辑器里直接覆盖更安全。

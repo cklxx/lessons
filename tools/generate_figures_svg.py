@@ -189,6 +189,37 @@ def fig_judge() -> str:
     return svg.render()
 
 
+def fig_engineering_gates() -> str:
+    svg = Svg(1200, 520)
+    svg.header()
+    svg.text(24, 40, "工程化闭环：门禁 → 证据 → 灰度 → 观测 → 回滚", cls="title")
+
+    b1 = Box(70, 90, 340, 110, "变更输入", "AI 输出 → 小步补丁")
+    b2 = Box(450, 90, 320, 110, "自动门禁", "回归/安全/成本阈值")
+    b3 = Box(820, 90, 320, 110, "人工审查", "只看高风险点")
+    b4 = Box(70, 250, 520, 130, "灰度发布", "小流量观察窗口；不达标就停")
+    b5 = Box(630, 250, 510, 130, "观测与处置", "四线指标；降级/限流/回滚")
+    b6 = Box(70, 410, 1070, 80, "证据留档与复利", "报告/失败样本入回归集；下次更稳")
+
+    svg.box(b1, 1)
+    svg.box(b2, 2)
+    svg.box(b3, 1)
+    svg.box(b4, 2)
+    svg.box(b5, 1)
+    svg.box(b6, 2)
+
+    svg.arrow(410, 145, 450, 145)
+    svg.arrow(770, 145, 820, 145)
+    svg.arrow(980, 200, 980, 250, kind=2)
+    svg.arrow(330, 200, 330, 250, kind=2)
+    svg.arrow(600, 315, 630, 315)
+    svg.arrow(600, 380, 600, 410, kind=2)
+
+    svg.text(74, 505, "建议：把门禁做成一条命令（例如 tools/run_quality_gates.py）", cls="small")
+    svg.footer()
+    return svg.render()
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="Generate lightweight SVG figures (no external deps).")
     parser.add_argument("--out-dir", default="docs/assets", help="Output directory (default: docs/assets)")
@@ -202,6 +233,7 @@ def main() -> int:
         "figure_16_2_inference_control_loop.svg": fig_inference(),
         "figure_17_2_observability_stack.svg": fig_observability(),
         "figure_18_2_judge_regression_loop.svg": fig_judge(),
+        "figure_07_2_engineering_gates.svg": fig_engineering_gates(),
     }
     for name, svg in figures.items():
         path = out_dir / name
@@ -212,4 +244,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

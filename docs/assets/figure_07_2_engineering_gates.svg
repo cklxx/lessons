@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="520" viewBox="0 0 1200 520">
+<style>
+  .bg { fill: #0b1220; }
+  .card { fill: #0f1b34; stroke: #2b3a61; stroke-width: 2; rx: 14; }
+  .card2 { fill: #0f233d; stroke: #2b3a61; stroke-width: 2; rx: 14; }
+  .title { font: 700 18px ui-sans-serif, system-ui, -apple-system; fill: #e8eefc; }
+  .sub { font: 500 13px ui-sans-serif, system-ui, -apple-system; fill: #b7c6ea; }
+  .small { font: 500 12px ui-sans-serif, system-ui, -apple-system; fill: #b7c6ea; }
+  .note { font: 500 12px ui-sans-serif, system-ui, -apple-system; fill: #9fb2de; }
+  .arrow { stroke: #6aa1ff; stroke-width: 3; fill: none; marker-end: url(#arrowhead); }
+  .arrow2 { stroke: #6dd6a8; stroke-width: 3; fill: none; marker-end: url(#arrowhead2); }
+  .dash { stroke-dasharray: 7 6; }
+</style>
+<defs>
+<marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+<polygon points="0 0, 10 3.5, 0 7" fill="#6aa1ff"/>
+</marker>
+<marker id="arrowhead2" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+<polygon points="0 0, 10 3.5, 0 7" fill="#6dd6a8"/>
+</marker>
+</defs>
+<rect class="bg" x="0" y="0" width="1200" height="520" />
+<text class="title" x="24" y="40">工程化闭环：门禁 → 证据 → 灰度 → 观测 → 回滚</text>
+<rect class="card" x="70" y="90" width="340" height="110" rx="14" />
+<text class="title" x="86" y="120">变更输入</text>
+<text class="sub" x="86" y="144">AI 输出 → 小步补丁</text>
+<rect class="card2" x="450" y="90" width="320" height="110" rx="14" />
+<text class="title" x="466" y="120">自动门禁</text>
+<text class="sub" x="466" y="144">回归/安全/成本阈值</text>
+<rect class="card" x="820" y="90" width="320" height="110" rx="14" />
+<text class="title" x="836" y="120">人工审查</text>
+<text class="sub" x="836" y="144">只看高风险点</text>
+<rect class="card2" x="70" y="250" width="520" height="130" rx="14" />
+<text class="title" x="86" y="280">灰度发布</text>
+<text class="sub" x="86" y="304">小流量观察窗口；不达标就停</text>
+<rect class="card" x="630" y="250" width="510" height="130" rx="14" />
+<text class="title" x="646" y="280">观测与处置</text>
+<text class="sub" x="646" y="304">四线指标；降级/限流/回滚</text>
+<rect class="card2" x="70" y="410" width="1070" height="80" rx="14" />
+<text class="title" x="86" y="440">证据留档与复利</text>
+<text class="sub" x="86" y="464">报告/失败样本入回归集；下次更稳</text>
+<path class="arrow" d="M410 145 L450 145" />
+<path class="arrow" d="M770 145 L820 145" />
+<path class="arrow2" d="M980 200 L980 250" />
+<path class="arrow2" d="M330 200 L330 250" />
+<path class="arrow" d="M600 315 L630 315" />
+<path class="arrow2" d="M600 380 L600 410" />
+<text class="small" x="74" y="505">建议：把门禁做成一条命令（例如 tools/run_quality_gates.py）</text>
+</svg>
