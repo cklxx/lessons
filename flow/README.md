@@ -106,7 +106,7 @@ python3 tools/gemini_build_material_indexes.py --resume
 
 建议做法：
 
-- 每份资料一个 `ref-XXX-*.md`，保留“原始来源：<url>”行（后续脚本会用它关联 source）。
+- 每份资料一个 `ref-<参考编号>-<slug>.md`（例如 `ref-073-continuous-discovery-habits.md`），并保留“原始来源：<url>”行（后续脚本会用它关联 source）。
 - 只写你会在章节里复用的内容：定义、边界、清单、落地步骤、常见坑。
 
 ### Step F：用 Gemini 生成 Deep Research 扩展笔记
