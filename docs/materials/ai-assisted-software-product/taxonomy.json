@@ -1,0 +1,107 @@
+{
+  "categories": [
+    {
+      "id": "product_discovery",
+      "name": "Discovery & Product Strategy",
+      "description": "需求挖掘、机会判断、实验设计、增长与商业化的基础方法。"
+    },
+    {
+      "id": "prd_spec",
+      "name": "PRD & Specs",
+      "description": "PRD/用例/验收/契约与需求工程相关的规范与方法。"
+    },
+    {
+      "id": "ux_ui",
+      "name": "UX / UI & Design Systems",
+      "description": "原型、信息架构、可访问性、设计系统与前端体验资产化。"
+    },
+    {
+      "id": "engineering",
+      "name": "Engineering Workflow",
+      "description": "工程化、门禁、测试、代码审查、交付节奏与工具链。"
+    },
+    {
+      "id": "backend",
+      "name": "Backend & Reliability",
+      "description": "后端契约、幂等、错误语义、可观测性与可靠性工程。"
+    },
+    {
+      "id": "rag",
+      "name": "RAG",
+      "description": "检索增强生成：语料边界、切分、检索、重排、引用合同与评测。"
+    },
+    {
+      "id": "agents",
+      "name": "Agents & Tool Use",
+      "description": "工具调用与智能体：工具合同、权限边界、预算/停止条件、审计与回归。"
+    },
+    {
+      "id": "data",
+      "name": "Data",
+      "description": "数据采集、清洗、标注、版本化、数据治理与可追溯。"
+    },
+    {
+      "id": "training",
+      "name": "Training & Alignment",
+      "description": "预训练、后训练、偏好优化、合成数据与训练治理。"
+    },
+    {
+      "id": "inference",
+      "name": "Inference & Optimization",
+      "description": "推理优化、量化、引擎选型、吞吐/延迟/成本治理。"
+    },
+    {
+      "id": "ops",
+      "name": "Deployment & Operations",
+      "description": "部署、灰度、监控、告警、运维、回滚与Runbook。"
+    },
+    {
+      "id": "evaluation",
+      "name": "Evaluation",
+      "description": "离线/在线评测、回归集、LLM-as-a-Judge、红队与门禁。"
+    },
+    {
+      "id": "user_auth",
+      "name": "User / Auth / Audit",
+      "description": "用户、认证授权、租户隔离、审计与安全边界。"
+    },
+    {
+      "id": "billing",
+      "name": "Billing & Pricing",
+      "description": "订阅/用量计费、计量口径、账本/对账、风控与止损。"
+    },
+    {
+      "id": "governance",
+      "name": "Governance & Security",
+      "description": "合规、隐私、版权、安全标准与风险治理。"
+    },
+    {
+      "id": "general",
+      "name": "General References",
+      "description": "跨章节通用参考：基础论文、框架文档、综述。"
+    }
+  ],
+  "chapters": [
+    { "id": "01-method", "title": "第 1 章：全流程方法论" },
+    { "id": "02-discovery", "title": "第 2 章：需求挖掘与机会判断" },
+    { "id": "03-prd", "title": "第 3 章：PRD 与工程合同" },
+    { "id": "04-prototype", "title": "第 4 章：原型与信息架构" },
+    { "id": "05-validation", "title": "第 5 章：产品验证与打磨" },
+    { "id": "06-ui", "title": "第 6 章：UI 设计与资产化" },
+    { "id": "07-engineering", "title": "第 7 章：工程化与编码" },
+    { "id": "08-frontend", "title": "第 8 章：前端实现" },
+    { "id": "09-backend", "title": "第 9 章：后端架构" },
+    { "id": "10-intelligence", "title": "第 10 章：RAG & Agent" },
+    { "id": "11-user", "title": "第 11 章：用户与权限" },
+    { "id": "12-billing", "title": "第 12 章：付费与风控" },
+    { "id": "13-data", "title": "第 13 章：数据收集与清洗" },
+    { "id": "14-pretrain", "title": "第 14 章：预训练" },
+    { "id": "15-posttrain", "title": "第 15 章：后训练与对齐" },
+    { "id": "16-inference", "title": "第 16 章：推理优化" },
+    { "id": "17-deployment", "title": "第 17 章：部署与运维" },
+    { "id": "18-evaluation", "title": "第 18 章：评测体系" },
+    { "id": "19-iteration", "title": "第 19 章：迭代与增长" },
+    { "id": "20-governance", "title": "第 20 章：合规与伦理" }
+  ]
+}
+

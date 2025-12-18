@@ -40,6 +40,15 @@
 
 ![图 2-1：需求验证闭环](../../assets/ch01-demand-validation-loop.png)
 
+## 把 Discovery 做成“节奏”，而不是“阶段”
+很多人把需求挖掘当成一次性活动：前两周访谈、写一份报告、然后就开始冲刺开发。AI 时代这种做法更危险——因为你会更快地做出更多东西，也会更快地把错误方向做成“看起来很像产品”的样子。[4]
+
+更稳的方式是把 Discovery 变成一种习惯：持续接触用户、持续提出可证伪假设、持续用最小实验裁决。它不是“多开几场会”，而是把“证据”纳入你的迭代节拍，让路线图永远和真实世界保持对齐。[73][72]
+
+![图 2-2：机会解决方案树（Opportunity → Solution → Experiment）示意（占位）](../../assets/figure-placeholder.svg)
+
+作图提示：画一棵树，从“北极星指标/目标”出发，向下分解成机会（用户痛点/场景），再分解成方案（原型/流程/能力），每个叶子挂一个实验卡片（门槛/失败判定/证据）。树上用颜色标出“已验证/待验证/已否决”。[73]
+
 ## 典型场景
 - **SaaS 工具选题：** 抓 GitHub Issues、社区帖子、竞品评论，先回答“用户到底在骂什么/夸什么”。再决定做不做、先做哪个切入点。
 - **B2C 应用验证：** 抽样应用商店评论，把“卸载原因/留存动力”做成可排序的清单，首版只做 Top 1–2 个关键问题。
@@ -176,6 +185,8 @@
 
 ## 资料笔记（可选）
 - [精益创业（最小实验与证据门槛）](../../materials/ai-assisted-software-product/notes/ref-004-lean-startup.md)
+- [Continuous Discovery Habits（持续发现节奏）](../../materials/ai-assisted-software-product/notes/ref-073-continuous-discovery-habits.md)
+- [People + AI Guidebook（把“以人为本”写成工作流）](../../materials/ai-assisted-software-product/notes/ref-072-pair-guidebook.md)
 - [Datasheets（数据来源与可用性说明）](../../materials/ai-assisted-software-product/notes/ref-034-datasheets.md)
 - [数据去重（减少污染与虚高结论）](../../materials/ai-assisted-software-product/notes/ref-035-llm-dedup.md)
 

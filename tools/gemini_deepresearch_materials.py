@@ -11,18 +11,25 @@ from pathlib import Path
 from typing import Any
 
 
-ALLOWED_CATEGORIES: set[str] = {
-    "Discovery & Product Strategy",
-    "Prototyping & UX",
-    "Engineering & Tooling",
-    "Data, RAG, and Agents",
-    "Deployment, MLOps, and Evaluation",
-    "Governance & Ethics",
-    "General References",
-}
+DEFAULT_CATEGORY_ID = "general"
 
-CATEGORY_ALIASES: dict[str, str] = {
-    "RAG, and Agents": "Data, RAG, and Agents",
+CATEGORY_CHAPTER_HINTS: dict[str, list[str]] = {
+    "product_discovery": ["02-discovery", "05-validation", "19-iteration", "01-method"],
+    "prd_spec": ["03-prd", "07-engineering", "09-backend", "10-intelligence"],
+    "ux_ui": ["04-prototype", "06-ui", "08-frontend", "05-validation"],
+    "engineering": ["07-engineering", "08-frontend", "09-backend", "17-deployment"],
+    "backend": ["09-backend", "07-engineering", "17-deployment", "18-evaluation"],
+    "rag": ["10-intelligence", "18-evaluation", "13-data", "07-engineering"],
+    "agents": ["10-intelligence", "07-engineering", "18-evaluation", "01-method"],
+    "data": ["13-data", "18-evaluation", "10-intelligence", "20-governance"],
+    "training": ["14-pretrain", "15-posttrain", "18-evaluation", "13-data"],
+    "inference": ["16-inference", "17-deployment", "18-evaluation", "07-engineering"],
+    "ops": ["17-deployment", "18-evaluation", "07-engineering", "20-governance"],
+    "evaluation": ["18-evaluation", "17-deployment", "10-intelligence", "07-engineering"],
+    "user_auth": ["11-user", "20-governance", "07-engineering", "09-backend"],
+    "billing": ["12-billing", "19-iteration", "20-governance", "09-backend"],
+    "governance": ["20-governance", "11-user", "12-billing", "13-data"],
+    "general": ["01-method"],
 }
 
 
@@ -95,15 +102,71 @@ def _load_gemini_labels(path: Path) -> dict[str, dict[str, Any]]:
     return out
 
 
+def _load_taxonomy(path: Path) -> tuple[dict[str, dict[str, str]], list[dict[str, str]]]:
+    if not path.exists():
+        return {}, []
+    obj = json.loads(path.read_text(encoding="utf-8"))
+    categories: dict[str, dict[str, str]] = {}
+    for c in obj.get("categories", []) or []:
+        cid = str(c.get("id") or "").strip()
+        name = str(c.get("name") or "").strip()
+        desc = str(c.get("description") or "").strip()
+        if cid and name:
+            categories[cid] = {"name": name, "description": desc}
+    chapters: list[dict[str, str]] = []
+    for ch in obj.get("chapters", []) or []:
+        chid = str(ch.get("id") or "").strip()
+        title = str(ch.get("title") or "").strip()
+        if chid and title:
+            chapters.append({"id": chid, "title": title})
+    return categories, chapters
+
+
+def _normalize_chapter_targets(category_id: str, raw: list[str], chapter_ids: set[str]) -> list[str]:
+    if not chapter_ids:
+        return raw[:4]
+    allowed_ordered = [c for c in CATEGORY_CHAPTER_HINTS.get(category_id, ["01-method"]) if c in chapter_ids]
+    if not allowed_ordered:
+        allowed_ordered = ["01-method"] if "01-method" in chapter_ids else sorted(chapter_ids)[:1]
+    allowed_set = set(allowed_ordered)
+    picked = [c for c in raw if c in allowed_set]
+    if not picked:
+        picked = allowed_ordered[:]
+    primary = allowed_ordered[0] if allowed_ordered else None
+    if primary and primary not in picked:
+        picked.insert(0, primary)
+    seen: set[str] = set()
+    out: list[str] = []
+    for c in picked:
+        if c in seen:
+            continue
+        seen.add(c)
+        out.append(c)
+    for c in allowed_ordered:
+        if len(out) >= 4:
+            break
+        if c not in out:
+            out.append(c)
+    return out[:4]
+
+
 def _render_deepresearch_index(
-    out_path: Path, items: list[tuple[str, str, str, float | None]]
+    out_path: Path,
+    items: list[tuple[str, str, str, float | None, list[str]]],
+    chapters: list[dict[str, str]],
+    taxonomy_categories: dict[str, dict[str, str]],
 ) -> None:
-    # items: (category, title, rel_path, score_total)
-    grouped: dict[str, list[tuple[str, str, float | None]]] = {}
-    for cat, title, rel, score in items:
-        grouped.setdefault(cat, []).append((title, rel, score))
-    for cat in grouped:
-        grouped[cat].sort(key=lambda x: (x[2] is None, -(x[2] or 0.0), x[0]))
+    # items: (category_id, title, rel_path, score_total, chapter_targets)
+    by_chapter: dict[str, list[tuple[str, str, float | None, str]]] = {}
+    for category_id, title, rel, score, chapter_targets in items:
+        if chapter_targets:
+            for chid in chapter_targets:
+                by_chapter.setdefault(chid, []).append((title, rel, score, category_id))
+        else:
+            by_chapter.setdefault(DEFAULT_CATEGORY_ID, []).append((title, rel, score, category_id))
+
+    for chid in by_chapter:
+        by_chapter[chid].sort(key=lambda x: (x[2] is None, -(x[2] or 0.0), x[0]))
 
     lines: list[str] = []
     lines.append("# Deep Research Index")
@@ -111,12 +174,27 @@ def _render_deepresearch_index(
     lines.append("> 本目录为每篇资料生成一份更深入的“可落地扩展笔记”，用于补充/强化《AI 辅助软件产品》。")
     lines.append("")
 
-    for cat in sorted(grouped.keys()):
-        lines.append(f"## {cat}")
+    chapter_title_map = {c["id"]: c["title"] for c in chapters}
+    ordered_ids = [c["id"] for c in chapters]
+    for extra in sorted(by_chapter.keys()):
+        if extra not in chapter_title_map:
+            ordered_ids.append(extra)
+
+    seen: set[str] = set()
+    for chid in ordered_ids:
+        if chid in seen:
+            continue
+        seen.add(chid)
+        items_for = by_chapter.get(chid) or []
+        if not items_for:
+            continue
+        title = chapter_title_map.get(chid, f"其他（{chid}）")
+        lines.append(f"## {title}")
         lines.append("")
-        for title, rel, score in grouped[cat]:
+        for item_title, rel, score, category_id in items_for:
+            cat_name = taxonomy_categories.get(category_id, {}).get("name", category_id)
             suffix = f"（{score:.2f}）" if score is not None else ""
-            lines.append(f"- [{title}]({rel}){suffix}")
+            lines.append(f"- [{item_title}]({rel}){suffix} · {cat_name}")
         lines.append("")
 
     out_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
@@ -152,6 +230,11 @@ def build_parser() -> argparse.ArgumentParser:
         default="docs/materials/ai-assisted-software-product/deepresearch/index.md",
         help="Output index markdown file.",
     )
+    parser.add_argument(
+        "--taxonomy",
+        default="docs/materials/ai-assisted-software-product/taxonomy.json",
+        help="Taxonomy JSON defining allowed categories and chapter ids.",
+    )
     parser.add_argument("--model", default="", help="Gemini model override (optional).")
     parser.add_argument("--timeout", type=int, default=240, help="Per-item Gemini timeout in seconds.")
     parser.add_argument("--sleep-ms", type=int, default=250, help="Sleep between Gemini calls (ms).")
@@ -171,9 +254,11 @@ def main() -> int:
 
     sources = _load_sources_index(sources_index)
     labels = _load_gemini_labels(labels_path)
+    taxonomy_categories, chapters = _load_taxonomy(Path(args.taxonomy))
+    chapter_ids = {c["id"] for c in chapters}
 
     model = args.model.strip() or None
-    generated: list[tuple[str, str, str, float | None]] = []
+    generated: list[tuple[str, str, str, float | None, list[str]]] = []
 
     note_paths = sorted(notes_dir.glob("ref-*.md"))
     for i, note_path in enumerate(note_paths, start=1):
@@ -196,10 +281,20 @@ def main() -> int:
         out_path = out_dir / f"{note_path.stem}.md"
 
         label = labels.get(url, {})
-        category = str(label.get("category") or "General References").strip() or "General References"
-        category = CATEGORY_ALIASES.get(category, category)
-        if category not in ALLOWED_CATEGORIES:
-            category = "General References"
+        category_id = str(label.get("category_id") or "").strip() or DEFAULT_CATEGORY_ID
+        if taxonomy_categories and category_id not in taxonomy_categories:
+            category_id = DEFAULT_CATEGORY_ID
+        chapter_targets: list[str] = []
+        raw_chapters = label.get("chapter_targets")
+        if isinstance(raw_chapters, list):
+            for x in raw_chapters:
+                s = str(x).strip()
+                if not s:
+                    continue
+                if chapter_ids and s not in chapter_ids:
+                    continue
+                chapter_targets.append(s)
+        chapter_targets = _normalize_chapter_targets(category_id, chapter_targets, chapter_ids)
         score_total: float | None = None
         try:
             if "score_total" in label:
@@ -207,7 +302,7 @@ def main() -> int:
         except Exception:
             score_total = None
 
-        generated.append((category, title, out_path.name, score_total))
+        generated.append((category_id, title, out_path.name, score_total, chapter_targets))
 
         if out_path.exists() and not args.force:
             continue
@@ -242,12 +337,16 @@ def main() -> int:
         print(f"[{i}/{len(note_paths)}] {note_path.name} -> {out_path}")
         body = _run_gemini(stdin, prompt, model=model, timeout_s=args.timeout)
 
+        category_name = taxonomy_categories.get(category_id, {}).get("name", category_id)
+        chapters_str = ", ".join(chapter_targets) if chapter_targets else ""
         header_lines = [
             f"# Deep Research: {title}",
             "",
             f"- Source: {url}",
             f"- Note: ../notes/{note_path.name}",
             f"- Snapshot: ../sources/{src.snapshot_rel}",
+            f"- Category: {category_name} ({category_id})",
+            f"- Chapters: {chapters_str}",
             "",
         ]
         out_path.write_text("\n".join(header_lines) + body, encoding="utf-8")
@@ -257,7 +356,12 @@ def main() -> int:
 
     index_out = Path(args.index_out)
     index_out.parent.mkdir(parents=True, exist_ok=True)
-    _render_deepresearch_index(index_out, generated)
+    _render_deepresearch_index(
+        index_out,
+        generated,
+        chapters=chapters,
+        taxonomy_categories=taxonomy_categories,
+    )
     print(f"Wrote: {index_out} (items={len(generated)})")
 
     return 0

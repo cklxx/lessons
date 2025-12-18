@@ -70,3 +70,12 @@
 68. OWASP Foundation, *Application Security Verification Standard (ASVS)*, https://owasp.org/www-project-application-security-verification-standard/, accessed 2025-12-16.
 69. OpenID Foundation, *OpenID Connect Core 1.0*, https://openid.net/specs/openid-connect-core-1_0.html, accessed 2025-12-16.
 70. IETF, "JSON Web Token (JWT)," RFC 7519, 2015, https://www.rfc-editor.org/rfc/rfc7519, accessed 2025-12-16.
+71. S. Amershi et al., "Guidelines for Human-AI Interaction," CHI, 2019, https://www.microsoft.com/en-us/research/publication/guidelines-for-human-ai-interaction/, accessed 2025-12-18.
+72. Google PAIR, *People + AI Guidebook*, https://pair.withgoogle.com/guidebook/, accessed 2025-12-18.
+73. T. Torres, *Continuous Discovery Habits*, https://www.producttalk.org/continuous-discovery-habits/, accessed 2025-12-18.
+74. S. Bradner, "Key words for use in RFCs to Indicate Requirement Levels," RFC 2119, 1997, https://www.rfc-editor.org/rfc/rfc2119, accessed 2025-12-18.
+75. Stripe, *Usage-based billing*, https://docs.stripe.com/billing/subscriptions/usage-based, accessed 2025-12-18.
+76. Google, *Site Reliability Engineering: Service Level Objectives*, https://sre.google/sre-book/service-level-objectives/, accessed 2025-12-18.
+77. NIST, *AI Risk Management Framework (AI RMF)*, https://www.nist.gov/itl/ai-risk-management-framework, accessed 2025-12-18.
+78. IETF, "HTTP Semantics," RFC 9110, 2022, https://www.rfc-editor.org/rfc/rfc9110, accessed 2025-12-18.
+79. IETF, "Problem Details for HTTP APIs," RFC 9457, 2023, https://www.rfc-editor.org/rfc/rfc9457, accessed 2025-12-18.
