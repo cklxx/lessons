@@ -1,5 +1,5 @@
 # 第 10 章（Agent 深入）：让模型在边界内“会做事”
-![Chapter 10 Agent Header](../../assets/figure-placeholder.svg)
+![Chapter 10 Agent Header](../../assets/chapter_10_header_1766035645245.png)
 
 > Agent 不是“让模型更勤奋”，而是让它在边界内行动：能做什么、不能做什么、做到哪一步停、出了问题怎么回滚。越权与不可追溯，是 Agent 的原罪。[29][6]
 

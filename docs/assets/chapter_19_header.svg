@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="420" viewBox="0 0 1600 420">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0b1020"/>
+      <stop offset="100%" stop-color="#8d5a2a"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="70%" cy="25%" r="70%">
+      <stop offset="0%" stop-color="#ffe08a" stop-opacity="0.45"/>
+      <stop offset="60%" stop-color="#ffe08a" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#ffe08a" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="wave" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#ffe08a" stop-opacity="0.14"/>
+      <stop offset="55%" stop-color="#ffe08a" stop-opacity="0.06"/>
+      <stop offset="100%" stop-color="#ffe08a" stop-opacity="0.18"/>
+    </linearGradient>
+    <filter id="soft" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="14"/>
+    </filter>
+  </defs>
+
+  <rect width="1600" height="420" fill="url(#bg)"/>
+  <rect width="1600" height="420" fill="url(#glow)"/>
+
+  <circle cx="1132" cy="200" r="207" fill="#ffe08a" opacity="0.08" filter="url(#soft)"/>
+  <circle cx="872" cy="320" r="140" fill="#ffe08a" opacity="0.06" filter="url(#soft)"/>
+
+  <path d="M 0 244 C 424 154, 884 354, 1600 234 L 1600 420 L 0 420 Z"
+        fill="url(#wave)"/>
+  <path d="M 0 343 C 384 273, 924 463, 1600 333"
+        fill="none" stroke="#ffe08a" stroke-opacity="0.22" stroke-width="3"/>
+  <path d="M 0 335 C 364 285, 1004 435, 1600 325"
+        fill="none" stroke="#ffe08a" stroke-opacity="0.14" stroke-width="2"/>
+</svg>

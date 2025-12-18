@@ -134,8 +134,10 @@ python3 tools/generate_book_edition.py \
 最小套路：
 
 ```bash
-cat input.md | gemini --model gemini-2.5-flash "请把 stdin 的 Markdown 小节润色得更循循善诱，但保持可执行性；只输出 Markdown，不要代码块。"
+cat input.md | gemini -m gemini-3-pro-preview "请把 stdin 的 Markdown 小节润色得更循循善诱，但保持可执行性；只输出 Markdown，不要代码块。"
 ```
+
+如果你更在意速度与成本，可以把模型换成 `gemini-3-flash-preview`；如果你更在意措辞与结构的细腻程度，优先用 `gemini-3-pro-preview`。
 
 建议你在 prompt 里加上硬约束：
 
