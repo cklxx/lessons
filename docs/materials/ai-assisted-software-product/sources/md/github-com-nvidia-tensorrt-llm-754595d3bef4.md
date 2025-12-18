@@ -221,11 +221,11 @@ Serverless TensorRT LLM (LLaMA 3 8B) | Modal Docs [➡️ link](https://modal.co
 
 * [2024/05/07] 🦙🦙🦙 24,000 tokens per second 🛫Meta Llama 3 takes off with #TensorRT #LLM 📚[➡️ link](https://blogs.nvidia.com/blog/meta-llama3-inference-acceleration/)
 
-* [2024/02/06] [🚀 Speed up inference with SOTA quantization techniques in TRT-LLM](./docs/source/blogs/quantization-in-TRT-LLM.md)
-* [2024/01/30] [ New XQA-kernel provides 2.4x more Llama-70B throughput within the same latency budget](./docs/source/blogs/XQA-kernel.md)
-* [2023/12/04] [Falcon-180B on a single H200 GPU with INT4 AWQ, and 6.7x faster Llama-70B over A100](./docs/source/blogs/Falcon180B-H200.md)
+* [2024/02/06] [🚀 Speed up inference with SOTA quantization techniques in TRT-LLM](https://github.com/NVIDIA/docs/source/blogs/quantization-in-TRT-LLM.md)
+* [2024/01/30] [ New XQA-kernel provides 2.4x more Llama-70B throughput within the same latency budget](https://github.com/NVIDIA/docs/source/blogs/XQA-kernel.md)
+* [2023/12/04] [Falcon-180B on a single H200 GPU with INT4 AWQ, and 6.7x faster Llama-70B over A100](https://github.com/NVIDIA/docs/source/blogs/Falcon180B-H200.md)
 * [2023/11/27] [SageMaker LMI now supports TensorRT LLM - improves throughput by 60%, compared to previous version](https://aws.amazon.com/blogs/machine-learning/boost-inference-performance-for-llms-with-new-amazon-sagemaker-containers/)
-* [2023/11/13] [H200 achieves nearly 12,000 tok/sec on Llama2-13B](./docs/source/blogs/H200launch.md)
+* [2023/11/13] [H200 achieves nearly 12,000 tok/sec on Llama2-13B](https://github.com/NVIDIA/docs/source/blogs/H200launch.md)
 * [2023/10/22] [🚀 RAG on Windows using TensorRT LLM and LlamaIndex 🦙](https://github.com/NVIDIA/trt-llm-rag-windows#readme)
 * [2023/10/19] Getting Started Guide - [Optimizing Inference on Large Language Models with NVIDIA TensorRT-LLM, Now Publicly Available
 ](https://developer.nvidia.com/blog/optimizing-inference-on-llms-with-tensorrt-llm-now-publicly-available/)
@@ -240,7 +240,7 @@ TensorRT LLM is an open-sourced library for optimizing Large Language Model (LLM
 
 [Architected on PyTorch](https://github.com/NVIDIA/TensorRT-LLM/blob/release/1.1/docs/source/developer-guide/overview.md), TensorRT LLM provides a high-level Python [LLM API](https://nvidia.github.io/TensorRT-LLM/quick-start-guide.html#llm-api) that supports a wide range of inference setups - from single-GPU to multi-GPU or multi-node deployments. It includes built-in support for various parallelism strategies and advanced features. The LLM API integrates seamlessly with the broader inference ecosystem, including NVIDIA [Dynamo](https://github.com/ai-dynamo/dynamo) and the [Triton Inference Server](https://github.com/triton-inference-server/server).
 
-TensorRT LLM is designed to be modular and easy to modify. Its PyTorch-native architecture allows developers to experiment with the runtime or extend functionality. Several popular models are also pre-defined and can be customized using [native PyTorch code](./tensorrt_llm/_torch/models/modeling_deepseekv3.py), making it easy to adapt the system to specific needs.
+TensorRT LLM is designed to be modular and easy to modify. Its PyTorch-native architecture allows developers to experiment with the runtime or extend functionality. Several popular models are also pre-defined and can be customized using [native PyTorch code](https://github.com/NVIDIA/tensorrt_llm/_torch/models/modeling_deepseekv3.py), making it easy to adapt the system to specific needs.
 
 
 ## Getting Started
@@ -248,7 +248,7 @@ TensorRT LLM is designed to be modular and easy to modify. Its PyTorch-native ar
 To get started with TensorRT-LLM, visit our documentation:
 
 - [Quick Start Guide](https://nvidia.github.io/TensorRT-LLM/quick-start-guide.html)
-    - [Running DeepSeek](./examples/models/core/deepseek_v3)
+    - [Running DeepSeek](https://github.com/NVIDIA/examples/models/core/deepseek_v3)
 - [Installation Guide for Linux](https://nvidia.github.io/TensorRT-LLM/installation/linux.html)
 - [Installation Guide for Grace Hopper](https://nvidia.github.io/TensorRT-LLM/installation/grace-hopper.html)
 - [Supported Hardware, Models, and other Software](https://nvidia.github.io/TensorRT-LLM/reference/support-matrix.html)

@@ -1,0 +1,44 @@
+Nielsen Norman Group generative AI UX guidelines
+site:nngroup.com usability testing ai
+site:nngroup.com chatbots design guidelines
+site:svpg.com product discovery
+site:svpg.com product strategy
+continuous discovery habits teresa torres summary
+site:gov.uk service manual discovery phase
+site:gov.uk service manual user research
+site:gov.uk service standard
+site:gov.uk service manual alpha phase
+site:gov.uk service manual beta phase
+site:atlassian.com product requirements document best practices
+site:atlassian.com prd template
+site:atlassian.com user research plan
+site:cloud.google.com api design guide
+Microsoft REST API Guidelines
+IETF HTTP API design guidelines
+RFC 2119 key words for use in RFCs to Indicate Requirement Levels
+OpenAPI specification latest
+site:owasp.org ASVS standard
+OWASP LLM Top 10
+NIST AI risk management framework
+site:nist.gov AI RMF playbook
+OAuth 2.0 Security Best Current Practice RFC
+OpenID Connect Core specification
+Stripe usage-based billing guide
+site:docs.stripe.com metered billing
+site:docs.stripe.com billing subscriptions usage-based
+site:stripe.com billing best practices
+site:stripe.com pricing models saas
+subscription churn retention metrics guide
+site:cloud.google.com SRE handbook incident response
+Google engineering practices code review
+trunk based development best practices
+site:martinfowler.com feature flags guide
+SLO error budget practical guide
+observability semantic conventions OpenTelemetry
+site:opentelemetry.io semantic conventions
+site:kubernetes.io admission controller security
+cloud security shared responsibility model
+data governance data lineage best practices
+prompt injection mitigation guidelines
+model evaluation harness best practices
+LLM evaluation regression set best practices

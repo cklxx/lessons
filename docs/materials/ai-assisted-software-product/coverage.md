@@ -1,12 +1,12 @@
 # Materials Coverage Report
 
-_Generated at 2025-12-18 08:56 UTC by `tools/materials_coverage_report.py`._
+_Generated at 2025-12-18 10:56 UTC by `tools/materials_coverage_report.py`._
 
 ## Summary
 
 - Notes: 52
-- Sources snapshots: 52
-- Gemini labels (urls): 52
+- Sources snapshots: 118
+- Gemini labels (urls): 118
 - Deepresearch missing: 0
 
 ## By Chapter

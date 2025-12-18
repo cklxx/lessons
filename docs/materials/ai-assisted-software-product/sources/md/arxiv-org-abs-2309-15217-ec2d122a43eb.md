@@ -6,16 +6,16 @@
 
 ## Abstract page (HTML → Markdown)
 
-[Skip to main content](#content)
-[](https://www.cornell.edu/)
+Skip to main content
+(https://www.cornell.edu/)
 We gratefully acknowledge support from the Simons Foundation, [member institutions](https://info.arxiv.org/about/ourmembers.html), and all contributors. [Donate](https://info.arxiv.org/about/donate.html)
-[](/IgnoreMe)
-[](/) > [cs](/list/cs/recent) > arXiv:2309.15217 
+(/IgnoreMe)
+(/) > [cs](https://arxiv.org/list/cs/recent) > arXiv:2309.15217 
 [Help](https://info.arxiv.org/help) | [Advanced Search](https://arxiv.org/search/advanced)
 All fields Title Author Abstract Comments Journal reference ACM classification MSC classification Report number arXiv identifier DOI ORCID arXiv author ID Help pages Full text
 Search
-[](https://arxiv.org/)
-[ ](https://www.cornell.edu/)
+(https://arxiv.org/)
+(https://www.cornell.edu/)
 open search
 GO
 open navigation menu
@@ -31,7 +31,7 @@ open navigation menu
 # Title:Ragas: Automated Evaluation of Retrieval Augmented Generation
 Authors:[Shahul Es](https://arxiv.org/search/cs?searchtype=author&query=Es,+S), [Jithin James](https://arxiv.org/search/cs?searchtype=author&query=James,+J), [Luis Espinosa-Anke](https://arxiv.org/search/cs?searchtype=author&query=Espinosa-Anke,+L), [Steven Schockaert](https://arxiv.org/search/cs?searchtype=author&query=Schockaert,+S)
 View a PDF of the paper titled Ragas: Automated Evaluation of Retrieval Augmented Generation, by Shahul Es and 3 other authors
-[View PDF](/pdf/2309.15217) [HTML (experimental)](https://arxiv.org/html/2309.15217v2)
+[View PDF](https://arxiv.org/pdf/2309.15217) [HTML (experimental)](https://arxiv.org/html/2309.15217v2)
 > Abstract:We introduce Ragas (Retrieval Augmented Generation Assessment), a framework for reference-free evaluation of Retrieval Augmented Generation (RAG) pipelines. RAG systems are composed of a retrieval and an LLM based generation module, and provide LLMs with knowledge from a reference textual database, which enables them to act as a natural language layer between a user and textual databases, reducing the risk of hallucinations. Evaluating RAG architectures is, however, challenging because there are several dimensions to consider: the ability of the retrieval system to identify relevant and focused context passages, the ability of the LLM to exploit such passages in a faithful way, or the quality of the generation itself. With Ragas, we put forward a suite of metrics which can be used to evaluate these different dimensions \textit{without having to rely on ground truth human annotations}. We posit that such a framework can crucially contribute to faster evaluation cycles of RAG architectures, which is especially important given the fast adoption of LLMs. 
 Comments: | Reference-free (not tied to having ground truth available) evaluation framework for retrieval agumented generation  
 ---|---  
@@ -40,26 +40,26 @@ Cite as: | [arXiv:2309.15217](https://arxiv.org/abs/2309.15217) [cs.CL]
   | (or  [arXiv:2309.15217v2](https://arxiv.org/abs/2309.15217v2) [cs.CL] for this version)   
   |  <https://doi.org/10.48550/arXiv.2309.15217> Focus to learn more arXiv-issued DOI via DataCite  
 ## Submission history
-From: Luis Espinosa-Anke [[view email](/show-email/1ebcb515/2309.15217)]   
-**[[v1]](/abs/2309.15217v1)** Tue, 26 Sep 2023 19:23:54 UTC (7,261 KB)  
+From: Luis Espinosa-Anke [[view email](https://arxiv.org/show-email/1ebcb515/2309.15217)]   
+**[[v1]](https://arxiv.org/abs/2309.15217v1)** Tue, 26 Sep 2023 19:23:54 UTC (7,261 KB)  
 **[v2]** Mon, 28 Apr 2025 05:09:12 UTC (7,261 KB)  
 
 Full-text links:
 ## Access Paper:
 View a PDF of the paper titled Ragas: Automated Evaluation of Retrieval Augmented Generation, by Shahul Es and 3 other authors
-  * [View PDF](/pdf/2309.15217)
+  * [View PDF](https://arxiv.org/pdf/2309.15217)
   * [HTML (experimental)](https://arxiv.org/html/2309.15217v2)
-  * [TeX Source ](/src/2309.15217)
+  * [TeX Source ](https://arxiv.org/src/2309.15217)
 
 
 [ view license ](http://creativecommons.org/licenses/by/4.0/ "Rights to this article")
 Current browse context: 
 cs.CL
-[< prev](/prevnext?id=2309.15217&function=prev&context=cs.CL "previous in cs.CL \(accesskey p\)")   |   [next >](/prevnext?id=2309.15217&function=next&context=cs.CL "next in cs.CL \(accesskey n\)")   
+[< prev](https://arxiv.org/prevnext?id=2309.15217&function=prev&context=cs.CL "previous in cs.CL \(accesskey p\)")   |   [next >](https://arxiv.org/prevnext?id=2309.15217&function=next&context=cs.CL "next in cs.CL \(accesskey n\)")   
 
-[new](/list/cs.CL/new) |  [recent](/list/cs.CL/recent) | [2023-09](/list/cs.CL/2023-09)
+[new](https://arxiv.org/list/cs.CL/new) |  [recent](https://arxiv.org/list/cs.CL/recent) | [2023-09](https://arxiv.org/list/cs.CL/2023-09)
 Change to browse by: 
-[cs](/abs/2309.15217?context=cs)  
+[cs](https://arxiv.org/abs/2309.15217?context=cs)  
 
 ### References & Citations
   * [NASA ADS](https://ui.adsabs.harvard.edu/abs/arXiv:2309.15217)
@@ -67,7 +67,7 @@ Change to browse by:
   * [Semantic Scholar](https://api.semanticscholar.org/arXiv:2309.15217)
 
 
-### [ 4 blog links](/tb/2309.15217)
+### [ 4 blog links](https://arxiv.org/tb/2309.15217)
 ([what is this?](https://info.arxiv.org/help/trackback.html)) 
 export BibTeX citation Loading...
 ## BibTeX formatted citation
@@ -75,7 +75,7 @@ export BibTeX citation Loading...
 loading...
 Data provided by: 
 ### Bookmark
-[ ](http://www.bibsonomy.org/BibtexHandler?requTask=upload&url=https://arxiv.org/abs/2309.15217&description=Ragas: Automated Evaluation of Retrieval Augmented Generation "Bookmark on BibSonomy") [ ](https://reddit.com/submit?url=https://arxiv.org/abs/2309.15217&title=Ragas: Automated Evaluation of Retrieval Augmented Generation "Bookmark on Reddit")
+(http://www.bibsonomy.org/BibtexHandler?requTask=upload&url=https://arxiv.org/abs/2309.15217&description=Ragas: Automated Evaluation of Retrieval Augmented Generation "Bookmark on BibSonomy") (https://reddit.com/submit?url=https://arxiv.org/abs/2309.15217&title=Ragas: Automated Evaluation of Retrieval Augmented Generation "Bookmark on Reddit")
 Bibliographic Tools
 # Bibliographic and Citation Tools
 Bibliographic Explorer Toggle
@@ -127,7 +127,7 @@ About arXivLabs
 arXivLabs is a framework that allows collaborators to develop and share new arXiv features directly on our website.
 Both individuals and organizations that work with arXivLabs have embraced and accepted our values of openness, community, excellence, and user data privacy. arXiv is committed to these values and only works with partners that adhere to them.
 Have an idea for a project that will add value for arXiv's community? [**Learn more about arXivLabs**](https://info.arxiv.org/labs/index.html).
-[Which authors of this paper are endorsers?](/auth/show-endorsers/2309.15217) | [Disable MathJax](javascript:setMathjaxCookie\(\)) ([What is MathJax?](https://info.arxiv.org/help/mathjax.html)) 
+[Which authors of this paper are endorsers?](https://arxiv.org/auth/show-endorsers/2309.15217) | [Disable MathJax](javascript:setMathjaxCookie\(\)) ([What is MathJax?](https://info.arxiv.org/help/mathjax.html)) 
   * [About](https://info.arxiv.org/about)
   * [Help](https://info.arxiv.org/help)
 

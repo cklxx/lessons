@@ -6,16 +6,16 @@
 
 ## Abstract page (HTML → Markdown)
 
-[Skip to main content](#content)
-[](https://www.cornell.edu/)
+Skip to main content
+(https://www.cornell.edu/)
 We gratefully acknowledge support from the Simons Foundation, [member institutions](https://info.arxiv.org/about/ourmembers.html), and all contributors. [Donate](https://info.arxiv.org/about/donate.html)
-[](/IgnoreMe)
-[](/) > [cs](/list/cs/recent) > arXiv:2304.12244 
+(/IgnoreMe)
+(/) > [cs](https://arxiv.org/list/cs/recent) > arXiv:2304.12244 
 [Help](https://info.arxiv.org/help) | [Advanced Search](https://arxiv.org/search/advanced)
 All fields Title Author Abstract Comments Journal reference ACM classification MSC classification Report number arXiv identifier DOI ORCID arXiv author ID Help pages Full text
 Search
-[](https://arxiv.org/)
-[ ](https://www.cornell.edu/)
+(https://arxiv.org/)
+(https://www.cornell.edu/)
 open search
 GO
 open navigation menu
@@ -31,7 +31,7 @@ open navigation menu
 # Title:WizardLM: Empowering large pre-trained language models to follow complex instructions
 Authors:[Can Xu](https://arxiv.org/search/cs?searchtype=author&query=Xu,+C), [Qingfeng Sun](https://arxiv.org/search/cs?searchtype=author&query=Sun,+Q), [Kai Zheng](https://arxiv.org/search/cs?searchtype=author&query=Zheng,+K), [Xiubo Geng](https://arxiv.org/search/cs?searchtype=author&query=Geng,+X), [Pu Zhao](https://arxiv.org/search/cs?searchtype=author&query=Zhao,+P), [Jiazhan Feng](https://arxiv.org/search/cs?searchtype=author&query=Feng,+J), [Chongyang Tao](https://arxiv.org/search/cs?searchtype=author&query=Tao,+C), [Qingwei Lin](https://arxiv.org/search/cs?searchtype=author&query=Lin,+Q), [Daxin Jiang](https://arxiv.org/search/cs?searchtype=author&query=Jiang,+D)
 View a PDF of the paper titled WizardLM: Empowering large pre-trained language models to follow complex instructions, by Can Xu and 8 other authors
-[View PDF](/pdf/2304.12244)
+[View PDF](https://arxiv.org/pdf/2304.12244)
 > Abstract:Training large language models (LLMs) with open-domain instruction following data brings colossal success. However, manually creating such instruction data is very time-consuming and labor-intensive. Moreover, humans may struggle to produce high-complexity instructions. In this paper, we show an avenue for creating large amounts of instruction data with varying levels of complexity using LLM instead of humans. Starting with an initial set of instructions, we use our proposed Evol-Instruct to rewrite them step by step into more complex instructions. Then, we mix all generated instruction data to fine-tune LLaMA. We call the resulting model WizardLM. Human evaluations on a complexity-balanced test bed and Vicuna's testset show that instructions from Evol-Instruct are superior to human-created ones. By analyzing the human evaluation results of the high complexity part, we demonstrate that outputs from our WizardLM are preferred to outputs from OpenAI ChatGPT. In GPT-4 automatic evaluation, WizardLM achieves more than 90\% capacity of ChatGPT on 17 out of 29 skills. Even though WizardLM still lags behind ChatGPT in some aspects, our findings suggest that fine-tuning with AI-evolved instructions is a promising direction for enhancing LLMs. Our code and data are public at [this https URL](https://github.com/nlpxucan/WizardLM)
 Comments: | large language model, instruction fine-tune  
 ---|---  
@@ -41,27 +41,27 @@ Cite as: | [arXiv:2304.12244](https://arxiv.org/abs/2304.12244) [cs.CL]
   |  <https://doi.org/10.48550/arXiv.2304.12244> Focus to learn more arXiv-issued DOI via DataCite  
 Journal reference: | The Twelfth International Conference on Learning Representations (ICLR 2024)  
 ## Submission history
-From: Can Xu [[view email](/show-email/32580db2/2304.12244)]   
-**[[v1]](/abs/2304.12244v1)** Mon, 24 Apr 2023 16:31:06 UTC (2,161 KB)  
-**[[v2]](/abs/2304.12244v2)** Sat, 10 Jun 2023 13:18:25 UTC (2,577 KB)  
+From: Can Xu [[view email](https://arxiv.org/show-email/32580db2/2304.12244)]   
+**[[v1]](https://arxiv.org/abs/2304.12244v1)** Mon, 24 Apr 2023 16:31:06 UTC (2,161 KB)  
+**[[v2]](https://arxiv.org/abs/2304.12244v2)** Sat, 10 Jun 2023 13:18:25 UTC (2,577 KB)  
 **[v3]** Tue, 27 May 2025 06:49:09 UTC (2,707 KB)  
 
 Full-text links:
 ## Access Paper:
 View a PDF of the paper titled WizardLM: Empowering large pre-trained language models to follow complex instructions, by Can Xu and 8 other authors
-  * [View PDF](/pdf/2304.12244)
-  * [TeX Source ](/src/2304.12244)
+  * [View PDF](https://arxiv.org/pdf/2304.12244)
+  * [TeX Source ](https://arxiv.org/src/2304.12244)
 
 
 [view license](http://arxiv.org/licenses/nonexclusive-distrib/1.0/ "Rights to this article")
 Current browse context: 
 cs.CL
-[< prev](/prevnext?id=2304.12244&function=prev&context=cs.CL "previous in cs.CL \(accesskey p\)")   |   [next >](/prevnext?id=2304.12244&function=next&context=cs.CL "next in cs.CL \(accesskey n\)")   
+[< prev](https://arxiv.org/prevnext?id=2304.12244&function=prev&context=cs.CL "previous in cs.CL \(accesskey p\)")   |   [next >](https://arxiv.org/prevnext?id=2304.12244&function=next&context=cs.CL "next in cs.CL \(accesskey n\)")   
 
-[new](/list/cs.CL/new) |  [recent](/list/cs.CL/recent) | [2023-04](/list/cs.CL/2023-04)
+[new](https://arxiv.org/list/cs.CL/new) |  [recent](https://arxiv.org/list/cs.CL/recent) | [2023-04](https://arxiv.org/list/cs.CL/2023-04)
 Change to browse by: 
-[cs](/abs/2304.12244?context=cs)  
-[cs.AI](/abs/2304.12244?context=cs.AI)  
+[cs](https://arxiv.org/abs/2304.12244?context=cs)  
+[cs.AI](https://arxiv.org/abs/2304.12244?context=cs.AI)  
 
 ### References & Citations
   * [NASA ADS](https://ui.adsabs.harvard.edu/abs/arXiv:2304.12244)
@@ -69,7 +69,7 @@ Change to browse by:
   * [Semantic Scholar](https://api.semanticscholar.org/arXiv:2304.12244)
 
 
-### [ 2 blog links](/tb/2304.12244)
+### [ 2 blog links](https://arxiv.org/tb/2304.12244)
 ([what is this?](https://info.arxiv.org/help/trackback.html)) 
 export BibTeX citation Loading...
 ## BibTeX formatted citation
@@ -77,7 +77,7 @@ export BibTeX citation Loading...
 loading...
 Data provided by: 
 ### Bookmark
-[ ](http://www.bibsonomy.org/BibtexHandler?requTask=upload&url=https://arxiv.org/abs/2304.12244&description=WizardLM: Empowering large pre-trained language models to follow complex instructions "Bookmark on BibSonomy") [ ](https://reddit.com/submit?url=https://arxiv.org/abs/2304.12244&title=WizardLM: Empowering large pre-trained language models to follow complex instructions "Bookmark on Reddit")
+(http://www.bibsonomy.org/BibtexHandler?requTask=upload&url=https://arxiv.org/abs/2304.12244&description=WizardLM: Empowering large pre-trained language models to follow complex instructions "Bookmark on BibSonomy") (https://reddit.com/submit?url=https://arxiv.org/abs/2304.12244&title=WizardLM: Empowering large pre-trained language models to follow complex instructions "Bookmark on Reddit")
 Bibliographic Tools
 # Bibliographic and Citation Tools
 Bibliographic Explorer Toggle
@@ -129,7 +129,7 @@ About arXivLabs
 arXivLabs is a framework that allows collaborators to develop and share new arXiv features directly on our website.
 Both individuals and organizations that work with arXivLabs have embraced and accepted our values of openness, community, excellence, and user data privacy. arXiv is committed to these values and only works with partners that adhere to them.
 Have an idea for a project that will add value for arXiv's community? [**Learn more about arXivLabs**](https://info.arxiv.org/labs/index.html).
-[Which authors of this paper are endorsers?](/auth/show-endorsers/2304.12244) | [Disable MathJax](javascript:setMathjaxCookie\(\)) ([What is MathJax?](https://info.arxiv.org/help/mathjax.html)) 
+[Which authors of this paper are endorsers?](https://arxiv.org/auth/show-endorsers/2304.12244) | [Disable MathJax](javascript:setMathjaxCookie\(\)) ([What is MathJax?](https://info.arxiv.org/help/mathjax.html)) 
   * [About](https://info.arxiv.org/about)
   * [Help](https://info.arxiv.org/help)
 

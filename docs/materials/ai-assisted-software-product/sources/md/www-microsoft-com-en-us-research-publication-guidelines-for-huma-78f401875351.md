@@ -3,7 +3,7 @@
 - URL: https://www.microsoft.com/en-us/research/publication/guidelines-for-human-ai-interaction/
 - Retrieved: 2025-12-18T08:26:25.864985+00:00
 
-[]()
+()
 [Skip to main content](javascript:void\(0\))
 [ Microsoft ](https://www.microsoft.com)
 Research
@@ -286,7 +286,7 @@ Company
   * [Sitemap](https://www.microsoft.com/en-us/sitemap1.aspx)
   * [Contact Microsoft](https://support.microsoft.com/contactus)
   * [Privacy ](https://go.microsoft.com/fwlink/?LinkId=521839)
-  * [Manage cookies](#)
+  * [Manage cookies]
   * [Terms of use](https://go.microsoft.com/fwlink/?LinkID=206977)
   * [Trademarks](https://go.microsoft.com/fwlink/?linkid=2196228)
   * [Safety & eco](https://go.microsoft.com/fwlink/?linkid=2196227)

@@ -33,21 +33,21 @@ to power Hugging Chat, the Inference API and Inference Endpoints.
 
 ## Table of contents
 
-  - [Get Started](#get-started)
-    - [Docker](#docker)
-    - [API documentation](#api-documentation)
-    - [Using a private or gated model](#using-a-private-or-gated-model)
-    - [A note on Shared Memory (shm)](#a-note-on-shared-memory-shm)
-    - [Distributed Tracing](#distributed-tracing)
-    - [Architecture](#architecture)
-    - [Local install](#local-install)
-    - [Local install (Nix)](#local-install-nix)
-  - [Optimized architectures](#optimized-architectures)
-  - [Run locally](#run-locally)
-    - [Run](#run)
-    - [Quantization](#quantization)
-  - [Develop](#develop)
-  - [Testing](#testing)
+  - Get Started
+    - Docker
+    - API documentation
+    - Using a private or gated model
+    - A note on Shared Memory (shm)
+    - Distributed Tracing
+    - Architecture
+    - Local install
+    - Local install (Nix)
+  - Optimized architectures
+  - Run locally
+    - Run
+    - Quantization
+  - Develop
+  - Testing
 
 Text Generation Inference (TGI) is a toolkit for deploying and serving Large Language Models (LLMs). TGI enables high-performance text generation for the most popular open-source LLMs, including Llama, Falcon, StarCoder, BLOOM, GPT-NeoX, and [more](https://huggingface.co/docs/text-generation-inference/supported_models). TGI implements many features, such as:
 

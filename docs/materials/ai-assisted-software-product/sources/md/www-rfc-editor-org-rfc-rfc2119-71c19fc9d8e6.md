@@ -38,18 +38,18 @@ Updated by: [8174](https://www.rfc-editor.org/rfc/rfc8174) Errata Exist
        Note that the force of these words is modified by the requirement
        level of the document in which they are used.
     
-    [1](#section-1). MUST   This word, or the terms "REQUIRED" or "SHALL", mean that the
+    1. MUST   This word, or the terms "REQUIRED" or "SHALL", mean that the
        definition is an absolute requirement of the specification.
     
-    [2](#section-2). MUST NOT   This phrase, or the phrase "SHALL NOT", mean that the
+    2. MUST NOT   This phrase, or the phrase "SHALL NOT", mean that the
        definition is an absolute prohibition of the specification.
     
-    [3](#section-3). SHOULD   This word, or the adjective "RECOMMENDED", mean that there
+    3. SHOULD   This word, or the adjective "RECOMMENDED", mean that there
        may exist valid reasons in particular circumstances to ignore a
        particular item, but the full implications must be understood and
        carefully weighed before choosing a different course.
     
-    [4](#section-4). SHOULD NOT   This phrase, or the phrase "NOT RECOMMENDED" mean that
+    4. SHOULD NOT   This phrase, or the phrase "NOT RECOMMENDED" mean that
        there may exist valid reasons in particular circumstances when the
        particular behavior is acceptable or even useful, but the full
        implications should be understood and the case carefully weighed
@@ -65,7 +65,7 @@ Updated by: [8174](https://www.rfc-editor.org/rfc/rfc8174) Errata Exist
     [RFC 2119](https://www.rfc-editor.org/rfc/rfc2119)                     RFC Key Words                    March 1997
     
     
-    [5](#section-5). MAY   This word, or the adjective "OPTIONAL", mean that an item is
+    5. MAY   This word, or the adjective "OPTIONAL", mean that an item is
        truly optional.  One vendor may choose to include the item because a
        particular marketplace requires it or because the vendor feels that
        it enhances the product while another vendor may omit the same item.
@@ -77,7 +77,7 @@ Updated by: [8174](https://www.rfc-editor.org/rfc/rfc8174) Errata Exist
        does not include the option (except, of course, for the feature the
        option provides.)
     
-    [6](#section-6). Guidance in the use of these Imperatives
+    6. Guidance in the use of these Imperatives
     
        Imperatives of the type defined in this memo must be used with care
        and sparingly.  In particular, they MUST only be used where it is
@@ -87,7 +87,7 @@ Updated by: [8174](https://www.rfc-editor.org/rfc/rfc8174) Errata Exist
        on implementors where the method is not required for
        interoperability.
     
-    [7](#section-7). Security Considerations
+    7. Security Considerations
     
        These terms are frequently used to specify behavior with security
        implications.  The effects on security of not implementing a MUST or
@@ -98,7 +98,7 @@ Updated by: [8174](https://www.rfc-editor.org/rfc/rfc8174) Errata Exist
        had the benefit of the experience and discussion that produced the
        specification.
     
-    [8](#section-8). Acknowledgments
+    8. Acknowledgments
     
        The definitions of these terms are an amalgam of definitions taken
        from a number of RFCs.  In addition, suggestions have been
@@ -122,7 +122,7 @@ Updated by: [8174](https://www.rfc-editor.org/rfc/rfc8174) Errata Exist
     [RFC 2119](https://www.rfc-editor.org/rfc/rfc2119)                     RFC Key Words                    March 1997
     
     
-    [9](#section-9). Author's Address
+    9. Author's Address
     
           Scott Bradner
           Harvard University

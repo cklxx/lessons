@@ -67,52 +67,52 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
     
     Table of Contents
     
-       [1](#section-1). Introduction ....................................................[4](#page-4)
-          [1.1](#section-1.1). Roles ......................................................[6](#page-6)
-          [1.2](#section-1.2). Protocol Flow ..............................................[7](#page-7)
-          [1.3](#section-1.3). Authorization Grant ........................................[8](#page-8)
-               [1.3.1](#section-1.3.1). Authorization Code ..................................[8](#page-8)
-               [1.3.2](#section-1.3.2). Implicit ............................................[8](#page-8)
-               [1.3.3](#section-1.3.3). Resource Owner Password Credentials .................[9](#page-9)
-               [1.3.4](#section-1.3.4). Client Credentials ..................................[9](#page-9)
-          [1.4](#section-1.4). Access Token ..............................................[10](#page-10)
-          [1.5](#section-1.5). Refresh Token .............................................[10](#page-10)
-          [1.6](#section-1.6). TLS Version ...............................................[12](#page-12)
-          [1.7](#section-1.7). HTTP Redirections .........................................[12](#page-12)
-          [1.8](#section-1.8). Interoperability ..........................................[12](#page-12)
-          [1.9](#section-1.9). Notational Conventions ....................................[13](#page-13)
-       [2](#section-2). Client Registration ............................................[13](#page-13)
-          [2.1](#section-2.1). Client Types ..............................................[14](#page-14)
-          [2.2](#section-2.2). Client Identifier .........................................[15](#page-15)
-          [2.3](#section-2.3). Client Authentication .....................................[16](#page-16)
-               [2.3.1](#section-2.3.1). Client Password ....................................[16](#page-16)
-               [2.3.2](#section-2.3.2). Other Authentication Methods .......................[17](#page-17)
-          [2.4](#section-2.4). Unregistered Clients ......................................[17](#page-17)
-       [3](#section-3). Protocol Endpoints .............................................[18](#page-18)
-          [3.1](#section-3.1). Authorization Endpoint ....................................[18](#page-18)
-               [3.1.1](#section-3.1.1). Response Type ......................................[19](#page-19)
-               [3.1.2](#section-3.1.2). Redirection Endpoint ...............................[19](#page-19)
-          [3.2](#section-3.2). Token Endpoint ............................................[21](#page-21)
-               [3.2.1](#section-3.2.1). Client Authentication ..............................[22](#page-22)
-          [3.3](#section-3.3). Access Token Scope ........................................[23](#page-23)
-       [4](#section-4). Obtaining Authorization ........................................[23](#page-23)
-          [4.1](#section-4.1). Authorization Code Grant ..................................[24](#page-24)
-               [4.1.1](#section-4.1.1). Authorization Request ..............................[25](#page-25)
-               [4.1.2](#section-4.1.2). Authorization Response .............................[26](#page-26)
-               [4.1.3](#section-4.1.3). Access Token Request ...............................[29](#page-29)
-               [4.1.4](#section-4.1.4). Access Token Response ..............................[30](#page-30)
-          [4.2](#section-4.2). Implicit Grant ............................................[31](#page-31)
-               [4.2.1](#section-4.2.1). Authorization Request ..............................[33](#page-33)
-               [4.2.2](#section-4.2.2). Access Token Response ..............................[35](#page-35)
-          [4.3](#section-4.3). Resource Owner Password Credentials Grant .................[37](#page-37)
-               [4.3.1](#section-4.3.1). Authorization Request and Response .................[39](#page-39)
-               [4.3.2](#section-4.3.2). Access Token Request ...............................[39](#page-39)
-               [4.3.3](#section-4.3.3). Access Token Response ..............................[40](#page-40)
-          [4.4](#section-4.4). Client Credentials Grant ..................................[40](#page-40)
-               [4.4.1](#section-4.4.1). Authorization Request and Response .................[41](#page-41)
-               [4.4.2](#section-4.4.2). Access Token Request ...............................[41](#page-41)
-               [4.4.3](#section-4.4.3). Access Token Response ..............................[42](#page-42)
-          [4.5](#section-4.5). Extension Grants ..........................................[42](#page-42)
+       1. Introduction ....................................................4
+          1.1. Roles ......................................................6
+          1.2. Protocol Flow ..............................................7
+          1.3. Authorization Grant ........................................8
+               1.3.1. Authorization Code ..................................8
+               1.3.2. Implicit ............................................8
+               1.3.3. Resource Owner Password Credentials .................9
+               1.3.4. Client Credentials ..................................9
+          1.4. Access Token ..............................................10
+          1.5. Refresh Token .............................................10
+          1.6. TLS Version ...............................................12
+          1.7. HTTP Redirections .........................................12
+          1.8. Interoperability ..........................................12
+          1.9. Notational Conventions ....................................13
+       2. Client Registration ............................................13
+          2.1. Client Types ..............................................14
+          2.2. Client Identifier .........................................15
+          2.3. Client Authentication .....................................16
+               2.3.1. Client Password ....................................16
+               2.3.2. Other Authentication Methods .......................17
+          2.4. Unregistered Clients ......................................17
+       3. Protocol Endpoints .............................................18
+          3.1. Authorization Endpoint ....................................18
+               3.1.1. Response Type ......................................19
+               3.1.2. Redirection Endpoint ...............................19
+          3.2. Token Endpoint ............................................21
+               3.2.1. Client Authentication ..............................22
+          3.3. Access Token Scope ........................................23
+       4. Obtaining Authorization ........................................23
+          4.1. Authorization Code Grant ..................................24
+               4.1.1. Authorization Request ..............................25
+               4.1.2. Authorization Response .............................26
+               4.1.3. Access Token Request ...............................29
+               4.1.4. Access Token Response ..............................30
+          4.2. Implicit Grant ............................................31
+               4.2.1. Authorization Request ..............................33
+               4.2.2. Access Token Response ..............................35
+          4.3. Resource Owner Password Credentials Grant .................37
+               4.3.1. Authorization Request and Response .................39
+               4.3.2. Access Token Request ...............................39
+               4.3.3. Access Token Response ..............................40
+          4.4. Client Credentials Grant ..................................40
+               4.4.1. Authorization Request and Response .................41
+               4.4.2. Access Token Request ...............................41
+               4.4.3. Access Token Response ..............................42
+          4.5. Extension Grants ..........................................42
     
     
     
@@ -122,52 +122,52 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
     [RFC 6749](https://www.rfc-editor.org/rfc/rfc6749)                        OAuth 2.0                   October 2012
     
     
-       [5](#section-5). Issuing an Access Token ........................................[43](#page-43)
-          [5.1](#section-5.1). Successful Response .......................................[43](#page-43)
-          [5.2](#section-5.2). Error Response ............................................[45](#page-45)
-       [6](#section-6). Refreshing an Access Token .....................................[47](#page-47)
-       [7](#section-7). Accessing Protected Resources ..................................[48](#page-48)
-          [7.1](#section-7.1). Access Token Types ........................................[49](#page-49)
-          [7.2](#section-7.2). Error Response ............................................[49](#page-49)
-       [8](#section-8). Extensibility ..................................................[50](#page-50)
-          [8.1](#section-8.1). Defining Access Token Types ...............................[50](#page-50)
-          [8.2](#section-8.2). Defining New Endpoint Parameters ..........................[50](#page-50)
-          [8.3](#section-8.3). Defining New Authorization Grant Types ....................[51](#page-51)
-          [8.4](#section-8.4). Defining New Authorization Endpoint Response Types ........[51](#page-51)
-          [8.5](#section-8.5). Defining Additional Error Codes ...........................[51](#page-51)
-       [9](#section-9). Native Applications ............................................[52](#page-52)
-       [10](#section-10). Security Considerations .......................................[53](#page-53)
-          [10.1](#section-10.1). Client Authentication ....................................[53](#page-53)
-          [10.2](#section-10.2). Client Impersonation .....................................[54](#page-54)
-          [10.3](#section-10.3). Access Tokens ............................................[55](#page-55)
-          [10.4](#section-10.4). Refresh Tokens ...........................................[55](#page-55)
-          [10.5](#section-10.5). Authorization Codes ......................................[56](#page-56)
-          [10.6](#section-10.6). Authorization Code Redirection URI Manipulation ..........[56](#page-56)
-          [10.7](#section-10.7). Resource Owner Password Credentials ......................[57](#page-57)
-          [10.8](#section-10.8). Request Confidentiality ..................................[58](#page-58)
-          [10.9](#section-10.9). Ensuring Endpoint Authenticity ...........................[58](#page-58)
-          [10.10](#section-10.10). Credentials-Guessing Attacks ............................[58](#page-58)
-          [10.11](#section-10.11). Phishing Attacks ........................................[58](#page-58)
-          [10.12](#section-10.12). Cross-Site Request Forgery ..............................[59](#page-59)
-          [10.13](#section-10.13). Clickjacking ............................................[60](#page-60)
-          [10.14](#section-10.14). Code Injection and Input Validation .....................[60](#page-60)
-          [10.15](#section-10.15). Open Redirectors ........................................[60](#page-60)
+       5. Issuing an Access Token ........................................43
+          5.1. Successful Response .......................................43
+          5.2. Error Response ............................................45
+       6. Refreshing an Access Token .....................................47
+       7. Accessing Protected Resources ..................................48
+          7.1. Access Token Types ........................................49
+          7.2. Error Response ............................................49
+       8. Extensibility ..................................................50
+          8.1. Defining Access Token Types ...............................50
+          8.2. Defining New Endpoint Parameters ..........................50
+          8.3. Defining New Authorization Grant Types ....................51
+          8.4. Defining New Authorization Endpoint Response Types ........51
+          8.5. Defining Additional Error Codes ...........................51
+       9. Native Applications ............................................52
+       10. Security Considerations .......................................53
+          10.1. Client Authentication ....................................53
+          10.2. Client Impersonation .....................................54
+          10.3. Access Tokens ............................................55
+          10.4. Refresh Tokens ...........................................55
+          10.5. Authorization Codes ......................................56
+          10.6. Authorization Code Redirection URI Manipulation ..........56
+          10.7. Resource Owner Password Credentials ......................57
+          10.8. Request Confidentiality ..................................58
+          10.9. Ensuring Endpoint Authenticity ...........................58
+          10.10. Credentials-Guessing Attacks ............................58
+          10.11. Phishing Attacks ........................................58
+          10.12. Cross-Site Request Forgery ..............................59
+          10.13. Clickjacking ............................................60
+          10.14. Code Injection and Input Validation .....................60
+          10.15. Open Redirectors ........................................60
           10.16. Misuse of Access Token to Impersonate Resource
-                 Owner in Implicit Flow ..................................[61](#page-61)
-       [11](#section-11). IANA Considerations ...........................................[62](#page-62)
-          [11.1](#section-11.1). OAuth Access Token Types Registry ........................[62](#page-62)
-               [11.1.1](#section-11.1.1). Registration Template .............................[62](#page-62)
-          [11.2](#section-11.2). OAuth Parameters Registry ................................[63](#page-63)
-               [11.2.1](#section-11.2.1). Registration Template .............................[63](#page-63)
-               [11.2.2](#section-11.2.2). Initial Registry Contents .........................[64](#page-64)
-          [11.3](#section-11.3). OAuth Authorization Endpoint Response Types Registry .....[66](#page-66)
-               [11.3.1](#section-11.3.1). Registration Template .............................[66](#page-66)
-               [11.3.2](#section-11.3.2). Initial Registry Contents .........................[67](#page-67)
-          [11.4](#section-11.4). OAuth Extensions Error Registry ..........................[67](#page-67)
-               [11.4.1](#section-11.4.1). Registration Template .............................[68](#page-68)
-       [12](#section-12). References ....................................................[68](#page-68)
-          [12.1](#section-12.1). Normative References .....................................[68](#page-68)
-          [12.2](#section-12.2). Informative References ...................................[70](#page-70)
+                 Owner in Implicit Flow ..................................61
+       11. IANA Considerations ...........................................62
+          11.1. OAuth Access Token Types Registry ........................62
+               11.1.1. Registration Template .............................62
+          11.2. OAuth Parameters Registry ................................63
+               11.2.1. Registration Template .............................63
+               11.2.2. Initial Registry Contents .........................64
+          11.3. OAuth Authorization Endpoint Response Types Registry .....66
+               11.3.1. Registration Template .............................66
+               11.3.2. Initial Registry Contents .........................67
+          11.4. OAuth Extensions Error Registry ..........................67
+               11.4.1. Registration Template .............................68
+       12. References ....................................................68
+          12.1. Normative References .....................................68
+          12.2. Informative References ...................................70
     
     
     
@@ -179,29 +179,29 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
     [RFC 6749](https://www.rfc-editor.org/rfc/rfc6749)                        OAuth 2.0                   October 2012
     
     
-       [Appendix A](#appendix-A). Augmented Backus-Naur Form (ABNF) Syntax ..............[71](#page-71)
-         [A.1](#appendix-A.1).  "client_id" Syntax ........................................[71](#page-71)
-         [A.2](#appendix-A.2).  "client_secret" Syntax ....................................[71](#page-71)
-         [A.3](#appendix-A.3).  "response_type" Syntax ....................................[71](#page-71)
-         [A.4](#appendix-A.4).  "scope" Syntax ............................................[72](#page-72)
-         [A.5](#appendix-A.5).  "state" Syntax ............................................[72](#page-72)
-         [A.6](#appendix-A.6).  "redirect_uri" Syntax .....................................[72](#page-72)
-         [A.7](#appendix-A.7).  "error" Syntax ............................................[72](#page-72)
-         [A.8](#appendix-A.8).  "error_description" Syntax ................................[72](#page-72)
-         [A.9](#appendix-A.9).  "error_uri" Syntax ........................................[72](#page-72)
-         [A.10](#appendix-A.10). "grant_type" Syntax .......................................[73](#page-73)
-         [A.11](#appendix-A.11). "code" Syntax .............................................[73](#page-73)
-         [A.12](#appendix-A.12). "access_token" Syntax .....................................[73](#page-73)
-         [A.13](#appendix-A.13). "token_type" Syntax .......................................[73](#page-73)
-         [A.14](#appendix-A.14). "expires_in" Syntax .......................................[73](#page-73)
-         [A.15](#appendix-A.15). "username" Syntax .........................................[73](#page-73)
-         [A.16](#appendix-A.16). "password" Syntax .........................................[73](#page-73)
-         [A.17](#appendix-A.17). "refresh_token" Syntax ....................................[74](#page-74)
-         [A.18](#appendix-A.18). Endpoint Parameter Syntax .................................[74](#page-74)
-       [Appendix B](#appendix-B). Use of application/x-www-form-urlencoded Media Type ...[74](#page-74)
-       [Appendix C](#appendix-C). Acknowledgements ......................................[75](#page-75)
+       Appendix A. Augmented Backus-Naur Form (ABNF) Syntax ..............71
+         A.1.  "client_id" Syntax ........................................71
+         A.2.  "client_secret" Syntax ....................................71
+         A.3.  "response_type" Syntax ....................................71
+         A.4.  "scope" Syntax ............................................72
+         A.5.  "state" Syntax ............................................72
+         A.6.  "redirect_uri" Syntax .....................................72
+         A.7.  "error" Syntax ............................................72
+         A.8.  "error_description" Syntax ................................72
+         A.9.  "error_uri" Syntax ........................................72
+         A.10. "grant_type" Syntax .......................................73
+         A.11. "code" Syntax .............................................73
+         A.12. "access_token" Syntax .....................................73
+         A.13. "token_type" Syntax .......................................73
+         A.14. "expires_in" Syntax .......................................73
+         A.15. "username" Syntax .........................................73
+         A.16. "password" Syntax .........................................73
+         A.17. "refresh_token" Syntax ....................................74
+         A.18. Endpoint Parameter Syntax .................................74
+       Appendix B. Use of application/x-www-form-urlencoded Media Type ...74
+       Appendix C. Acknowledgements ......................................75
     
-    [1](#section-1).  Introduction
+    1.  Introduction
     
        In the traditional client-server authentication model, the client
        requests an access-restricted resource (protected resource) on the
@@ -293,7 +293,7 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
     [RFC 6749](https://www.rfc-editor.org/rfc/rfc6749)                        OAuth 2.0                   October 2012
     
     
-    [1.1](#section-1.1).  Roles
+    1.1.  Roles
     
        OAuth defines four roles:
     
@@ -350,7 +350,7 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
     [RFC 6749](https://www.rfc-editor.org/rfc/rfc6749)                        OAuth 2.0                   October 2012
     
     
-    [1.2](#section-1.2).  Protocol Flow
+    1.2.  Protocol Flow
     
          +--------+                               +---------------+
          |        |--(A)- Authorization Request ->|   Resource    |
@@ -416,9 +416,9 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
        The preferred method for the client to obtain an authorization grant
        from the resource owner (depicted in steps (A) and (B)) is to use the
        authorization server as an intermediary, which is illustrated in
-       Figure 3 in [Section 4.1](#section-4.1).
+       Figure 3 in Section 4.1.
     
-    [1.3](#section-1.3).  Authorization Grant
+    1.3.  Authorization Grant
     
        An authorization grant is a credential representing the resource
        owner's authorization (to access its protected resources) used by the
@@ -427,7 +427,7 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
        credentials, and client credentials -- as well as an extensibility
        mechanism for defining additional types.
     
-    [1.3.1](#section-1.3.1).  Authorization Code
+    1.3.1.  Authorization Code
     
        The authorization code is obtained by using an authorization server
        as an intermediary between the client and resource owner.  Instead of
@@ -448,7 +448,7 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
        passing it through the resource owner's user-agent and potentially
        exposing it to others, including the resource owner.
     
-    [1.3.2](#section-1.3.2).  Implicit
+    1.3.2.  Implicit
     
        The implicit grant is a simplified authorization code flow optimized
        for clients implemented in a browser using a scripting language such
@@ -480,10 +480,10 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
        since it reduces the number of round trips required to obtain an
        access token.  However, this convenience should be weighed against
        the security implications of using implicit grants, such as those
-       described in Sections [10.3](#section-10.3) and [10.16](#section-10.16), especially when the
+       described in Sections 10.3 and 10.16, especially when the
        authorization code grant type is available.
     
-    [1.3.3](#section-1.3.3).  Resource Owner Password Credentials
+    1.3.3.  Resource Owner Password Credentials
     
        The resource owner password credentials (i.e., username and password)
        can be used directly as an authorization grant to obtain an access
@@ -500,7 +500,7 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
        resource owner credentials for future use, by exchanging the
        credentials with a long-lived access token or refresh token.
     
-    [1.3.4](#section-1.3.4).  Client Credentials
+    1.3.4.  Client Credentials
     
        The client credentials (or other forms of client authentication) can
        be used as an authorization grant when the authorization scope is
@@ -521,7 +521,7 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
     [RFC 6749](https://www.rfc-editor.org/rfc/rfc6749)                        OAuth 2.0                   October 2012
     
     
-    [1.4](#section-1.4).  Access Token
+    1.4.  Access Token
     
        Access tokens are credentials used to access protected resources.  An
        access token is a string representing an authorization issued to the
@@ -551,7 +551,7 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
        this specification and are defined by companion specifications such
        as [[RFC6750](./rfc6750 ""The OAuth 2.0 Authorization Framework: Bearer Token Usage"")].
     
-    [1.5](#section-1.5).  Refresh Token
+    1.5.  Refresh Token
     
        Refresh tokens are credentials used to obtain access tokens.  Refresh
        tokens are issued to the client by the authorization server and are
@@ -645,9 +645,9 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
             optionally, a new refresh token).
     
        Steps (C), (D), (E), and (F) are outside the scope of this
-       specification, as described in [Section 7](#section-7).
+       specification, as described in Section 7.
     
-    [1.6](#section-1.6).  TLS Version
+    1.6.  TLS Version
     
        Whenever Transport Layer Security (TLS) is used by this
        specification, the appropriate version (or versions) of TLS will vary
@@ -661,7 +661,7 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
        Implementations MAY also support additional transport-layer security
        mechanisms that meet their security requirements.
     
-    [1.7](#section-1.7).  HTTP Redirections
+    1.7.  HTTP Redirections
     
        This specification makes extensive use of HTTP redirections, in which
        the client or the authorization server directs the resource owner's
@@ -670,7 +670,7 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
        method available via the user-agent to accomplish this redirection is
        allowed and is considered to be an implementation detail.
     
-    [1.8](#section-1.8).  Interoperability
+    1.8.  Interoperability
     
        OAuth 2.0 provides a rich authorization framework with well-defined
        security properties.  However, as a rich and highly extensible
@@ -700,7 +700,7 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
        work will define prescriptive profiles and extensions necessary to
        achieve full web-scale interoperability.
     
-    [1.9](#section-1.9).  Notational Conventions
+    1.9.  Notational Conventions
     
        The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
        "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
@@ -720,7 +720,7 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
        Unless otherwise noted, all the protocol parameter names and values
        are case sensitive.
     
-    [2](#section-2).  Client Registration
+    2.  Client Registration
     
        Before initiating the protocol, the client registers with the
        authorization server.  The means through which the client registers
@@ -751,16 +751,16 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
     
        When registering a client, the client developer SHALL:
     
-       o  specify the client type as described in [Section 2.1](#section-2.1),
+       o  specify the client type as described in Section 2.1,
     
-       o  provide its client redirection URIs as described in [Section 3.1.2](#section-3.1.2),
+       o  provide its client redirection URIs as described in Section 3.1.2,
           and
     
        o  include any other information required by the authorization server
           (e.g., application name, website, description, logo image, the
           acceptance of legal terms).
     
-    [2.1](#section-2.1).  Client Types
+    2.1.  Client Types
     
        OAuth defines two client types, based on their ability to
        authenticate securely with the authorization server (i.e., ability to
@@ -839,7 +839,7 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
           might be protected from other applications residing on the same
           device.
     
-    [2.2](#section-2.2).  Client Identifier
+    2.2.  Client Identifier
     
        The authorization server issues the registered client a client
        identifier -- a unique string representing the registration
@@ -863,7 +863,7 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
     [RFC 6749](https://www.rfc-editor.org/rfc/rfc6749)                        OAuth 2.0                   October 2012
     
     
-    [2.3](#section-2.3).  Client Authentication
+    2.3.  Client Authentication
     
        If the client type is confidential, the client and authorization
        server establish a client authentication method suitable for the
@@ -883,13 +883,13 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
        The client MUST NOT use more than one authentication method in each
        request.
     
-    [2.3.1](#section-2.3.1).  Client Password
+    2.3.1.  Client Password
     
        Clients in possession of a client password MAY use the HTTP Basic
        authentication scheme as defined in [[RFC2617](./rfc2617 ""HTTP Authentication: Basic and Digest Access Authentication"")] to authenticate with
        the authorization server.  The client identifier is encoded using the
        "application/x-www-form-urlencoded" encoding algorithm per
-       [Appendix B](#appendix-B), and the encoded value is used as the username; the client
+       Appendix B, and the encoded value is used as the username; the client
        password is encoded using the same algorithm and used as the
        password.  The authorization server MUST support the HTTP Basic
        authentication scheme for authenticating clients that were issued a
@@ -905,7 +905,7 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
     
        client_id
              REQUIRED.  The client identifier issued to the client during
-             the registration process described by [Section 2.2](#section-2.2).
+             the registration process described by Section 2.2.
     
        client_secret
              REQUIRED.  The client secret.  The client MAY omit the
@@ -927,7 +927,7 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
        be transmitted in the request-body and MUST NOT be included in the
        request URI.
     
-       For example, a request to refresh an access token ([Section 6](#section-6)) using
+       For example, a request to refresh an access token (Section 6) using
        the body parameters (with extra line breaks for display purposes
        only):
     
@@ -939,13 +939,13 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
          &client_id=s6BhdRkqt3&client_secret=7Fjfp0ZBr1KtDRbnfVdmIw
     
        The authorization server MUST require the use of TLS as described in
-       [Section 1.6](#section-1.6) when sending requests using password authentication.
+       Section 1.6 when sending requests using password authentication.
     
        Since this client authentication method involves a password, the
        authorization server MUST protect any endpoint utilizing it against
        brute force attacks.
     
-    [2.3.2](#section-2.3.2).  Other Authentication Methods
+    2.3.2.  Other Authentication Methods
     
        The authorization server MAY support any suitable HTTP authentication
        scheme matching its security requirements.  When using other
@@ -953,7 +953,7 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
        mapping between the client identifier (registration record) and
        authentication scheme.
     
-    [2.4](#section-2.4).  Unregistered Clients
+    2.4.  Unregistered Clients
     
        This specification does not exclude the use of unregistered clients.
        However, the use of such clients is beyond the scope of this
@@ -977,7 +977,7 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
     [RFC 6749](https://www.rfc-editor.org/rfc/rfc6749)                        OAuth 2.0                   October 2012
     
     
-    [3](#section-3).  Protocol Endpoints
+    3.  Protocol Endpoints
     
        The authorization process utilizes two authorization server endpoints
        (HTTP resources):
@@ -997,7 +997,7 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
        Not every authorization grant type utilizes both endpoints.
        Extension grant types MAY define additional endpoints as needed.
     
-    [3.1](#section-3.1).  Authorization Endpoint
+    3.1.  Authorization Endpoint
     
        The authorization endpoint is used to interact with the resource
        owner and obtain an authorization grant.  The authorization server
@@ -1011,14 +1011,14 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
        but the location is typically provided in the service documentation.
     
        The endpoint URI MAY include an "application/x-www-form-urlencoded"
-       formatted (per [Appendix B](#appendix-B)) query component ([[RFC3986] Section 3.4](https://www.rfc-editor.org/rfc/rfc3986#section-3.4)),
+       formatted (per Appendix B) query component ([[RFC3986] Section 3.4](https://www.rfc-editor.org/rfc/rfc3986#section-3.4)),
        which MUST be retained when adding additional query parameters.  The
        endpoint URI MUST NOT include a fragment component.
     
        Since requests to the authorization endpoint result in user
        authentication and the transmission of clear-text credentials (in the
        HTTP response), the authorization server MUST require the use of TLS
-       as described in [Section 1.6](#section-1.6) when sending requests to the
+       as described in Section 1.6 when sending requests to the
        authorization endpoint.
     
        The authorization server MUST support the use of the HTTP "GET"
@@ -1039,7 +1039,7 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
        unrecognized request parameters.  Request and response parameters
        MUST NOT be included more than once.
     
-    [3.1.1](#section-3.1.1).  Response Type
+    3.1.1.  Response Type
     
        The authorization endpoint is used by the authorization code grant
        type and implicit grant type flows.  The client informs the
@@ -1048,10 +1048,10 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
     
        response_type
              REQUIRED.  The value MUST be one of "code" for requesting an
-             authorization code as described by [Section 4.1.1](#section-4.1.1), "token" for
+             authorization code as described by Section 4.1.1, "token" for
              requesting an access token (implicit grant) as described by
-             [Section 4.2.1](#section-4.2.1), or a registered extension value as described by
-             [Section 8.4](#section-8.4).
+             Section 4.2.1, or a registered extension value as described by
+             Section 8.4.
     
        Extension response types MAY contain a space-delimited (%x20) list of
        values, where the order of values does not matter (e.g., response
@@ -1060,9 +1060,9 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
     
        If an authorization request is missing the "response_type" parameter,
        or if the response type is not understood, the authorization server
-       MUST return an error response as described in [Section 4.1.2.1](#section-4.1.2.1).
+       MUST return an error response as described in Section 4.1.2.1.
     
-    [3.1.2](#section-3.1.2).  Redirection Endpoint
+    3.1.2.  Redirection Endpoint
     
        After completing its interaction with the resource owner, the
        authorization server directs the resource owner's user-agent back to
@@ -1073,7 +1073,7 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
     
        The redirection endpoint URI MUST be an absolute URI as defined by
        [[RFC3986] Section 4.3](https://www.rfc-editor.org/rfc/rfc3986#section-4.3).  The endpoint URI MAY include an
-       "application/x-www-form-urlencoded" formatted (per [Appendix B](#appendix-B)) query
+       "application/x-www-form-urlencoded" formatted (per Appendix B) query
        component ([[RFC3986] Section 3.4](https://www.rfc-editor.org/rfc/rfc3986#section-3.4)), which MUST be retained when adding
        additional query parameters.  The endpoint URI MUST NOT include a
        fragment component.
@@ -1091,10 +1091,10 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
     [RFC 6749](https://www.rfc-editor.org/rfc/rfc6749)                        OAuth 2.0                   October 2012
     
     
-    [3.1.2.1](#section-3.1.2.1).  Endpoint Request Confidentiality
+    3.1.2.1.  Endpoint Request Confidentiality
     
        The redirection endpoint SHOULD require the use of TLS as described
-       in [Section 1.6](#section-1.6) when the requested response type is "code" or "token",
+       in Section 1.6 when the requested response type is "code" or "token",
        or when the redirection request will result in the transmission of
        sensitive credentials over an open network.  This specification does
        not mandate the use of TLS because at the time of this writing,
@@ -1111,7 +1111,7 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
        delegated end-user authentication by the client (e.g., third-party
        sign-in service).
     
-    [3.1.2.2](#section-3.1.2.2).  Registration Requirements
+    3.1.2.2.  Registration Requirements
     
        The authorization server MUST require the following clients to
        register their redirection endpoint:
@@ -1137,7 +1137,7 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
     
        Lack of a redirection URI registration requirement can enable an
        attacker to use the authorization endpoint as an open redirector as
-       described in [Section 10.15](#section-10.15).
+       described in Section 10.15.
     
     
     
@@ -1148,7 +1148,7 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
     [RFC 6749](https://www.rfc-editor.org/rfc/rfc6749)                        OAuth 2.0                   October 2012
     
     
-    [3.1.2.3](#section-3.1.2.3).  Dynamic Configuration
+    3.1.2.3.  Dynamic Configuration
     
        If multiple redirection URIs have been registered, if only part of
        the redirection URI has been registered, or if no redirection URI has
@@ -1163,14 +1163,14 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
        redirection URI, the authorization server MUST compare the two URIs
        using simple string comparison as defined in [[RFC3986] Section 6.2.1](https://www.rfc-editor.org/rfc/rfc3986#section-6.2.1).
     
-    [3.1.2.4](#section-3.1.2.4).  Invalid Endpoint
+    3.1.2.4.  Invalid Endpoint
     
        If an authorization request fails validation due to a missing,
        invalid, or mismatching redirection URI, the authorization server
        SHOULD inform the resource owner of the error and MUST NOT
        automatically redirect the user-agent to the invalid redirection URI.
     
-    [3.1.2.5](#section-3.1.2.5).  Endpoint Content
+    3.1.2.5.  Endpoint Content
     
        The redirection request to the client's endpoint typically results in
        an HTML document response, processed by the user-agent.  If the HTML
@@ -1187,7 +1187,7 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
        (used to extract and remove the credentials from the URI) will
        execute first.
     
-    [3.2](#section-3.2).  Token Endpoint
+    3.2.  Token Endpoint
     
        The token endpoint is used by the client to obtain an access token by
        presenting its authorization grant or refresh token.  The token
@@ -1210,14 +1210,14 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
        is typically provided in the service documentation.
     
        The endpoint URI MAY include an "application/x-www-form-urlencoded"
-       formatted (per [Appendix B](#appendix-B)) query component ([[RFC3986] Section 3.4](https://www.rfc-editor.org/rfc/rfc3986#section-3.4)),
+       formatted (per Appendix B) query component ([[RFC3986] Section 3.4](https://www.rfc-editor.org/rfc/rfc3986#section-3.4)),
        which MUST be retained when adding additional query parameters.  The
        endpoint URI MUST NOT include a fragment component.
     
        Since requests to the token endpoint result in the transmission of
        clear-text credentials (in the HTTP request and response), the
        authorization server MUST require the use of TLS as described in
-       [Section 1.6](#section-1.6) when sending requests to the token endpoint.
+       Section 1.6 when sending requests to the token endpoint.
     
        The client MUST use the HTTP "POST" method when making access token
        requests.
@@ -1227,11 +1227,11 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
        unrecognized request parameters.  Request and response parameters
        MUST NOT be included more than once.
     
-    [3.2.1](#section-3.2.1).  Client Authentication
+    3.2.1.  Client Authentication
     
        Confidential clients or other clients issued client credentials MUST
        authenticate with the authorization server as described in
-       [Section 2.3](#section-2.3) when making requests to the token endpoint.  Client
+       Section 2.3 when making requests to the token endpoint.  Client
        authentication is used for:
     
        o  Enforcing the binding of refresh tokens and authorization codes to
@@ -1271,7 +1271,7 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
        the authentication code.  (It provides no additional security for the
        protected resource.)
     
-    [3.3](#section-3.3).  Access Token Scope
+    3.3.  Access Token Scope
     
        The authorization and token endpoints allow the client to specify the
        scope of the access request using the "scope" request parameter.  In
@@ -1300,7 +1300,7 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
        indicating an invalid scope.  The authorization server SHOULD
        document its scope requirements and default value (if defined).
     
-    [4](#section-4).  Obtaining Authorization
+    4.  Obtaining Authorization
     
        To request an access token, the client obtains authorization from the
        resource owner.  The authorization is expressed in the form of an
@@ -1319,7 +1319,7 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
     [RFC 6749](https://www.rfc-editor.org/rfc/rfc6749)                        OAuth 2.0                   October 2012
     
     
-    [4.1](#section-4.1).  Authorization Code Grant
+    4.1.  Authorization Code Grant
     
        The authorization code grant type is used to obtain both access
        tokens and refresh tokens and is optimized for confidential clients.
@@ -1408,20 +1408,20 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
             step (C).  If valid, the authorization server responds back with
             an access token and, optionally, a refresh token.
     
-    [4.1.1](#section-4.1.1).  Authorization Request
+    4.1.1.  Authorization Request
     
        The client constructs the request URI by adding the following
        parameters to the query component of the authorization endpoint URI
-       using the "application/x-www-form-urlencoded" format, per [Appendix B](#appendix-B):
+       using the "application/x-www-form-urlencoded" format, per Appendix B:
     
        response_type
              REQUIRED.  Value MUST be set to "code".
     
        client_id
-             REQUIRED.  The client identifier as described in [Section 2.2](#section-2.2).
+             REQUIRED.  The client identifier as described in Section 2.2.
     
        redirect_uri
-             OPTIONAL.  As described in [Section 3.1.2](#section-3.1.2).
+             OPTIONAL.  As described in Section 3.1.2.
     
     
     
@@ -1435,14 +1435,14 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
     
        scope
              OPTIONAL.  The scope of the access request as described by
-             [Section 3.3](#section-3.3).
+             Section 3.3.
     
        state
              RECOMMENDED.  An opaque value used by the client to maintain
              state between the request and callback.  The authorization
              server includes this value when redirecting the user-agent back
              to the client.  The parameter SHOULD be used for preventing
-             cross-site request forgery as described in [Section 10.12](#section-10.12).
+             cross-site request forgery as described in Section 10.12.
     
        The client directs the resource owner to the constructed URI using an
        HTTP redirection response, or by other means available to it via the
@@ -1467,13 +1467,13 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
        redirection response, or by other means available to it via the
        user-agent.
     
-    [4.1.2](#section-4.1.2).  Authorization Response
+    4.1.2.  Authorization Response
     
        If the resource owner grants the access request, the authorization
        server issues an authorization code and delivers it to the client by
        adding the following parameters to the query component of the
        redirection URI using the "application/x-www-form-urlencoded" format,
-       per [Appendix B](#appendix-B):
+       per Appendix B:
     
        code
              REQUIRED.  The authorization code generated by the
@@ -1514,7 +1514,7 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
        value sizes.  The authorization server SHOULD document the size of
        any value it issues.
     
-    [4.1.2.1](#section-4.1.2.1).  Error Response
+    4.1.2.1.  Error Response
     
        If the request fails due to a missing, invalid, or mismatching
        redirection URI, or if the client identifier is missing or invalid,
@@ -1526,10 +1526,10 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
        fails for reasons other than a missing or invalid redirection URI,
        the authorization server informs the client by adding the following
        parameters to the query component of the redirection URI using the
-       "application/x-www-form-urlencoded" format, per [Appendix B](#appendix-B):
+       "application/x-www-form-urlencoded" format, per Appendix B:
     
        error
-             REQUIRED.  A single ASCII [[USASCII](#ref-USASCII ""Coded Character Set -- 7-bit American Standard Code for Information Interchange"")] error code from the
+             REQUIRED.  A single ASCII [[USASCII]] error code from the
              following:
     
              invalid_request
@@ -1580,7 +1580,7 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
              outside the set %x20-21 / %x23-5B / %x5D-7E.
     
        error_description
-             OPTIONAL.  Human-readable ASCII [[USASCII](#ref-USASCII ""Coded Character Set -- 7-bit American Standard Code for Information Interchange"")] text providing
+             OPTIONAL.  Human-readable ASCII [[USASCII]] text providing
              additional information, used to assist the client developer in
              understanding the error that occurred.
              Values for the "error_description" parameter MUST NOT include
@@ -1615,11 +1615,11 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
        HTTP/1.1 302 Found
        Location: https://client.example.com/cb?error=access_denied&state=xyz
     
-    [4.1.3](#section-4.1.3).  Access Token Request
+    4.1.3.  Access Token Request
     
        The client makes a request to the token endpoint by sending the
        following parameters using the "application/x-www-form-urlencoded"
-       format per [Appendix B](#appendix-B) with a character encoding of UTF-8 in the HTTP
+       format per Appendix B with a character encoding of UTF-8 in the HTTP
        request entity-body:
     
        grant_type
@@ -1631,17 +1631,17 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
     
        redirect_uri
              REQUIRED, if the "redirect_uri" parameter was included in the
-             authorization request as described in [Section 4.1.1](#section-4.1.1), and their
+             authorization request as described in Section 4.1.1, and their
              values MUST be identical.
     
        client_id
              REQUIRED, if the client is not authenticating with the
-             authorization server as described in [Section 3.2.1](#section-3.2.1).
+             authorization server as described in Section 3.2.1.
     
        If the client type is confidential or the client was issued client
        credentials (or assigned other authentication requirements), the
        client MUST authenticate with the authorization server as described
-       in [Section 3.2.1](#section-3.2.1).
+       in Section 3.2.1.
     
     
     
@@ -1688,16 +1688,16 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
     
        o  ensure that the "redirect_uri" parameter is present if the
           "redirect_uri" parameter was included in the initial authorization
-          request as described in [Section 4.1.1](#section-4.1.1), and if included ensure that
+          request as described in Section 4.1.1, and if included ensure that
           their values are identical.
     
-    [4.1.4](#section-4.1.4).  Access Token Response
+    4.1.4.  Access Token Response
     
        If the access token request is valid and authorized, the
        authorization server issues an access token and optional refresh
-       token as described in [Section 5.1](#section-5.1).  If the request client
+       token as described in Section 5.1.  If the request client
        authentication failed or is invalid, the authorization server returns
-       an error response as described in [Section 5.2](#section-5.2).
+       an error response as described in Section 5.2.
     
     
     
@@ -1733,7 +1733,7 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
            "example_parameter":"example_value"
          }
     
-    [4.2](#section-4.2).  Implicit Grant
+    4.2.  Implicit Grant
     
        The implicit grant type is used to obtain access tokens (it does not
        support the issuance of refresh tokens) and is optimized for public
@@ -1865,21 +1865,21 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
     
        (G)  The user-agent passes the access token to the client.
     
-       See Sections [1.3.2](#section-1.3.2) and [9](#section-9) for background on using the implicit grant.
-       See Sections [10.3](#section-10.3) and [10.16](#section-10.16) for important security considerations
+       See Sections 1.3.2 and 9 for background on using the implicit grant.
+       See Sections 10.3 and 10.16 for important security considerations
        when using the implicit grant.
     
-    [4.2.1](#section-4.2.1).  Authorization Request
+    4.2.1.  Authorization Request
     
        The client constructs the request URI by adding the following
        parameters to the query component of the authorization endpoint URI
-       using the "application/x-www-form-urlencoded" format, per [Appendix B](#appendix-B):
+       using the "application/x-www-form-urlencoded" format, per Appendix B:
     
        response_type
              REQUIRED.  Value MUST be set to "token".
     
        client_id
-             REQUIRED.  The client identifier as described in [Section 2.2](#section-2.2).
+             REQUIRED.  The client identifier as described in Section 2.2.
     
     
     
@@ -1890,18 +1890,18 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
     
     
        redirect_uri
-             OPTIONAL.  As described in [Section 3.1.2](#section-3.1.2).
+             OPTIONAL.  As described in Section 3.1.2.
     
        scope
              OPTIONAL.  The scope of the access request as described by
-             [Section 3.3](#section-3.3).
+             Section 3.3.
     
        state
              RECOMMENDED.  An opaque value used by the client to maintain
              state between the request and callback.  The authorization
              server includes this value when redirecting the user-agent back
              to the client.  The parameter SHOULD be used for preventing
-             cross-site request forgery as described in [Section 10.12](#section-10.12).
+             cross-site request forgery as described in Section 10.12.
     
        The client directs the resource owner to the constructed URI using an
        HTTP redirection response, or by other means available to it via the
@@ -1919,7 +1919,7 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
        required parameters are present and valid.  The authorization server
        MUST verify that the redirection URI to which it will redirect the
        access token matches a redirection URI registered by the client as
-       described in [Section 3.1.2](#section-3.1.2).
+       described in Section 3.1.2.
     
        If the request is valid, the authorization server authenticates the
        resource owner and obtains an authorization decision (by asking the
@@ -1946,20 +1946,20 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
     [RFC 6749](https://www.rfc-editor.org/rfc/rfc6749)                        OAuth 2.0                   October 2012
     
     
-    [4.2.2](#section-4.2.2).  Access Token Response
+    4.2.2.  Access Token Response
     
        If the resource owner grants the access request, the authorization
        server issues an access token and delivers it to the client by adding
        the following parameters to the fragment component of the redirection
        URI using the "application/x-www-form-urlencoded" format, per
-       [Appendix B](#appendix-B):
+       Appendix B:
     
        access_token
              REQUIRED.  The access token issued by the authorization server.
     
        token_type
              REQUIRED.  The type of the token issued as described in
-             [Section 7.1](#section-7.1).  Value is case insensitive.
+             Section 7.1.  Value is case insensitive.
     
        expires_in
              RECOMMENDED.  The lifetime in seconds of the access token.  For
@@ -1971,7 +1971,7 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
        scope
              OPTIONAL, if identical to the scope requested by the client;
              otherwise, REQUIRED.  The scope of the access token as
-             described by [Section 3.3](#section-3.3).
+             described by Section 3.3.
     
        state
              REQUIRED if the "state" parameter was present in the client
@@ -2008,7 +2008,7 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
        client should avoid making assumptions about value sizes.  The
        authorization server SHOULD document the size of any value it issues.
     
-    [4.2.2.1](#section-4.2.2.1).  Error Response
+    4.2.2.1.  Error Response
     
        If the request fails due to a missing, invalid, or mismatching
        redirection URI, or if the client identifier is missing or invalid,
@@ -2020,10 +2020,10 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
        fails for reasons other than a missing or invalid redirection URI,
        the authorization server informs the client by adding the following
        parameters to the fragment component of the redirection URI using the
-       "application/x-www-form-urlencoded" format, per [Appendix B](#appendix-B):
+       "application/x-www-form-urlencoded" format, per Appendix B:
     
        error
-             REQUIRED.  A single ASCII [[USASCII](#ref-USASCII ""Coded Character Set -- 7-bit American Standard Code for Information Interchange"")] error code from the
+             REQUIRED.  A single ASCII [[USASCII]] error code from the
              following:
     
              invalid_request
@@ -2078,7 +2078,7 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
              outside the set %x20-21 / %x23-5B / %x5D-7E.
     
        error_description
-             OPTIONAL.  Human-readable ASCII [[USASCII](#ref-USASCII ""Coded Character Set -- 7-bit American Standard Code for Information Interchange"")] text providing
+             OPTIONAL.  Human-readable ASCII [[USASCII]] text providing
              additional information, used to assist the client developer in
              understanding the error that occurred.
              Values for the "error_description" parameter MUST NOT include
@@ -2103,7 +2103,7 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
        HTTP/1.1 302 Found
        Location: https://client.example.com/cb#error=access_denied&state=xyz
     
-    [4.3](#section-4.3).  Resource Owner Password Credentials Grant
+    4.3.  Resource Owner Password Credentials Grant
     
        The resource owner password credentials grant type is suitable in
        cases where the resource owner has a trust relationship with the
@@ -2174,17 +2174,17 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
     [RFC 6749](https://www.rfc-editor.org/rfc/rfc6749)                        OAuth 2.0                   October 2012
     
     
-    [4.3.1](#section-4.3.1).  Authorization Request and Response
+    4.3.1.  Authorization Request and Response
     
        The method through which the client obtains the resource owner
        credentials is beyond the scope of this specification.  The client
        MUST discard the credentials once an access token has been obtained.
     
-    [4.3.2](#section-4.3.2).  Access Token Request
+    4.3.2.  Access Token Request
     
        The client makes a request to the token endpoint by adding the
        following parameters using the "application/x-www-form-urlencoded"
-       format per [Appendix B](#appendix-B) with a character encoding of UTF-8 in the HTTP
+       format per Appendix B with a character encoding of UTF-8 in the HTTP
        request entity-body:
     
        grant_type
@@ -2198,12 +2198,12 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
     
        scope
              OPTIONAL.  The scope of the access request as described by
-             [Section 3.3](#section-3.3).
+             Section 3.3.
     
        If the client type is confidential or the client was issued client
        credentials (or assigned other authentication requirements), the
        client MUST authenticate with the authorization server as described
-       in [Section 3.2.1](#section-3.2.1).
+       in Section 3.2.1.
     
        For example, the client makes the following HTTP request using
        transport-layer security (with extra line breaks for display purposes
@@ -2247,13 +2247,13 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
        brute force attacks (e.g., using rate-limitation or generating
        alerts).
     
-    [4.3.3](#section-4.3.3).  Access Token Response
+    4.3.3.  Access Token Response
     
        If the access token request is valid and authorized, the
        authorization server issues an access token and optional refresh
-       token as described in [Section 5.1](#section-5.1).  If the request failed client
+       token as described in Section 5.1.  If the request failed client
        authentication or is invalid, the authorization server returns an
-       error response as described in [Section 5.2](#section-5.2).
+       error response as described in Section 5.2.
     
        An example successful response:
     
@@ -2270,7 +2270,7 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
            "example_parameter":"example_value"
          }
     
-    [4.4](#section-4.4).  Client Credentials Grant
+    4.4.  Client Credentials Grant
     
        The client can request an access token using only its client
        credentials (or other supported means of authentication) when the
@@ -2309,16 +2309,16 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
        (B)  The authorization server authenticates the client, and if valid,
             issues an access token.
     
-    [4.4.1](#section-4.4.1).  Authorization Request and Response
+    4.4.1.  Authorization Request and Response
     
        Since the client authentication is used as the authorization grant,
        no additional authorization request is needed.
     
-    [4.4.2](#section-4.4.2).  Access Token Request
+    4.4.2.  Access Token Request
     
        The client makes a request to the token endpoint by adding the
        following parameters using the "application/x-www-form-urlencoded"
-       format per [Appendix B](#appendix-B) with a character encoding of UTF-8 in the HTTP
+       format per Appendix B with a character encoding of UTF-8 in the HTTP
        request entity-body:
     
        grant_type
@@ -2326,10 +2326,10 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
     
        scope
              OPTIONAL.  The scope of the access request as described by
-             [Section 3.3](#section-3.3).
+             Section 3.3.
     
        The client MUST authenticate with the authorization server as
-       described in [Section 3.2.1](#section-3.2.1).
+       described in Section 3.2.1.
     
     
     
@@ -2358,13 +2358,13 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
     
        The authorization server MUST authenticate the client.
     
-    [4.4.3](#section-4.4.3).  Access Token Response
+    4.4.3.  Access Token Response
     
        If the access token request is valid and authorized, the
        authorization server issues an access token as described in
-       [Section 5.1](#section-5.1).  A refresh token SHOULD NOT be included.  If the request
+       Section 5.1.  A refresh token SHOULD NOT be included.  If the request
        failed client authentication or is invalid, the authorization server
-       returns an error response as described in [Section 5.2](#section-5.2).
+       returns an error response as described in Section 5.2.
     
        An example successful response:
     
@@ -2380,7 +2380,7 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
            "example_parameter":"example_value"
          }
     
-    [4.5](#section-4.5).  Extension Grants
+    4.5.  Extension Grants
     
        The client uses an extension grant type by specifying the grant type
        using an absolute URI (defined by the authorization server) as the
@@ -2404,7 +2404,7 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
     
        For example, to request an access token using a Security Assertion
        Markup Language (SAML) 2.0 assertion grant type as defined by
-       [[OAuth-SAML2](#ref-OAuth-SAML2)], the client could make the following HTTP request using
+       [OAuth-SAML2], the client could make the following HTTP request using
        TLS (with extra line breaks for display purposes only):
     
          POST /token HTTP/1.1
@@ -2417,19 +2417,19 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
     
        If the access token request is valid and authorized, the
        authorization server issues an access token and optional refresh
-       token as described in [Section 5.1](#section-5.1).  If the request failed client
+       token as described in Section 5.1.  If the request failed client
        authentication or is invalid, the authorization server returns an
-       error response as described in [Section 5.2](#section-5.2).
+       error response as described in Section 5.2.
     
-    [5](#section-5).  Issuing an Access Token
+    5.  Issuing an Access Token
     
        If the access token request is valid and authorized, the
        authorization server issues an access token and optional refresh
-       token as described in [Section 5.1](#section-5.1).  If the request failed client
+       token as described in Section 5.1.  If the request failed client
        authentication or is invalid, the authorization server returns an
-       error response as described in [Section 5.2](#section-5.2).
+       error response as described in Section 5.2.
     
-    [5.1](#section-5.1).  Successful Response
+    5.1.  Successful Response
     
        The authorization server issues an access token and optional refresh
        token, and constructs the response by adding the following parameters
@@ -2440,7 +2440,7 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
     
        token_type
              REQUIRED.  The type of the token issued as described in
-             [Section 7.1](#section-7.1).  Value is case insensitive.
+             Section 7.1.  Value is case insensitive.
     
        expires_in
              RECOMMENDED.  The lifetime in seconds of the access token.  For
@@ -2462,12 +2462,12 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
        refresh_token
              OPTIONAL.  The refresh token, which can be used to obtain new
              access tokens using the same authorization grant as described
-             in [Section 6](#section-6).
+             in Section 6.
     
        scope
              OPTIONAL, if identical to the scope requested by the client;
              otherwise, REQUIRED.  The scope of the access token as
-             described by [Section 3.3](#section-3.3).
+             described by Section 3.3.
     
        The parameters are included in the entity-body of the HTTP response
        using the "application/json" media type as defined by [[RFC4627](./rfc4627 ""The application/json Media Type for JavaScript Object Notation \(JSON\)"")].  The
@@ -2516,14 +2516,14 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
     [RFC 6749](https://www.rfc-editor.org/rfc/rfc6749)                        OAuth 2.0                   October 2012
     
     
-    [5.2](#section-5.2).  Error Response
+    5.2.  Error Response
     
        The authorization server responds with an HTTP 400 (Bad Request)
        status code (unless specified otherwise) and includes the following
        parameters with the response:
     
        error
-             REQUIRED.  A single ASCII [[USASCII](#ref-USASCII ""Coded Character Set -- 7-bit American Standard Code for Information Interchange"")] error code from the
+             REQUIRED.  A single ASCII [[USASCII]] error code from the
              following:
     
              invalid_request
@@ -2581,7 +2581,7 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
              outside the set %x20-21 / %x23-5B / %x5D-7E.
     
        error_description
-             OPTIONAL.  Human-readable ASCII [[USASCII](#ref-USASCII ""Coded Character Set -- 7-bit American Standard Code for Information Interchange"")] text providing
+             OPTIONAL.  Human-readable ASCII [[USASCII]] text providing
              additional information, used to assist the client developer in
              understanding the error that occurred.
              Values for the "error_description" parameter MUST NOT include
@@ -2630,12 +2630,12 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
     [RFC 6749](https://www.rfc-editor.org/rfc/rfc6749)                        OAuth 2.0                   October 2012
     
     
-    [6](#section-6).  Refreshing an Access Token
+    6.  Refreshing an Access Token
     
        If the authorization server issued a refresh token to the client, the
        client makes a refresh request to the token endpoint by adding the
        following parameters using the "application/x-www-form-urlencoded"
-       format per [Appendix B](#appendix-B) with a character encoding of UTF-8 in the HTTP
+       format per Appendix B with a character encoding of UTF-8 in the HTTP
        request entity-body:
     
        grant_type
@@ -2646,7 +2646,7 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
     
        scope
              OPTIONAL.  The scope of the access request as described by
-             [Section 3.3](#section-3.3).  The requested scope MUST NOT include any scope
+             Section 3.3.  The requested scope MUST NOT include any scope
              not originally granted by the resource owner, and if omitted is
              treated as equal to the scope originally granted by the
              resource owner.
@@ -2656,7 +2656,7 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
        client to which it was issued.  If the client type is confidential or
        the client was issued client credentials (or assigned other
        authentication requirements), the client MUST authenticate with the
-       authorization server as described in [Section 3.2.1](#section-3.2.1).
+       authorization server as described in Section 3.2.1.
     
        For example, the client makes the following HTTP request using
        transport-layer security (with extra line breaks for display purposes
@@ -2700,9 +2700,9 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
        o  validate the refresh token.
     
        If valid and authorized, the authorization server issues an access
-       token as described in [Section 5.1](#section-5.1).  If the request failed
+       token as described in Section 5.1.  If the request failed
        verification or is invalid, the authorization server returns an error
-       response as described in [Section 5.2](#section-5.2).
+       response as described in Section 5.2.
     
        The authorization server MAY issue a new refresh token, in which case
        the client MUST discard the old refresh token and replace it with the
@@ -2712,7 +2712,7 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
        identical to that of the refresh token included by the client in the
        request.
     
-    [7](#section-7).  Accessing Protected Resources
+    7.  Accessing Protected Resources
     
        The client accesses protected resources by presenting the access
        token to the resource server.  The resource server MUST validate the
@@ -2744,7 +2744,7 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
     [RFC 6749](https://www.rfc-editor.org/rfc/rfc6749)                        OAuth 2.0                   October 2012
     
     
-    [7.1](#section-7.1).  Access Token Types
+    7.1.  Access Token Types
     
        The access token type provides the client with the information
        required to successfully utilize the access token to make a protected
@@ -2759,7 +2759,7 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
          Host: example.com
          Authorization: Bearer mF_9.B5f-4.1JqM
     
-       while the "mac" token type defined in [[OAuth-HTTP-MAC](#ref-OAuth-HTTP-MAC)] is utilized by
+       while the "mac" token type defined in [OAuth-HTTP-MAC] is utilized by
        issuing a Message Authentication Code (MAC) key together with the
        access token that is used to sign certain components of the HTTP
        requests:
@@ -2771,7 +2771,7 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
                             mac="kDZvddkndxvhGRXZhvuDjEWhGeE="
     
        The above examples are provided for illustration purposes only.
-       Developers are advised to consult the [[RFC6750](./rfc6750 ""The OAuth 2.0 Authorization Framework: Bearer Token Usage"")] and [[OAuth-HTTP-MAC](#ref-OAuth-HTTP-MAC)]
+       Developers are advised to consult the [[RFC6750](./rfc6750 ""The OAuth 2.0 Authorization Framework: Bearer Token Usage"")] and [OAuth-HTTP-MAC]
        specifications before use.
     
        Each access token type definition specifies the additional attributes
@@ -2779,12 +2779,12 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
        parameter.  It also defines the HTTP authentication method used to
        include the access token when making a protected resource request.
     
-    [7.2](#section-7.2).  Error Response
+    7.2.  Error Response
     
        If a resource access request fails, the resource server SHOULD inform
        the client of the error.  While the specifics of such error responses
        are beyond the scope of this specification, this document establishes
-       a common registry in [Section 11.4](#section-11.4) for error values to be shared among
+       a common registry in Section 11.4 for error values to be shared among
        OAuth token authentication schemes.
     
        New authentication schemes designed primarily for OAuth token
@@ -2814,13 +2814,13 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
        information in a manner parallel to their usage in this
        specification.
     
-    [8](#section-8).  Extensibility
+    8.  Extensibility
     
-    [8.1](#section-8.1).  Defining Access Token Types
+    8.1.  Defining Access Token Types
     
        Access token types can be defined in one of two ways: registered in
        the Access Token Types registry (following the procedures in
-       [Section 11.1](#section-11.1)), or by using a unique absolute URI as its name.
+       Section 11.1), or by using a unique absolute URI as its name.
     
        Types utilizing a URI name SHOULD be limited to vendor-specific
        implementations that are not commonly applicable, and are specific to
@@ -2836,11 +2836,11 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
          type-name  = 1*name-char
          name-char  = "-" / "." / "_" / DIGIT / ALPHA
     
-    [8.2](#section-8.2).  Defining New Endpoint Parameters
+    8.2.  Defining New Endpoint Parameters
     
        New request or response parameters for use with the authorization
        endpoint or the token endpoint are defined and registered in the
-       OAuth Parameters registry following the procedure in [Section 11.2](#section-11.2).
+       OAuth Parameters registry following the procedure in Section 11.2.
     
        Parameter names MUST conform to the param-name ABNF, and parameter
        values syntax MUST be well-defined (e.g., using ABNF, or a reference
@@ -2864,19 +2864,19 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
        utilize a vendor-specific prefix that is not likely to conflict with
        other registered values (e.g., begin with 'companyname_').
     
-    [8.3](#section-8.3).  Defining New Authorization Grant Types
+    8.3.  Defining New Authorization Grant Types
     
        New authorization grant types can be defined by assigning them a
        unique absolute URI for use with the "grant_type" parameter.  If the
        extension grant type requires additional token endpoint parameters,
        they MUST be registered in the OAuth Parameters registry as described
-       by [Section 11.2](#section-11.2).
+       by Section 11.2.
     
-    [8.4](#section-8.4).  Defining New Authorization Endpoint Response Types
+    8.4.  Defining New Authorization Endpoint Response Types
     
        New response types for use with the authorization endpoint are
        defined and registered in the Authorization Endpoint Response Types
-       registry following the procedure in [Section 11.3](#section-11.3).  Response type
+       registry following the procedure in Section 11.3.  Response type
        names MUST conform to the response-type ABNF.
     
          response-type  = response-name *( SP response-name )
@@ -2894,14 +2894,14 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
        cannot be registered as "code token", but both values can be used to
        denote the same response type.
     
-    [8.5](#section-8.5).  Defining Additional Error Codes
+    8.5.  Defining Additional Error Codes
     
        In cases where protocol extensions (i.e., access token types,
        extension parameters, or extension grant types) require additional
        error codes to be used with the authorization code grant error
-       response ([Section 4.1.2.1](#section-4.1.2.1)), the implicit grant error response
-       ([Section 4.2.2.1](#section-4.2.2.1)), the token error response ([Section 5.2](#section-5.2)), or the
-       resource access error response ([Section 7.2](#section-7.2)), such error codes MAY be
+       response (Section 4.1.2.1), the implicit grant error response
+       (Section 4.2.2.1), the token error response (Section 5.2), or the
+       resource access error response (Section 7.2), such error codes MAY be
        defined.
     
     
@@ -2916,7 +2916,7 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
     
     
        Extension error codes MUST be registered (following the procedures in
-       [Section 11.4](#section-11.4)) if the extension they are used in conjunction with is a
+       Section 11.4) if the extension they are used in conjunction with is a
        registered access token type, a registered endpoint parameter, or an
        extension grant type.  Error codes used with unregistered extensions
        MAY be registered.
@@ -2929,7 +2929,7 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
          error      = 1*error-char
          error-char = %x20-21 / %x23-5B / %x5D-7E
     
-    [9](#section-9).  Native Applications
+    9.  Native Applications
     
        Native applications are clients installed and executed on the device
        used by the resource owner (i.e., desktop application, native mobile
@@ -2997,19 +2997,19 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
           returned, which requires repeating the authorization process once
           the access token expires.
     
-    [10](#section-10).  Security Considerations
+    10.  Security Considerations
     
        As a flexible and extensible framework, OAuth's security
        considerations depend on many factors.  The following sections
        provide implementers with security guidelines focused on the three
-       client profiles described in [Section 2.1](#section-2.1): web application,
+       client profiles described in Section 2.1: web application,
        user-agent-based application, and native application.
     
        A comprehensive OAuth security model and analysis, as well as
        background for the protocol design, is provided by
-       [[OAuth-THREATMODEL](#ref-OAuth-THREATMODEL)].
+       [OAuth-THREATMODEL].
     
-    [10.1](#section-10.1).  Client Authentication
+    10.1.  Client Authentication
     
        The authorization server establishes client credentials with web
        application clients for the purpose of client authentication.  The
@@ -3050,7 +3050,7 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
        the potential exposure of other credentials (e.g., refresh tokens)
        issued to such clients.
     
-    [10.2](#section-10.2).  Client Impersonation
+    10.2.  Client Impersonation
     
        A malicious client can impersonate another client and obtain access
        to protected resources if the impersonated client fails to, or is
@@ -3086,14 +3086,14 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
     [RFC 6749](https://www.rfc-editor.org/rfc/rfc6749)                        OAuth 2.0                   October 2012
     
     
-    [10.3](#section-10.3).  Access Tokens
+    10.3.  Access Tokens
     
        Access token credentials (as well as any confidential access token
        attributes) MUST be kept confidential in transit and storage, and
        only shared among the authorization server, the resource servers the
        access token is valid for, and the client to whom the access token is
        issued.  Access token credentials MUST only be transmitted using TLS
-       as described in [Section 1.6](#section-1.6) with server authentication as defined by
+       as described in Section 1.6 with server authentication as defined by
        [[RFC2818](./rfc2818 ""HTTP Over TLS"")].
     
        When using the implicit grant type, the access token is transmitted
@@ -3112,7 +3112,7 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
        server to ensure that an access token presented to it by a given
        client was issued to that client by the authorization server.
     
-    [10.4](#section-10.4).  Refresh Tokens
+    10.4.  Refresh Tokens
     
        Authorization servers MAY issue refresh tokens to web application
        clients and native application clients.
@@ -3122,7 +3122,7 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
        refresh tokens were issued.  The authorization server MUST maintain
        the binding between a refresh token and the client to whom it was
        issued.  Refresh tokens MUST only be transmitted using TLS as
-       described in [Section 1.6](#section-1.6) with server authentication as defined by
+       described in Section 1.6 with server authentication as defined by
        [[RFC2818](./rfc2818 ""HTTP Over TLS"")].
     
        The authorization server MUST verify the binding between the refresh
@@ -3152,7 +3152,7 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
        generated, modified, or guessed to produce valid refresh tokens by
        unauthorized parties.
     
-    [10.5](#section-10.5).  Authorization Codes
+    10.5.  Authorization Codes
     
        The transmission of authorization codes SHOULD be made over a secure
        channel, and the client SHOULD require the use of TLS with its
@@ -3178,7 +3178,7 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
        authenticate the client and ensure that the authorization code was
        issued to the same client.
     
-    [10.6](#section-10.6).  Authorization Code Redirection URI Manipulation
+    10.6.  Authorization Code Redirection URI Manipulation
     
        When requesting authorization using the authorization code grant
        type, the client can specify a redirection URI via the "redirect_uri"
@@ -3224,7 +3224,7 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
        in the request, the authorization server MUST validate it against the
        registered value.
     
-    [10.7](#section-10.7).  Resource Owner Password Credentials
+    10.7.  Resource Owner Password Credentials
     
        The resource owner password credentials grant type is often used for
        legacy or migration reasons.  It reduces the overall risk of storing
@@ -3257,7 +3257,7 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
     [RFC 6749](https://www.rfc-editor.org/rfc/rfc6749)                        OAuth 2.0                   October 2012
     
     
-    [10.8](#section-10.8).  Request Confidentiality
+    10.8.  Request Confidentiality
     
        Access tokens, refresh tokens, resource owner passwords, and client
        credentials MUST NOT be transmitted in the clear.  Authorization
@@ -3267,7 +3267,7 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
        client or resource owner information in plain text, as they can be
        transmitted over insecure channels or stored insecurely.
     
-    [10.9](#section-10.9).  Ensuring Endpoint Authenticity
+    10.9.  Ensuring Endpoint Authenticity
     
        In order to prevent man-in-the-middle attacks, the authorization
        server MUST require the use of TLS with server authentication as
@@ -3276,7 +3276,7 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
        TLS certificate as defined by [[RFC6125](./rfc6125 ""Representation and Verification of Domain-Based Application Service Identity within Internet Public Key Infrastructure Using X.509 \(PKIX\) Certificates in the Context of Transport Layer Security \(TLS\)"")] and in accordance with its
        requirements for server identity authentication.
     
-    [10.10](#section-10.10).  Credentials-Guessing Attacks
+    10.10.  Credentials-Guessing Attacks
     
        The authorization server MUST prevent attackers from guessing access
        tokens, authorization codes, refresh tokens, resource owner
@@ -3289,7 +3289,7 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
        The authorization server MUST utilize other means to protect
        credentials intended for end-user usage.
     
-    [10.11](#section-10.11).  Phishing Attacks
+    10.11.  Phishing Attacks
     
        Wide deployment of this and similar protocols may cause end-users to
        become inured to the practice of being redirected to websites where
@@ -3318,7 +3318,7 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
        MUST require the use of TLS on every endpoint used for end-user
        interaction.
     
-    [10.12](#section-10.12).  Cross-Site Request Forgery
+    10.12.  Cross-Site Request Forgery
     
        Cross-site request forgery (CSRF) is an exploit in which an attacker
        causes the user-agent of a victim end-user to follow a malicious URI
@@ -3348,7 +3348,7 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
        validity of the request by matching the binding value to the
        user-agent's authenticated state.  The binding value used for CSRF
        protection MUST contain a non-guessable value (as described in
-       [Section 10.10](#section-10.10)), and the user-agent's authenticated state (e.g.,
+       Section 10.10), and the user-agent's authenticated state (e.g.,
        session cookie, HTML5 local storage) MUST be kept in a location
        accessible only to the client and the user-agent (i.e., protected by
        same-origin policy).
@@ -3371,7 +3371,7 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
     [RFC 6749](https://www.rfc-editor.org/rfc/rfc6749)                        OAuth 2.0                   October 2012
     
     
-    [10.13](#section-10.13).  Clickjacking
+    10.13.  Clickjacking
     
        In a clickjacking attack, an attacker registers a legitimate client
        and then constructs a malicious site in which it loads the
@@ -3394,7 +3394,7 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
        respectively.  For older browsers, JavaScript frame-busting
        techniques can be used but may not be effective in all browsers.
     
-    [10.14](#section-10.14).  Code Injection and Input Validation
+    10.14.  Code Injection and Input Validation
     
        A code injection attack occurs when an input or otherwise external
        variable is used by an application unsanitized and causes
@@ -3406,7 +3406,7 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
        possible) any value received -- in particular, the value of the
        "state" and "redirect_uri" parameters.
     
-    [10.15](#section-10.15).  Open Redirectors
+    10.15.  Open Redirectors
     
        The authorization server, authorization endpoint, and client
        redirection endpoint can be improperly configured and operate as open
@@ -3432,7 +3432,7 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
        authorization server validation but will send the authorization code
        or access token to an endpoint under the control of the attacker.
     
-    [10.16](#section-10.16).  Misuse of Access Token to Impersonate Resource Owner in Implicit
+    10.16.  Misuse of Access Token to Impersonate Resource Owner in Implicit
             Flow
     
        For public clients using implicit flows, this specification does not
@@ -3485,9 +3485,9 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
     [RFC 6749](https://www.rfc-editor.org/rfc/rfc6749)                        OAuth 2.0                   October 2012
     
     
-    [11](#section-11).  IANA Considerations
+    11.  IANA Considerations
     
-    [11.1](#section-11.1).  OAuth Access Token Types Registry
+    11.1.  OAuth Access Token Types Registry
     
        This specification establishes the OAuth Access Token Types registry.
     
@@ -3513,7 +3513,7 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
        and should direct all requests for registration to the review mailing
        list.
     
-    [11.1.1](#section-11.1.1).  Registration Template
+    11.1.1.  Registration Template
     
        Type name:
           The name requested (e.g., "example").
@@ -3522,7 +3522,7 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
           Additional response parameters returned together with the
           "access_token" parameter.  New parameters MUST be separately
           registered in the OAuth Parameters registry as described by
-          [Section 11.2](#section-11.2).
+          Section 11.2.
     
        HTTP Authentication Scheme(s):
           The HTTP authentication scheme name(s), if any, used to
@@ -3548,7 +3548,7 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
           the document(s).  An indication of the relevant sections may also
           be included but is not required.
     
-    [11.2](#section-11.2).  OAuth Parameters Registry
+    11.2.  OAuth Parameters Registry
     
        This specification establishes the OAuth Parameters registry.
     
@@ -3576,7 +3576,7 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
        and should direct all requests for registration to the review mailing
        list.
     
-    [11.2.1](#section-11.2.1).  Registration Template
+    11.2.1.  Registration Template
     
        Parameter name:
           The name requested (e.g., "example").
@@ -3605,7 +3605,7 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
           the document(s).  An indication of the relevant sections may also
           be included but is not required.
     
-    [11.2.2](#section-11.2.2).  Initial Registry Contents
+    11.2.2.  Initial Registry Contents
     
        The OAuth Parameters registry's initial contents are:
     
@@ -3713,7 +3713,7 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
     [RFC 6749](https://www.rfc-editor.org/rfc/rfc6749)                        OAuth 2.0                   October 2012
     
     
-    [11.3](#section-11.3).  OAuth Authorization Endpoint Response Types Registry
+    11.3.  OAuth Authorization Endpoint Response Types Registry
     
        This specification establishes the OAuth Authorization Endpoint
        Response Types registry.
@@ -3740,7 +3740,7 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
        and should direct all requests for registration to the review mailing
        list.
     
-    [11.3.1](#section-11.3.1).  Registration Template
+    11.3.1.  Registration Template
     
        Response type name:
           The name requested (e.g., "example").
@@ -3770,7 +3770,7 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
     [RFC 6749](https://www.rfc-editor.org/rfc/rfc6749)                        OAuth 2.0                   October 2012
     
     
-    [11.3.2](#section-11.3.2).  Initial Registry Contents
+    11.3.2.  Initial Registry Contents
     
        The OAuth Authorization Endpoint Response Types registry's initial
        contents are:
@@ -3783,7 +3783,7 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
        o  Change controller: IETF
        o  Specification document(s): [RFC 6749](https://www.rfc-editor.org/rfc/rfc6749)
     
-    [11.4](#section-11.4).  OAuth Extensions Error Registry
+    11.4.  OAuth Extensions Error Registry
     
        This specification establishes the OAuth Extensions Error registry.
     
@@ -3827,7 +3827,7 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
     [RFC 6749](https://www.rfc-editor.org/rfc/rfc6749)                        OAuth 2.0                   October 2012
     
     
-    [11.4.1](#section-11.4.1).  Registration Template
+    11.4.1.  Registration Template
     
        Error name:
           The name requested (e.g., "example").  Values for the error name
@@ -3837,9 +3837,9 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
        Error usage location:
           The location(s) where the error can be used.  The possible
           locations are authorization code grant error response
-          ([Section 4.1.2.1](#section-4.1.2.1)), implicit grant error response
-          ([Section 4.2.2.1](#section-4.2.2.1)), token error response ([Section 5.2](#section-5.2)), or resource
-          access error response ([Section 7.2](#section-7.2)).
+          (Section 4.1.2.1), implicit grant error response
+          (Section 4.2.2.1), token error response (Section 5.2), or resource
+          access error response (Section 7.2).
     
        Related protocol extension:
           The name of the extension grant type, access token type, or
@@ -3857,9 +3857,9 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
           the document(s).  An indication of the relevant sections may also
           be included but is not required.
     
-    [12](#section-12).  References
+    12.  References
     
-    [12.1](#section-12.1).  Normative References
+    12.1.  Normative References
     
        [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
                   Requirement Levels", [BCP 14](https://www.rfc-editor.org/bcp/bcp14), [RFC 2119](https://www.rfc-editor.org/rfc/rfc2119), March 1997.
@@ -3941,7 +3941,7 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
     [RFC 6749](https://www.rfc-editor.org/rfc/rfc6749)                        OAuth 2.0                   October 2012
     
     
-    [12.2](#section-12.2).  Informative References
+    12.2.  Informative References
     
        [OAuth-HTTP-MAC]
                   Hammer-Lahav, E., Ed., "HTTP Authentication: MAC Access
@@ -3998,12 +3998,12 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
     [RFC 6749](https://www.rfc-editor.org/rfc/rfc6749)                        OAuth 2.0                   October 2012
     
     
-    [Appendix A](#appendix-A).  Augmented Backus-Naur Form (ABNF) Syntax
+    Appendix A.  Augmented Backus-Naur Form (ABNF) Syntax
     
        This section provides Augmented Backus-Naur Form (ABNF) syntax
        descriptions for the elements defined in this specification using the
        notation of [[RFC5234](./rfc5234 ""Augmented BNF for Syntax Specifications: ABNF"")].  The ABNF below is defined in terms of Unicode
-       code points [[W3C.REC-xml-20081126](#ref-W3C.REC-xml-20081126)]; these characters are typically
+       code points [W3C.REC-xml-20081126]; these characters are typically
        encoded in UTF-8.  Elements are presented in the order first defined.
     
        Some of the definitions that follow use the "URI-reference"
@@ -4018,24 +4018,24 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
                              %xE000-FFFD / %x10000-10FFFF
     
        (The UNICODECHARNOCRLF definition is based upon the Char definition
-       in Section 2.2 of [[W3C.REC-xml-20081126](#ref-W3C.REC-xml-20081126)], but omitting the Carriage
+       in Section 2.2 of [W3C.REC-xml-20081126], but omitting the Carriage
        Return and Linefeed characters.)
     
-    [A.1](#appendix-A.1).  "client_id" Syntax
+    A.1.  "client_id" Syntax
     
-       The "client_id" element is defined in [Section 2.3.1](#section-2.3.1):
+       The "client_id" element is defined in Section 2.3.1:
     
          client-id     = *VSCHAR
     
-    [A.2](#appendix-A.2).  "client_secret" Syntax
+    A.2.  "client_secret" Syntax
     
-       The "client_secret" element is defined in [Section 2.3.1](#section-2.3.1):
+       The "client_secret" element is defined in Section 2.3.1:
     
          client-secret = *VSCHAR
     
-    [A.3](#appendix-A.3).  "response_type" Syntax
+    A.3.  "response_type" Syntax
     
-       The "response_type" element is defined in Sections [3.1.1](#section-3.1.1) and [8.4](#section-8.4):
+       The "response_type" element is defined in Sections 3.1.1 and 8.4:
     
          response-type = response-name *( SP response-name )
          response-name = 1*response-char
@@ -4055,44 +4055,44 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
     [RFC 6749](https://www.rfc-editor.org/rfc/rfc6749)                        OAuth 2.0                   October 2012
     
     
-    [A.4](#appendix-A.4).  "scope" Syntax
+    A.4.  "scope" Syntax
     
-       The "scope" element is defined in [Section 3.3](#section-3.3):
+       The "scope" element is defined in Section 3.3:
     
          scope       = scope-token *( SP scope-token )
          scope-token = 1*NQCHAR
     
-    [A.5](#appendix-A.5).  "state" Syntax
+    A.5.  "state" Syntax
     
-       The "state" element is defined in Sections [4.1.1](#section-4.1.1), [4.1.2](#section-4.1.2), [4.1.2.1](#section-4.1.2.1),
+       The "state" element is defined in Sections 4.1.1, 4.1.2, 4.1.2.1,
        4.2.1, 4.2.2, and 4.2.2.1:
     
          state      = 1*VSCHAR
     
-    [A.6](#appendix-A.6).  "redirect_uri" Syntax
+    A.6.  "redirect_uri" Syntax
     
-       The "redirect_uri" element is defined in Sections [4.1.1](#section-4.1.1), [4.1.3](#section-4.1.3),
+       The "redirect_uri" element is defined in Sections 4.1.1, 4.1.3,
        and 4.2.1:
     
          redirect-uri      = URI-reference
     
-    [A.7](#appendix-A.7).  "error" Syntax
+    A.7.  "error" Syntax
     
-       The "error" element is defined in Sections [4.1.2.1](#section-4.1.2.1), [4.2.2.1](#section-4.2.2.1), [5.2](#section-5.2),
+       The "error" element is defined in Sections 4.1.2.1, 4.2.2.1, 5.2,
        7.2, and 8.5:
     
          error             = 1*NQSCHAR
     
-    [A.8](#appendix-A.8).  "error_description" Syntax
+    A.8.  "error_description" Syntax
     
-       The "error_description" element is defined in Sections [4.1.2.1](#section-4.1.2.1),
+       The "error_description" element is defined in Sections 4.1.2.1,
        4.2.2.1, 5.2, and 7.2:
     
          error-description = 1*NQSCHAR
     
-    [A.9](#appendix-A.9).  "error_uri" Syntax
+    A.9.  "error_uri" Syntax
     
-       The "error_uri" element is defined in Sections [4.1.2.1](#section-4.1.2.1), [4.2.2.1](#section-4.2.2.1), [5.2](#section-5.2),
+       The "error_uri" element is defined in Sections 4.1.2.1, 4.2.2.1, 5.2,
        and 7.2:
     
          error-uri         = URI-reference
@@ -4112,50 +4112,50 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
     [RFC 6749](https://www.rfc-editor.org/rfc/rfc6749)                        OAuth 2.0                   October 2012
     
     
-    [A.10](#appendix-A.10).  "grant_type" Syntax
+    A.10.  "grant_type" Syntax
     
-       The "grant_type" element is defined in Sections [4.1.3](#section-4.1.3), [4.3.2](#section-4.3.2), [4.4.2](#section-4.4.2),
+       The "grant_type" element is defined in Sections 4.1.3, 4.3.2, 4.4.2,
        4.5, and 6:
     
          grant-type = grant-name / URI-reference
          grant-name = 1*name-char
          name-char  = "-" / "." / "_" / DIGIT / ALPHA
     
-    [A.11](#appendix-A.11).  "code" Syntax
+    A.11.  "code" Syntax
     
-       The "code" element is defined in [Section 4.1.3](#section-4.1.3):
+       The "code" element is defined in Section 4.1.3:
     
          code       = 1*VSCHAR
     
-    [A.12](#appendix-A.12).  "access_token" Syntax
+    A.12.  "access_token" Syntax
     
-       The "access_token" element is defined in Sections [4.2.2](#section-4.2.2) and [5.1](#section-5.1):
+       The "access_token" element is defined in Sections 4.2.2 and 5.1:
     
          access-token = 1*VSCHAR
     
-    [A.13](#appendix-A.13).  "token_type" Syntax
+    A.13.  "token_type" Syntax
     
-       The "token_type" element is defined in Sections [4.2.2](#section-4.2.2), [5.1](#section-5.1), and [8.1](#section-8.1):
+       The "token_type" element is defined in Sections 4.2.2, 5.1, and 8.1:
     
          token-type = type-name / URI-reference
          type-name  = 1*name-char
          name-char  = "-" / "." / "_" / DIGIT / ALPHA
     
-    [A.14](#appendix-A.14).  "expires_in" Syntax
+    A.14.  "expires_in" Syntax
     
-       The "expires_in" element is defined in Sections [4.2.2](#section-4.2.2) and [5.1](#section-5.1):
+       The "expires_in" element is defined in Sections 4.2.2 and 5.1:
     
          expires-in = 1*DIGIT
     
-    [A.15](#appendix-A.15).  "username" Syntax
+    A.15.  "username" Syntax
     
-       The "username" element is defined in [Section 4.3.2](#section-4.3.2):
+       The "username" element is defined in Section 4.3.2:
     
          username = *UNICODECHARNOCRLF
     
-    [A.16](#appendix-A.16).  "password" Syntax
+    A.16.  "password" Syntax
     
-       The "password" element is defined in [Section 4.3.2](#section-4.3.2):
+       The "password" element is defined in Section 4.3.2:
     
          password = *UNICODECHARNOCRLF
     
@@ -4169,24 +4169,24 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
     [RFC 6749](https://www.rfc-editor.org/rfc/rfc6749)                        OAuth 2.0                   October 2012
     
     
-    [A.17](#appendix-A.17).  "refresh_token" Syntax
+    A.17.  "refresh_token" Syntax
     
-       The "refresh_token" element is defined in Sections [5.1](#section-5.1) and [6](#section-6):
+       The "refresh_token" element is defined in Sections 5.1 and 6:
     
          refresh-token = 1*VSCHAR
     
-    [A.18](#appendix-A.18).  Endpoint Parameter Syntax
+    A.18.  Endpoint Parameter Syntax
     
-       The syntax for new endpoint parameters is defined in [Section 8.2](#section-8.2):
+       The syntax for new endpoint parameters is defined in Section 8.2:
     
          param-name = 1*name-char
          name-char  = "-" / "." / "_" / DIGIT / ALPHA
     
-    [Appendix B](#appendix-B).  Use of application/x-www-form-urlencoded Media Type
+    Appendix B.  Use of application/x-www-form-urlencoded Media Type
     
        At the time of publication of this specification, the
        "application/x-www-form-urlencoded" media type was defined in
-       Section 17.13.4 of [[W3C.REC-html401-19991224](#ref-W3C.REC-html401-19991224)] but not registered in
+       Section 17.13.4 of [W3C.REC-html401-19991224] but not registered in
        the IANA MIME Media Types registry
        (<<http://www.iana.org/assignments/media-types>>).  Furthermore, that
        definition is incomplete, as it does not consider non-US-ASCII
@@ -4196,7 +4196,7 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
        type, names and values MUST be encoded using the UTF-8 character
        encoding scheme [[RFC3629](./rfc3629 ""UTF-8, a transformation format of ISO 10646"")] first; the resulting octet sequence then
        needs to be further encoded using the escaping rules defined in
-       [[W3C.REC-html401-19991224](#ref-W3C.REC-html401-19991224)].
+       [W3C.REC-html401-19991224].
     
        When parsing data from a payload using this media type, the names and
        values resulting from reversing the name/value encoding consequently
@@ -4226,12 +4226,12 @@ Updated by: [8252](https://www.rfc-editor.org/rfc/rfc8252), [8996](https://www.r
     [RFC 6749](https://www.rfc-editor.org/rfc/rfc6749)                        OAuth 2.0                   October 2012
     
     
-    [Appendix C](#appendix-C).  Acknowledgements
+    Appendix C.  Acknowledgements
     
        The initial OAuth 2.0 protocol specification was edited by David
        Recordon, based on two previous publications: the OAuth 1.0 community
        specification [[RFC5849](./rfc5849 ""The OAuth 1.0 Protocol"")], and OAuth WRAP (OAuth Web Resource
-       Authorization Profiles) [[OAuth-WRAP](#ref-OAuth-WRAP)].  Eran Hammer then edited many
+       Authorization Profiles) [OAuth-WRAP].  Eran Hammer then edited many
        of the intermediate drafts that evolved into this RFC.  The Security
        Considerations section was drafted by Torsten Lodderstedt, Mark
        McGloin, Phil Hunt, Anthony Nadalin, and John Bradley.  The section

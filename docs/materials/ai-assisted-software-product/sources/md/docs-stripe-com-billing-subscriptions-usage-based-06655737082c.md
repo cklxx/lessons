@@ -3,7 +3,7 @@
 - URL: https://docs.stripe.com/billing/subscriptions/usage-based
 - Retrieved: 2025-12-18T08:26:29.432493+00:00
 
-[コンテンツにスキップ](#main-content)
+コンテンツにスキップ
 概要
 [アカウント作成](https://dashboard.stripe.com/register/billing)/[サインイン](https://dashboard.stripe.com/login?redirect=https%3A%2F%2Fdocs.stripe.com%2Fbilling%2Fsubscriptions%2Fusage-based)
 [Stripe ドキュメントのロゴ](https://docs.stripe.com/)

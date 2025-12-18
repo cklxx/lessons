@@ -3,8 +3,8 @@
 - URL: https://owasp.org/www-project-application-security-verification-standard/
 - Retrieved: 2025-12-17T16:57:18.253279+00:00
 
-[ __](#) [ ](https://owasp.org/)
-[ ](https://owasp.org/)
+[ __] (https://owasp.org/)
+(https://owasp.org/)
 [__Store](https://owasp.org/store) [Donate](https://owasp.org/donate?reponame=www-project-application-security-verification-standard&title=OWASP+Application+Security+Verification+Standard+%28ASVS%29) [Join](https://owasp.glueup.com/organization/6727/memberships)
 This website uses cookies to analyze our traffic and only share that information with our analytics partners.
 Accept
@@ -12,25 +12,25 @@ x
 [__Store](https://owasp.org/store)
 [Donate](https://owasp.org/donate?reponame=www-project-application-security-verification-standard&title=OWASP+Application+Security+Verification+Standard+%28ASVS%29)
 [Join](https://owasp.glueup.com/organization/6727/memberships)
-  * [Main](#div-main)
-  * [Meet the ASVS](#div-meetup)
-  * [Supporters](#div-supporters)
-  * [News and Events](#div-newsevents)
-  * [Acknowledgements](#div-acknowledgements)
-  * [Get Involved](#div-getinvolved)
-  * [ASVS Users](#div-asvsusers)
+  * Main
+  * Meet the ASVS
+  * Supporters
+  * News and Events
+  * Acknowledgements
+  * Get Involved
+  * ASVS Users
 
 
 # OWASP Application Security Verification Standard (ASVS) 
-[](https://creativecommons.org/licenses/by-sa/4.0/ "CC BY-SA 4.0") [](https://www.owasp.org/index.php/Category:OWASP_Project#tab=Project_Inventory) [](https://twitter.com/OWASP_ASVS) [](https://www.linkedin.com/company/owasp-asvs/)
+(https://creativecommons.org/licenses/by-sa/4.0/ "CC BY-SA 4.0") (https://www.owasp.org/index.php/Category:OWASP_Project#tab=Project_Inventory) (https://twitter.com/OWASP_ASVS) (https://www.linkedin.com/company/owasp-asvs/)
 ## What is the ASVS?
 The OWASP Application Security Verification Standard (ASVS) Project provides a basis for testing web application technical security controls and also provides developers with a list of requirements for secure development.
 ## Support the ASVS
 For more details on how to financially support the ASVS, see our [Supporters Page](https://appsecg.host/fundasvs).
 ## Stay up to date with the ASVS
 Follow us on social media to ensure you don’t miss updates about the ASVS:
-  * [](https://twitter.com/OWASP_ASVS)
-  * [](https://www.linkedin.com/company/owasp-asvs/)
+  * (https://twitter.com/OWASP_ASVS)
+  * (https://www.linkedin.com/company/owasp-asvs/)
 
 
 ## More Details on the ASVS
@@ -64,10 +64,10 @@ OWASP Resources:
 ## Example
 Put whatever you like here: news, screenshots, features, supporters, or remove this file and don’t use tabs at all.
 * * *
-[](https://creativecommons.org/licenses/by-sa/4.0/ "CC BY-SA 4.0") [](https://www.owasp.org/index.php/Category:OWASP_Project#tab=Project_Inventory) [](https://twitter.com/OWASP_ASVS) [](https://www.linkedin.com/company/owasp-asvs/)
+(https://creativecommons.org/licenses/by-sa/4.0/ "CC BY-SA 4.0") (https://www.owasp.org/index.php/Category:OWASP_Project#tab=Project_Inventory) (https://twitter.com/OWASP_ASVS) (https://www.linkedin.com/company/owasp-asvs/)
 # Jump to an event
-  * [Meet the ASVS team at Global AppSec San Francisco 2024](#meet-the-asvs-team-at-global-appsec-san-francisco-2024)
-  * [OWASP ASVS Community Meetup - Lisbon 2024](#owasp-asvs-community-meetup---lisbon-2024)
+  * Meet the ASVS team at Global AppSec San Francisco 2024
+  * OWASP ASVS Community Meetup - Lisbon 2024
 
 
   
@@ -107,7 +107,7 @@ If you have contributed to the ASVS, make sure you let him know as he will have 
 * * *
 # OWASP ASVS Community Meetup - Lisbon 2024
 We held a community meetup for the ASVS project as part of Global AppSec Lisbon on 27th June 2024!
-Jim Manico gave the opening keynote to reintroduce the ASVS and the background behind the project and we had some [other great talks](#full-agenda) as well!
+Jim Manico gave the opening keynote to reintroduce the ASVS and the background behind the project and we had some other great talks as well!
 There was also an update on the current status of the standard and time allocated to work on the upcoming version 5.0.
 You can see full details in the blog post we published about it: <https://owasp.org/blog/2024/07/03/asvs-community-meetup.html>
 Additionally, we would love to get more community members involved in the ASVS and other than working on the standard we also have information about other volunteering opportunities to help develop and promote the project! See the “[Get Involved](https://appsecg.host/asvsgetinvolved)” tab above!.
@@ -116,7 +116,7 @@ You can see the current agenda we had here.
 [View the ASVS Community Meetup schedule.](https://owaspglobalappseclisbon2024.sched.com/type/ASVS+Community+Meetup/)
 ## Meetup Supporter
 Thanks to our friends at [Jit](https://jit.io) for supporting this exciting initiative!
-[](https://www.jit.io)
+(https://www.jit.io)
   
   
   
@@ -125,7 +125,7 @@ Thanks to our friends at [Jit](https://jit.io) for supporting this exciting init
 * * *
 * * *
 * * *
-[](https://creativecommons.org/licenses/by-sa/4.0/ "CC BY-SA 4.0") [](https://www.owasp.org/index.php/Category:OWASP_Project#tab=Project_Inventory) [](https://twitter.com/OWASP_ASVS) [](https://www.linkedin.com/company/owasp-asvs/)
+(https://creativecommons.org/licenses/by-sa/4.0/ "CC BY-SA 4.0") (https://www.owasp.org/index.php/Category:OWASP_Project#tab=Project_Inventory) (https://twitter.com/OWASP_ASVS) (https://www.linkedin.com/company/owasp-asvs/)
 # ASVS Supporters
 ## Introduction
 Within the ASVS project, we gratefully recognise the following organizations who support the OWASP Application Security Verification Standard project through monetary donations or allowing contributors to spend significant time working on the standard as part of their work with the organization.
@@ -134,21 +134,21 @@ On this page and the project web page, we will display the supporter’s logo an
 If you would like to directly become a Primary, Secondary or Tertiary supporter, you can make a [donation to OWASP](https://owasp.org/donate/) of $1,000 or more and choose to “restrict your gift”. Alternatively, when you pay your corporate membership you can choose to [allocate part of your membership fee to the ASVS](https://owasp.org/supporters/benefits#corporate-sponsorship-of-participating-projects-or-chapters) where the allocated amount will govern which level of supporter you become.
 ## Maintaining Supporters (through time provision)
 Organizations who have allowed contributors to spend significant time working on the standard as part of their working day with the organization. This will be evaluated at the sole discretion of the project leaders. Supporter will be listed 2 years from the end of the time provision.
-[](https://www.clarifiedsecurity.com/)
-[](https://www.bouncesecurity.com)
-[](https://www.manicode.com)
+(https://www.clarifiedsecurity.com/)
+(https://www.bouncesecurity.com)
+(https://www.manicode.com)
 ## Primary supporters
 Organizations who have donated $7,000 or more to the project via OWASP. Supporter will be listed in this section for 3 years from the date of the donation. 
 ## Secondary supporters
 Organizations who have donated $3,000 or more to the project via OWASP. Supporter will be listed in this section for 2 years from the date of the donation. 
-[](https://www.jit.io)
+(https://www.jit.io)
 ## Tertiary supporters
 Organizations who have donated $500 or more to the project via OWASP. Supporter will be listed in this section for 1 year from the date of the donation.
-[](https://forwardsecurity.com/) [](https://en.omegapoint.se/)
+(https://forwardsecurity.com/) (https://en.omegapoint.se/)
 ## Associate supporters
 Organizations who have donated another amount to the project via OWASP. Supporter will be listed in this section for 1 year from the date of the donation.
 * * *
-[](https://creativecommons.org/licenses/by-sa/4.0/ "CC BY-SA 4.0") [](https://www.owasp.org/index.php/Category:OWASP_Project#tab=Project_Inventory) [](https://twitter.com/OWASP_ASVS) [](https://www.linkedin.com/company/owasp-asvs/)
+(https://creativecommons.org/licenses/by-sa/4.0/ "CC BY-SA 4.0") (https://www.owasp.org/index.php/Category:OWASP_Project#tab=Project_Inventory) (https://twitter.com/OWASP_ASVS) (https://www.linkedin.com/company/owasp-asvs/)
 ## News and Events
   * [30 May 2025] ASVS Version 5.0.0 is released LIVE at Global AppSec EU Barcelona 2025!
   * [31 March 2025] Release Candidate 1 of the ASVS version 5.0 is announced!
@@ -167,7 +167,7 @@ Organizations who have donated another amount to the project via OWASP. Supporte
 
 
 * * *
-[](https://creativecommons.org/licenses/by-sa/4.0/ "CC BY-SA 4.0") [](https://www.owasp.org/index.php/Category:OWASP_Project#tab=Project_Inventory) [](https://twitter.com/OWASP_ASVS) [](https://www.linkedin.com/company/owasp-asvs/)
+(https://creativecommons.org/licenses/by-sa/4.0/ "CC BY-SA 4.0") (https://www.owasp.org/index.php/Category:OWASP_Project#tab=Project_Inventory) (https://twitter.com/OWASP_ASVS) (https://www.linkedin.com/company/owasp-asvs/)
 # Acknowledgements
 Note that since 4.x, contributors have been acknowledged in the “Frontispiece” section at the start of the ASVS document itself.
 Time and financial supporters are recognised on the “[Supporters](https://owasp.org/www-project-application-security-verification-standard/#div-supporters)” tab.
@@ -255,7 +255,7 @@ Pierre Parrend (OWASP Summer of Code), Andrew van der Stock, Nam Nguyen, John Ma
 ## OWASP Summer of Code 2008
 The OWASP Foundation sponsored the OWASP Application Security Verification Standard Project during the OWASP Summer of Code 2008.
 * * *
-[](https://creativecommons.org/licenses/by-sa/4.0/ "CC BY-SA 4.0") [](https://www.owasp.org/index.php/Category:OWASP_Project#tab=Project_Inventory) [](https://twitter.com/OWASP_ASVS) [](https://www.linkedin.com/company/owasp-asvs/)
+(https://creativecommons.org/licenses/by-sa/4.0/ "CC BY-SA 4.0") (https://www.owasp.org/index.php/Category:OWASP_Project#tab=Project_Inventory) (https://twitter.com/OWASP_ASVS) (https://www.linkedin.com/company/owasp-asvs/)
 # Volunteer for the ASVS
 ## Building the standard
 We are always looking for people to help out with building the standards and discussing what should be in there.
@@ -268,7 +268,7 @@ The latest list of roles is here:
 You can submit your interest here:
 [Volunteer for the ASVS!](https://docs.google.com/forms/d/e/1FAIpQLSda9V7dJ6h-YVsVRogi1hJGlhDANZXdUUyk7XQuaPpscKv2Bg/viewform)
 * * *
-[](https://creativecommons.org/licenses/by-sa/4.0/ "CC BY-SA 4.0") [](https://www.owasp.org/index.php/Category:OWASP_Project#tab=Project_Inventory) [](https://twitter.com/OWASP_ASVS) [](https://www.linkedin.com/company/owasp-asvs/)
+(https://creativecommons.org/licenses/by-sa/4.0/ "CC BY-SA 4.0") (https://www.owasp.org/index.php/Category:OWASP_Project#tab=Project_Inventory) (https://twitter.com/OWASP_ASVS) (https://www.linkedin.com/company/owasp-asvs/)
 ## ASVS Users
 ### CREST OWASP Verification Standard (OVS) Programme
 The [CREST OWASP OVS Programme](https://www.crest-approved.org/membership/crest-ovs-programme/) accredits companies that provide app security testing services to the application development industry. The testing to be performed is based on the ASVS (and MASVS) projects.
@@ -336,10 +336,10 @@ Follow the project on Twitter at: [@OWASP_ASVS](https://twitter.com/OWASP_ASVS)
 
 
 ### Leaders
-  * [Daniel Cuthbert](/cdn-cgi/l/email-protection#89ede8e7e0ece5a7eafcfde1ebecfbfdc9e6fee8faf9a7e6fbee)
-  * [Jim Manico](/cdn-cgi/l/email-protection#d6bcbfbbf8bbb7b8bfb5b996b9a1b7a5a6f8b9a4b1)
-  * [Elar Lang](/cdn-cgi/l/email-protection#4f2a232e3d232e21280f28222e2623612c2022)
-  * [Josh Grossman](/cdn-cgi/l/email-protection#254f4a564d0b42574a565648444b654a524456550b4a5742)
+  * [Daniel Cuthbert](https://owasp.org/cdn-cgi/l/email-protection#89ede8e7e0ece5a7eafcfde1ebecfbfdc9e6fee8faf9a7e6fbee)
+  * [Jim Manico](https://owasp.org/cdn-cgi/l/email-protection#d6bcbfbbf8bbb7b8bfb5b996b9a1b7a5a6f8b9a4b1)
+  * [Elar Lang](https://owasp.org/cdn-cgi/l/email-protection#4f2a232e3d232e21280f28222e2623612c2022)
+  * [Josh Grossman](https://owasp.org/cdn-cgi/l/email-protection#254f4a564d0b42574a565648444b654a524456550b4a5742)
 
 
 ### Working Group
@@ -356,7 +356,7 @@ Follow the project on Twitter at: [@OWASP_ASVS](https://twitter.com/OWASP_ASVS)
 ### Upcoming OWASP Global Events
 ## Corporate Supporters
 [Become a corporate supporter](https://owasp.org/supporters)
-[__](https://github.com/OWASP/)[__](https://owasp.org/slack/invite)[__](https://www.facebook.com/OWASPFoundation) [](https://infosec.exchange/@owasp) [](https://twitter.com/owasp) [__](https://www.linkedin.com/company/owasp/)[__](https://www.youtube.com/user/OWASPGLOBAL)
+[__](https://github.com/OWASP/)[__](https://owasp.org/slack/invite)[__](https://www.facebook.com/OWASPFoundation) (https://infosec.exchange/@owasp) (https://twitter.com/owasp) [__](https://www.linkedin.com/company/owasp/)[__](https://www.youtube.com/user/OWASPGLOBAL)
   * [HOME](https://owasp.org/)
   * [PROJECTS](https://owasp.org/projects/)
   * [CHAPTERS](https://owasp.org/chapters/)

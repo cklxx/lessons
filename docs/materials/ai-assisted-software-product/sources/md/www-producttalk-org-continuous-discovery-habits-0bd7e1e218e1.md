@@ -3,7 +3,7 @@
 - URL: https://www.producttalk.org/continuous-discovery-habits/
 - Retrieved: 2025-12-18T08:26:22.951108+00:00
 
-[ ](https://www.producttalk.org)
+(https://www.producttalk.org)
   * [Our Courses](https://learn.producttalk.org)
   * [Train Your Team](https://learn.producttalk.org/train-your-team)
   * [Articles](https://www.producttalk.org/articles/)
@@ -11,11 +11,11 @@
   * [Get in Touch](https://www.producttalk.org/contact/)
 
 
-[Sign in](#/portal/signin) [Subscribe](#/portal/signup)
+Sign in Subscribe
 ## Make better product decisions.
 Get actionable insights delivered straight to your inbox.
 # Continuous Discovery Habits (the Book) is Finally Here!
-[ ](https://www.producttalk.org/author/teresa/)
+(https://www.producttalk.org/author/teresa/)
 ####  [Teresa Torres](https://www.producttalk.org/author/teresa/)
 19 May 2021 4 min
 I am so excited to announce [_Continuous Discovery Habits_](https://amzn.to/3tHeBCn?ref=producttalk.org) is finally here!
@@ -65,7 +65,7 @@ Happy reading!
 #### Comments ()
 ## Make better product decisions.
 Get actionable insights delivered straight to your inbox.
-  * [Sign up](#/portal/)
+  * Sign up
   * [Privacy](https://www.producttalk.org/privacy/)
   * [Discovery Glossary](https://www.producttalk.org/glossary-discovery/)
   * [AI Glossary](https://www.producttalk.org/glossary-ai/)

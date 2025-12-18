@@ -26,9 +26,12 @@ from typing import Dict, Iterable, List, Optional
 import requests
 
 try:
-    from duckduckgo_search import DDGS
+    from ddgs import DDGS  # type: ignore
 except ImportError:  # pragma: no cover - optional dependency
-    DDGS = None
+    try:
+        from duckduckgo_search import DDGS  # type: ignore
+    except ImportError:  # pragma: no cover - optional dependency
+        DDGS = None
 
 CATEGORY_KEYWORDS: Dict[str, List[str]] = {
     "Discovery & Product Strategy": [
@@ -105,11 +108,26 @@ DEFAULT_QUERIES: List[str] = [
 
 AUTHORITY_PRIORS = {
     ".gov": 0.9,
+    ".gov.uk": 0.9,
     ".edu": 0.85,
+    "rfc-editor.org": 0.9,
+    "ietf.org": 0.9,
+    "w3.org": 0.9,
     "microsoft.com": 0.8,
+    "learn.microsoft.com": 0.8,
     "openai.com": 0.8,
     "aws.amazon.com": 0.78,
     "google.com": 0.78,
+    "cloud.google.com": 0.78,
+    "docs.cloud.google.com": 0.78,
+    "stripe.com": 0.78,
+    "docs.stripe.com": 0.78,
+    "owasp.org": 0.85,
+    "nngroup.com": 0.78,
+    "svpg.com": 0.75,
+    "martinfowler.com": 0.78,
+    "opentelemetry.io": 0.85,
+    "kubernetes.io": 0.85,
     "meta.com": 0.76,
     "anthropic.com": 0.76,
 }
@@ -372,8 +390,10 @@ def score_readability(title: str, snippet: str) -> float:
     return round(max(0.2, 0.7 - penalties), 4)
 
 
-def load_queries(extra_query_file: Optional[str]) -> List[str]:
-    queries = list(dict.fromkeys(DEFAULT_QUERIES))  # dedupe, preserve order
+def load_queries(extra_query_file: Optional[str], *, include_defaults: bool) -> List[str]:
+    queries: List[str] = []
+    if include_defaults:
+        queries = list(dict.fromkeys(DEFAULT_QUERIES))  # dedupe, preserve order
     if extra_query_file:
         with open(extra_query_file, "r", encoding="utf-8") as fh:
             for line in fh:
@@ -530,6 +550,11 @@ def parse_args(argv: Optional[List[str]] = None) -> argparse.Namespace:
         "--target-count", type=int, default=3200, help="Stop once this many unique links are collected."
     )
     parser.add_argument("--extra-query-file", help="Optional path to a file with extra queries (one per line).")
+    parser.add_argument(
+        "--no-default-queries",
+        action="store_true",
+        help="Only use --extra-query-file queries (do not include built-in defaults).",
+    )
     parser.add_argument("--seed-file", help="Optional CSV to pre-load URLs and avoid duplicates.")
     parser.add_argument("--out", required=True, help="Output CSV path.")
     return parser.parse_args(argv)
@@ -541,7 +566,10 @@ def main(argv: Optional[List[str]] = None) -> int:
         sys.stderr.write("Error: provide --api-key or set BING_SEARCH_KEY.\n")
         return 1
 
-    queries = load_queries(args.extra_query_file)
+    queries = load_queries(args.extra_query_file, include_defaults=not args.no_default_queries)
+    if not queries:
+        sys.stderr.write("Error: no queries available (provide --extra-query-file or allow defaults).\n")
+        return 1
     seed_urls = load_seed_urls(args.seed_file) if args.seed_file else None
     harvester = LinkHarvester(
         api_key=args.api_key,

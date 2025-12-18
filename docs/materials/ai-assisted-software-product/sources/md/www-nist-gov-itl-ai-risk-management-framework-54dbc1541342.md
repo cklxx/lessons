@@ -3,7 +3,7 @@
 - URL: https://www.nist.gov/itl/ai-risk-management-framework
 - Retrieved: 2025-12-18T08:47:08.958771+00:00
 
-[ Skip to main content ](#main-content)
+ Skip to main content 
 An official website of the United States government
 Here’s how you know
 Here’s how you know
@@ -12,7 +12,7 @@ A **.gov** website belongs to an official government organization in the United 
 **Secure .gov websites use HTTPS**   
 A **lock** (  Lock A locked padlock ) or **https://** means you’ve safely connected to the .gov website. Share sensitive information only on official, secure websites. 
 https://www.nist.gov/itl/ai-risk-management-framework
-[ ](https://www.nist.gov/ "National Institute of Standards and Technology")
+(https://www.nist.gov/ "National Institute of Standards and Technology")
 Search NIST
 Menu
 Close
@@ -150,25 +150,25 @@ To view public comments received on the previous drafts of the AI RMF and Reques
  
  
 ##  News & Updates 
-[ ](https://www.nist.gov/news-events/news/2023/01/nist-risk-management-framework-aims-improve-trustworthiness-artificial)
+(https://www.nist.gov/news-events/news/2023/01/nist-risk-management-framework-aims-improve-trustworthiness-artificial)
 ### [NIST Risk Management Framework Aims to Improve Trustworthiness of Artificial Intelligence ](https://www.nist.gov/news-events/news/2023/01/nist-risk-management-framework-aims-improve-trustworthiness-artificial)
 January 26, 2023
 New guidance seeks to cultivate trust in AI technologies and promote AI innovation while mitigating risk. 
-[ ](https://www.nist.gov/news-events/news/2022/08/nist-seeks-comments-ai-risk-management-framework-guidance-workshop-date-set)
+(https://www.nist.gov/news-events/news/2022/08/nist-seeks-comments-ai-risk-management-framework-guidance-workshop-date-set)
 ### [NIST Seeks Comments on AI Risk Management Framework Guidance, Workshop Date Set ](https://www.nist.gov/news-events/news/2022/08/nist-seeks-comments-ai-risk-management-framework-guidance-workshop-date-set)
 August 18, 2022
 NIST is seeking comments on a second draft of the NIST Artificial Intelligence Risk Management Framework (AI RMF). The AI RMF is intended for voluntary use in 
-[ ](https://www.nist.gov/news-events/news/2022/04/symposium-focuses-ai-and-economy-and-path-responsible-and-inclusive-ai)
+(https://www.nist.gov/news-events/news/2022/04/symposium-focuses-ai-and-economy-and-path-responsible-and-inclusive-ai)
 ### [Symposium Focuses on AI and the Economy and the Path for Responsible and Inclusive AI ](https://www.nist.gov/news-events/news/2022/04/symposium-focuses-ai-and-economy-and-path-responsible-and-inclusive-ai)
 April 27, 2022
 The U.S. Department of Commerce, NIST, FinRegLab, and the Stanford Institute for Human-Centered Artificial Intelligence (HAI) hosted a symposium on "Artificial 
-[ ](https://www.nist.gov/news-events/news/2022/03/nist-seeks-comments-draft-ai-risk-management-framework-offers-guidance-ai)
+(https://www.nist.gov/news-events/news/2022/03/nist-seeks-comments-draft-ai-risk-management-framework-offers-guidance-ai)
 ### [NIST Seeks Comments on Draft AI Risk Management Framework, Offers Guidance on AI Bias ](https://www.nist.gov/news-events/news/2022/03/nist-seeks-comments-draft-ai-risk-management-framework-offers-guidance-ai)
 March 17, 2022
 Seeking to promote the development and use of artificial intelligence (AI) technologies and systems that are trustworthy and responsible, NIST today released 
 [View All News and Updates](https://www.nist.gov/news-events/news-updates/tag/2791391)
 [ Was this page helpful? ](/webform/page_feedback?page=https://www.nist.gov/itl/ai-risk-management-framework&page_title=AI Risk Management Framework&source_entity_type=node&source_entity_id=1674601)
-[ ](https://www.nist.gov/ "National Institute of Standards and Technology")
+(https://www.nist.gov/ "National Institute of Standards and Technology")
 ### HEADQUARTERS
 100 Bureau Drive  
 Gaithersburg, MD 20899  

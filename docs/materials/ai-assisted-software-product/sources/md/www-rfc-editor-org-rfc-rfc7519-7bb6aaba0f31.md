@@ -124,52 +124,52 @@ Updated by: [7797](https://www.rfc-editor.org/rfc/rfc7797), [8725](https://www.r
     
     Table of Contents
     
-       [1](#section-1).  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   [4](#page-4)
-         [1.1](#section-1.1).  Notational Conventions  . . . . . . . . . . . . . . . . .   [4](#page-4)
-       [2](#section-2).  Terminology . . . . . . . . . . . . . . . . . . . . . . . . .   [4](#page-4)
-       [3](#section-3).  JSON Web Token (JWT) Overview . . . . . . . . . . . . . . . .   [6](#page-6)
-         [3.1](#section-3.1).  Example JWT . . . . . . . . . . . . . . . . . . . . . . .   [7](#page-7)
-       [4](#section-4).  JWT Claims  . . . . . . . . . . . . . . . . . . . . . . . . .   [8](#page-8)
-         [4.1](#section-4.1).  Registered Claim Names  . . . . . . . . . . . . . . . . .   [9](#page-9)
-           [4.1.1](#section-4.1.1).  "iss" (Issuer) Claim  . . . . . . . . . . . . . . . .   [9](#page-9)
-           [4.1.2](#section-4.1.2).  "sub" (Subject) Claim . . . . . . . . . . . . . . . .   [9](#page-9)
-           [4.1.3](#section-4.1.3).  "aud" (Audience) Claim  . . . . . . . . . . . . . . .   [9](#page-9)
-           [4.1.4](#section-4.1.4).  "exp" (Expiration Time) Claim . . . . . . . . . . . .   [9](#page-9)
-           [4.1.5](#section-4.1.5).  "nbf" (Not Before) Claim  . . . . . . . . . . . . . .  [10](#page-10)
-           [4.1.6](#section-4.1.6).  "iat" (Issued At) Claim . . . . . . . . . . . . . . .  [10](#page-10)
-           [4.1.7](#section-4.1.7).  "jti" (JWT ID) Claim  . . . . . . . . . . . . . . . .  [10](#page-10)
-         [4.2](#section-4.2).  Public Claim Names  . . . . . . . . . . . . . . . . . . .  [10](#page-10)
-         [4.3](#section-4.3).  Private Claim Names . . . . . . . . . . . . . . . . . . .  [10](#page-10)
-       [5](#section-5).  JOSE Header . . . . . . . . . . . . . . . . . . . . . . . . .  [11](#page-11)
-         [5.1](#section-5.1).  "typ" (Type) Header Parameter . . . . . . . . . . . . . .  [11](#page-11)
-         [5.2](#section-5.2).  "cty" (Content Type) Header Parameter . . . . . . . . . .  [11](#page-11)
-         [5.3](#section-5.3).  Replicating Claims as Header Parameters . . . . . . . . .  [12](#page-12)
-       [6](#section-6).  Unsecured JWTs  . . . . . . . . . . . . . . . . . . . . . . .  [12](#page-12)
-         [6.1](#section-6.1).  Example Unsecured JWT . . . . . . . . . . . . . . . . . .  [12](#page-12)
-       [7](#section-7).  Creating and Validating JWTs  . . . . . . . . . . . . . . . .  [13](#page-13)
-         [7.1](#section-7.1).  Creating a JWT  . . . . . . . . . . . . . . . . . . . . .  [13](#page-13)
-         [7.2](#section-7.2).  Validating a JWT  . . . . . . . . . . . . . . . . . . . .  [14](#page-14)
-         [7.3](#section-7.3).  String Comparison Rules . . . . . . . . . . . . . . . . .  [15](#page-15)
-       [8](#section-8).  Implementation Requirements . . . . . . . . . . . . . . . . .  [16](#page-16)
-       [9](#section-9).  URI for Declaring that Content is a JWT . . . . . . . . . . .  [17](#page-17)
-       [10](#section-10). IANA Considerations . . . . . . . . . . . . . . . . . . . . .  [17](#page-17)
-         [10.1](#section-10.1).  JSON Web Token Claims Registry . . . . . . . . . . . . .  [17](#page-17)
-           [10.1.1](#section-10.1.1).  Registration Template  . . . . . . . . . . . . . . .  [18](#page-18)
-           [10.1.2](#section-10.1.2).  Initial Registry Contents  . . . . . . . . . . . . .  [18](#page-18)
+       1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   4
+         1.1.  Notational Conventions  . . . . . . . . . . . . . . . . .   4
+       2.  Terminology . . . . . . . . . . . . . . . . . . . . . . . . .   4
+       3.  JSON Web Token (JWT) Overview . . . . . . . . . . . . . . . .   6
+         3.1.  Example JWT . . . . . . . . . . . . . . . . . . . . . . .   7
+       4.  JWT Claims  . . . . . . . . . . . . . . . . . . . . . . . . .   8
+         4.1.  Registered Claim Names  . . . . . . . . . . . . . . . . .   9
+           4.1.1.  "iss" (Issuer) Claim  . . . . . . . . . . . . . . . .   9
+           4.1.2.  "sub" (Subject) Claim . . . . . . . . . . . . . . . .   9
+           4.1.3.  "aud" (Audience) Claim  . . . . . . . . . . . . . . .   9
+           4.1.4.  "exp" (Expiration Time) Claim . . . . . . . . . . . .   9
+           4.1.5.  "nbf" (Not Before) Claim  . . . . . . . . . . . . . .  10
+           4.1.6.  "iat" (Issued At) Claim . . . . . . . . . . . . . . .  10
+           4.1.7.  "jti" (JWT ID) Claim  . . . . . . . . . . . . . . . .  10
+         4.2.  Public Claim Names  . . . . . . . . . . . . . . . . . . .  10
+         4.3.  Private Claim Names . . . . . . . . . . . . . . . . . . .  10
+       5.  JOSE Header . . . . . . . . . . . . . . . . . . . . . . . . .  11
+         5.1.  "typ" (Type) Header Parameter . . . . . . . . . . . . . .  11
+         5.2.  "cty" (Content Type) Header Parameter . . . . . . . . . .  11
+         5.3.  Replicating Claims as Header Parameters . . . . . . . . .  12
+       6.  Unsecured JWTs  . . . . . . . . . . . . . . . . . . . . . . .  12
+         6.1.  Example Unsecured JWT . . . . . . . . . . . . . . . . . .  12
+       7.  Creating and Validating JWTs  . . . . . . . . . . . . . . . .  13
+         7.1.  Creating a JWT  . . . . . . . . . . . . . . . . . . . . .  13
+         7.2.  Validating a JWT  . . . . . . . . . . . . . . . . . . . .  14
+         7.3.  String Comparison Rules . . . . . . . . . . . . . . . . .  15
+       8.  Implementation Requirements . . . . . . . . . . . . . . . . .  16
+       9.  URI for Declaring that Content is a JWT . . . . . . . . . . .  17
+       10. IANA Considerations . . . . . . . . . . . . . . . . . . . . .  17
+         10.1.  JSON Web Token Claims Registry . . . . . . . . . . . . .  17
+           10.1.1.  Registration Template  . . . . . . . . . . . . . . .  18
+           10.1.2.  Initial Registry Contents  . . . . . . . . . . . . .  18
          10.2.  Sub-Namespace Registration of
-                urn:ietf:params:oauth:token-type:jwt . . . . . . . . . .  [19](#page-19)
-           [10.2.1](#section-10.2.1).  Registry Contents  . . . . . . . . . . . . . . . . .  [19](#page-19)
-         [10.3](#section-10.3).  Media Type Registration  . . . . . . . . . . . . . . . .  [20](#page-20)
-           [10.3.1](#section-10.3.1).  Registry Contents  . . . . . . . . . . . . . . . . .  [20](#page-20)
-         [10.4](#section-10.4).  Header Parameter Names Registration  . . . . . . . . . .  [20](#page-20)
-           [10.4.1](#section-10.4.1).  Registry Contents  . . . . . . . . . . . . . . . . .  [21](#page-21)
-       [11](#section-11). Security Considerations . . . . . . . . . . . . . . . . . . .  [21](#page-21)
-         [11.1](#section-11.1).  Trust Decisions  . . . . . . . . . . . . . . . . . . . .  [21](#page-21)
-         [11.2](#section-11.2).  Signing and Encryption Order . . . . . . . . . . . . . .  [21](#page-21)
-       [12](#section-12). Privacy Considerations  . . . . . . . . . . . . . . . . . . .  [22](#page-22)
-       [13](#section-13). References  . . . . . . . . . . . . . . . . . . . . . . . . .  [22](#page-22)
-         [13.1](#section-13.1).  Normative References . . . . . . . . . . . . . . . . . .  [22](#page-22)
-         [13.2](#section-13.2).  Informative References . . . . . . . . . . . . . . . . .  [23](#page-23)
+                urn:ietf:params:oauth:token-type:jwt . . . . . . . . . .  19
+           10.2.1.  Registry Contents  . . . . . . . . . . . . . . . . .  19
+         10.3.  Media Type Registration  . . . . . . . . . . . . . . . .  20
+           10.3.1.  Registry Contents  . . . . . . . . . . . . . . . . .  20
+         10.4.  Header Parameter Names Registration  . . . . . . . . . .  20
+           10.4.1.  Registry Contents  . . . . . . . . . . . . . . . . .  21
+       11. Security Considerations . . . . . . . . . . . . . . . . . . .  21
+         11.1.  Trust Decisions  . . . . . . . . . . . . . . . . . . . .  21
+         11.2.  Signing and Encryption Order . . . . . . . . . . . . . .  21
+       12. Privacy Considerations  . . . . . . . . . . . . . . . . . . .  22
+       13. References  . . . . . . . . . . . . . . . . . . . . . . . . .  22
+         13.1.  Normative References . . . . . . . . . . . . . . . . . .  22
+         13.2.  Informative References . . . . . . . . . . . . . . . . .  23
     
     
     
@@ -179,22 +179,22 @@ Updated by: [7797](https://www.rfc-editor.org/rfc/rfc7797), [8725](https://www.r
     [RFC 7519](https://www.rfc-editor.org/rfc/rfc7519)                  JSON Web Token (JWT)                  May 2015
     
     
-       [Appendix A](#appendix-A).  JWT Examples . . . . . . . . . . . . . . . . . . . .  [26](#page-26)
-         [A.1](#appendix-A.1).  Example Encrypted JWT . . . . . . . . . . . . . . . . . .  [26](#page-26)
-         [A.2](#appendix-A.2).  Example Nested JWT  . . . . . . . . . . . . . . . . . . .  [26](#page-26)
-       [Appendix B](#appendix-B).  Relationship of JWTs to SAML Assertions  . . . . . .  [28](#page-28)
-       [Appendix C](#appendix-C).  Relationship of JWTs to Simple Web Tokens (SWTs) . .  [28](#page-28)
-       Acknowledgements  . . . . . . . . . . . . . . . . . . . . . . . .  [28](#page-28)
-       Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  [29](#page-29)
+       Appendix A.  JWT Examples . . . . . . . . . . . . . . . . . . . .  26
+         A.1.  Example Encrypted JWT . . . . . . . . . . . . . . . . . .  26
+         A.2.  Example Nested JWT  . . . . . . . . . . . . . . . . . . .  26
+       Appendix B.  Relationship of JWTs to SAML Assertions  . . . . . .  28
+       Appendix C.  Relationship of JWTs to Simple Web Tokens (SWTs) . .  28
+       Acknowledgements  . . . . . . . . . . . . . . . . . . . . . . . .  28
+       Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  29
     
-    [1](#section-1).  Introduction
+    1.  Introduction
     
        JSON Web Token (JWT) is a compact claims representation format
        intended for space constrained environments such as HTTP
        Authorization headers and URI query parameters.  JWTs encode claims
        to be transmitted as a JSON [[RFC7159](./rfc7159 ""The JavaScript Object Notation \(JSON\) Data Interchange Format"")] object that is used as the
-       payload of a JSON Web Signature (JWS) [[JWS](#ref-JWS ""JSON Web Signature \(JWS\)"")] structure or as the
-       plaintext of a JSON Web Encryption (JWE) [[JWE](#ref-JWE ""JSON Web Encryption \(JWE\)"")] structure, enabling
+       payload of a JSON Web Signature (JWS) [[JWS]"")] structure or as the
+       plaintext of a JSON Web Encryption (JWE) [[JWE]"")] structure, enabling
        the claims to be digitally signed or integrity protected with a
        Message Authentication Code (MAC) and/or encrypted.  JWTs are always
        represented using the JWS Compact Serialization or the JWE Compact
@@ -203,7 +203,7 @@ Updated by: [7797](https://www.rfc-editor.org/rfc/rfc7797), [8725](https://www.r
        The suggested pronunciation of JWT is the same as the English word
        "jot".
     
-    [1.1](#section-1.1).  Notational Conventions
+    1.1.  Notational Conventions
     
        The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
        "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
@@ -212,16 +212,16 @@ Updated by: [7797](https://www.rfc-editor.org/rfc/rfc7797), [8725](https://www.r
        The interpretation should only be applied when the terms appear in
        all capital letters.
     
-    [2](#section-2).  Terminology
+    2.  Terminology
     
        The terms "JSON Web Signature (JWS)", "Base64url Encoding", "Header
        Parameter", "JOSE Header", "JWS Compact Serialization", "JWS
        Payload", "JWS Signature", and "Unsecured JWS" are defined by the JWS
-       specification [[JWS](#ref-JWS ""JSON Web Signature \(JWS\)"")].
+       specification [[JWS]"")].
     
        The terms "JSON Web Encryption (JWE)", "Content Encryption Key
        (CEK)", "JWE Compact Serialization", "JWE Encrypted Key", and "JWE
-       Initialization Vector" are defined by the JWE specification [[JWE](#ref-JWE ""JSON Web Encryption \(JWE\)"")].
+       Initialization Vector" are defined by the JWE specification [[JWE]"")].
     
        The terms "Ciphertext", "Digital Signature", "Message Authentication
        Code (MAC)", and "Plaintext" are defined by the "Internet Security
@@ -297,13 +297,13 @@ Updated by: [7797](https://www.rfc-editor.org/rfc/rfc7797), [8725](https://www.r
           A JSON numeric value representing the number of seconds from
           1970-01-01T00:00:00Z UTC until the specified UTC date/time,
           ignoring leap seconds.  This is equivalent to the IEEE Std 1003.1,
-          2013 Edition [[POSIX.1](#ref-POSIX.1 ""The Open Group Base Specifications Issue 7"")] definition "Seconds Since the Epoch", in
+          2013 Edition [[POSIX.1]] definition "Seconds Since the Epoch", in
           which each day is accounted for by exactly 86400 seconds, other
           than that non-integer values can be represented.  See [RFC 3339](https://www.rfc-editor.org/rfc/rfc3339)
           [[RFC3339](./rfc3339 ""Date and Time on the Internet: Timestamps"")] for details regarding date/times in general and UTC in
           particular.
     
-    [3](#section-3).  JSON Web Token (JWT) Overview
+    3.  JSON Web Token (JWT) Overview
     
        JWTs represent a set of claims as a JSON object that is encoded in a
        JWS and/or JWE structure.  This JSON object is the JWT Claims Set.
@@ -350,7 +350,7 @@ Updated by: [7797](https://www.rfc-editor.org/rfc/rfc7797), [8725](https://www.r
     [RFC 7519](https://www.rfc-editor.org/rfc/rfc7519)                  JSON Web Token (JWT)                  May 2015
     
     
-    [3.1](#section-3.1).  Example JWT
+    3.1.  Example JWT
     
        The following example JOSE Header declares that the encoded object is
        a JWT, and the JWT is a JWS that is MACed using the HMAC SHA-256
@@ -415,7 +415,7 @@ Updated by: [7797](https://www.rfc-editor.org/rfc/rfc7797), [8725](https://www.r
     
        Computing the MAC of the encoded JOSE Header and encoded JWS Payload
        with the HMAC SHA-256 algorithm and base64url encoding the HMAC value
-       in the manner specified in [[JWS](#ref-JWS ""JSON Web Signature \(JWS\)"")] yields this encoded JWS Signature:
+       in the manner specified in [[JWS]"")] yields this encoded JWS Signature:
     
          dBjftJeZ4CVP-mB92K27uhbUJU1p1r_wW1gFWFOEjXk
     
@@ -430,17 +430,17 @@ Updated by: [7797](https://www.rfc-editor.org/rfc/rfc7797), [8725](https://www.r
          .
          dBjftJeZ4CVP-mB92K27uhbUJU1p1r_wW1gFWFOEjXk
     
-       This computation is illustrated in more detail in [Appendix A.1](#appendix-A.1) of
-       [[JWS](#ref-JWS ""JSON Web Signature \(JWS\)"")].  See [Appendix A.1](#appendix-A.1) for an example of an encrypted JWT.
+       This computation is illustrated in more detail in Appendix A.1 of
+       [[JWS]"")].  See Appendix A.1 for an example of an encrypted JWT.
     
-    [4](#section-4).  JWT Claims
+    4.  JWT Claims
     
        The JWT Claims Set represents a JSON object whose members are the
        claims conveyed by the JWT.  The Claim Names within a JWT Claims Set
        MUST be unique; JWT parsers MUST either reject JWTs with duplicate
        Claim Names or use a JSON parser that returns only the lexically last
-       duplicate member name, as specified in [Section 15.12](#section-15.12) ("The JSON
-       Object") of ECMAScript 5.1 [[ECMAScript](#ref-ECMAScript)].
+       duplicate member name, as specified in Section 15.12 ("The JSON
+       Object") of ECMAScript 5.1 [ECMAScript].
     
        The set of claims that a JWT must contain to be considered valid is
        context dependent and is outside the scope of this specification.
@@ -464,10 +464,10 @@ Updated by: [7797](https://www.rfc-editor.org/rfc/rfc7797), [8725](https://www.r
     [RFC 7519](https://www.rfc-editor.org/rfc/rfc7519)                  JSON Web Token (JWT)                  May 2015
     
     
-    [4.1](#section-4.1).  Registered Claim Names
+    4.1.  Registered Claim Names
     
        The following Claim Names are registered in the IANA "JSON Web Token
-       Claims" registry established by [Section 10.1](#section-10.1).  None of the claims
+       Claims" registry established by Section 10.1.  None of the claims
        defined below are intended to be mandatory to use or implement in all
        cases, but rather they provide a starting point for a set of useful,
        interoperable claims.  Applications using JWTs should define which
@@ -475,14 +475,14 @@ Updated by: [7797](https://www.rfc-editor.org/rfc/rfc7797), [8725](https://www.r
        the names are short because a core goal of JWTs is for the
        representation to be compact.
     
-    [4.1.1](#section-4.1.1).  "iss" (Issuer) Claim
+    4.1.1.  "iss" (Issuer) Claim
     
        The "iss" (issuer) claim identifies the principal that issued the
        JWT.  The processing of this claim is generally application specific.
        The "iss" value is a case-sensitive string containing a StringOrURI
        value.  Use of this claim is OPTIONAL.
     
-    [4.1.2](#section-4.1.2).  "sub" (Subject) Claim
+    4.1.2.  "sub" (Subject) Claim
     
        The "sub" (subject) claim identifies the principal that is the
        subject of the JWT.  The claims in a JWT are normally statements
@@ -492,7 +492,7 @@ Updated by: [7797](https://www.rfc-editor.org/rfc/rfc7797), [8725](https://www.r
        "sub" value is a case-sensitive string containing a StringOrURI
        value.  Use of this claim is OPTIONAL.
     
-    [4.1.3](#section-4.1.3).  "aud" (Audience) Claim
+    4.1.3.  "aud" (Audience) Claim
     
        The "aud" (audience) claim identifies the recipients that the JWT is
        intended for.  Each principal intended to process the JWT MUST
@@ -506,7 +506,7 @@ Updated by: [7797](https://www.rfc-editor.org/rfc/rfc7797), [8725](https://www.r
        interpretation of audience values is generally application specific.
        Use of this claim is OPTIONAL.
     
-    [4.1.4](#section-4.1.4).  "exp" (Expiration Time) Claim
+    4.1.4.  "exp" (Expiration Time) Claim
     
        The "exp" (expiration time) claim identifies the expiration time on
        or after which the JWT MUST NOT be accepted for processing.  The
@@ -525,7 +525,7 @@ Updated by: [7797](https://www.rfc-editor.org/rfc/rfc7797), [8725](https://www.r
        a few minutes, to account for clock skew.  Its value MUST be a number
        containing a NumericDate value.  Use of this claim is OPTIONAL.
     
-    [4.1.5](#section-4.1.5).  "nbf" (Not Before) Claim
+    4.1.5.  "nbf" (Not Before) Claim
     
        The "nbf" (not before) claim identifies the time before which the JWT
        MUST NOT be accepted for processing.  The processing of the "nbf"
@@ -535,14 +535,14 @@ Updated by: [7797](https://www.rfc-editor.org/rfc/rfc7797), [8725](https://www.r
        account for clock skew.  Its value MUST be a number containing a
        NumericDate value.  Use of this claim is OPTIONAL.
     
-    [4.1.6](#section-4.1.6).  "iat" (Issued At) Claim
+    4.1.6.  "iat" (Issued At) Claim
     
        The "iat" (issued at) claim identifies the time at which the JWT was
        issued.  This claim can be used to determine the age of the JWT.  Its
        value MUST be a number containing a NumericDate value.  Use of this
        claim is OPTIONAL.
     
-    [4.1.7](#section-4.1.7).  "jti" (JWT ID) Claim
+    4.1.7.  "jti" (JWT ID) Claim
     
        The "jti" (JWT ID) claim provides a unique identifier for the JWT.
        The identifier value MUST be assigned in a manner that ensures that
@@ -553,22 +553,22 @@ Updated by: [7797](https://www.rfc-editor.org/rfc/rfc7797), [8725](https://www.r
        to prevent the JWT from being replayed.  The "jti" value is a case-
        sensitive string.  Use of this claim is OPTIONAL.
     
-    [4.2](#section-4.2).  Public Claim Names
+    4.2.  Public Claim Names
     
        Claim Names can be defined at will by those using JWTs.  However, in
        order to prevent collisions, any new Claim Name should either be
        registered in the IANA "JSON Web Token Claims" registry established
-       by [Section 10.1](#section-10.1) or be a Public Name: a value that contains a
+       by Section 10.1 or be a Public Name: a value that contains a
        Collision-Resistant Name.  In each case, the definer of the name or
        value needs to take reasonable precautions to make sure they are in
        control of the part of the namespace they use to define the Claim
        Name.
     
-    [4.3](#section-4.3).  Private Claim Names
+    4.3.  Private Claim Names
     
        A producer and consumer of a JWT MAY agree to use Claim Names that
        are Private Names: names that are not Registered Claim Names
-       ([Section 4.1](#section-4.1)) or Public Claim Names ([Section 4.2](#section-4.2)).  Unlike Public
+       (Section 4.1) or Public Claim Names (Section 4.2).  Unlike Public
     
     
     
@@ -581,7 +581,7 @@ Updated by: [7797](https://www.rfc-editor.org/rfc/rfc7797), [8725](https://www.r
        Claim Names, Private Claim Names are subject to collision and should
        be used with caution.
     
-    [5](#section-5).  JOSE Header
+    5.  JOSE Header
     
        For a JWT object, the members of the JSON object represented by the
        JOSE Header describe the cryptographic operations applied to the JWT
@@ -593,10 +593,10 @@ Updated by: [7797](https://www.rfc-editor.org/rfc/rfc7797), [8725](https://www.r
        Parameters in both the cases where the JWT is a JWS and where it is a
        JWE.
     
-    [5.1](#section-5.1).  "typ" (Type) Header Parameter
+    5.1.  "typ" (Type) Header Parameter
     
-       The "typ" (type) Header Parameter defined by [[JWS](#ref-JWS ""JSON Web Signature \(JWS\)"")] and [[JWE](#ref-JWE ""JSON Web Encryption \(JWE\)"")] is used
-       by JWT applications to declare the media type [[IANA.MediaTypes](#ref-IANA.MediaTypes)] of
+       The "typ" (type) Header Parameter defined by [[JWS]"")] and [[JWE]"")] is used
+       by JWT applications to declare the media type [IANA.MediaTypes] of
        this complete JWT.  This is intended for use by the JWT application
        when values that are not JWTs could also be present in an application
        data structure that can contain a JWT object; the application can use
@@ -610,9 +610,9 @@ Updated by: [7797](https://www.rfc-editor.org/rfc/rfc7797), [8725](https://www.r
        always be spelled using uppercase characters for compatibility with
        legacy implementations.  Use of this Header Parameter is OPTIONAL.
     
-    [5.2](#section-5.2).  "cty" (Content Type) Header Parameter
+    5.2.  "cty" (Content Type) Header Parameter
     
-       The "cty" (content type) Header Parameter defined by [[JWS](#ref-JWS ""JSON Web Signature \(JWS\)"")] and [[JWE](#ref-JWE ""JSON Web Encryption \(JWE\)"")]
+       The "cty" (content type) Header Parameter defined by [[JWS]"")] and [[JWE]"")]
        is used by this specification to convey structural information about
        the JWT.
     
@@ -623,7 +623,7 @@ Updated by: [7797](https://www.rfc-editor.org/rfc/rfc7797), [8725](https://www.r
        value MUST be "JWT", to indicate that a Nested JWT is carried in this
        JWT.  While media type names are not case sensitive, it is
        RECOMMENDED that "JWT" always be spelled using uppercase characters
-       for compatibility with legacy implementations.  See [Appendix A.2](#appendix-A.2) for
+       for compatibility with legacy implementations.  See Appendix A.2 for
        an example of a Nested JWT.
     
     
@@ -635,7 +635,7 @@ Updated by: [7797](https://www.rfc-editor.org/rfc/rfc7797), [8725](https://www.r
     [RFC 7519](https://www.rfc-editor.org/rfc/rfc7519)                  JSON Web Token (JWT)                  May 2015
     
     
-    [5.3](#section-5.3).  Replicating Claims as Header Parameters
+    5.3.  Replicating Claims as Header Parameters
     
        In some applications using encrypted JWTs, it is useful to have an
        unencrypted representation of some claims.  This might be used, for
@@ -652,14 +652,14 @@ Updated by: [7797](https://www.rfc-editor.org/rfc/rfc7797), [8725](https://www.r
        unencrypted manner are replicated as Header Parameter values in the
        JWT.
     
-       [Section 10.4.1](#section-10.4.1) of this specification registers the "iss" (issuer),
+       Section 10.4.1 of this specification registers the "iss" (issuer),
        "sub" (subject), and "aud" (audience) Header Parameter names for the
        purpose of providing unencrypted replicas of these claims in
        encrypted JWTs for applications that need them.  Other specifications
        MAY similarly register other names that are registered Claim Names as
        Header Parameter names, as needed.
     
-    [6](#section-6).  Unsecured JWTs
+    6.  Unsecured JWTs
     
        To support use cases in which the JWT content is secured by a means
        other than a signature and/or encryption contained within the JWT
@@ -667,10 +667,10 @@ Updated by: [7797](https://www.rfc-editor.org/rfc/rfc7797), [8725](https://www.r
        MAY also be created without a signature or encryption.  An Unsecured
        JWT is a JWS using the "alg" Header Parameter value "none" and with
        the empty string for its JWS Signature value, as defined in the JWA
-       specification [[JWA](#ref-JWA ""JSON Web Algorithms \(JWA\)"")]; it is an Unsecured JWS with the JWT Claims Set
+       specification [[JWA]"")]; it is an Unsecured JWS with the JWT Claims Set
        as its JWS Payload.
     
-    [6.1](#section-6.1).  Example Unsecured JWT
+    6.1.  Example Unsecured JWT
     
        The following example JOSE Header declares that the encoded object is
        an Unsecured JWT:
@@ -717,9 +717,9 @@ Updated by: [7797](https://www.rfc-editor.org/rfc/rfc7797), [8725](https://www.r
          cGxlLmNvbS9pc19yb290Ijp0cnVlfQ
          .
     
-    [7](#section-7).  Creating and Validating JWTs
+    7.  Creating and Validating JWTs
     
-    [7.1](#section-7.1).  Creating a JWT
+    7.1.  Creating a JWT
     
        To create a JWT, the following steps are performed.  The order of the
        steps is not significant in cases where there are no dependencies
@@ -733,7 +733,7 @@ Updated by: [7797](https://www.rfc-editor.org/rfc/rfc7797), [8725](https://www.r
            JWT Claims Set.
     
        3.  Create a JOSE Header containing the desired set of Header
-           Parameters.  The JWT MUST conform to either the [[JWS](#ref-JWS ""JSON Web Signature \(JWS\)"")] or [[JWE](#ref-JWE ""JSON Web Encryption \(JWE\)"")]
+           Parameters.  The JWT MUST conform to either the [[JWS]"")] or [[JWE]"")]
            specification.  Note that whitespace is explicitly allowed in the
            representation and no canonicalization need be performed before
            encoding.
@@ -753,11 +753,11 @@ Updated by: [7797](https://www.rfc-editor.org/rfc/rfc7797), [8725](https://www.r
            cases:
     
            *  If the JWT is a JWS, create a JWS using the Message as the JWS
-              Payload; all steps specified in [[JWS](#ref-JWS ""JSON Web Signature \(JWS\)"")] for creating a JWS MUST
+              Payload; all steps specified in [[JWS]"")] for creating a JWS MUST
               be followed.
     
            *  Else, if the JWT is a JWE, create a JWE using the Message as
-              the plaintext for the JWE; all steps specified in [[JWE](#ref-JWE ""JSON Web Encryption \(JWE\)"")] for
+              the plaintext for the JWE; all steps specified in [[JWE]"")] for
               creating a JWE MUST be followed.
     
        5.  If a nested signing or encryption operation will be performed,
@@ -767,7 +767,7 @@ Updated by: [7797](https://www.rfc-editor.org/rfc/rfc7797), [8725](https://www.r
     
        6.  Otherwise, let the resulting JWT be the JWS or JWE.
     
-    [7.2](#section-7.2).  Validating a JWT
+    7.2.  Validating a JWT
     
        When validating a JWT, the following steps are performed.  The order
        of the steps is not significant in cases where there are no
@@ -795,7 +795,7 @@ Updated by: [7797](https://www.rfc-editor.org/rfc/rfc7797), [8725](https://www.r
             understood.
     
        6.   Determine whether the JWT is a JWS or a JWE using any of the
-            methods described in Section 9 of [[JWE](#ref-JWE ""JSON Web Encryption \(JWE\)"")].
+            methods described in Section 9 of [[JWE]"")].
     
     
     
@@ -809,12 +809,12 @@ Updated by: [7797](https://www.rfc-editor.org/rfc/rfc7797), [8725](https://www.r
        7.   Depending upon whether the JWT is a JWS or JWE, there are two
             cases:
     
-            *  If the JWT is a JWS, follow the steps specified in [[JWS](#ref-JWS ""JSON Web Signature \(JWS\)"")] for
+            *  If the JWT is a JWS, follow the steps specified in [[JWS]"")] for
                validating a JWS.  Let the Message be the result of base64url
                decoding the JWS Payload.
     
             *  Else, if the JWT is a JWE, follow the steps specified in
-               [[JWE](#ref-JWE ""JSON Web Encryption \(JWE\)"")] for validating a JWE.  Let the Message be the resulting
+               [[JWE]"")] for validating a JWE.  Let the Message be the resulting
                plaintext.
     
        8.   If the JOSE Header contains a "cty" (content type) value of
@@ -835,11 +835,11 @@ Updated by: [7797](https://www.rfc-editor.org/rfc/rfc7797), [8725](https://www.r
        validated, unless the algorithms used in the JWT are acceptable to
        the application, it SHOULD reject the JWT.
     
-    [7.3](#section-7.3).  String Comparison Rules
+    7.3.  String Comparison Rules
     
        Processing a JWT inevitably requires comparing known strings to
        members and values in JSON objects.  For example, in checking what
-       the algorithm is, the Unicode [[UNICODE](#ref-UNICODE ""The Unicode Standard"")] string encoding "alg" will be
+       the algorithm is, the Unicode [[UNICODE]] string encoding "alg" will be
        checked against the member names in the JOSE Header to see if there
        is a matching Header Parameter name.
     
@@ -874,7 +874,7 @@ Updated by: [7797](https://www.rfc-editor.org/rfc/rfc7797), [8725](https://www.r
        an independently produced value, then the case used by the producer
        will not matter.)
     
-    [8](#section-8).  Implementation Requirements
+    8.  Implementation Requirements
     
        This section defines which algorithms and features of this
        specification are mandatory to implement.  Applications using this
@@ -886,7 +886,7 @@ Updated by: [7797](https://www.rfc-editor.org/rfc/rfc7797), [8725](https://www.r
        algorithm ("ES256").
     
        Of the signature and MAC algorithms specified in JSON Web Algorithms
-       [[JWA](#ref-JWA ""JSON Web Algorithms \(JWA\)"")], only HMAC SHA-256 ("HS256") and "none" MUST be implemented by
+       [[JWA]"")], only HMAC SHA-256 ("HS256") and "none" MUST be implemented by
        conforming JWT implementations.  It is RECOMMENDED that
        implementations also support RSASSA-PKCS1-v1_5 with the SHA-256 hash
        algorithm ("RS256") and ECDSA using the P-256 curve and the SHA-256
@@ -895,7 +895,7 @@ Updated by: [7797](https://www.rfc-editor.org/rfc/rfc7797), [8725](https://www.r
     
        Support for encrypted JWTs is OPTIONAL.  If an implementation
        provides encryption capabilities, of the encryption algorithms
-       specified in [[JWA](#ref-JWA ""JSON Web Algorithms \(JWA\)"")], only RSAES-PKCS1-v1_5 with 2048-bit keys
+       specified in [[JWA]"")], only RSAES-PKCS1-v1_5 with 2048-bit keys
        ("RSA1_5"), AES Key Wrap with 128- and 256-bit keys ("A128KW" and
        "A256KW"), and the composite authenticated encryption algorithm using
        AES-CBC and HMAC SHA-2 ("A128CBC-HS256" and "A256CBC-HS512") MUST be
@@ -920,21 +920,21 @@ Updated by: [7797](https://www.rfc-editor.org/rfc/rfc7797), [8725](https://www.r
     [RFC 7519](https://www.rfc-editor.org/rfc/rfc7519)                  JSON Web Token (JWT)                  May 2015
     
     
-    [9](#section-9).  URI for Declaring that Content is a JWT
+    9.  URI for Declaring that Content is a JWT
     
        This specification registers the URN
        "urn:ietf:params:oauth:token-type:jwt" for use by applications that
        declare content types using URIs (rather than, for instance, media
        types) to indicate that the content referred to is a JWT.
     
-    [10](#section-10).  IANA Considerations
+    10.  IANA Considerations
     
-    [10.1](#section-10.1).  JSON Web Token Claims Registry
+    10.1.  JSON Web Token Claims Registry
     
        This section establishes the IANA "JSON Web Token Claims" registry
        for JWT Claim Names.  The registry records the Claim Name and a
        reference to the specification that defines it.  This section
-       registers the Claim Names defined in [Section 4.1](#section-4.1).
+       registers the Claim Names defined in Section 4.1.
     
        Values are registered on a Specification Required [[RFC5226](https://www.rfc-editor.org/rfc/rfc5226)] basis
        after a three-week review period on the jwt-reg-review@ietf.org
@@ -981,7 +981,7 @@ Updated by: [7797](https://www.rfc-editor.org/rfc/rfc7797), [8725](https://www.r
        Expert, that Expert should defer to the judgment of the other
        Experts.
     
-    [10.1.1](#section-10.1.1).  Registration Template
+    10.1.1.  Registration Template
     
        Claim Name:
           The name requested (e.g., "iss").  Because a core goal of this
@@ -1006,7 +1006,7 @@ Updated by: [7797](https://www.rfc-editor.org/rfc/rfc7797), [8725](https://www.r
           the documents.  An indication of the relevant sections may also be
           included but is not required.
     
-    [10.1.2](#section-10.1.2).  Initial Registry Contents
+    10.1.2.  Initial Registry Contents
     
        o  Claim Name: "iss"
        o  Claim Description: Issuer
@@ -1054,10 +1054,10 @@ Updated by: [7797](https://www.rfc-editor.org/rfc/rfc7797), [8725](https://www.r
        o  Change Controller: IESG
        o  Specification Document(s): [Section 4.1.7 of RFC 7519](https://www.rfc-editor.org/rfc/rfc7519#section-4.1.7)
     
-    [10.2](#section-10.2).  Sub-Namespace Registration of
+    10.2.  Sub-Namespace Registration of
            urn:ietf:params:oauth:token-type:jwt
     
-    [10.2.1](#section-10.2.1).  Registry Contents
+    10.2.1.  Registry Contents
     
        This section registers the value "token-type:jwt" in the IANA "OAuth
        URI" registry established by "An IETF URN Sub-Namespace for OAuth"
@@ -1091,12 +1091,12 @@ Updated by: [7797](https://www.rfc-editor.org/rfc/rfc7797), [8725](https://www.r
     [RFC 7519](https://www.rfc-editor.org/rfc/rfc7519)                  JSON Web Token (JWT)                  May 2015
     
     
-    [10.3](#section-10.3).  Media Type Registration
+    10.3.  Media Type Registration
     
-    [10.3.1](#section-10.3.1).  Registry Contents
+    10.3.1.  Registry Contents
     
        This section registers the "application/jwt" media type [[RFC2046](./rfc2046 ""Multipurpose Internet Mail Extensions \(MIME\) Part Two: Media Types"")] in
-       the "Media Types" registry [[IANA.MediaTypes](#ref-IANA.MediaTypes)] in the manner described
+       the "Media Types" registry [IANA.MediaTypes] in the manner described
        in [RFC 6838](https://www.rfc-editor.org/rfc/rfc6838) [[RFC6838](./rfc6838 ""Media Type Specifications and Registration Procedures"")], which can be used to indicate that the content
        is a JWT.
     
@@ -1129,12 +1129,12 @@ Updated by: [7797](https://www.rfc-editor.org/rfc/rfc7797), [8725](https://www.r
        o  Change controller: IESG
        o  Provisional registration?  No
     
-    [10.4](#section-10.4).  Header Parameter Names Registration
+    10.4.  Header Parameter Names Registration
     
-       This section registers specific Claim Names defined in [Section 4.1](#section-4.1) in
+       This section registers specific Claim Names defined in Section 4.1 in
        the IANA "JSON Web Signature and Encryption Header Parameters"
-       registry established by [[JWS](#ref-JWS ""JSON Web Signature \(JWS\)"")] for use by claims replicated as Header
-       Parameters in JWEs, per [Section 5.3](#section-5.3).
+       registry established by [[JWS]"")] for use by claims replicated as Header
+       Parameters in JWEs, per Section 5.3.
     
     
     
@@ -1148,7 +1148,7 @@ Updated by: [7797](https://www.rfc-editor.org/rfc/rfc7797), [8725](https://www.r
     [RFC 7519](https://www.rfc-editor.org/rfc/rfc7519)                  JSON Web Token (JWT)                  May 2015
     
     
-    [10.4.1](#section-10.4.1).  Registry Contents
+    10.4.1.  Registry Contents
     
        o  Header Parameter Name: "iss"
        o  Header Parameter Description: Issuer
@@ -1168,7 +1168,7 @@ Updated by: [7797](https://www.rfc-editor.org/rfc/rfc7797), [8725](https://www.r
        o  Change Controller: IESG
        o  Specification Document(s): [Section 4.1.3 of RFC 7519](https://www.rfc-editor.org/rfc/rfc7519#section-4.1.3)
     
-    [11](#section-11).  Security Considerations
+    11.  Security Considerations
     
        All of the security issues that are pertinent to any cryptographic
        application must be addressed by JWT/JWS/JWE/JWK agents.  Among these
@@ -1177,12 +1177,12 @@ Updated by: [7797](https://www.rfc-editor.org/rfc/rfc7797), [8725](https://www.r
     
        All the security considerations in the JWS specification also apply
        to JWT, as do the JWE security considerations when encryption is
-       employed.  In particular, Sections [10.12](#section-10.12) ("JSON Security
+       employed.  In particular, Sections 10.12 ("JSON Security
        Considerations") and 10.13 ("Unicode Comparison Security
-       Considerations") of [[JWS](#ref-JWS ""JSON Web Signature \(JWS\)"")] apply equally to the JWT Claims Set in the
+       Considerations") of [[JWS]"")] apply equally to the JWT Claims Set in the
        same manner that they do to the JOSE Header.
     
-    [11.1](#section-11.1).  Trust Decisions
+    11.1.  Trust Decisions
     
        The contents of a JWT cannot be relied upon in a trust decision
        unless its contents have been cryptographically secured and bound to
@@ -1191,7 +1191,7 @@ Updated by: [7797](https://www.rfc-editor.org/rfc/rfc7797), [8725](https://www.r
        verifiably be under the control of the party identified as the issuer
        of the JWT.
     
-    [11.2](#section-11.2).  Signing and Encryption Order
+    11.2.  Signing and Encryption Order
     
        While syntactically the signing and encryption operations for Nested
        JWTs may be applied in any order, if both signing and encryption are
@@ -1219,7 +1219,7 @@ Updated by: [7797](https://www.rfc-editor.org/rfc/rfc7797), [8725](https://www.r
        encryption that apply in many contexts do not apply to this
        specification.
     
-    [12](#section-12).  Privacy Considerations
+    12.  Privacy Considerations
     
        A JWT may contain privacy-sensitive information.  When this is the
        case, measures MUST be taken to prevent disclosure of this
@@ -1231,9 +1231,9 @@ Updated by: [7797](https://www.rfc-editor.org/rfc/rfc7797), [8725](https://www.r
        (TLS).  Omitting privacy-sensitive information from a JWT is the
        simplest way of minimizing privacy issues.
     
-    [13](#section-13).  References
+    13.  References
     
-    [13.1](#section-13.1).  Normative References
+    13.1.  Normative References
     
        [ECMAScript]
                   Ecma International, "ECMAScript Language Specification,
@@ -1296,7 +1296,7 @@ Updated by: [7797](https://www.rfc-editor.org/rfc/rfc7797), [8725](https://www.r
        [UNICODE]  The Unicode Consortium, "The Unicode Standard",
                   <<http://www.unicode.org/versions/latest/>>.
     
-    [13.2](#section-13.2).  Informative References
+    13.2.  Informative References
     
        [CanvasApp]
                   Facebook, "Canvas Applications", 2010,
@@ -1433,14 +1433,14 @@ Updated by: [7797](https://www.rfc-editor.org/rfc/rfc7797), [8725](https://www.r
     [RFC 7519](https://www.rfc-editor.org/rfc/rfc7519)                  JSON Web Token (JWT)                  May 2015
     
     
-    [Appendix A](#appendix-A).  JWT Examples
+    Appendix A.  JWT Examples
     
        This section contains examples of JWTs.  For other example JWTs, see
-       [Section 6.1](#section-6.1) of this document and Appendices A.1 - A.3 of [[JWS](#ref-JWS ""JSON Web Signature \(JWS\)"")].
+       Section 6.1 of this document and Appendices A.1 - A.3 of [[JWS]"")].
     
-    [A.1](#appendix-A.1).  Example Encrypted JWT
+    A.1.  Example Encrypted JWT
     
-       This example encrypts the same claims as used in [Section 3.1](#section-3.1) to the
+       This example encrypts the same claims as used in Section 3.1 to the
        recipient using RSAES-PKCS1-v1_5 and AES_128_CBC_HMAC_SHA_256.
     
        The following example JOSE Header declares that:
@@ -1454,9 +1454,9 @@ Updated by: [7797](https://www.rfc-editor.org/rfc/rfc7797), [8725](https://www.r
          {"alg":"RSA1_5","enc":"A128CBC-HS256"}
     
        Other than using the octets of the UTF-8 representation of the JWT
-       Claims Set from [Section 3.1](#section-3.1) as the plaintext value, the computation
+       Claims Set from Section 3.1 as the plaintext value, the computation
        of this JWT is identical to the computation of the JWE in
-       [Appendix A.2](#appendix-A.2) of [[JWE](#ref-JWE ""JSON Web Encryption \(JWE\)"")], including the keys used.
+       Appendix A.2 of [[JWE]"")], including the keys used.
     
        The final result in this example (with line breaks for display
        purposes only) is:
@@ -1473,7 +1473,7 @@ Updated by: [7797](https://www.rfc-editor.org/rfc/rfc7797), [8725](https://www.r
          HDjUEOKIwrtkHthpqEanSBNYHZgmNOV7sln1Eu9g3J8.
          fiK51VwhsxJ-siBMR-YFiA
     
-    [A.2](#appendix-A.2).  Example Nested JWT
+    A.2.  Example Nested JWT
     
        This example shows how a JWT can be used as the payload of a JWE or
        JWS to create a Nested JWT.  In this case, the JWT Claims Set is
@@ -1490,8 +1490,8 @@ Updated by: [7797](https://www.rfc-editor.org/rfc/rfc7797), [8725](https://www.r
     [RFC 7519](https://www.rfc-editor.org/rfc/rfc7519)                  JSON Web Token (JWT)                  May 2015
     
     
-       The inner signed JWT is identical to the example in [Appendix A.2](#appendix-A.2) of
-       [[JWS](#ref-JWS ""JSON Web Signature \(JWS\)"")].  Therefore, its computation is not repeated here.  This
+       The inner signed JWT is identical to the example in Appendix A.2 of
+       [[JWS]"")].  Therefore, its computation is not repeated here.  This
        example then encrypts this inner JWT to the recipient using
        RSAES-PKCS1-v1_5 and AES_128_CBC_HMAC_SHA_256.
     
@@ -1512,12 +1512,12 @@ Updated by: [7797](https://www.rfc-editor.org/rfc/rfc7797), [8725](https://www.r
          eyJhbGciOiJSU0ExXzUiLCJlbmMiOiJBMTI4Q0JDLUhTMjU2IiwiY3R5IjoiSldUIn0
     
        The computation of this JWT is identical to the computation of the
-       JWE in [Appendix A.2](#appendix-A.2) of [[JWE](#ref-JWE ""JSON Web Encryption \(JWE\)"")], other than that different JOSE Header,
+       JWE in Appendix A.2 of [[JWE]"")], other than that different JOSE Header,
        plaintext, JWE Initialization Vector, and Content Encryption Key
        values are used.  (The RSA key used is the same.)
     
        The plaintext used is the octets of the ASCII [[RFC20](./rfc20 ""ASCII format for Network Interchange"")] representation
-       of the JWT at the end of [Appendix A.2.1](#appendix-A.2.1) of [[JWS](#ref-JWS ""JSON Web Signature \(JWS\)"")] (with all whitespace
+       of the JWT at the end of Appendix A.2.1 of [[JWS]"")] (with all whitespace
        and line breaks removed), which is a sequence of 458 octets.
     
        The JWE Initialization Vector value used (using JSON array notation)
@@ -1571,16 +1571,16 @@ Updated by: [7797](https://www.rfc-editor.org/rfc/rfc7797), [8725](https://www.r
          _J9N0mg0tQ6RbpxNEMNoA9QWk5lgdPvbh9BaO195abQ.
          AVO9iT5AV4CzvDJCdhSFlQ
     
-    [Appendix B](#appendix-B).  Relationship of JWTs to SAML Assertions
+    Appendix B.  Relationship of JWTs to SAML Assertions
     
        Security Assertion Markup Language (SAML) 2.0
-       [[OASIS.saml-core-2.0-os](#ref-OASIS.saml-core-2.0-os)] provides a standard for creating security
+       [OASIS.saml-core-2.0-os] provides a standard for creating security
        tokens with greater expressivity and more security options than
        supported by JWTs.  However, the cost of this flexibility and
        expressiveness is both size and complexity.  SAML's use of XML
-       [[W3C.CR-xml11-20060816](#ref-W3C.CR-xml11-20060816)] and XML Digital Signature (DSIG) [[RFC3275](./rfc3275 ""\(Extensible Markup Language\) XML-Signature Syntax and Processing"")]
+       [W3C.CR-xml11-20060816] and XML Digital Signature (DSIG) [[RFC3275](./rfc3275 ""\(Extensible Markup Language\) XML-Signature Syntax and Processing"")]
        contributes to the size of SAML Assertions; its use of XML and
-       especially XML Canonicalization [[W3C.REC-xml-c14n-20010315](#ref-W3C.REC-xml-c14n-20010315)]
+       especially XML Canonicalization [W3C.REC-xml-c14n-20010315]
        contributes to their complexity.
     
        JWTs are intended to provide a simple security token format that is
@@ -1611,9 +1611,9 @@ Updated by: [7797](https://www.rfc-editor.org/rfc/rfc7797), [8725](https://www.r
        However, with these claims being optional, other uses of the JWT
        format are also permitted.
     
-    [Appendix C](#appendix-C).  Relationship of JWTs to Simple Web Tokens (SWTs)
+    Appendix C.  Relationship of JWTs to Simple Web Tokens (SWTs)
     
-       Both JWTs and SWTs [[SWT](#ref-SWT ""Simple Web Token \(SWT\)"")], at their core, enable sets of claims to be
+       Both JWTs and SWTs [[SWT]"")], at their core, enable sets of claims to be
        communicated between applications.  For SWTs, both the claim names
        and claim values are strings.  For JWTs, while claim names are
        strings, claim values can be any JSON type.  Both token types offer
@@ -1624,12 +1624,12 @@ Updated by: [7797](https://www.rfc-editor.org/rfc/rfc7797), [8725](https://www.r
     Acknowledgements
     
        The authors acknowledge that the design of JWTs was intentionally
-       influenced by the design and simplicity of SWTs [[SWT](#ref-SWT ""Simple Web Token \(SWT\)"")] and ideas for
+       influenced by the design and simplicity of SWTs [[SWT]"")] and ideas for
        JSON tokens that Dick Hardt discussed within the OpenID community.
     
        Solutions for signing JSON content were previously explored by Magic
-       Signatures [[MagicSignatures](#ref-MagicSignatures)], JSON Simple Sign [[JSS](#ref-JSS ""JSON Simple Sign"")], and Canvas
-       Applications [[CanvasApp](#ref-CanvasApp)], all of which influenced this document.
+       Signatures [MagicSignatures], JSON Simple Sign [[JSS]], and Canvas
+       Applications [CanvasApp], all of which influenced this document.
     
        This specification is the work of the OAuth working group, which
        includes dozens of active and dedicated participants.  In particular,

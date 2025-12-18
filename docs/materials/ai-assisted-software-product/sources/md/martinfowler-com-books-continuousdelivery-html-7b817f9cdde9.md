@@ -3,38 +3,38 @@
 - URL: https://martinfowler.com/books/continuousDelivery.html
 - Retrieved: 2025-12-17T16:57:16.495969+00:00
 
-[](https://martinfowler.com)
-[](#navmenu-bottom)
+(https://martinfowler.com)
+
   * [Refactoring](https://refactoring.com)
-  * [Agile](/agile.html)
-  * [Architecture](/architecture)
-  * [About](/aboutMe.html)
+  * [Agile](https://martinfowler.com/agile.html)
+  * [Architecture](https://martinfowler.com/architecture)
+  * [About](https://martinfowler.com/aboutMe.html)
   * [Thoughtworks](https://www.thoughtworks.com/engineering)
-  * [](/feed.atom "feed")
-  * [](https://www.twitter.com/martinfowler "Twitter stream")
-  * [ ](https://toot.thoughtworks.com/@mfowler "Mastodon stream")
-  * [ ](https://www.linkedin.com/in/martin-fowler-com/ "LinkedIn")
-  * [](https://bsky.app/profile/martinfowler.com "BlueSky")
+  * (/feed.atom "feed")
+  * (https://www.twitter.com/martinfowler "Twitter stream")
+  * (https://toot.thoughtworks.com/@mfowler "Mastodon stream")
+  * (https://www.linkedin.com/in/martin-fowler-com/ "LinkedIn")
+  * (https://bsky.app/profile/martinfowler.com "BlueSky")
 
 
 ## Topics
-[Architecture](/architecture)
+[Architecture](https://martinfowler.com/architecture)
 [Refactoring](https://refactoring.com)
-[Agile](/agile.html)
-[Delivery](/delivery.html)
-[Microservices](/microservices)
-[Data](/data)
-[Testing](/testing)
-[DSL](/dsl.html)
+[Agile](https://martinfowler.com/agile.html)
+[Delivery](https://martinfowler.com/delivery.html)
+[Microservices](https://martinfowler.com/microservices)
+[Data](https://martinfowler.com/data)
+[Testing](https://martinfowler.com/testing)
+[DSL](https://martinfowler.com/dsl.html)
 ## about me
-[About](/aboutMe.html)
-[Books](/books)
-[FAQ](/faq.html)
+[About](https://martinfowler.com/aboutMe.html)
+[Books](https://martinfowler.com/books)
+[FAQ](https://martinfowler.com/faq.html)
 ## content
-[Videos](/videos.html)
-[Content Index](/tags)
-[Board Games](/boardgames)
-[Photography](/photos)
+[Videos](https://martinfowler.com/videos.html)
+[Content Index](https://martinfowler.com/tags)
+[Board Games](https://martinfowler.com/boardgames)
+[Photography](https://martinfowler.com/photos)
 ## Thoughtworks
 [Home](https://thoughtworks.com)
 [Insights](https://thoughtworks.com/insights)
@@ -42,20 +42,20 @@
 [Radar](https://thoughtworks.com/radar)
 [Engineering](https://www.thoughtworks.com/engineering)
 ## follow
-[RSS](/feed.atom)
+[RSS](https://martinfowler.com/feed.atom)
 [Mastodon](https://toot.thoughtworks.com/@mfowler)
 [LinkedIn](https://www.linkedin.com/in/martin-fowler-com/)
 [Bluesky](https://bsky.app/profile/martinfowler.com)
 [X](https://www.twitter.com/martinfowler)
 [BGG](https://boardgamegeek.com/blog/13064/martins-7th-decade)
-[< All Books](.)
+[< All Books](https://martinfowler.com/books/)
 # Continuous Delivery
 Reliable Software Releases through Build, Test, and Deployment Automation
 by Jez Humble and David Farley
 2010
-[](https://www.amazon.com/gp/product/0321601912/ref=as_li_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0321601912&linkCode=as2&tag=martinfowlerc-20)
-[](http://click.linksynergy.com/fs-bin/click?id=tEHDyk1X8h0&subid=&offerid=145238.1&type=10&tmpid=3559&RD_PARM1=http%253A%252F%252Fwww.informit.com%252Fstore%252Fproduct.aspx%253Fisbn%253D0321601912)
-[Notes for buying my books](/books/buying.html)
+(https://www.amazon.com/gp/product/0321601912/ref=as_li_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0321601912&linkCode=as2&tag=martinfowlerc-20)
+(http://click.linksynergy.com/fs-bin/click?id=tEHDyk1X8h0&subid=&offerid=145238.1&type=10&tmpid=3559&RD_PARM1=http%253A%252F%252Fwww.informit.com%252Fstore%252Fproduct.aspx%253Fisbn%253D0321601912)
+[Notes for buying my books](https://martinfowler.com/books/buying.html)
 In the late 90's I paid a visit to Kent Beck, then working in Switzerland for an insurance company. He showed me around his project and one of the interesting aspects of his highly disciplined team was the fact that they deployed their software into production every night. This regular deployment gave them many advantages: written software wasn't waiting uselessly before it was used, they could respond quickly to problems and opportunities, and the rapid turn-around led to a much deeper relationship between them, their business customer, and their final customers.
 In the last decade I've worked at Thoughtworks and a common theme of our projects has been reducing that cycle time between idea and usable software. I see plenty of project stories and they almost all involve a determined shortening of that cycle. While we don't usually do daily deliveries into production, it's now common to see teams doing bi-weekly releases.
 Dave and Jez have been part of that sea-change, actively involved in projects that have built a culture of frequent, reliable deliveries. They and our colleagues have taken organizations that struggled to deploy software once a year, into the world of Continuous Delivery, where releasing becomes routine.
@@ -69,26 +69,26 @@ It seems to me that a book that can show you how to deliver your software freque
 ### [Website for Book ](http://continuousDelivery.com/)
 ### [Free chapter on build pipelines ](http://www.informit.com/articles/article.aspx?p=1621865)
 InformIT has made chapter five of the book available as a free download. This provides a good introduction to deployment pipelines. 
-### [Software Delivery Guide ](/delivery.html)
+### [Software Delivery Guide ](https://martinfowler.com/delivery.html)
 Guide to articles on this site that expand on Continuous Delivery 
 ## Topics
-[Architecture](/architecture)
+[Architecture](https://martinfowler.com/architecture)
 [Refactoring](https://refactoring.com)
-[Agile](/agile.html)
-[Delivery](/delivery.html)
-[Microservices](/microservices)
-[Data](/data)
-[Testing](/testing)
-[DSL](/dsl.html)
+[Agile](https://martinfowler.com/agile.html)
+[Delivery](https://martinfowler.com/delivery.html)
+[Microservices](https://martinfowler.com/microservices)
+[Data](https://martinfowler.com/data)
+[Testing](https://martinfowler.com/testing)
+[DSL](https://martinfowler.com/dsl.html)
 ## about me
-[About](/aboutMe.html)
-[Books](/books)
-[FAQ](/faq.html)
+[About](https://martinfowler.com/aboutMe.html)
+[Books](https://martinfowler.com/books)
+[FAQ](https://martinfowler.com/faq.html)
 ## content
-[Videos](/videos.html)
-[Content Index](/tags)
-[Board Games](/boardgames)
-[Photography](/photos)
+[Videos](https://martinfowler.com/videos.html)
+[Content Index](https://martinfowler.com/tags)
+[Board Games](https://martinfowler.com/boardgames)
+[Photography](https://martinfowler.com/photos)
 ## Thoughtworks
 [Home](https://thoughtworks.com)
 [Insights](https://thoughtworks.com/insights)
@@ -96,11 +96,11 @@ Guide to articles on this site that expand on Continuous Delivery
 [Radar](https://thoughtworks.com/radar)
 [Engineering](https://www.thoughtworks.com/engineering)
 ## follow
-[RSS](/feed.atom)
+[RSS](https://martinfowler.com/feed.atom)
 [Mastodon](https://toot.thoughtworks.com/@mfowler)
 [LinkedIn](https://www.linkedin.com/in/martin-fowler-com/)
 [Bluesky](https://bsky.app/profile/martinfowler.com)
 [X](https://www.twitter.com/martinfowler)
 [BGG](https://boardgamegeek.com/blog/13064/martins-7th-decade)
-[ ](https://www.thoughtworks.com/engineering)
-Â© Martin Fowler | [Disclosures](/aboutMe.html#disclosures)
+(https://www.thoughtworks.com/engineering)
+Â© Martin Fowler | [Disclosures](https://martinfowler.com/aboutMe.html#disclosures)

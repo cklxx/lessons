@@ -6,18 +6,18 @@
 
 ## Abstract page (HTML → Markdown)
 
-[Skip to main content](#content)
-[](https://www.cornell.edu/)
+Skip to main content
+(https://www.cornell.edu/)
 In just 5 minutes help us improve arXiv:
 [Annual Global Survey](https://cornell.ca1.qualtrics.com/jfe/form/SV_6kZEJCkEgp3yGZo)
 We gratefully acknowledge support from the Simons Foundation, [member institutions](https://info.arxiv.org/about/ourmembers.html), and all contributors. [Donate](https://info.arxiv.org/about/donate.html)
-[](/IgnoreMe)
-[](/) > [cs](/list/cs/recent) > arXiv:2309.06180 
+(/IgnoreMe)
+(/) > [cs](https://arxiv.org/list/cs/recent) > arXiv:2309.06180 
 [Help](https://info.arxiv.org/help) | [Advanced Search](https://arxiv.org/search/advanced)
 All fields Title Author Abstract Comments Journal reference ACM classification MSC classification Report number arXiv identifier DOI ORCID arXiv author ID Help pages Full text
 Search
-[](https://arxiv.org/)
-[ ](https://www.cornell.edu/)
+(https://arxiv.org/)
+(https://www.cornell.edu/)
 open search
 GO
 open navigation menu
@@ -33,7 +33,7 @@ open navigation menu
 # Title:Efficient Memory Management for Large Language Model Serving with PagedAttention
 Authors:[Woosuk Kwon](https://arxiv.org/search/cs?searchtype=author&query=Kwon,+W), [Zhuohan Li](https://arxiv.org/search/cs?searchtype=author&query=Li,+Z), [Siyuan Zhuang](https://arxiv.org/search/cs?searchtype=author&query=Zhuang,+S), [Ying Sheng](https://arxiv.org/search/cs?searchtype=author&query=Sheng,+Y), [Lianmin Zheng](https://arxiv.org/search/cs?searchtype=author&query=Zheng,+L), [Cody Hao Yu](https://arxiv.org/search/cs?searchtype=author&query=Yu,+C+H), [Joseph E. Gonzalez](https://arxiv.org/search/cs?searchtype=author&query=Gonzalez,+J+E), [Hao Zhang](https://arxiv.org/search/cs?searchtype=author&query=Zhang,+H), [Ion Stoica](https://arxiv.org/search/cs?searchtype=author&query=Stoica,+I)
 View a PDF of the paper titled Efficient Memory Management for Large Language Model Serving with PagedAttention, by Woosuk Kwon and 8 other authors
-[View PDF](/pdf/2309.06180)
+[View PDF](https://arxiv.org/pdf/2309.06180)
 > Abstract:High throughput serving of large language models (LLMs) requires batching sufficiently many requests at a time. However, existing systems struggle because the key-value cache (KV cache) memory for each request is huge and grows and shrinks dynamically. When managed inefficiently, this memory can be significantly wasted by fragmentation and redundant duplication, limiting the batch size. To address this problem, we propose PagedAttention, an attention algorithm inspired by the classical virtual memory and paging techniques in operating systems. On top of it, we build vLLM, an LLM serving system that achieves (1) near-zero waste in KV cache memory and (2) flexible sharing of KV cache within and across requests to further reduce memory usage. Our evaluations show that vLLM improves the throughput of popular LLMs by 2-4$\times$ with the same level of latency compared to the state-of-the-art systems, such as FasterTransformer and Orca. The improvement is more pronounced with longer sequences, larger models, and more complex decoding algorithms. vLLM's source code is publicly available at [this https URL](https://github.com/vllm-project/vllm)
 Comments: | SOSP 2023  
 ---|---  
@@ -42,25 +42,25 @@ Cite as: | [arXiv:2309.06180](https://arxiv.org/abs/2309.06180) [cs.LG]
   | (or  [arXiv:2309.06180v1](https://arxiv.org/abs/2309.06180v1) [cs.LG] for this version)   
   |  <https://doi.org/10.48550/arXiv.2309.06180> Focus to learn more arXiv-issued DOI via DataCite  
 ## Submission history
-From: Woosuk Kwon [[view email](/show-email/2fbc22fc/2309.06180)]   
+From: Woosuk Kwon [[view email](https://arxiv.org/show-email/2fbc22fc/2309.06180)]   
 **[v1]** Tue, 12 Sep 2023 12:50:04 UTC (831 KB)  
 
 Full-text links:
 ## Access Paper:
 View a PDF of the paper titled Efficient Memory Management for Large Language Model Serving with PagedAttention, by Woosuk Kwon and 8 other authors
-  * [View PDF](/pdf/2309.06180)
-  * [TeX Source ](/src/2309.06180)
+  * [View PDF](https://arxiv.org/pdf/2309.06180)
+  * [TeX Source ](https://arxiv.org/src/2309.06180)
 
 
 [ view license ](http://creativecommons.org/licenses/by/4.0/ "Rights to this article")
 Current browse context: 
 cs.LG
-[< prev](/prevnext?id=2309.06180&function=prev&context=cs.LG "previous in cs.LG \(accesskey p\)")   |   [next >](/prevnext?id=2309.06180&function=next&context=cs.LG "next in cs.LG \(accesskey n\)")   
+[< prev](https://arxiv.org/prevnext?id=2309.06180&function=prev&context=cs.LG "previous in cs.LG \(accesskey p\)")   |   [next >](https://arxiv.org/prevnext?id=2309.06180&function=next&context=cs.LG "next in cs.LG \(accesskey n\)")   
 
-[new](/list/cs.LG/new) |  [recent](/list/cs.LG/recent) | [2023-09](/list/cs.LG/2023-09)
+[new](https://arxiv.org/list/cs.LG/new) |  [recent](https://arxiv.org/list/cs.LG/recent) | [2023-09](https://arxiv.org/list/cs.LG/2023-09)
 Change to browse by: 
-[cs](/abs/2309.06180?context=cs)  
-[cs.DC](/abs/2309.06180?context=cs.DC)  
+[cs](https://arxiv.org/abs/2309.06180?context=cs)  
+[cs.DC](https://arxiv.org/abs/2309.06180?context=cs.DC)  
 
 ### References & Citations
   * [NASA ADS](https://ui.adsabs.harvard.edu/abs/arXiv:2309.06180)
@@ -68,7 +68,7 @@ Change to browse by:
   * [Semantic Scholar](https://api.semanticscholar.org/arXiv:2309.06180)
 
 
-### [ 1 blog link](/tb/2309.06180)
+### [ 1 blog link](https://arxiv.org/tb/2309.06180)
 ([what is this?](https://info.arxiv.org/help/trackback.html)) 
 export BibTeX citation Loading...
 ## BibTeX formatted citation
@@ -76,7 +76,7 @@ export BibTeX citation Loading...
 loading...
 Data provided by: 
 ### Bookmark
-[ ](http://www.bibsonomy.org/BibtexHandler?requTask=upload&url=https://arxiv.org/abs/2309.06180&description=Efficient Memory Management for Large Language Model Serving with PagedAttention "Bookmark on BibSonomy") [ ](https://reddit.com/submit?url=https://arxiv.org/abs/2309.06180&title=Efficient Memory Management for Large Language Model Serving with PagedAttention "Bookmark on Reddit")
+(http://www.bibsonomy.org/BibtexHandler?requTask=upload&url=https://arxiv.org/abs/2309.06180&description=Efficient Memory Management for Large Language Model Serving with PagedAttention "Bookmark on BibSonomy") (https://reddit.com/submit?url=https://arxiv.org/abs/2309.06180&title=Efficient Memory Management for Large Language Model Serving with PagedAttention "Bookmark on Reddit")
 Bibliographic Tools
 # Bibliographic and Citation Tools
 Bibliographic Explorer Toggle
@@ -130,7 +130,7 @@ About arXivLabs
 arXivLabs is a framework that allows collaborators to develop and share new arXiv features directly on our website.
 Both individuals and organizations that work with arXivLabs have embraced and accepted our values of openness, community, excellence, and user data privacy. arXiv is committed to these values and only works with partners that adhere to them.
 Have an idea for a project that will add value for arXiv's community? [**Learn more about arXivLabs**](https://info.arxiv.org/labs/index.html).
-[Which authors of this paper are endorsers?](/auth/show-endorsers/2309.06180) | [Disable MathJax](javascript:setMathjaxCookie\(\)) ([What is MathJax?](https://info.arxiv.org/help/mathjax.html)) 
+[Which authors of this paper are endorsers?](https://arxiv.org/auth/show-endorsers/2309.06180) | [Disable MathJax](javascript:setMathjaxCookie\(\)) ([What is MathJax?](https://info.arxiv.org/help/mathjax.html)) 
   * [About](https://info.arxiv.org/about)
   * [Help](https://info.arxiv.org/help)
 

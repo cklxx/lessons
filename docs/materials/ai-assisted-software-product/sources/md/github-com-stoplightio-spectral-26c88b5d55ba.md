@@ -17,14 +17,14 @@
 
 # Overview
 
-- [🧰 Installation](#-installation)
-- [💻 Usage](#-usage)
-- [📖 Documentation](#-documentation)
-- [ℹ️ Support](#ℹ️-support)
-- [🌎 Real-World Rulesets](#-real-world-rulesets)
-- [⚙️ Integrations](#️-integrations)
-- [👏 Contributing](#-contributing)
-- [🌲 Sponsor Spectral by Planting a Tree](#-sponsor-spectral-by-planting-a-tree)
+- 🧰 Installation
+- 💻 Usage
+- 📖 Documentation
+- ℹ️ Support
+- 🌎 Real-World Rulesets
+- ⚙️ Integrations
+- 👏 Contributing
+- 🌲 Sponsor Spectral by Planting a Tree
 
 ## 🧰 Installation
 

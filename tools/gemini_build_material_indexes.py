@@ -4,6 +4,7 @@ from __future__ import annotations
 import argparse
 import json
 import math
+import os
 import re
 import subprocess
 import time
@@ -254,6 +255,10 @@ def _render_indexes_md(
     out_path: Path,
     taxonomy_categories: dict[str, dict[str, str]],
     chapters: list[dict[str, str]],
+    *,
+    kept_count: int | None = None,
+    filtered_count: int | None = None,
+    low_score_rel: str | None = None,
 ) -> None:
     by_category: dict[str, list[ScoredEntry]] = {}
     for e in entries:
@@ -278,7 +283,12 @@ def _render_indexes_md(
     lines.append("维度（0–10）：Relevance / Authority / Recency / Depth / Actionability。")
     lines.append("加权总分：`0.35·R + 0.20·A + 0.15·Re + 0.15·D + 0.15·Ac`（范围 0–10）。")
     lines.append("")
-    lines.append(f"共 {len(entries)} 篇。优先按“章节适配”分组；组内按总分降序。")
+    if kept_count is not None and filtered_count is not None:
+        lines.append(f"共 {kept_count} 篇（已过滤 {filtered_count} 篇）。优先按章节分组；组内按总分降序。")
+    else:
+        lines.append(f"共 {len(entries)} 篇。优先按章节分组；组内按总分降序。")
+    if low_score_rel:
+        lines.append(f"低分清单：[{Path(low_score_rel).name}]({low_score_rel})")
     lines.append("")
 
     if chapters:
@@ -347,6 +357,85 @@ def _render_indexes_md(
     out_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
+def _filter_entries(
+    entries: list[ScoredEntry],
+    *,
+    min_total: float,
+    min_relevance: float,
+    min_authority: float,
+    min_recency: float,
+    min_depth: float,
+    min_actionability: float,
+) -> tuple[list[ScoredEntry], list[tuple[ScoredEntry, list[str]]]]:
+    kept: list[ScoredEntry] = []
+    filtered: list[tuple[ScoredEntry, list[str]]] = []
+    for e in entries:
+        reasons: list[str] = []
+        if min_total > 0 and e.score_total < min_total:
+            reasons.append(f"total<{min_total:g}")
+        if min_relevance > 0 and e.scores.get("relevance", 0.0) < min_relevance:
+            reasons.append(f"relevance<{min_relevance:g}")
+        if min_authority > 0 and e.scores.get("authority", 0.0) < min_authority:
+            reasons.append(f"authority<{min_authority:g}")
+        if min_recency > 0 and e.scores.get("recency", 0.0) < min_recency:
+            reasons.append(f"recency<{min_recency:g}")
+        if min_depth > 0 and e.scores.get("depth", 0.0) < min_depth:
+            reasons.append(f"depth<{min_depth:g}")
+        if min_actionability > 0 and e.scores.get("actionability", 0.0) < min_actionability:
+            reasons.append(f"actionability<{min_actionability:g}")
+
+        if reasons:
+            filtered.append((e, reasons))
+        else:
+            kept.append(e)
+    return kept, filtered
+
+
+def _render_low_score_md(
+    filtered: list[tuple[ScoredEntry, list[str]]],
+    out_path: Path,
+    *,
+    project_dir: Path,
+) -> None:
+    filtered_sorted = sorted(filtered, key=lambda x: (x[0].score_total, x[0].title))
+    lines: list[str] = []
+    lines.append("# Low Score / Filtered Materials")
+    lines.append("")
+    lines.append("> 本页记录被过滤掉的资料，方便回头复核或重新打分。")
+    lines.append("")
+    lines.append("| Score | R | A | Re | D | Ac | Title | Category | Chapters | Reason | Source |")
+    lines.append("| ---: | ---: | ---: | ---: | ---: | ---: | --- | --- | --- | --- | --- |")
+    for e, reasons in filtered_sorted:
+        chs = ", ".join(e.chapter_targets[:4])
+        try:
+            rel = os.path.relpath(project_dir / e.snapshot_path, start=out_path.parent)
+        except Exception:
+            rel = e.snapshot_path
+        title_link = f"[{e.title}]({Path(rel).as_posix()})"
+        reason = ", ".join(reasons)
+        lines.append(
+            "| "
+            + " | ".join(
+                [
+                    f"{e.score_total:.2f}",
+                    f"{e.scores.get('relevance', 0.0):.1f}",
+                    f"{e.scores.get('authority', 0.0):.1f}",
+                    f"{e.scores.get('recency', 0.0):.1f}",
+                    f"{e.scores.get('depth', 0.0):.1f}",
+                    f"{e.scores.get('actionability', 0.0):.1f}",
+                    title_link,
+                    e.category,
+                    chs,
+                    reason,
+                    f"[link]({e.url})",
+                ]
+            )
+            + " |"
+        )
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    out_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="gemini_build_material_indexes",
@@ -377,6 +466,47 @@ def build_parser() -> argparse.ArgumentParser:
         default="docs/materials/ai-assisted-software-product/notes",
         help="Directory containing per-reference notes (used to link URLs back to notes).",
     )
+    parser.add_argument(
+        "--min-score-total",
+        type=float,
+        default=0.0,
+        help="Filter: keep entries with score_total >= this value (0 disables).",
+    )
+    parser.add_argument(
+        "--min-score-relevance",
+        type=float,
+        default=0.0,
+        help="Filter: keep entries with relevance >= this value (0 disables).",
+    )
+    parser.add_argument(
+        "--min-score-authority",
+        type=float,
+        default=0.0,
+        help="Filter: keep entries with authority >= this value (0 disables).",
+    )
+    parser.add_argument(
+        "--min-score-recency",
+        type=float,
+        default=0.0,
+        help="Filter: keep entries with recency >= this value (0 disables).",
+    )
+    parser.add_argument(
+        "--min-score-depth",
+        type=float,
+        default=0.0,
+        help="Filter: keep entries with depth >= this value (0 disables).",
+    )
+    parser.add_argument(
+        "--min-score-actionability",
+        type=float,
+        default=0.0,
+        help="Filter: keep entries with actionability >= this value (0 disables).",
+    )
+    parser.add_argument(
+        "--out-low-md",
+        default="",
+        help="Optional markdown path to write filtered-out entries table (empty disables).",
+    )
     parser.add_argument("--model", default="", help="Gemini model override (optional).")
     parser.add_argument("--timeout", type=int, default=180, help="Per-item Gemini timeout in seconds.")
     parser.add_argument(
@@ -397,6 +527,11 @@ def build_parser() -> argparse.ArgumentParser:
         "--render-only",
         action="store_true",
         help="Skip Gemini calls; only render out-md from the existing out-jsonl.",
+    )
+    parser.add_argument(
+        "--only-current-sources",
+        action="store_true",
+        help="When rendering, only include entries whose URL exists in --sources-index (ok=true).",
     )
     return parser
 
@@ -427,6 +562,20 @@ def main() -> int:
     out_jsonl = Path(args.out_jsonl)
     out_jsonl.parent.mkdir(parents=True, exist_ok=True)
 
+    allowed_urls: set[str] | None = None
+    if args.only_current_sources:
+        allowed_urls = set()
+        for line in sources_index.read_text(encoding="utf-8").splitlines():
+            try:
+                obj = json.loads(line)
+            except Exception:
+                continue
+            if not obj.get("ok"):
+                continue
+            url = str(obj.get("url") or "").strip()
+            if url:
+                allowed_urls.add(url)
+
     if args.render_only:
         if not out_jsonl.exists():
             raise SystemExit(f"Missing out-jsonl for --render-only: {out_jsonl}")
@@ -434,6 +583,9 @@ def main() -> int:
         for line in out_jsonl.read_text(encoding="utf-8").splitlines():
             obj = json.loads(line)
             if obj.get("ok") is False:
+                continue
+            url = str(obj.get("url") or "").strip()
+            if allowed_urls is not None and url not in allowed_urls:
                 continue
             snapshot_path = str(obj.get("snapshot_path") or "")
             if not snapshot_path:
@@ -449,8 +601,33 @@ def main() -> int:
                 )
             )
         out_md = Path(args.out_md)
-        _render_indexes_md(parsed, out_md, taxonomy_categories=taxonomy_categories, chapters=chapters)
-        print(f"Wrote: {out_md} (entries={len(parsed)})")
+        kept, filtered = _filter_entries(
+            parsed,
+            min_total=float(args.min_score_total),
+            min_relevance=float(args.min_score_relevance),
+            min_authority=float(args.min_score_authority),
+            min_recency=float(args.min_score_recency),
+            min_depth=float(args.min_score_depth),
+            min_actionability=float(args.min_score_actionability),
+        )
+        low_score_rel = None
+        if args.out_low_md and filtered:
+            out_low = Path(args.out_low_md)
+            _render_low_score_md(filtered, out_low, project_dir=project_dir)
+            try:
+                low_score_rel = str(out_low.relative_to(out_md.parent))
+            except Exception:
+                low_score_rel = out_low.as_posix()
+        _render_indexes_md(
+            kept,
+            out_md,
+            taxonomy_categories=taxonomy_categories,
+            chapters=chapters,
+            kept_count=len(kept),
+            filtered_count=len(filtered),
+            low_score_rel=low_score_rel,
+        )
+        print(f"Wrote: {out_md} (kept={len(kept)} filtered={len(filtered)})")
         return 0
 
     existing: set[str] = set()
@@ -564,6 +741,9 @@ def main() -> int:
         obj = json.loads(line)
         if obj.get("ok") is False:
             continue
+        url = str(obj.get("url") or "").strip()
+        if allowed_urls is not None and url not in allowed_urls:
+            continue
         snapshot_path = str(obj.get("snapshot_path") or "")
         if not snapshot_path:
             continue
@@ -579,8 +759,33 @@ def main() -> int:
         )
 
     out_md = Path(args.out_md)
-    _render_indexes_md(parsed, out_md, taxonomy_categories=taxonomy_categories, chapters=chapters)
-    print(f"Wrote: {out_md} (entries={len(parsed)})")
+    kept, filtered = _filter_entries(
+        parsed,
+        min_total=float(args.min_score_total),
+        min_relevance=float(args.min_score_relevance),
+        min_authority=float(args.min_score_authority),
+        min_recency=float(args.min_score_recency),
+        min_depth=float(args.min_score_depth),
+        min_actionability=float(args.min_score_actionability),
+    )
+    low_score_rel = None
+    if args.out_low_md and filtered:
+        out_low = Path(args.out_low_md)
+        _render_low_score_md(filtered, out_low, project_dir=project_dir)
+        try:
+            low_score_rel = str(out_low.relative_to(out_md.parent))
+        except Exception:
+            low_score_rel = out_low.as_posix()
+    _render_indexes_md(
+        kept,
+        out_md,
+        taxonomy_categories=taxonomy_categories,
+        chapters=chapters,
+        kept_count=len(kept),
+        filtered_count=len(filtered),
+        low_score_rel=low_score_rel,
+    )
+    print(f"Wrote: {out_md} (kept={len(kept)} filtered={len(filtered)})")
     suffix = f"(+{written} lines appended)" if mode == "a" else f"(rewrote, entries={len(parsed)})"
     print(f"Wrote: {out_jsonl} {suffix}")
 

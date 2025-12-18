@@ -146,7 +146,7 @@ def main() -> int:
     label_by_url: dict[str, dict[str, Any]] = {}
     for r in label_rows:
         url = str(r.get("url") or "").strip()
-        if url:
+        if url and url in sources_by_url:
             label_by_url[url] = r
 
     notes_dir = Path(args.notes_dir)

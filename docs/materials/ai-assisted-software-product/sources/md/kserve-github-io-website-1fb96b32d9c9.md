@@ -3,12 +3,12 @@
 - URL: https://kserve.github.io/website/
 - Retrieved: 2025-12-17T17:03:43.771320+00:00
 
-[Skip to main content](#__docusaurus_skipToContent_fallback)
+Skip to main content
 🎉️ **[KServe has joined CNCF!](https://www.cncf.io/blog/2025/11/11/kserve-becomes-a-cncf-incubating-project/)** 🥳️
-[**KServe**](/website/)[Docs](/website/docs/intro)[Blog](/website/blog)
-[0.16](/website/docs/intro)
-  * [nightly](/website/docs/next/intro)
-  * [0.16](/website/docs/intro)
+[**KServe**](https://kserve.github.io/website/)[Docs](https://kserve.github.io/website/docs/intro)[Blog](https://kserve.github.io/website/blog)
+[0.16](https://kserve.github.io/website/docs/intro)
+  * [nightly](https://kserve.github.io/website/docs/next/intro)
+  * [0.16](https://kserve.github.io/website/docs/intro)
   * [0.15](https://kserve.github.io/archive/0.15/)
   * [0.14 ](https://kserve.github.io/archive/0.14/)
   * [0.13](https://kserve.github.io/archive/0.13/)
@@ -16,10 +16,10 @@
   * [0.11](https://kserve.github.io/archive/0.11/)
 
 
-[Community](/website/docs/community/get-involved)[](https://github.com/kserve/kserve)
+[Community](https://kserve.github.io/website/docs/community/get-involved)(https://github.com/kserve/kserve)
 # KServe
 Standardized Distributed Generative and Predictive AI Inference Platform for Scalable, Multi-Framework Deployment on Kubernetes
-[Get Started](/website/docs/getting-started/genai-first-isvc)[Install KServe](/website/docs/admin-guide/overview#installation)
+[Get Started](https://kserve.github.io/website/docs/getting-started/genai-first-isvc)[Install KServe](https://kserve.github.io/website/docs/admin-guide/overview#installation)
 ## Why KServe?
 The open-source standard for self-hosted AI, providing a unified platform for both Generative and Predictive AI inference on Kubernetes.Simple enough for quick deployments, yet powerful enough for the most demanding enterprise workloads.
 ### 🤖 Generative AI
@@ -118,32 +118,32 @@ Make predictions using the deployed model:
     curl -v -H "Host: qwen-llm.default.example.com" \  
       http://localhost:8080/openai/v1/chat/completions -d @./prompt.json  
     
-[Detailed Guide](/website/docs/getting-started/genai-first-isvc)
+[Detailed Guide](https://kserve.github.io/website/docs/getting-started/genai-first-isvc)
 ## Trusted by Industry Leaders
 KServe is used in production by organizations across various industries, providing reliable model inference at scale.
-[](https://www.bloomberg.com/)[](https://www.ibm.com/)[](https://www.redhat.com/)[](https://www.nvidia.com/)[](https://www.amd.com/)[](https://www.kubeflow.org/)[](https://www.cloudera.com/)[](https://canonical.com/)[](https://www.cisco.com/)[](https://www.gojek.com/)[](https://www.inspur.com/)[](https://www.maxkelsen.com/)[](https://www.prosus.com/)[](https://wikimediafoundation.org/)[](https://www.navercorp.com/)[](https://www.zillow.com/)[](https://striveworks.us/)[](https://www.cars24.com/)[](https://www.upstage.ai/)[](https://www.intuit.com/)[](https://www.alauda.io/)
-[View all adopters →](/website/docs/community/adopters)
+(https://www.bloomberg.com/)(https://www.ibm.com/)(https://www.redhat.com/)(https://www.nvidia.com/)(https://www.amd.com/)(https://www.kubeflow.org/)(https://www.cloudera.com/)(https://canonical.com/)(https://www.cisco.com/)(https://www.gojek.com/)(https://www.inspur.com/)(https://www.maxkelsen.com/)(https://www.prosus.com/)(https://wikimediafoundation.org/)(https://www.navercorp.com/)(https://www.zillow.com/)(https://striveworks.us/)(https://www.cars24.com/)(https://www.upstage.ai/)(https://www.intuit.com/)(https://www.alauda.io/)
+[View all adopters →](https://kserve.github.io/website/docs/community/adopters)
 ## Ready to Transform Your ML Deployment?
 Simplify your journey from model development to production with KServe's standardized inference platform for both predictive and generative AI models
-[Get Started](/website/docs/getting-started/genai-first-isvc)[Install KServe](/website/docs/admin-guide/overview#installation)
+[Get Started](https://kserve.github.io/website/docs/getting-started/genai-first-isvc)[Install KServe](https://kserve.github.io/website/docs/admin-guide/overview#installation)
 Documentation
-  * [Get Started](/website/docs/getting-started/quickstart-guide)
-  * [GenAI Model Serving Guide](/website/docs/model-serving/generative-inference/overview)
-  * [Predictive AI Model Serving Guide](/website/docs/model-serving/predictive-inference/frameworks/overview)
-  * [API Reference](/website/docs/reference/crd-api)
+  * [Get Started](https://kserve.github.io/website/docs/getting-started/quickstart-guide)
+  * [GenAI Model Serving Guide](https://kserve.github.io/website/docs/model-serving/generative-inference/overview)
+  * [Predictive AI Model Serving Guide](https://kserve.github.io/website/docs/model-serving/predictive-inference/frameworks/overview)
+  * [API Reference](https://kserve.github.io/website/docs/reference/crd-api)
 
 
 Community
   * [Slack](https://cloud-native.slack.com/archives/C06AH2C3K8B)
   * [Community Meetings](https://zoom-lfx.platform.linuxfoundation.org/meetings/kserve?view=month)
   * [Community Meetings Notes](https://docs.google.com/document/d/1KZUURwr9MnHXqHA08TFbfVbM8EAJSJjmaMhnvstvi-k)
-  * [Get Involved](/website/docs/community/get-involved)
-  * [Adopters](/website/docs/community/adopters)
+  * [Get Involved](https://kserve.github.io/website/docs/community/get-involved)
+  * [Adopters](https://kserve.github.io/website/docs/community/adopters)
 
 
 More
-  * [Blog](/website/blog)
-  * [Presentations](/website/docs/community/presentations)
+  * [Blog](https://kserve.github.io/website/blog)
+  * [Presentations](https://kserve.github.io/website/docs/community/presentations)
   * [GitHub](https://github.com/kserve/kserve)
 
 

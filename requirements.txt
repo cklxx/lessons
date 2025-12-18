@@ -1,5 +1,6 @@
 mkdocs>=1.5.0
 mkdocs-material>=9.5.0
+ddgs>=9.0.0
 duckduckgo-search>=6.2.6
 html2text>=2025.4.15
 requests>=2.32.0

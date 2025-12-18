@@ -6,18 +6,18 @@
 
 ## Abstract page (HTML → Markdown)
 
-[Skip to main content](#content)
-[](https://www.cornell.edu/)
+Skip to main content
+(https://www.cornell.edu/)
 In just 5 minutes help us improve arXiv:
 [Annual Global Survey](https://cornell.ca1.qualtrics.com/jfe/form/SV_6kZEJCkEgp3yGZo)
 We gratefully acknowledge support from the Simons Foundation, [member institutions](https://info.arxiv.org/about/ourmembers.html), and all contributors. [Donate](https://info.arxiv.org/about/donate.html)
-[](/IgnoreMe)
-[](/) > [cs](/list/cs/recent) > arXiv:2306.00978 
+(/IgnoreMe)
+(/) > [cs](https://arxiv.org/list/cs/recent) > arXiv:2306.00978 
 [Help](https://info.arxiv.org/help) | [Advanced Search](https://arxiv.org/search/advanced)
 All fields Title Author Abstract Comments Journal reference ACM classification MSC classification Report number arXiv identifier DOI ORCID arXiv author ID Help pages Full text
 Search
-[](https://arxiv.org/)
-[ ](https://www.cornell.edu/)
+(https://arxiv.org/)
+(https://www.cornell.edu/)
 open search
 GO
 open navigation menu
@@ -33,7 +33,7 @@ open navigation menu
 # Title:AWQ: Activation-aware Weight Quantization for LLM Compression and Acceleration
 Authors:[Ji Lin](https://arxiv.org/search/cs?searchtype=author&query=Lin,+J), [Jiaming Tang](https://arxiv.org/search/cs?searchtype=author&query=Tang,+J), [Haotian Tang](https://arxiv.org/search/cs?searchtype=author&query=Tang,+H), [Shang Yang](https://arxiv.org/search/cs?searchtype=author&query=Yang,+S), [Wei-Ming Chen](https://arxiv.org/search/cs?searchtype=author&query=Chen,+W), [Wei-Chen Wang](https://arxiv.org/search/cs?searchtype=author&query=Wang,+W), [Guangxuan Xiao](https://arxiv.org/search/cs?searchtype=author&query=Xiao,+G), [Xingyu Dang](https://arxiv.org/search/cs?searchtype=author&query=Dang,+X), [Chuang Gan](https://arxiv.org/search/cs?searchtype=author&query=Gan,+C), [Song Han](https://arxiv.org/search/cs?searchtype=author&query=Han,+S)
 View a PDF of the paper titled AWQ: Activation-aware Weight Quantization for LLM Compression and Acceleration, by Ji Lin and 9 other authors
-[View PDF](/pdf/2306.00978) [HTML (experimental)](https://arxiv.org/html/2306.00978v5)
+[View PDF](https://arxiv.org/pdf/2306.00978) [HTML (experimental)](https://arxiv.org/html/2306.00978v5)
 > Abstract:Large language models (LLMs) have transformed numerous AI applications. On-device LLM is becoming increasingly important: running LLMs locally on edge devices can reduce the cloud computing cost and protect users' privacy. However, the astronomical model size and the limited hardware resource pose significant deployment challenges. We propose Activation-aware Weight Quantization (AWQ), a hardware-friendly approach for LLM low-bit weight-only quantization. AWQ finds that not all weights in an LLM are equally important. Protecting only 1% salient weights can greatly reduce quantization error. To identify salient weight channels, we should refer to the activation distribution, not weights. To avoid the hardware-inefficient mix-precision quantization, we mathematically derive that scaling up the salient channels can reduce the quantization error. AWQ employs an equivalent transformation to scale the salient weight channels to protect them. The scale is determined by collecting the activation statistics offline. AWQ does not rely on any backpropagation or reconstruction, so it generalizes to different domains and modalities without overfitting the calibration set. AWQ outperforms existing work on various language modeling and domain-specific benchmarks (coding and math). Thanks to better generalization, it achieves excellent quantization performance for instruction-tuned LMs and, for the first time, multi-modal LMs. Alongside AWQ, we implement TinyChat, an efficient and flexible inference framework tailored for 4-bit on-device LLM/VLMs. With kernel fusion and platform-aware weight packing, TinyChat offers more than 3x speedup over the Huggingface FP16 implementation on both desktop and mobile GPUs. It also democratizes the deployment of the 70B Llama-2 model on mobile GPUs. 
 Comments: | MLSys 2024 Best Paper Award. Code available at: [this https URL](https://github.com/mit-han-lab/llm-awq)  
 ---|---  
@@ -42,29 +42,29 @@ Cite as: | [arXiv:2306.00978](https://arxiv.org/abs/2306.00978) [cs.CL]
   | (or  [arXiv:2306.00978v5](https://arxiv.org/abs/2306.00978v5) [cs.CL] for this version)   
   |  <https://doi.org/10.48550/arXiv.2306.00978> Focus to learn more arXiv-issued DOI via DataCite  
 ## Submission history
-From: Haotian Tang [[view email](/show-email/9f84e992/2306.00978)]   
-**[[v1]](/abs/2306.00978v1)** Thu, 1 Jun 2023 17:59:10 UTC (2,783 KB)  
-**[[v2]](/abs/2306.00978v2)** Tue, 3 Oct 2023 18:20:01 UTC (4,384 KB)  
-**[[v3]](/abs/2306.00978v3)** Sun, 21 Apr 2024 03:47:49 UTC (24,553 KB)  
-**[[v4]](/abs/2306.00978v4)** Tue, 23 Apr 2024 19:51:53 UTC (24,552 KB)  
+From: Haotian Tang [[view email](https://arxiv.org/show-email/9f84e992/2306.00978)]   
+**[[v1]](https://arxiv.org/abs/2306.00978v1)** Thu, 1 Jun 2023 17:59:10 UTC (2,783 KB)  
+**[[v2]](https://arxiv.org/abs/2306.00978v2)** Tue, 3 Oct 2023 18:20:01 UTC (4,384 KB)  
+**[[v3]](https://arxiv.org/abs/2306.00978v3)** Sun, 21 Apr 2024 03:47:49 UTC (24,553 KB)  
+**[[v4]](https://arxiv.org/abs/2306.00978v4)** Tue, 23 Apr 2024 19:51:53 UTC (24,552 KB)  
 **[v5]** Thu, 18 Jul 2024 17:51:33 UTC (18,170 KB)  
 
 Full-text links:
 ## Access Paper:
 View a PDF of the paper titled AWQ: Activation-aware Weight Quantization for LLM Compression and Acceleration, by Ji Lin and 9 other authors
-  * [View PDF](/pdf/2306.00978)
+  * [View PDF](https://arxiv.org/pdf/2306.00978)
   * [HTML (experimental)](https://arxiv.org/html/2306.00978v5)
-  * [TeX Source ](/src/2306.00978)
+  * [TeX Source ](https://arxiv.org/src/2306.00978)
 
 
 [view license](http://arxiv.org/licenses/nonexclusive-distrib/1.0/ "Rights to this article")
 Current browse context: 
 cs.CL
-[< prev](/prevnext?id=2306.00978&function=prev&context=cs.CL "previous in cs.CL \(accesskey p\)")   |   [next >](/prevnext?id=2306.00978&function=next&context=cs.CL "next in cs.CL \(accesskey n\)")   
+[< prev](https://arxiv.org/prevnext?id=2306.00978&function=prev&context=cs.CL "previous in cs.CL \(accesskey p\)")   |   [next >](https://arxiv.org/prevnext?id=2306.00978&function=next&context=cs.CL "next in cs.CL \(accesskey n\)")   
 
-[new](/list/cs.CL/new) |  [recent](/list/cs.CL/recent) | [2023-06](/list/cs.CL/2023-06)
+[new](https://arxiv.org/list/cs.CL/new) |  [recent](https://arxiv.org/list/cs.CL/recent) | [2023-06](https://arxiv.org/list/cs.CL/2023-06)
 Change to browse by: 
-[cs](/abs/2306.00978?context=cs)  
+[cs](https://arxiv.org/abs/2306.00978?context=cs)  
 
 ### References & Citations
   * [NASA ADS](https://ui.adsabs.harvard.edu/abs/arXiv:2306.00978)
@@ -78,7 +78,7 @@ export BibTeX citation Loading...
 loading...
 Data provided by: 
 ### Bookmark
-[ ](http://www.bibsonomy.org/BibtexHandler?requTask=upload&url=https://arxiv.org/abs/2306.00978&description=AWQ: Activation-aware Weight Quantization for LLM Compression and Acceleration "Bookmark on BibSonomy") [ ](https://reddit.com/submit?url=https://arxiv.org/abs/2306.00978&title=AWQ: Activation-aware Weight Quantization for LLM Compression and Acceleration "Bookmark on Reddit")
+(http://www.bibsonomy.org/BibtexHandler?requTask=upload&url=https://arxiv.org/abs/2306.00978&description=AWQ: Activation-aware Weight Quantization for LLM Compression and Acceleration "Bookmark on BibSonomy") (https://reddit.com/submit?url=https://arxiv.org/abs/2306.00978&title=AWQ: Activation-aware Weight Quantization for LLM Compression and Acceleration "Bookmark on Reddit")
 Bibliographic Tools
 # Bibliographic and Citation Tools
 Bibliographic Explorer Toggle
@@ -130,7 +130,7 @@ About arXivLabs
 arXivLabs is a framework that allows collaborators to develop and share new arXiv features directly on our website.
 Both individuals and organizations that work with arXivLabs have embraced and accepted our values of openness, community, excellence, and user data privacy. arXiv is committed to these values and only works with partners that adhere to them.
 Have an idea for a project that will add value for arXiv's community? [**Learn more about arXivLabs**](https://info.arxiv.org/labs/index.html).
-[Which authors of this paper are endorsers?](/auth/show-endorsers/2306.00978) | [Disable MathJax](javascript:setMathjaxCookie\(\)) ([What is MathJax?](https://info.arxiv.org/help/mathjax.html)) 
+[Which authors of this paper are endorsers?](https://arxiv.org/auth/show-endorsers/2306.00978) | [Disable MathJax](javascript:setMathjaxCookie\(\)) ([What is MathJax?](https://info.arxiv.org/help/mathjax.html)) 
   * [About](https://info.arxiv.org/about)
   * [Help](https://info.arxiv.org/help)
 

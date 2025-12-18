@@ -27,6 +27,8 @@ except ModuleNotFoundError as exc:  # pragma: no cover
 
 SourceType = Literal["html", "pdf", "github_readme", "unknown"]
 
+FRAGMENT_DEST_RE = re.compile(r"\]\(#[^)]*\)")
+
 
 @dataclass(frozen=True)
 class SnapshotResult:
@@ -100,6 +102,16 @@ def _html_to_markdown(html: str) -> str:
     converter.skip_internal_links = False
     converter.single_line_break = True
     return converter.handle(cleaned).strip() + "\n"
+
+
+def _sanitize_generated_markdown(md: str) -> str:
+    # Generated snapshots may contain many same-page fragment links (`#...`), but HTML→Markdown
+    # conversion does not guarantee those anchors survive. Strip fragment destinations to keep
+    # mkdocs strict builds clean.
+    md = FRAGMENT_DEST_RE.sub("]", md)
+    # Drop empty labels that may remain after stripping destinations.
+    md = re.sub(r"\[\s*\]", "", md)
+    return md
 
 
 def _extract_html_title(html: str) -> str | None:
@@ -368,7 +380,7 @@ def _snapshot_url(url: str, out_dir: Path, timeout_s: int, user_agent: str) -> S
 
         slug = _slugify(url)
         out_path = out_dir / f"{slug}-{_hash12(url)}.md"
-        out_path.write_text(md, encoding="utf-8")
+        out_path.write_text(_sanitize_generated_markdown(md), encoding="utf-8")
         ok = True
     except subprocess.CalledProcessError:
         error = "pdftotext failed"

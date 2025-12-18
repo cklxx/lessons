@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import re
 import subprocess
 import time
@@ -38,6 +39,29 @@ class SourceEntry:
     url: str
     snapshot_rel: str
     title: str | None
+
+
+def _extract_urls(text: str) -> list[str]:
+    urls = re.findall(r"https?://[^\s)>\"]+", text)
+    cleaned: list[str] = []
+    for raw in urls:
+        cleaned.append(raw.rstrip(".,;]"))
+    seen: set[str] = set()
+    out: list[str] = []
+    for url in cleaned:
+        if url in seen:
+            continue
+        seen.add(url)
+        out.append(url)
+    return out
+
+
+def _rel_link(from_dir: Path, to_path: Path) -> str:
+    try:
+        rel = os.path.relpath(to_path, start=from_dir)
+    except Exception:
+        return to_path.as_posix()
+    return Path(rel).as_posix()
 
 
 def _run_gemini(input_text: str, prompt: str, model: str | None, timeout_s: int) -> str:
@@ -206,6 +230,12 @@ def build_parser() -> argparse.ArgumentParser:
         description="Generate deep-research notes for each materials reference using Gemini CLI.",
     )
     parser.add_argument(
+        "--mode",
+        choices=["notes", "labels"],
+        default="notes",
+        help="notes: generate for ref-*.md notes; labels: generate for high-score labeled sources.",
+    )
+    parser.add_argument(
         "--notes-dir",
         default="docs/materials/ai-assisted-software-product/notes",
         help="Directory containing ref-*.md notes.",
@@ -235,6 +265,41 @@ def build_parser() -> argparse.ArgumentParser:
         default="docs/materials/ai-assisted-software-product/taxonomy.json",
         help="Taxonomy JSON defining allowed categories and chapter ids.",
     )
+    parser.add_argument(
+        "--urls-from",
+        action="append",
+        default=[],
+        help="Optional markdown file to restrict processing to its URLs (repeatable).",
+    )
+    parser.add_argument(
+        "--min-score-total",
+        type=float,
+        default=0.0,
+        help="labels mode only: keep entries with score_total >= this value (0 disables).",
+    )
+    parser.add_argument(
+        "--max-items",
+        type=int,
+        default=0,
+        help="labels mode only: cap generated items (0 = no limit).",
+    )
+    parser.add_argument(
+        "--out-subdir",
+        default="",
+        help="Optional subdirectory under --out-dir to place outputs (e.g. high-score).",
+    )
+    parser.add_argument(
+        "--category-id",
+        action="append",
+        default=[],
+        help="labels mode only: restrict to category_id (repeatable).",
+    )
+    parser.add_argument(
+        "--chapter-id",
+        action="append",
+        default=[],
+        help="labels mode only: restrict to chapter target id (repeatable).",
+    )
     parser.add_argument("--model", default="", help="Gemini model override (optional).")
     parser.add_argument("--timeout", type=int, default=240, help="Per-item Gemini timeout in seconds.")
     parser.add_argument("--sleep-ms", type=int, default=250, help="Sleep between Gemini calls (ms).")
@@ -250,7 +315,12 @@ def main() -> int:
     sources_index = Path(args.sources_index)
     labels_path = Path(args.labels_jsonl)
     out_dir = Path(args.out_dir)
-    out_dir.mkdir(parents=True, exist_ok=True)
+    index_out = Path(args.index_out)
+    project_dir = sources_index.parent.parent
+    out_base = out_dir
+    if args.out_subdir.strip():
+        out_base = out_dir / args.out_subdir.strip()
+    out_base.mkdir(parents=True, exist_ok=True)
 
     sources = _load_sources_index(sources_index)
     labels = _load_gemini_labels(labels_path)
@@ -260,101 +330,251 @@ def main() -> int:
     model = args.model.strip() or None
     generated: list[tuple[str, str, str, float | None, list[str]]] = []
 
-    note_paths = sorted(notes_dir.glob("ref-*.md"))
-    for i, note_path in enumerate(note_paths, start=1):
-        note_md = note_path.read_text(encoding="utf-8", errors="replace")
-        url = _extract_source_url(note_md)
-        if not url:
-            continue
-        src = sources.get(url)
-        if not src:
-            continue
+    url_allow: set[str] | None = None
+    if args.urls_from:
+        url_allow = set()
+        for raw in args.urls_from:
+            p = Path(raw)
+            if not p.exists():
+                continue
+            url_allow.update(_extract_urls(p.read_text(encoding="utf-8", errors="replace")))
 
-        snapshot_path = sources_index.parent / src.snapshot_rel
-        if not snapshot_path.exists():
-            continue
-        snapshot_md = snapshot_path.read_text(encoding="utf-8", errors="replace")
-        if args.max_chars and args.max_chars > 0 and len(snapshot_md) > args.max_chars:
-            snapshot_md = snapshot_md[: args.max_chars].rstrip() + "\n\n[TRUNCATED]\n"
+    if args.mode == "notes":
+        note_paths = sorted(notes_dir.glob("ref-*.md"))
+        for i, note_path in enumerate(note_paths, start=1):
+            note_md = note_path.read_text(encoding="utf-8", errors="replace")
+            url = _extract_source_url(note_md)
+            if not url:
+                continue
+            if url_allow is not None and url not in url_allow:
+                continue
+            src = sources.get(url)
+            if not src:
+                continue
 
-        title = _extract_first_heading(note_md) or _extract_first_heading(snapshot_md) or note_path.stem
-        out_path = out_dir / f"{note_path.stem}.md"
+            snapshot_path = sources_index.parent / src.snapshot_rel
+            if not snapshot_path.exists():
+                continue
+            snapshot_md = snapshot_path.read_text(encoding="utf-8", errors="replace")
+            if args.max_chars and args.max_chars > 0 and len(snapshot_md) > args.max_chars:
+                snapshot_md = snapshot_md[: args.max_chars].rstrip() + "\n\n[TRUNCATED]\n"
 
-        label = labels.get(url, {})
-        category_id = str(label.get("category_id") or "").strip() or DEFAULT_CATEGORY_ID
-        if taxonomy_categories and category_id not in taxonomy_categories:
-            category_id = DEFAULT_CATEGORY_ID
-        chapter_targets: list[str] = []
-        raw_chapters = label.get("chapter_targets")
-        if isinstance(raw_chapters, list):
-            for x in raw_chapters:
-                s = str(x).strip()
-                if not s:
-                    continue
-                if chapter_ids and s not in chapter_ids:
-                    continue
-                chapter_targets.append(s)
-        chapter_targets = _normalize_chapter_targets(category_id, chapter_targets, chapter_ids)
-        score_total: float | None = None
-        try:
-            if "score_total" in label:
-                score_total = float(label["score_total"])
-        except Exception:
-            score_total = None
+            title = _extract_first_heading(note_md) or _extract_first_heading(snapshot_md) or note_path.stem
+            out_path = out_base / f"{note_path.stem}.md"
+            out_rel = _rel_link(index_out.parent, out_path)
 
-        generated.append((category_id, title, out_path.name, score_total, chapter_targets))
+            label = labels.get(url, {})
+            category_id = str(label.get("category_id") or "").strip() or DEFAULT_CATEGORY_ID
+            if taxonomy_categories and category_id not in taxonomy_categories:
+                category_id = DEFAULT_CATEGORY_ID
+            chapter_targets: list[str] = []
+            raw_chapters = label.get("chapter_targets")
+            if isinstance(raw_chapters, list):
+                for x in raw_chapters:
+                    s = str(x).strip()
+                    if not s:
+                        continue
+                    if chapter_ids and s not in chapter_ids:
+                        continue
+                    chapter_targets.append(s)
+            chapter_targets = _normalize_chapter_targets(category_id, chapter_targets, chapter_ids)
+            score_total: float | None = None
+            try:
+                if "score_total" in label:
+                    score_total = float(label["score_total"])
+            except Exception:
+                score_total = None
 
-        if out_path.exists() and not args.force:
-            continue
+            generated.append((category_id, title, out_rel, score_total, chapter_targets))
 
-        prompt = (
-            f"Explain {title} with deep research for a Chinese technical book project.\n"
-            f"RESOURCE_URL: {url}\n"
-            f"NOTE_FILE: {note_path.name}\n"
-            f"SNAPSHOT_FILE: {src.snapshot_rel}\n\n"
-            "Write Markdown ONLY (no code fences). Use Chinese. Structure:\n"
-            "## TL;DR (1-2 sentences)\n"
-            "## 核心观点（5-8 条）\n"
-            "## 可落地做法（面向产品/工程/评测，给出步骤）\n"
-            "## 检查清单（至少 1 份，可直接复用）\n"
-            "## 常见坑与对策\n"
-            "## 可用于丰富《AI 辅助软件产品》的写作点（对应章节/段落建议）\n"
-            "Constraints: avoid fabricating exact numbers/citations; if unsure, mark '待核验'.\n"
-            "Keep the total length compact (aim ~800-1500 Chinese characters, excluding checklists).\n"
-        )
+            if out_path.exists() and not args.force:
+                continue
 
-        stdin = "\n".join(
-            [
-                "## Existing note (for alignment)",
-                note_md.strip(),
+            prompt = (
+                f"Explain {title} with deep research for a Chinese technical book project.\n"
+                f"RESOURCE_URL: {url}\n"
+                f"NOTE_FILE: {note_path.name}\n"
+                f"SNAPSHOT_FILE: {src.snapshot_rel}\n\n"
+                "Write Markdown ONLY (no code fences). Use Chinese. Structure:\n"
+                "## TL;DR (1-2 sentences)\n"
+                "## 核心观点（5-8 条）\n"
+                "## 可落地做法（面向产品/工程/评测，给出步骤）\n"
+                "## 检查清单（至少 1 份，可直接复用）\n"
+                "## 常见坑与对策\n"
+                "## 可用于丰富《AI 辅助软件产品》的写作点（对应章节/段落建议）\n"
+                "Constraints: avoid fabricating exact numbers/citations; if unsure, mark '待核验'.\n"
+                "Keep the total length compact (aim ~800-1500 Chinese characters, excluding checklists).\n"
+            )
+
+            stdin = "\n".join(
+                [
+                    "## Existing note (for alignment)",
+                    note_md.strip(),
+                    "",
+                    "## Source snapshot (for grounding)",
+                    snapshot_md.strip(),
+                    "",
+                ]
+            )
+
+            print(f"[{i}/{len(note_paths)}] {note_path.name} -> {out_path}")
+            body = _run_gemini(stdin, prompt, model=model, timeout_s=args.timeout)
+
+            category_name = taxonomy_categories.get(category_id, {}).get("name", category_id)
+            chapters_str = ", ".join(chapter_targets) if chapter_targets else ""
+            note_link = _rel_link(out_path.parent, note_path)
+            snapshot_link = _rel_link(out_path.parent, project_dir / src.snapshot_rel)
+            header_lines = [
+                f"# Deep Research: {title}",
                 "",
-                "## Source snapshot (for grounding)",
-                snapshot_md.strip(),
+                f"- Source: {url}",
+                f"- Note: {note_link}",
+                f"- Snapshot: {snapshot_link}",
+                f"- Category: {category_name} ({category_id})",
+                f"- Chapters: {chapters_str}",
                 "",
             ]
-        )
+            out_path.write_text("\n".join(header_lines) + body, encoding="utf-8")
 
-        print(f"[{i}/{len(note_paths)}] {note_path.name} -> {out_path}")
-        body = _run_gemini(stdin, prompt, model=model, timeout_s=args.timeout)
+            if args.sleep_ms > 0:
+                time.sleep(args.sleep_ms / 1000)
+    else:
+        allowed_category_ids = {c.strip() for c in (args.category_id or []) if c.strip()}
+        allowed_chapter_ids = {c.strip() for c in (args.chapter_id or []) if c.strip()}
 
-        category_name = taxonomy_categories.get(category_id, {}).get("name", category_id)
-        chapters_str = ", ".join(chapter_targets) if chapter_targets else ""
-        header_lines = [
-            f"# Deep Research: {title}",
-            "",
-            f"- Source: {url}",
-            f"- Note: ../notes/{note_path.name}",
-            f"- Snapshot: ../sources/{src.snapshot_rel}",
-            f"- Category: {category_name} ({category_id})",
-            f"- Chapters: {chapters_str}",
-            "",
-        ]
-        out_path.write_text("\n".join(header_lines) + body, encoding="utf-8")
+        picked: list[tuple[str, dict[str, Any]]] = []
+        for url, label in labels.items():
+            if url_allow is not None and url not in url_allow:
+                continue
+            if allowed_category_ids:
+                cid = str(label.get("category_id") or "").strip()
+                if cid not in allowed_category_ids:
+                    continue
+            if allowed_chapter_ids:
+                raw_chapters = label.get("chapter_targets")
+                chs: list[str] = []
+                if isinstance(raw_chapters, list):
+                    chs = [str(x).strip() for x in raw_chapters if str(x).strip()]
+                if not any(ch in allowed_chapter_ids for ch in chs):
+                    continue
+            score_total: float | None = None
+            try:
+                if "score_total" in label:
+                    score_total = float(label["score_total"])
+            except Exception:
+                score_total = None
+            if args.min_score_total and args.min_score_total > 0:
+                if score_total is None or score_total < float(args.min_score_total):
+                    continue
+            picked.append((url, label))
 
-        if args.sleep_ms > 0:
-            time.sleep(args.sleep_ms / 1000)
+        def sort_key(item: tuple[str, dict[str, Any]]) -> tuple[float, str]:
+            url, label = item
+            try:
+                score = float(label.get("score_total") or 0.0)
+            except Exception:
+                score = 0.0
+            return (-score, url)
 
-    index_out = Path(args.index_out)
+        picked.sort(key=sort_key)
+        if args.max_items and args.max_items > 0:
+            picked = picked[: int(args.max_items)]
+
+        for i, (url, label) in enumerate(picked, start=1):
+            src = sources.get(url)
+            if not src:
+                continue
+            snapshot_path = sources_index.parent / src.snapshot_rel
+            if not snapshot_path.exists():
+                continue
+            snapshot_md = snapshot_path.read_text(encoding="utf-8", errors="replace")
+            if args.max_chars and args.max_chars > 0 and len(snapshot_md) > args.max_chars:
+                snapshot_md = snapshot_md[: args.max_chars].rstrip() + "\n\n[TRUNCATED]\n"
+
+            title = (
+                str(label.get("title") or "").strip()
+                or src.title
+                or _extract_first_heading(snapshot_md)
+                or Path(src.snapshot_rel).stem
+            )
+            stem = Path(src.snapshot_rel).stem
+            out_path = out_base / f"src-{stem}.md"
+            out_rel = _rel_link(index_out.parent, out_path)
+
+            category_id = str(label.get("category_id") or "").strip() or DEFAULT_CATEGORY_ID
+            if taxonomy_categories and category_id not in taxonomy_categories:
+                category_id = DEFAULT_CATEGORY_ID
+            chapter_targets: list[str] = []
+            raw_chapters = label.get("chapter_targets")
+            if isinstance(raw_chapters, list):
+                for x in raw_chapters:
+                    s = str(x).strip()
+                    if not s:
+                        continue
+                    if chapter_ids and s not in chapter_ids:
+                        continue
+                    chapter_targets.append(s)
+            chapter_targets = _normalize_chapter_targets(category_id, chapter_targets, chapter_ids)
+
+            score_total: float | None = None
+            try:
+                if "score_total" in label:
+                    score_total = float(label["score_total"])
+            except Exception:
+                score_total = None
+
+            generated.append((category_id, title, out_rel, score_total, chapter_targets))
+
+            if out_path.exists() and not args.force:
+                continue
+
+            prompt = (
+                f"Explain {title} with deep research for a Chinese technical book project.\n"
+                f"RESOURCE_URL: {url}\n"
+                f"SNAPSHOT_FILE: {src.snapshot_rel}\n"
+                f"LABELS_JSON: {json.dumps(label, ensure_ascii=False)}\n\n"
+                "Write Markdown ONLY (no code fences). Use Chinese. Structure:\n"
+                "## TL;DR (1-2 sentences)\n"
+                "## 核心观点（5-10 条，尽量说人话）\n"
+                "## 可落地做法（面向产品/工程/评测，给出可执行步骤）\n"
+                "## 检查清单（至少 1 份，可直接复用）\n"
+                "## 常见坑与对策\n"
+                "## 可用于丰富《AI 辅助软件产品》的写作点（对应章节/段落建议）\n"
+                "Constraints: avoid fabricating exact numbers/citations; if unsure, mark '待核验'.\n"
+                "Length: aim ~1000-1800 Chinese characters, excluding checklists.\n"
+            )
+
+            stdin = "\n".join(
+                [
+                    "## Labels (metadata only)",
+                    json.dumps(label, ensure_ascii=False, indent=2).strip(),
+                    "",
+                    "## Source snapshot (for grounding)",
+                    snapshot_md.strip(),
+                    "",
+                ]
+            )
+
+            print(f"[{i}/{len(picked)}] {url} -> {out_path}")
+            body = _run_gemini(stdin, prompt, model=model, timeout_s=args.timeout)
+
+            category_name = taxonomy_categories.get(category_id, {}).get("name", category_id)
+            chapters_str = ", ".join(chapter_targets) if chapter_targets else ""
+            snapshot_link = _rel_link(out_path.parent, project_dir / src.snapshot_rel)
+            header_lines = [
+                f"# Deep Research: {title}",
+                "",
+                f"- Source: {url}",
+                f"- Snapshot: {snapshot_link}",
+                f"- Category: {category_name} ({category_id})",
+                f"- Chapters: {chapters_str}",
+                "",
+            ]
+            out_path.write_text("\n".join(header_lines) + body, encoding="utf-8")
+
+            if args.sleep_ms > 0:
+                time.sleep(args.sleep_ms / 1000)
+
     index_out.parent.mkdir(parents=True, exist_ok=True)
     _render_deepresearch_index(
         index_out,

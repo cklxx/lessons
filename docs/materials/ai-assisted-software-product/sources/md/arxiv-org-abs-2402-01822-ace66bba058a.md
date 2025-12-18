@@ -6,16 +6,16 @@
 
 ## Abstract page (HTML → Markdown)
 
-[Skip to main content](#content)
-[](https://www.cornell.edu/)
+Skip to main content
+(https://www.cornell.edu/)
 We gratefully acknowledge support from the Simons Foundation, [member institutions](https://info.arxiv.org/about/ourmembers.html), and all contributors. [Donate](https://info.arxiv.org/about/donate.html)
-[](/IgnoreMe)
-[](/) > [cs](/list/cs/recent) > arXiv:2402.01822 
+(/IgnoreMe)
+(/) > [cs](https://arxiv.org/list/cs/recent) > arXiv:2402.01822 
 [Help](https://info.arxiv.org/help) | [Advanced Search](https://arxiv.org/search/advanced)
 All fields Title Author Abstract Comments Journal reference ACM classification MSC classification Report number arXiv identifier DOI ORCID arXiv author ID Help pages Full text
 Search
-[](https://arxiv.org/)
-[ ](https://www.cornell.edu/)
+(https://arxiv.org/)
+(https://www.cornell.edu/)
 open search
 GO
 open navigation menu
@@ -31,7 +31,7 @@ open navigation menu
 # Title:Building Guardrails for Large Language Models
 Authors:[Yi Dong](https://arxiv.org/search/cs?searchtype=author&query=Dong,+Y), [Ronghui Mu](https://arxiv.org/search/cs?searchtype=author&query=Mu,+R), [Gaojie Jin](https://arxiv.org/search/cs?searchtype=author&query=Jin,+G), [Yi Qi](https://arxiv.org/search/cs?searchtype=author&query=Qi,+Y), [Jinwei Hu](https://arxiv.org/search/cs?searchtype=author&query=Hu,+J), [Xingyu Zhao](https://arxiv.org/search/cs?searchtype=author&query=Zhao,+X), [Jie Meng](https://arxiv.org/search/cs?searchtype=author&query=Meng,+J), [Wenjie Ruan](https://arxiv.org/search/cs?searchtype=author&query=Ruan,+W), [Xiaowei Huang](https://arxiv.org/search/cs?searchtype=author&query=Huang,+X)
 View a PDF of the paper titled Building Guardrails for Large Language Models, by Yi Dong and 8 other authors
-[View PDF](/pdf/2402.01822) [HTML (experimental)](https://arxiv.org/html/2402.01822v2)
+[View PDF](https://arxiv.org/pdf/2402.01822) [HTML (experimental)](https://arxiv.org/html/2402.01822v2)
 > Abstract:As Large Language Models (LLMs) become more integrated into our daily lives, it is crucial to identify and mitigate their risks, especially when the risks can have profound impacts on human users and societies. Guardrails, which filter the inputs or outputs of LLMs, have emerged as a core safeguarding technology. This position paper takes a deep look at current open-source solutions (Llama Guard, Nvidia NeMo, Guardrails AI), and discusses the challenges and the road towards building more complete solutions. Drawing on robust evidence from previous research, we advocate for a systematic approach to construct guardrails for LLMs, based on comprehensive consideration of diverse contexts across various LLMs applications. We propose employing socio-technical methods through collaboration with a multi-disciplinary team to pinpoint precise technical requirements, exploring advanced neural-symbolic implementations to embrace the complexity of the requirements, and developing verification and testing to ensure the utmost quality of the final product. 
 Comments: | Proceedings of the 41st International Conference on Machine Learning, Vienna, Austria. PMLR 235, 2024  
 ---|---  
@@ -40,27 +40,27 @@ Cite as: | [arXiv:2402.01822](https://arxiv.org/abs/2402.01822) [cs.CL]
   | (or  [arXiv:2402.01822v2](https://arxiv.org/abs/2402.01822v2) [cs.CL] for this version)   
   |  <https://doi.org/10.48550/arXiv.2402.01822> Focus to learn more arXiv-issued DOI via DataCite  
 ## Submission history
-From: Yi Dong [[view email](/show-email/dec2ef39/2402.01822)]   
-**[[v1]](/abs/2402.01822v1)** Fri, 2 Feb 2024 16:35:00 UTC (7,682 KB)  
+From: Yi Dong [[view email](https://arxiv.org/show-email/dec2ef39/2402.01822)]   
+**[[v1]](https://arxiv.org/abs/2402.01822v1)** Fri, 2 Feb 2024 16:35:00 UTC (7,682 KB)  
 **[v2]** Wed, 29 May 2024 12:57:01 UTC (8,179 KB)  
 
 Full-text links:
 ## Access Paper:
 View a PDF of the paper titled Building Guardrails for Large Language Models, by Yi Dong and 8 other authors
-  * [View PDF](/pdf/2402.01822)
+  * [View PDF](https://arxiv.org/pdf/2402.01822)
   * [HTML (experimental)](https://arxiv.org/html/2402.01822v2)
-  * [TeX Source ](/src/2402.01822)
+  * [TeX Source ](https://arxiv.org/src/2402.01822)
 
 
 [view license](http://arxiv.org/licenses/nonexclusive-distrib/1.0/ "Rights to this article")
 Current browse context: 
 cs.CL
-[< prev](/prevnext?id=2402.01822&function=prev&context=cs.CL "previous in cs.CL \(accesskey p\)")   |   [next >](/prevnext?id=2402.01822&function=next&context=cs.CL "next in cs.CL \(accesskey n\)")   
+[< prev](https://arxiv.org/prevnext?id=2402.01822&function=prev&context=cs.CL "previous in cs.CL \(accesskey p\)")   |   [next >](https://arxiv.org/prevnext?id=2402.01822&function=next&context=cs.CL "next in cs.CL \(accesskey n\)")   
 
-[new](/list/cs.CL/new) |  [recent](/list/cs.CL/recent) | [2024-02](/list/cs.CL/2024-02)
+[new](https://arxiv.org/list/cs.CL/new) |  [recent](https://arxiv.org/list/cs.CL/recent) | [2024-02](https://arxiv.org/list/cs.CL/2024-02)
 Change to browse by: 
-[cs](/abs/2402.01822?context=cs)  
-[cs.AI](/abs/2402.01822?context=cs.AI)  
+[cs](https://arxiv.org/abs/2402.01822?context=cs)  
+[cs.AI](https://arxiv.org/abs/2402.01822?context=cs.AI)  
 
 ### References & Citations
   * [NASA ADS](https://ui.adsabs.harvard.edu/abs/arXiv:2402.01822)
@@ -74,7 +74,7 @@ export BibTeX citation Loading...
 loading...
 Data provided by: 
 ### Bookmark
-[ ](http://www.bibsonomy.org/BibtexHandler?requTask=upload&url=https://arxiv.org/abs/2402.01822&description=Building Guardrails for Large Language Models "Bookmark on BibSonomy") [ ](https://reddit.com/submit?url=https://arxiv.org/abs/2402.01822&title=Building Guardrails for Large Language Models "Bookmark on Reddit")
+(http://www.bibsonomy.org/BibtexHandler?requTask=upload&url=https://arxiv.org/abs/2402.01822&description=Building Guardrails for Large Language Models "Bookmark on BibSonomy") (https://reddit.com/submit?url=https://arxiv.org/abs/2402.01822&title=Building Guardrails for Large Language Models "Bookmark on Reddit")
 Bibliographic Tools
 # Bibliographic and Citation Tools
 Bibliographic Explorer Toggle
@@ -126,7 +126,7 @@ About arXivLabs
 arXivLabs is a framework that allows collaborators to develop and share new arXiv features directly on our website.
 Both individuals and organizations that work with arXivLabs have embraced and accepted our values of openness, community, excellence, and user data privacy. arXiv is committed to these values and only works with partners that adhere to them.
 Have an idea for a project that will add value for arXiv's community? [**Learn more about arXivLabs**](https://info.arxiv.org/labs/index.html).
-[Which authors of this paper are endorsers?](/auth/show-endorsers/2402.01822) | [Disable MathJax](javascript:setMathjaxCookie\(\)) ([What is MathJax?](https://info.arxiv.org/help/mathjax.html)) 
+[Which authors of this paper are endorsers?](https://arxiv.org/auth/show-endorsers/2402.01822) | [Disable MathJax](javascript:setMathjaxCookie\(\)) ([What is MathJax?](https://info.arxiv.org/help/mathjax.html)) 
   * [About](https://info.arxiv.org/about)
   * [Help](https://info.arxiv.org/help)
 

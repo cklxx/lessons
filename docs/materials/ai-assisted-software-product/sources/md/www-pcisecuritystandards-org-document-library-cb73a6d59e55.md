@@ -7,9 +7,9 @@
 [ Log In ](https://programs.pcissc.org/)
 [ FAQs ](https://www.pcisecuritystandards.org/faqs)
 [ X-twitter __](https://twitter.com/PCISSC) [ Linkedin-in __](https://www.linkedin.com/company/pcissc/) [ Instagram __](https://www.instagram.com/pcissc/) [ Youtube __](https://www.youtube.com/channel/UC7cPVL_HdnX4ZEGdYJMjOew) [ Blog __](https://blog.pcisecuritystandards.org/) [ Envelope __](https://training.pcisecuritystandards.org/subscribe-to-pci-ssc-mailing-list)
-[ ](https://www.pcisecuritystandards.org)
+(https://www.pcisecuritystandards.org)
 Search
-[ EN ](#)
+[ EN ]
   * [English](https://www.pcisecuritystandards.org/)
   * [Français](https://www.pcisecuritystandards.org/lang/fr-fr/)
   * [Español](https://www.pcisecuritystandards.org/lang/es-es/)
@@ -19,7 +19,7 @@ Search
   * [中文](https://www.pcisecuritystandards.org/lang/zh-zh/)
 
 
-  * [Standards](#)
+  * [Standards]
     *       *         * Discover the range of PCI Security Standards and where to find additional resources.
 [ __ Standards overview ](https://www.pcisecuritystandards.org/standards/)
 [Standards Overview](https://www.pcisecuritystandards.org/standards/)
@@ -39,7 +39,7 @@ Search
           * [ PTS Hardware Security Module (HSM)  ](https://www.pcisecuritystandards.org/standards/pts-hardware-security-module-hsm/)
           * [ Token Service Provider (TSP)  ](https://www.pcisecuritystandards.org/standards/token-service-provider-tsp/)
           * [ Payment Application Data Security Standard (PA-DSS) – Retired ](https://www.pcisecuritystandards.org/standards/pa-dss/)
-  * [PCI Qualified Professionals](#)
+  * [PCI Qualified Professionals]
     *       *         * Verify or search for a PCI Qualified Professional. Select the qualification that best suits your needs.
 [ __ PCI Qualified Professionals Overview ](https://www.pcisecuritystandards.org/program-listings-overview/)
 [Program Listings Overview](https://www.pcisecuritystandards.org/program-listings-overview/)
@@ -58,7 +58,7 @@ Search
           * [ PCI Recognized Laboratories ](https://www.pcisecuritystandards.org/assessors_and_solutions/pci_recognized_laboratories)
           * [ Assessor & Vendor Feedback Forms ](https://www.pcisecuritystandards.org/program-listings-overview/give_assessor_feedback/)
           * [ Verify a Professional ](https://www.pcisecuritystandards.org/assessors_and_solutions/professionals_lookup)
-  * [Products & Solutions Listings](#)
+  * [Products & Solutions Listings]
     *       *         * Locate approved devices and payment solutions for use at the point of sale, and point-to-point encryption solutions to protect cardholder data.
 [ __ Product & Solutions Listings Overview ](https://www.pcisecuritystandards.org/product-solutions-listings-overview/)
 [Product & Solutions Listings Overview](https://www.pcisecuritystandards.org/product-solutions-listings-overview/)
@@ -72,7 +72,7 @@ Search
           * [ MPoC Solutions ](https://www.pcisecuritystandards.org/assessors_and_solutions/mpoc_solutions)
           * [ SPoC Solutions ](https://www.pcisecuritystandards.org/assessors_and_solutions/spoc_solutions)
           * [ CPoC Solutions ](https://www.pcisecuritystandards.org/assessors_and_solutions/cpoc_solutions)
-  * [Training](#)
+  * [Training]
     *       *         * Learn more about PCI SSC’s Training & Qualification programs, class schedules, registration information, corporate group training and knowledge training.
 [ __ Training & Qualification Overview ](https://www.pcisecuritystandards.org/program_training_and_qualification/)
 [Training & Qualification Overview](https://www.pcisecuritystandards.org/program_training_and_qualification/)
@@ -98,14 +98,14 @@ Search
           * [ Meet The Training Team ](https://www.pcisecuritystandards.org/trainers/)
           * [ Credly Digital Badging ](https://www.pcisecuritystandards.org/program_training_and_qualification/badges/)
           * [ Continuing Professional Education ](https://www.pcisecuritystandards.org/program_training_and_qualification/continuing-professional-education/)
-  * [Events](#)
+  * [Events]
     *       *         * Attend PCI SSC upcoming Community Meetings, programs, webcasts, and industry events where we are speaking. 
 [ __ Events Calendar & Overview ](https://www.pcisecuritystandards.org/events/)
 [Events Calendar & Overview](https://www.pcisecuritystandards.org/events/)
           * [ Community Meetings ](https://events.pcisecuritystandards.org/)
           * [ Forums ](https://events.pcisecuritystandards.org/)
           * [ Past Events/Photo Galleries ](https://www.pcisecuritystandards.org/events/gallery/)
-  * [Get Involved](#)
+  * [Get Involved]
     *       *         * Get involved with PCI SSC and help influence the direction of PCI Standards.
 [ __ Overview ](https://www.pcisecuritystandards.org/get_involved/)
 [ __ Join Us ](https://www.pcisecuritystandards.org/get_involved/participation/)
@@ -117,7 +117,7 @@ Search
           * [ Request For Comments ](https://www.pcisecuritystandards.org/get_involved/request_for_comments/)
           * [ Special Interest Groups (SIGs) ](https://www.pcisecuritystandards.org/get_involved/special_interest_groups/)
           * [ 2026-2027 Brazil Regional Engagement Board ](https://www.pcisecuritystandards.org/about_us/regional-engagement/brazil/)
-  * [News](#)
+  * [News]
     *       *         * View the latest news, announcements, and resources from PCI SSC.
 [ __ Newsroom  ](https://www.pcisecuritystandards.org/newsroom_overview/)
 [Newsroom ](https://www.pcisecuritystandards.org/newsroom_overview/)
@@ -127,7 +127,7 @@ Search
           * [ Industry Bulletins ](https://www.pcisecuritystandards.org/newsroom_overview/industry_bulletin/)
           * [ Media Coverage ](https://www.pcisecuritystandards.org/newsroom_overview/media_coverage/)
           * [ Join Our Mailing List ](https://training.pcisecuritystandards.org/subscribe-to-pci-ssc-mailing-list)
-  * [Resources](#)
+  * [Resources]
     *       *         * Access PCI SSC standard and program documents and payment security resources.
 [ __ Resources Overview ](https://www.pcisecuritystandards.org/resources-overview/)
 [Resources Overview](https://www.pcisecuritystandards.org/resources-overview/)
@@ -143,7 +143,7 @@ Search
           * [ PCI SSC Threat Center ](https://www.pcisecuritystandards.org/newsroom_overview/#threat)
           * [ Brand Style Guide ](https://www.pcisecuritystandards.org/brand-style-guide/)
           * [ Order Quick Reference Guides ](https://www.pcisecuritystandards.org/qrg-order-form/)
-  * [About](#)
+  * [About]
     *       *         * Get to know the PCI Security Standards Council. 
 [ __ Who we are ](https://www.pcisecuritystandards.org/about-us/)
 [Who we are](https://www.pcisecuritystandards.org/about-us/)
@@ -164,7 +164,7 @@ Search
 
 # Document Library
 ## Document Library
-[ ](https://www.pcisecuritystandards.org/program_training_and_qualification/pci-ssc-training-schedule/)
+(https://www.pcisecuritystandards.org/program_training_and_qualification/pci-ssc-training-schedule/)
 The Document Library includes a framework of specifications, tools, measurements and support resources to help organizations ensure the safe handling of cardholder information at every step.
 [ __](https://www.pcisecuritystandards.org/rssfeed/?type=document)
 ## Featured Documents
@@ -212,7 +212,7 @@ Date of Publication
 
 
 [ X-twitter __](http://twitter.com/PCISSC) [ Linkedin-in __](http://www.linkedin.com/company/pcissc/) [ Instagram __](https://www.instagram.com/pcissc/) [ Youtube __](https://www.youtube.com/channel/UC7cPVL_HdnX4ZEGdYJMjOew) [ Blog __](http://blog.pcisecuritystandards.org/)
-[ ](https://www.pcisecuritystandards.org)
+(https://www.pcisecuritystandards.org)
 ## Copyright © 2006 – 2024 PCI Security Standards Council, LLC. All rights reserved. [Terms and Conditions](https://www.pcisecuritystandards.org/terms_and_conditions/).
   * Association Management services provided by Virtual, Inc. 
   * [ __ Antitrust Policy  ](https://www.pcisecuritystandards.org/about_us/policies/#antitrust)

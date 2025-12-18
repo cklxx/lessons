@@ -6,16 +6,16 @@
 
 ## Abstract page (HTML → Markdown)
 
-[Skip to main content](#content)
-[](https://www.cornell.edu/)
+Skip to main content
+(https://www.cornell.edu/)
 We gratefully acknowledge support from the Simons Foundation, [member institutions](https://info.arxiv.org/about/ourmembers.html), and all contributors. [Donate](https://info.arxiv.org/about/donate.html)
-[](/IgnoreMe)
-[](/) > [cs](/list/cs/recent) > arXiv:2212.10560 
+(/IgnoreMe)
+(/) > [cs](https://arxiv.org/list/cs/recent) > arXiv:2212.10560 
 [Help](https://info.arxiv.org/help) | [Advanced Search](https://arxiv.org/search/advanced)
 All fields Title Author Abstract Comments Journal reference ACM classification MSC classification Report number arXiv identifier DOI ORCID arXiv author ID Help pages Full text
 Search
-[](https://arxiv.org/)
-[ ](https://www.cornell.edu/)
+(https://arxiv.org/)
+(https://www.cornell.edu/)
 open search
 GO
 open navigation menu
@@ -31,7 +31,7 @@ open navigation menu
 # Title:Self-Instruct: Aligning Language Models with Self-Generated Instructions
 Authors:[Yizhong Wang](https://arxiv.org/search/cs?searchtype=author&query=Wang,+Y), [Yeganeh Kordi](https://arxiv.org/search/cs?searchtype=author&query=Kordi,+Y), [Swaroop Mishra](https://arxiv.org/search/cs?searchtype=author&query=Mishra,+S), [Alisa Liu](https://arxiv.org/search/cs?searchtype=author&query=Liu,+A), [Noah A. Smith](https://arxiv.org/search/cs?searchtype=author&query=Smith,+N+A), [Daniel Khashabi](https://arxiv.org/search/cs?searchtype=author&query=Khashabi,+D), [Hannaneh Hajishirzi](https://arxiv.org/search/cs?searchtype=author&query=Hajishirzi,+H)
 View a PDF of the paper titled Self-Instruct: Aligning Language Models with Self-Generated Instructions, by Yizhong Wang and 6 other authors
-[View PDF](/pdf/2212.10560)
+[View PDF](https://arxiv.org/pdf/2212.10560)
 > Abstract:Large "instruction-tuned" language models (i.e., finetuned to respond to instructions) have demonstrated a remarkable ability to generalize zero-shot to new tasks. Nevertheless, they depend heavily on human-written instruction data that is often limited in quantity, diversity, and creativity, therefore hindering the generality of the tuned model. We introduce Self-Instruct, a framework for improving the instruction-following capabilities of pretrained language models by bootstrapping off their own generations. Our pipeline generates instructions, input, and output samples from a language model, then filters invalid or similar ones before using them to finetune the original model. Applying our method to the vanilla GPT3, we demonstrate a 33% absolute improvement over the original model on Super-NaturalInstructions, on par with the performance of InstructGPT-001, which was trained with private user data and human annotations. For further evaluation, we curate a set of expert-written instructions for novel tasks, and show through human evaluation that tuning GPT3 with Self-Instruct outperforms using existing public instruction datasets by a large margin, leaving only a 5% absolute gap behind InstructGPT-001. Self-Instruct provides an almost annotation-free method for aligning pre-trained language models with instructions, and we release our large synthetic dataset to facilitate future studies on instruction tuning. Our code and data are available at [this https URL](https://github.com/yizhongw/self-instruct). 
 Comments: | ACL 2023 camera ready, 23 pages, 9 figures, 11 tables  
 ---|---  
@@ -40,26 +40,26 @@ Cite as: | [arXiv:2212.10560](https://arxiv.org/abs/2212.10560) [cs.CL]
   | (or  [arXiv:2212.10560v2](https://arxiv.org/abs/2212.10560v2) [cs.CL] for this version)   
   |  <https://doi.org/10.48550/arXiv.2212.10560> Focus to learn more arXiv-issued DOI via DataCite  
 ## Submission history
-From: Yizhong Wang [[view email](/show-email/303371ba/2212.10560)]   
-**[[v1]](/abs/2212.10560v1)** Tue, 20 Dec 2022 18:59:19 UTC (4,072 KB)  
+From: Yizhong Wang [[view email](https://arxiv.org/show-email/303371ba/2212.10560)]   
+**[[v1]](https://arxiv.org/abs/2212.10560v1)** Tue, 20 Dec 2022 18:59:19 UTC (4,072 KB)  
 **[v2]** Thu, 25 May 2023 23:50:07 UTC (7,954 KB)  
 
 Full-text links:
 ## Access Paper:
 View a PDF of the paper titled Self-Instruct: Aligning Language Models with Self-Generated Instructions, by Yizhong Wang and 6 other authors
-  * [View PDF](/pdf/2212.10560)
-  * [TeX Source ](/src/2212.10560)
+  * [View PDF](https://arxiv.org/pdf/2212.10560)
+  * [TeX Source ](https://arxiv.org/src/2212.10560)
 
 
 [ view license ](http://creativecommons.org/licenses/by/4.0/ "Rights to this article")
 Current browse context: 
 cs.CL
-[< prev](/prevnext?id=2212.10560&function=prev&context=cs.CL "previous in cs.CL \(accesskey p\)")   |   [next >](/prevnext?id=2212.10560&function=next&context=cs.CL "next in cs.CL \(accesskey n\)")   
+[< prev](https://arxiv.org/prevnext?id=2212.10560&function=prev&context=cs.CL "previous in cs.CL \(accesskey p\)")   |   [next >](https://arxiv.org/prevnext?id=2212.10560&function=next&context=cs.CL "next in cs.CL \(accesskey n\)")   
 
-[new](/list/cs.CL/new) |  [recent](/list/cs.CL/recent) | [2022-12](/list/cs.CL/2022-12)
+[new](https://arxiv.org/list/cs.CL/new) |  [recent](https://arxiv.org/list/cs.CL/recent) | [2022-12](https://arxiv.org/list/cs.CL/2022-12)
 Change to browse by: 
-[cs](/abs/2212.10560?context=cs)  
-[cs.AI](/abs/2212.10560?context=cs.AI)  
+[cs](https://arxiv.org/abs/2212.10560?context=cs)  
+[cs.AI](https://arxiv.org/abs/2212.10560?context=cs.AI)  
 
 ### References & Citations
   * [NASA ADS](https://ui.adsabs.harvard.edu/abs/arXiv:2212.10560)
@@ -73,7 +73,7 @@ export BibTeX citation Loading...
 loading...
 Data provided by: 
 ### Bookmark
-[ ](http://www.bibsonomy.org/BibtexHandler?requTask=upload&url=https://arxiv.org/abs/2212.10560&description=Self-Instruct: Aligning Language Models with Self-Generated Instructions "Bookmark on BibSonomy") [ ](https://reddit.com/submit?url=https://arxiv.org/abs/2212.10560&title=Self-Instruct: Aligning Language Models with Self-Generated Instructions "Bookmark on Reddit")
+(http://www.bibsonomy.org/BibtexHandler?requTask=upload&url=https://arxiv.org/abs/2212.10560&description=Self-Instruct: Aligning Language Models with Self-Generated Instructions "Bookmark on BibSonomy") (https://reddit.com/submit?url=https://arxiv.org/abs/2212.10560&title=Self-Instruct: Aligning Language Models with Self-Generated Instructions "Bookmark on Reddit")
 Bibliographic Tools
 # Bibliographic and Citation Tools
 Bibliographic Explorer Toggle
@@ -125,7 +125,7 @@ About arXivLabs
 arXivLabs is a framework that allows collaborators to develop and share new arXiv features directly on our website.
 Both individuals and organizations that work with arXivLabs have embraced and accepted our values of openness, community, excellence, and user data privacy. arXiv is committed to these values and only works with partners that adhere to them.
 Have an idea for a project that will add value for arXiv's community? [**Learn more about arXivLabs**](https://info.arxiv.org/labs/index.html).
-[Which authors of this paper are endorsers?](/auth/show-endorsers/2212.10560) | [Disable MathJax](javascript:setMathjaxCookie\(\)) ([What is MathJax?](https://info.arxiv.org/help/mathjax.html)) 
+[Which authors of this paper are endorsers?](https://arxiv.org/auth/show-endorsers/2212.10560) | [Disable MathJax](javascript:setMathjaxCookie\(\)) ([What is MathJax?](https://info.arxiv.org/help/mathjax.html)) 
   * [About](https://info.arxiv.org/about)
   * [Help](https://info.arxiv.org/help)
 
@@ -1869,7 +1869,7 @@ range of formats, text types, and underlying expertise, while being correct on m
 tasks.
         Instruction + Instance Input                                                  Target Output                        Validity
  Instruction: Given a set of words                      def wordSubsetSum(w, l):                                           Instruction: ✗
- 𝑤       =      {𝑤1 , 𝑤2 , ..., 𝑤𝑛 } where each word 𝑤𝑖     s = []                                                         Input: ✓
+ 𝑤       =      {𝑤1 , 𝑤2 , ..., 𝑤𝑛 } where each word 𝑤𝑖     s =                                                          Input: ✓
  has 𝑛 letters, write a function that                       for i in range(len(w)):                                        Output: ✗
  takes a target length 𝑙 and returns a                          if len(s) + 1 < l:
  new set of words 𝑠 such that |𝑠|             =   𝑙 and             s.append(w[i])
@@ -1883,7 +1883,7 @@ tasks.
 
 
  Instruction: Find out if you have any              def hasFriendsWhoLikeToPlayFootballOrChess(self):                      Instruction: ✗
- friends who like to play football or                   friends = []                                                       Input: ✓
+ friends who like to play football or                   friends =                                                        Input: ✓
  chess.                                                 for friend in self.friends:                                        Output: ✓
                                                             if friend.likes == ’football’ or friend.likes == ’chess’:
                                                             friends.append(friend)

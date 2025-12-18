@@ -3,8 +3,8 @@
 - URL: https://docs.langchain.com/oss/python/langgraph/overview/
 - Retrieved: 2025-12-17T18:22:23.670498+00:00
 
-[Skip to main content](#content-area)
-[Docs by LangChain home page](/)
+Skip to main content
+[Docs by LangChain home page](https://docs.langchain.com/)
 LangChain + LangGraph
 Search...
 ⌘K
@@ -17,60 +17,60 @@ Search...
 Search...
 Navigation
 LangGraph overview
-[LangChain](/oss/python/langchain/overview)[LangGraph](/oss/python/langgraph/overview)[Deep Agents](/oss/python/deepagents/overview)[Integrations](/oss/python/integrations/providers/overview)[Learn](/oss/python/learn)[Reference](/oss/python/reference/overview)[Contribute](/oss/python/contributing/overview)
+[LangChain](https://docs.langchain.com/oss/python/langchain/overview)[LangGraph](https://docs.langchain.com/oss/python/langgraph/overview)[Deep Agents](https://docs.langchain.com/oss/python/deepagents/overview)[Integrations](https://docs.langchain.com/oss/python/integrations/providers/overview)[Learn](https://docs.langchain.com/oss/python/learn)[Reference](https://docs.langchain.com/oss/python/reference/overview)[Contribute](https://docs.langchain.com/oss/python/contributing/overview)
 Python
 
 
-  * [Overview](/oss/python/langgraph/overview)
+  * [Overview](https://docs.langchain.com/oss/python/langgraph/overview)
 
 
 ##### Get started
-  * [Install](/oss/python/langgraph/install)
-  * [Quickstart](/oss/python/langgraph/quickstart)
-  * [Local server](/oss/python/langgraph/local-server)
+  * [Install](https://docs.langchain.com/oss/python/langgraph/install)
+  * [Quickstart](https://docs.langchain.com/oss/python/langgraph/quickstart)
+  * [Local server](https://docs.langchain.com/oss/python/langgraph/local-server)
   * [Changelog](https://docs.langchain.com/oss/python/releases/changelog)
-  * [Thinking in LangGraph](/oss/python/langgraph/thinking-in-langgraph)
-  * [Workflows + agents](/oss/python/langgraph/workflows-agents)
+  * [Thinking in LangGraph](https://docs.langchain.com/oss/python/langgraph/thinking-in-langgraph)
+  * [Workflows + agents](https://docs.langchain.com/oss/python/langgraph/workflows-agents)
 
 
 ##### Capabilities
-  * [Persistence](/oss/python/langgraph/persistence)
-  * [Durable execution](/oss/python/langgraph/durable-execution)
-  * [Streaming](/oss/python/langgraph/streaming)
-  * [Interrupts](/oss/python/langgraph/interrupts)
-  * [Time travel](/oss/python/langgraph/use-time-travel)
-  * [Memory](/oss/python/langgraph/add-memory)
-  * [Subgraphs](/oss/python/langgraph/use-subgraphs)
+  * [Persistence](https://docs.langchain.com/oss/python/langgraph/persistence)
+  * [Durable execution](https://docs.langchain.com/oss/python/langgraph/durable-execution)
+  * [Streaming](https://docs.langchain.com/oss/python/langgraph/streaming)
+  * [Interrupts](https://docs.langchain.com/oss/python/langgraph/interrupts)
+  * [Time travel](https://docs.langchain.com/oss/python/langgraph/use-time-travel)
+  * [Memory](https://docs.langchain.com/oss/python/langgraph/add-memory)
+  * [Subgraphs](https://docs.langchain.com/oss/python/langgraph/use-subgraphs)
 
 
 ##### Production
-  * [Application structure](/oss/python/langgraph/application-structure)
-  * [Test](/oss/python/langgraph/test)
-  * [LangSmith Studio](/oss/python/langgraph/studio)
-  * [Agent Chat UI](/oss/python/langgraph/ui)
-  * [LangSmith Deployment](/oss/python/langgraph/deploy)
-  * [LangSmith Observability](/oss/python/langgraph/observability)
+  * [Application structure](https://docs.langchain.com/oss/python/langgraph/application-structure)
+  * [Test](https://docs.langchain.com/oss/python/langgraph/test)
+  * [LangSmith Studio](https://docs.langchain.com/oss/python/langgraph/studio)
+  * [Agent Chat UI](https://docs.langchain.com/oss/python/langgraph/ui)
+  * [LangSmith Deployment](https://docs.langchain.com/oss/python/langgraph/deploy)
+  * [LangSmith Observability](https://docs.langchain.com/oss/python/langgraph/observability)
 
 
 ##### LangGraph APIs
   * Graph API
   * Functional API
-  * [Runtime](/oss/python/langgraph/pregel)
+  * [Runtime](https://docs.langchain.com/oss/python/langgraph/pregel)
 
 
 On this page
-  * [ Install](#install)
-  * [Core benefits](#core-benefits)
-  * [LangGraph ecosystem](#langgraph-ecosystem)
-  * [Acknowledgements](#acknowledgements)
+  *  Install
+  * Core benefits
+  * LangGraph ecosystem
+  * Acknowledgements
 
 
 # LangGraph overview
 Copy page
 Copy page
-Trusted by companies shaping the future of agents— including Klarna, Replit, Elastic, and more— LangGraph is a low-level orchestration framework and runtime for building, managing, and deploying long-running, stateful agents. LangGraph is very low-level, and focused entirely on agent **orchestration**. Before using LangGraph, we recommend you familiarize yourself with some of the components used to build agents, starting with [models](/oss/python/langchain/models) and [tools](/oss/python/langchain/tools). We will commonly use [LangChain](/oss/python/langchain/overview) components throughout the documentation to integrate models and tools, but you don’t need to use LangChain to use LangGraph. If you are just getting started with agents or want a higher-level abstraction, we recommend you use LangChain’s [agents](/oss/python/langchain/agents) that provide pre-built architectures for common LLM and tool-calling loops. LangGraph is focused on the underlying capabilities important for agent orchestration: durable execution, streaming, human-in-the-loop, and more.
+Trusted by companies shaping the future of agents— including Klarna, Replit, Elastic, and more— LangGraph is a low-level orchestration framework and runtime for building, managing, and deploying long-running, stateful agents. LangGraph is very low-level, and focused entirely on agent **orchestration**. Before using LangGraph, we recommend you familiarize yourself with some of the components used to build agents, starting with [models](https://docs.langchain.com/oss/python/langchain/models) and [tools](https://docs.langchain.com/oss/python/langchain/tools). We will commonly use [LangChain](https://docs.langchain.com/oss/python/langchain/overview) components throughout the documentation to integrate models and tools, but you don’t need to use LangChain to use LangGraph. If you are just getting started with agents or want a higher-level abstraction, we recommend you use LangChain’s [agents](https://docs.langchain.com/oss/python/langchain/agents) that provide pre-built architectures for common LLM and tool-calling loops. LangGraph is focused on the underlying capabilities important for agent orchestration: durable execution, streaming, human-in-the-loop, and more.
 ## 
-[​](#install)
+​
 Install
 pip
 uv
@@ -95,33 +95,33 @@ Copy
     graph.invoke({"messages": [{"role": "user", "content": "hi!"}]})
     
 ## 
-[​](#core-benefits)
+​
 Core benefits
 LangGraph provides low-level supporting infrastructure for _any_ long-running, stateful workflow or agent. LangGraph does not abstract prompts or architecture, and provides the following central benefits:
-  * [Durable execution](/oss/python/langgraph/durable-execution): Build agents that persist through failures and can run for extended periods, resuming from where they left off.
-  * [Human-in-the-loop](/oss/python/langgraph/interrupts): Incorporate human oversight by inspecting and modifying agent state at any point.
-  * [Comprehensive memory](/oss/python/concepts/memory): Create stateful agents with both short-term working memory for ongoing reasoning and long-term memory across sessions.
-  * [Debugging with LangSmith](/langsmith/home): Gain deep visibility into complex agent behavior with visualization tools that trace execution paths, capture state transitions, and provide detailed runtime metrics.
-  * [Production-ready deployment](/langsmith/deployments): Deploy sophisticated agent systems confidently with scalable infrastructure designed to handle the unique challenges of stateful, long-running workflows.
+  * [Durable execution](https://docs.langchain.com/oss/python/langgraph/durable-execution): Build agents that persist through failures and can run for extended periods, resuming from where they left off.
+  * [Human-in-the-loop](https://docs.langchain.com/oss/python/langgraph/interrupts): Incorporate human oversight by inspecting and modifying agent state at any point.
+  * [Comprehensive memory](https://docs.langchain.com/oss/python/concepts/memory): Create stateful agents with both short-term working memory for ongoing reasoning and long-term memory across sessions.
+  * [Debugging with LangSmith](https://docs.langchain.com/langsmith/home): Gain deep visibility into complex agent behavior with visualization tools that trace execution paths, capture state transitions, and provide detailed runtime metrics.
+  * [Production-ready deployment](https://docs.langchain.com/langsmith/deployments): Deploy sophisticated agent systems confidently with scalable infrastructure designed to handle the unique challenges of stateful, long-running workflows.
 
 
 ## 
-[​](#langgraph-ecosystem)
+​
 LangGraph ecosystem
 While LangGraph can be used standalone, it also integrates seamlessly with any LangChain product, giving developers a full suite of tools for building agents. To improve your LLM application development, pair LangGraph with:
-## [LangSmithTrace requests, evaluate outputs, and monitor deployments in one place. Prototype locally with LangGraph, then move to production with integrated observability and evaluation to build more reliable agent systems.Learn more](http://www.langchain.com/langsmith)## [LangGraphDeploy and scale agents effortlessly with a purpose-built deployment platform for long running, stateful workflows. Discover, reuse, configure, and share agents across teams — and iterate quickly with visual prototyping in Studio.Learn more](/langsmith/agent-server)## [LangChainProvides integrations and composable components to streamline LLM application development. Contains agent abstractions built on top of LangGraph.Learn more](/oss/python/langchain/overview)
+## [LangSmithTrace requests, evaluate outputs, and monitor deployments in one place. Prototype locally with LangGraph, then move to production with integrated observability and evaluation to build more reliable agent systems.Learn more](http://www.langchain.com/langsmith)## [LangGraphDeploy and scale agents effortlessly with a purpose-built deployment platform for long running, stateful workflows. Discover, reuse, configure, and share agents across teams — and iterate quickly with visual prototyping in Studio.Learn more](https://docs.langchain.com/langsmith/agent-server)## [LangChainProvides integrations and composable components to streamline LLM application development. Contains agent abstractions built on top of LangGraph.Learn more](https://docs.langchain.com/oss/python/langchain/overview)
 ## 
-[​](#acknowledgements)
+​
 Acknowledgements
 LangGraph is inspired by [Pregel](https://research.google/pubs/pub37252/) and [Apache Beam](https://beam.apache.org/). The public interface draws inspiration from [NetworkX](https://networkx.org/documentation/latest/). LangGraph is built by LangChain Inc, the creators of LangChain, but can be used without LangChain.
 * * *
 [Edit this page on GitHub](https://github.com/langchain-ai/docs/edit/main/src/oss/langgraph/overview.mdx) or [file an issue](https://github.com/langchain-ai/docs/issues/new/choose).
-[Connect these docs](/use-these-docs) to Claude, VSCode, and more via MCP for real-time answers.
+[Connect these docs](https://docs.langchain.com/use-these-docs) to Claude, VSCode, and more via MCP for real-time answers.
 Was this page helpful?
 YesNo
-[Install LangGraphNext](/oss/python/langgraph/install)
+[Install LangGraphNext](https://docs.langchain.com/oss/python/langgraph/install)
 ⌘I
-[Docs by LangChain home page](/)
+[Docs by LangChain home page](https://docs.langchain.com/)
 [github](https://github.com/langchain-ai)[x](https://x.com/LangChainAI)[linkedin](https://www.linkedin.com/company/langchain/)[youtube](https://www.youtube.com/@LangChain)
 Resources
 [Forum](https://forum.langchain.com/)[Changelog](https://changelog.langchain.com/)[LangChain Academy](https://academy.langchain.com/)[Trust Center](https://trust.langchain.com/)

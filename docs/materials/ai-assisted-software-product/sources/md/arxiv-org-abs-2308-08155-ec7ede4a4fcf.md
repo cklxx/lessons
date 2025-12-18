@@ -6,16 +6,16 @@
 
 ## Abstract page (HTML → Markdown)
 
-[Skip to main content](#content)
-[](https://www.cornell.edu/)
+Skip to main content
+(https://www.cornell.edu/)
 We gratefully acknowledge support from the Simons Foundation, [member institutions](https://info.arxiv.org/about/ourmembers.html), and all contributors. [Donate](https://info.arxiv.org/about/donate.html)
-[](/IgnoreMe)
-[](/) > [cs](/list/cs/recent) > arXiv:2308.08155 
+(/IgnoreMe)
+(/) > [cs](https://arxiv.org/list/cs/recent) > arXiv:2308.08155 
 [Help](https://info.arxiv.org/help) | [Advanced Search](https://arxiv.org/search/advanced)
 All fields Title Author Abstract Comments Journal reference ACM classification MSC classification Report number arXiv identifier DOI ORCID arXiv author ID Help pages Full text
 Search
-[](https://arxiv.org/)
-[ ](https://www.cornell.edu/)
+(https://arxiv.org/)
+(https://www.cornell.edu/)
 open search
 GO
 open navigation menu
@@ -31,7 +31,7 @@ open navigation menu
 # Title:AutoGen: Enabling Next-Gen LLM Applications via Multi-Agent Conversation
 Authors:[Qingyun Wu](https://arxiv.org/search/cs?searchtype=author&query=Wu,+Q), [Gagan Bansal](https://arxiv.org/search/cs?searchtype=author&query=Bansal,+G), [Jieyu Zhang](https://arxiv.org/search/cs?searchtype=author&query=Zhang,+J), [Yiran Wu](https://arxiv.org/search/cs?searchtype=author&query=Wu,+Y), [Beibin Li](https://arxiv.org/search/cs?searchtype=author&query=Li,+B), [Erkang Zhu](https://arxiv.org/search/cs?searchtype=author&query=Zhu,+E), [Li Jiang](https://arxiv.org/search/cs?searchtype=author&query=Jiang,+L), [Xiaoyun Zhang](https://arxiv.org/search/cs?searchtype=author&query=Zhang,+X), [Shaokun Zhang](https://arxiv.org/search/cs?searchtype=author&query=Zhang,+S), [Jiale Liu](https://arxiv.org/search/cs?searchtype=author&query=Liu,+J), [Ahmed Hassan Awadallah](https://arxiv.org/search/cs?searchtype=author&query=Awadallah,+A+H), [Ryen W White](https://arxiv.org/search/cs?searchtype=author&query=White,+R+W), [Doug Burger](https://arxiv.org/search/cs?searchtype=author&query=Burger,+D), [Chi Wang](https://arxiv.org/search/cs?searchtype=author&query=Wang,+C)
 View a PDF of the paper titled AutoGen: Enabling Next-Gen LLM Applications via Multi-Agent Conversation, by Qingyun Wu and 13 other authors
-[View PDF](/pdf/2308.08155)
+[View PDF](https://arxiv.org/pdf/2308.08155)
 > Abstract:AutoGen is an open-source framework that allows developers to build LLM applications via multiple agents that can converse with each other to accomplish tasks. AutoGen agents are customizable, conversable, and can operate in various modes that employ combinations of LLMs, human inputs, and tools. Using AutoGen, developers can also flexibly define agent interaction behaviors. Both natural language and computer code can be used to program flexible conversation patterns for different applications. AutoGen serves as a generic infrastructure to build diverse applications of various complexities and LLM capacities. Empirical studies demonstrate the effectiveness of the framework in many example applications, with domains ranging from mathematics, coding, question answering, operations research, online decision-making, entertainment, etc. 
 Comments: | 43 pages (10 pages for the main text, 3 pages for references, and 30 pages for appendices)  
 ---|---  
@@ -40,26 +40,26 @@ Cite as: | [arXiv:2308.08155](https://arxiv.org/abs/2308.08155) [cs.AI]
   | (or  [arXiv:2308.08155v2](https://arxiv.org/abs/2308.08155v2) [cs.AI] for this version)   
   |  <https://doi.org/10.48550/arXiv.2308.08155> Focus to learn more arXiv-issued DOI via DataCite  
 ## Submission history
-From: Qingyun Wu [[view email](/show-email/b1988b23/2308.08155)]   
-**[[v1]](/abs/2308.08155v1)** Wed, 16 Aug 2023 05:57:52 UTC (2,420 KB)  
+From: Qingyun Wu [[view email](https://arxiv.org/show-email/b1988b23/2308.08155)]   
+**[[v1]](https://arxiv.org/abs/2308.08155v1)** Wed, 16 Aug 2023 05:57:52 UTC (2,420 KB)  
 **[v2]** Tue, 3 Oct 2023 20:47:10 UTC (6,271 KB)  
 
 Full-text links:
 ## Access Paper:
 View a PDF of the paper titled AutoGen: Enabling Next-Gen LLM Applications via Multi-Agent Conversation, by Qingyun Wu and 13 other authors
-  * [View PDF](/pdf/2308.08155)
-  * [TeX Source ](/src/2308.08155)
+  * [View PDF](https://arxiv.org/pdf/2308.08155)
+  * [TeX Source ](https://arxiv.org/src/2308.08155)
 
 
 [ view license ](http://creativecommons.org/licenses/by/4.0/ "Rights to this article")
 Current browse context: 
 cs.AI
-[< prev](/prevnext?id=2308.08155&function=prev&context=cs.AI "previous in cs.AI \(accesskey p\)")   |   [next >](/prevnext?id=2308.08155&function=next&context=cs.AI "next in cs.AI \(accesskey n\)")   
+[< prev](https://arxiv.org/prevnext?id=2308.08155&function=prev&context=cs.AI "previous in cs.AI \(accesskey p\)")   |   [next >](https://arxiv.org/prevnext?id=2308.08155&function=next&context=cs.AI "next in cs.AI \(accesskey n\)")   
 
-[new](/list/cs.AI/new) |  [recent](/list/cs.AI/recent) | [2023-08](/list/cs.AI/2023-08)
+[new](https://arxiv.org/list/cs.AI/new) |  [recent](https://arxiv.org/list/cs.AI/recent) | [2023-08](https://arxiv.org/list/cs.AI/2023-08)
 Change to browse by: 
-[cs](/abs/2308.08155?context=cs)  
-[cs.CL](/abs/2308.08155?context=cs.CL)  
+[cs](https://arxiv.org/abs/2308.08155?context=cs)  
+[cs.CL](https://arxiv.org/abs/2308.08155?context=cs.CL)  
 
 ### References & Citations
   * [NASA ADS](https://ui.adsabs.harvard.edu/abs/arXiv:2308.08155)
@@ -73,7 +73,7 @@ export BibTeX citation Loading...
 loading...
 Data provided by: 
 ### Bookmark
-[ ](http://www.bibsonomy.org/BibtexHandler?requTask=upload&url=https://arxiv.org/abs/2308.08155&description=AutoGen: Enabling Next-Gen LLM Applications via Multi-Agent Conversation "Bookmark on BibSonomy") [ ](https://reddit.com/submit?url=https://arxiv.org/abs/2308.08155&title=AutoGen: Enabling Next-Gen LLM Applications via Multi-Agent Conversation "Bookmark on Reddit")
+(http://www.bibsonomy.org/BibtexHandler?requTask=upload&url=https://arxiv.org/abs/2308.08155&description=AutoGen: Enabling Next-Gen LLM Applications via Multi-Agent Conversation "Bookmark on BibSonomy") (https://reddit.com/submit?url=https://arxiv.org/abs/2308.08155&title=AutoGen: Enabling Next-Gen LLM Applications via Multi-Agent Conversation "Bookmark on Reddit")
 Bibliographic Tools
 # Bibliographic and Citation Tools
 Bibliographic Explorer Toggle
@@ -125,7 +125,7 @@ About arXivLabs
 arXivLabs is a framework that allows collaborators to develop and share new arXiv features directly on our website.
 Both individuals and organizations that work with arXivLabs have embraced and accepted our values of openness, community, excellence, and user data privacy. arXiv is committed to these values and only works with partners that adhere to them.
 Have an idea for a project that will add value for arXiv's community? [**Learn more about arXivLabs**](https://info.arxiv.org/labs/index.html).
-[Which authors of this paper are endorsers?](/auth/show-endorsers/2308.08155) | [Disable MathJax](javascript:setMathjaxCookie\(\)) ([What is MathJax?](https://info.arxiv.org/help/mathjax.html)) 
+[Which authors of this paper are endorsers?](https://arxiv.org/auth/show-endorsers/2308.08155) | [Disable MathJax](javascript:setMathjaxCookie\(\)) ([What is MathJax?](https://info.arxiv.org/help/mathjax.html)) 
   * [About](https://info.arxiv.org/about)
   * [Help](https://info.arxiv.org/help)
 
@@ -344,7 +344,7 @@ backed assistant agent in AutoGen to converse with other agents in multi-step pr
                       code_execution_config = False                                   •    generate_reply
                       DEFAULT_SYSTEM_MESSAGE = “You
                       are a helpful AI assistant…                                               human_input_mode = “NEVER”
-                      In the following cases, suggest                                           group_chat = [               ]
+                      In the following cases, suggest                                           group_chat = 
       AutoGen         python code…”                           human_input_mode = “ALWAYS”
        Agents
 
