@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="480" viewBox="0 0 1200 480">
+<style>
+  .bg { fill: #0b1220; }
+  .card { fill: #0f1b34; stroke: #2b3a61; stroke-width: 2; rx: 14; }
+  .card2 { fill: #0f233d; stroke: #2b3a61; stroke-width: 2; rx: 14; }
+  .title { font: 700 18px ui-sans-serif, system-ui, -apple-system; fill: #e8eefc; }
+  .sub { font: 500 13px ui-sans-serif, system-ui, -apple-system; fill: #b7c6ea; }
+  .small { font: 500 12px ui-sans-serif, system-ui, -apple-system; fill: #b7c6ea; }
+  .note { font: 500 12px ui-sans-serif, system-ui, -apple-system; fill: #9fb2de; }
+  .arrow { stroke: #6aa1ff; stroke-width: 3; fill: none; marker-end: url(#arrowhead); }
+  .arrow2 { stroke: #6dd6a8; stroke-width: 3; fill: none; marker-end: url(#arrowhead2); }
+  .dash { stroke-dasharray: 7 6; }
+</style>
+<defs>
+<marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+<polygon points="0 0, 10 3.5, 0 7" fill="#6aa1ff"/>
+</marker>
+<marker id="arrowhead2" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+<polygon points="0 0, 10 3.5, 0 7" fill="#6dd6a8"/>
+</marker>
+</defs>
+<rect class="bg" x="0" y="0" width="1200" height="480" />
+<text class="title" x="24" y="40">观测性三件套（Logs / Metrics / Traces）如何服务“灰度与回滚”</text>
+<rect class="card" x="80" y="90" width="320" height="110" rx="14" />
+<text class="title" x="96" y="120">Logs</text>
+<text class="sub" x="96" y="144">结构化事件：谁/做了什么/为什么失败</text>
+<rect class="card2" x="440" y="90" width="320" height="110" rx="14" />
+<text class="title" x="456" y="120">Metrics</text>
+<text class="sub" x="456" y="144">守门指标：P95/成本/错误率</text>
+<rect class="card" x="800" y="90" width="320" height="110" rx="14" />
+<text class="title" x="816" y="120">Traces</text>
+<text class="sub" x="816" y="144">把一次请求串成一条链路</text>
+<rect class="card2" x="80" y="250" width="1040" height="170" rx="14" />
+<text class="title" x="96" y="280">发布决策</text>
+<text class="sub" x="96" y="304">灰度观察窗口 → 指标越界 → 降级/限流/回滚 → 失败样本回写回归集</text>
+<path class="arrow2" d="M240 200 L240 250" />
+<path class="arrow2" d="M600 200 L600 250" />
+<path class="arrow2" d="M960 200 L960 250" />
+<text class="small" x="84" y="455">建议：把 trace_id 写进日志与响应头，形成可追溯闭环</text>
+</svg>

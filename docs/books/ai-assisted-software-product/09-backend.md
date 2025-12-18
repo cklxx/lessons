@@ -1,5 +1,5 @@
 # 第 9 章：后端架构：边界、幂等与可观测
-![Chapter 9 Header](../../assets/figure-placeholder.svg)
+![Chapter 9 Header](../../assets/chapter_09_header_1766035625708.png)
 
 > 后端不是“把接口跑通”，而是把风险关在笼子里：错误语义一致、请求可重放、成本可止损、事故可追责。[5][6]
 

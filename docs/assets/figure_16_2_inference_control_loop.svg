@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="520" viewBox="0 0 1200 520">
+<style>
+  .bg { fill: #0b1220; }
+  .card { fill: #0f1b34; stroke: #2b3a61; stroke-width: 2; rx: 14; }
+  .card2 { fill: #0f233d; stroke: #2b3a61; stroke-width: 2; rx: 14; }
+  .title { font: 700 18px ui-sans-serif, system-ui, -apple-system; fill: #e8eefc; }
+  .sub { font: 500 13px ui-sans-serif, system-ui, -apple-system; fill: #b7c6ea; }
+  .small { font: 500 12px ui-sans-serif, system-ui, -apple-system; fill: #b7c6ea; }
+  .note { font: 500 12px ui-sans-serif, system-ui, -apple-system; fill: #9fb2de; }
+  .arrow { stroke: #6aa1ff; stroke-width: 3; fill: none; marker-end: url(#arrowhead); }
+  .arrow2 { stroke: #6dd6a8; stroke-width: 3; fill: none; marker-end: url(#arrowhead2); }
+  .dash { stroke-dasharray: 7 6; }
+</style>
+<defs>
+<marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+<polygon points="0 0, 10 3.5, 0 7" fill="#6aa1ff"/>
+</marker>
+<marker id="arrowhead2" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+<polygon points="0 0, 10 3.5, 0 7" fill="#6dd6a8"/>
+</marker>
+</defs>
+<rect class="bg" x="0" y="0" width="1200" height="520" />
+<text class="title" x="24" y="40">推理优化的可控闭环：预算 → 缓存/并发 → 降级 → 证据留档</text>
+<rect class="card" x="60" y="90" width="260" height="110" rx="14" />
+<text class="title" x="76" y="120">请求入口</text>
+<text class="sub" x="76" y="144">trace_id / user_id / 版本</text>
+<rect class="card2" x="360" y="90" width="280" height="110" rx="14" />
+<text class="title" x="376" y="120">预算与队列</text>
+<text class="sub" x="376" y="144">timeout / 并发上限</text>
+<rect class="card" x="680" y="90" width="420" height="110" rx="14" />
+<text class="title" x="696" y="120">推理后端</text>
+<text class="sub" x="696" y="144">vLLM / TensorRT-LLM / TGI</text>
+<rect class="card" x="60" y="250" width="420" height="120" rx="14" />
+<text class="title" x="76" y="280">缓存与复用</text>
+<text class="sub" x="76" y="304">prompt/检索/工具结果缓存</text>
+<rect class="card2" x="520" y="250" width="580" height="120" rx="14" />
+<text class="title" x="536" y="280">降级与回退</text>
+<text class="sub" x="536" y="304">缩短上下文 / 关工具 / 切低成本路径</text>
+<rect class="card2" x="60" y="410" width="1040" height="80" rx="14" />
+<text class="title" x="76" y="440">观测与门禁</text>
+<text class="sub" x="76" y="464">延迟/成本/错误率越界 → 阻断/回滚；回归集更新</text>
+<path class="arrow" d="M320 145 L360 145" />
+<path class="arrow" d="M640 145 L680 145" />
+<path class="arrow2" d="M500 200 L500 250" />
+<path class="arrow2" d="M820 200 L820 250" />
+<path class="arrow2" d="M260 370 L260 410" />
+<path class="arrow2" d="M820 370 L820 410" />
+<text class="small" x="62" y="505">可运行示例：docs/examples/inference/budgeted_gateway.py</text>
+</svg>

@@ -1,5 +1,5 @@
 # 第 4 章：原型与信息架构：用最小成本验证“路径”
-![Chapter 4 Header](../../assets/figure-placeholder.svg)
+![Chapter 4 Header](../../assets/chapter_04_header_1766035396981.png)
 
 > 原型的价值不是“看起来像”，而是用最小成本验证关键路径、信息架构与错误恢复：用户能不能走到价值、走错了能不能回来。[4][16]
 

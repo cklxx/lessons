@@ -25,6 +25,7 @@ plugins:
   - search
 exclude_docs: |
   books/ai-assisted-software-product/drafts/*.md
+  books/ai-assisted-software-product/book/*.md
 markdown_extensions:
   - toc:
       permalink: true

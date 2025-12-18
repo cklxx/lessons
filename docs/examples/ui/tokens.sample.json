@@ -1,0 +1,16 @@
+{
+  "color": {
+    "blue": {
+      "500": { "$type": "color", "$value": "#3b82f6" },
+      "600": { "$type": "color", "$value": "#2563eb" }
+    },
+    "text": {
+      "primary": { "$type": "color", "$value": "{color.blue.600}" }
+    }
+  },
+  "space": {
+    "2": { "$type": "dimension", "$value": "8px" },
+    "3": { "$type": "dimension", "$value": "12px" }
+  }
+}
+

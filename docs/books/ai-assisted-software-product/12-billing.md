@@ -1,5 +1,5 @@
 # 第 12 章：付费模块：订阅、计费与风控
-![Chapter 12 Header](../../assets/figure-placeholder.svg)
+![Chapter 12 Header](../../assets/chapter_12_header_1766035684589.png)
 
 > 计费系统不是“把支付接上”，而是一份可追溯的合同：谁在何时用掉了什么、应付多少、为什么这么算、出错如何纠正。做对了，它让你能增长；做错了，它让你背锅。[23][5]
 

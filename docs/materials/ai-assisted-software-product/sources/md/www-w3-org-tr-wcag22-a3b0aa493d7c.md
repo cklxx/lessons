@@ -1809,7 +1809,7 @@ If dithering occurs after delivery, then the source color value is used. For col
 Note 5
 Tools are available that automatically do the calculations when testing contrast and flash. 
 Note 6
-A [separate page giving the relative luminance definition using MathML](relative-luminance.html) to display the formulas is available. 
+A [separate page giving the relative luminance definition using MathML](https://www.w3.org/TR/WCAG22/relative-luminance.html) to display the formulas is available. 
 relied upon (technologies that are) 
     
 the content would not [conform](#dfn-conform "satisfying all the requirements of a given standard, guideline or specification") if that [technology](#dfn-technologies "mechanism for encoding instructions to be rendered, played or executed by user agents") is turned off or is not supported 

@@ -1,5 +1,5 @@
 # 第 8 章：前端实现：状态、可恢复与体验指标
-![Chapter 8 Header](../../assets/figure-placeholder.svg)
+![Chapter 8 Header](../../assets/chapter_08_header_1766035606171.png)
 
 > 前端不是“把页面写出来”，而是把体验写成一个可预测系统：用户知道下一步是什么，失败知道怎么回来，系统知道怎么解释自己。[17]
 

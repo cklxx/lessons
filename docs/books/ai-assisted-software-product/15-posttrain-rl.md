@@ -1,5 +1,5 @@
 # 第 15 章：后训练：SFT/DPO/RLHF 与“行为可控”
-![Chapter 15 Header](../../assets/figure-placeholder.svg)
+![Chapter 15 Header](../../assets/chapter_15_header_1766035751003.png)
 
 > 后训练的目标不是“更像人”，而是“更像你的产品需求”：更稳定、更安全、更符合格式、更能在边界内拒绝与追问。对个人而言，后训练的第一原则是：先用评测证明收益，再为它增加预算。[6][40][42]
 

@@ -1,5 +1,5 @@
 # 第 5 章：产品验证与打磨：把 0→1 做成闭环
-![Chapter 5 Header](../../assets/figure-placeholder.svg)
+![Chapter 5 Header](../../assets/chapter_05_header_1766035418099.png)
 
 > 0→1 最容易的幻觉，是“做出来了，所以成立了”。本章把验证与打磨写成一条可裁决、可回滚、可留档的闭环：让你在低流量条件下，依然能稳定推进，而不是靠感觉精修。[4][6]
 

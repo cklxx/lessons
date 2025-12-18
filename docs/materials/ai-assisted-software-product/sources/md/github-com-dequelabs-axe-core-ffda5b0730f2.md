@@ -8,7 +8,7 @@
 
 # axe-core
 
-[![License](https://img.shields.io/npm/l/axe-core.svg?color=c41)](LICENSE)
+[![License](https://img.shields.io/npm/l/axe-core.svg?color=c41)](https://github.com/dequelabs/axe-core/blob/develop/LICENSE)
 [![Version](https://img.shields.io/npm/v/axe-core.svg)](https://www.npmjs.com/package/axe-core)
 [![NPM downloads](https://img.shields.io/npm/dw/axe-core.svg?color=080)![](https://img.shields.io/npm/dy/axe-core.svg?color=080&label=)](https://npm-stat.com/charts.html?package=axe-core&from=2017-01-01)
 [![Commits](https://img.shields.io/github/commit-activity/y/dequelabs/axe-core.svg)](https://github.com/dequelabs/axe-core/commits/develop)
@@ -22,7 +22,7 @@ Axe is an accessibility testing engine for websites and other HTML-based user in
 
 ## The Accessibility Rules
 
-Axe-core has different types of rules, for WCAG 2.0, 2.1, 2.2 on level A, AA and AAA as well as a number of best practices that help you identify common accessibility practices like ensuring every page has an `h1` heading, and to help you avoid "gotchas" in ARIA like where an ARIA attribute you used will get ignored. The complete list of rules, grouped WCAG level and best practice, can be found in [doc/rule-descriptions.md](./doc/rule-descriptions.md).
+Axe-core has different types of rules, for WCAG 2.0, 2.1, 2.2 on level A, AA and AAA as well as a number of best practices that help you identify common accessibility practices like ensuring every page has an `h1` heading, and to help you avoid "gotchas" in ARIA like where an ARIA attribute you used will get ignored. The complete list of rules, grouped WCAG level and best practice, can be found in [doc/rule-descriptions.md](https://github.com/dequelabs/axe-core/blob/develop/doc/rule-descriptions.md).
 
 With axe-core, you can find **on average 57% of WCAG issues automatically**. Additionally, axe-core will return elements as "incomplete" where axe-core could not be certain, and manual review is needed.
 
@@ -78,7 +78,7 @@ Axe was built to reflect how web development actually works. It works with all m
 
 ## Supported Browsers
 
-The [axe-core API](doc/API.md) fully supports the following browsers:
+The [axe-core API](https://github.com/dequelabs/axe-core/blob/develop/doc/API.md) fully supports the following browsers:
 
 - Microsoft Edge v40 and above
 - Google Chrome v42 and above
@@ -94,7 +94,7 @@ We can only support environments where features are either natively supported or
 
 ## Contents of the API Package
 
-The [axe-core API](doc/API.md) package consists of:
+The [axe-core API](https://github.com/dequelabs/axe-core/blob/develop/doc/API.md) package consists of:
 
 - `axe.js` - the JavaScript file that should be included in your web site under test (API)
 - `axe.min.js` - a minified version of the above file
@@ -111,7 +111,7 @@ or equivalently:
 
 This will create a new build for axe, called `axe.<lang>.js` and `axe.<lang>.min.js`. If you want to build all localized versions, simply pass in `--all-lang` instead. If you want to build multiple localized versions (but not all of them), you can pass in a comma-separated list of languages to the `--lang` flag, like `--lang=nl,ja`.
 
-To create a new translation for axe, start by running `grunt translate --lang=<langcode>`. This will create a json file in the `./locales` directory, with the default English text in it for you to translate. Alternatively, you could copy `./locales/_template.json`. We welcome any localization for axe-core. For details on how to contribute, see the Contributing section below. For details on the message syntax, see [Check Message Template](/doc/check-message-template.md).
+To create a new translation for axe, start by running `grunt translate --lang=<langcode>`. This will create a json file in the `./locales` directory, with the default English text in it for you to translate. Alternatively, you could copy `./locales/_template.json`. We welcome any localization for axe-core. For details on how to contribute, see the Contributing section below. For details on the message syntax, see [Check Message Template](https://github.com/dequelabs/axe-core/blob/develop/doc/check-message-template.md).
 
 To update an existing translation file, re-run `grunt translate --lang=<langcode>`. This will add new messages used in English and remove messages which were not used in English.
 
@@ -166,8 +166,8 @@ Axe-core supports the following locales. Do note that since locales are contribu
 
 Axe-core has a new minor release every 3 to 5 months, which usually introduces new rules and features. We recommend scheduling time to upgrade to these versions. Security updates will be made available for minor version lines up to **18 months old**.
 
-- See [release and support](doc/release-and-support.md) for details on the frequency of releases, long-term support and recommendations on upgrading axe-core.
-- See [backward compatibility](doc/backwards-compatibility-doc.md) for details on the types of changes different releases may introduce.
+- See [release and support](https://github.com/dequelabs/axe-core/blob/develop/doc/release-and-support.md) for details on the frequency of releases, long-term support and recommendations on upgrading axe-core.
+- See [backward compatibility](https://github.com/dequelabs/axe-core/blob/develop/doc/backwards-compatibility-doc.md) for details on the types of changes different releases may introduce.
 
 ## Deque Trademarks Policy
 
@@ -175,19 +175,19 @@ DEQUE, DEQUELABS, AXE®, and AXE-CORE® are trademarks of Deque Systems, Inc. Us
 
 ## Supported ARIA Roles and Attributes.
 
-Refer [axe-core ARIA support](./doc/aria-supported.md) for a complete list of ARIA supported roles and attributes by axe.
+Refer [axe-core ARIA support](https://github.com/dequelabs/axe-core/blob/develop/doc/aria-supported.md) for a complete list of ARIA supported roles and attributes by axe.
 
 ## Contributing
 
-Read the [Proposing Axe-core Rules guide](./doc/rule-proposal.md)
+Read the [Proposing Axe-core Rules guide](https://github.com/dequelabs/axe-core/blob/develop/doc/rule-proposal.md)
 
-Read the [documentation on the architecture](./doc/developer-guide.md)
+Read the [documentation on the architecture](https://github.com/dequelabs/axe-core/blob/develop/doc/developer-guide.md)
 
-Read the [documentation on contributing](CONTRIBUTING.md)
+Read the [documentation on contributing](https://github.com/dequelabs/axe-core/blob/develop/CONTRIBUTING.md)
 
 ## Projects using axe-core
 
-[List of projects using axe-core](doc/projects.md)
+[List of projects using axe-core](https://github.com/dequelabs/axe-core/blob/develop/doc/projects.md)
 
 ## Acknowledgements
 
@@ -195,4 +195,4 @@ Thanks to Marat Dulin for his [css-selector-parser](https://www.npmjs.com/packag
 
 ## Licenses
 
-Axe-core is distributed under the [Mozilla Public License, version 2.0](LICENSE). It comes bundled with several dependencies which are distributed under their own terms. (See [LICENSE-3RD-PARTY.txt](LICENSE-3RD-PARTY.txt))
+Axe-core is distributed under the [Mozilla Public License, version 2.0](https://github.com/dequelabs/axe-core/blob/develop/LICENSE). It comes bundled with several dependencies which are distributed under their own terms. (See [LICENSE-3RD-PARTY.txt](https://github.com/dequelabs/axe-core/blob/develop/LICENSE-3RD-PARTY.txt))

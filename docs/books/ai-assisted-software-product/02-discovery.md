@@ -1,5 +1,5 @@
 # 第 2 章：需求挖掘与机会判断（Discovery）
-![Chapter 2 Header](../../assets/figure-placeholder.svg)：从问题到机会
+![Chapter 2 Header](../../assets/chapter_02_header_1766035353733.png)：从问题到机会
 
 > 别急着写代码：先用数据把“值不值得做”说清楚，再用最小实验把它证伪/证实。[4]
 

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="520" viewBox="0 0 1200 520">
+<style>
+  .bg { fill: #0b1220; }
+  .card { fill: #0f1b34; stroke: #2b3a61; stroke-width: 2; rx: 14; }
+  .card2 { fill: #0f233d; stroke: #2b3a61; stroke-width: 2; rx: 14; }
+  .title { font: 700 18px ui-sans-serif, system-ui, -apple-system; fill: #e8eefc; }
+  .sub { font: 500 13px ui-sans-serif, system-ui, -apple-system; fill: #b7c6ea; }
+  .small { font: 500 12px ui-sans-serif, system-ui, -apple-system; fill: #b7c6ea; }
+  .note { font: 500 12px ui-sans-serif, system-ui, -apple-system; fill: #9fb2de; }
+  .arrow { stroke: #6aa1ff; stroke-width: 3; fill: none; marker-end: url(#arrowhead); }
+  .arrow2 { stroke: #6dd6a8; stroke-width: 3; fill: none; marker-end: url(#arrowhead2); }
+  .dash { stroke-dasharray: 7 6; }
+</style>
+<defs>
+<marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+<polygon points="0 0, 10 3.5, 0 7" fill="#6aa1ff"/>
+</marker>
+<marker id="arrowhead2" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+<polygon points="0 0, 10 3.5, 0 7" fill="#6dd6a8"/>
+</marker>
+</defs>
+<rect class="bg" x="0" y="0" width="1200" height="520" />
+<text class="title" x="24" y="40">LLM-as-a-Judge 回归门禁：成对比较 + 交换位置去偏</text>
+<rect class="card" x="70" y="90" width="340" height="110" rx="14" />
+<text class="title" x="86" y="120">测试集（JSONL）</text>
+<text class="sub" x="86" y="144">prompt + A/B 输出</text>
+<rect class="card2" x="450" y="90" width="320" height="110" rx="14" />
+<text class="title" x="466" y="120">Judge (A,B)</text>
+<text class="sub" x="466" y="144">输出 A/B/Tie + 理由</text>
+<rect class="card2" x="820" y="90" width="320" height="110" rx="14" />
+<text class="title" x="836" y="120">Judge (B,A)</text>
+<text class="sub" x="836" y="144">交换顺序再评一次</text>
+<rect class="card" x="70" y="250" width="1070" height="150" rx="14" />
+<text class="title" x="86" y="280">聚合与裁决</text>
+<text class="sub" x="86" y="304">两次一致才计胜负；不一致 → Tie/丢弃；输出报告并入门禁</text>
+<rect class="card2" x="70" y="420" width="1070" height="70" rx="14" />
+<text class="title" x="86" y="450">失败样本回流</text>
+<text class="sub" x="86" y="474">把低分/分歧样本写入回归集，形成复利</text>
+<path class="arrow" d="M410 145 L450 145" />
+<path class="arrow" d="M770 145 L820 145" />
+<path class="arrow2" d="M610 200 L610 250" />
+<path class="arrow2" d="M610 400 L610 420" />
+<text class="small" x="72" y="505">可运行示例：docs/examples/evaluation/judge_pairwise.py</text>
+</svg>

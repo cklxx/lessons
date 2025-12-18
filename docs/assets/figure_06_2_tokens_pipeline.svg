@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="420" viewBox="0 0 1200 420">
+<style>
+  .bg { fill: #0b1220; }
+  .card { fill: #0f1b34; stroke: #2b3a61; stroke-width: 2; rx: 14; }
+  .card2 { fill: #0f233d; stroke: #2b3a61; stroke-width: 2; rx: 14; }
+  .title { font: 700 18px ui-sans-serif, system-ui, -apple-system; fill: #e8eefc; }
+  .sub { font: 500 13px ui-sans-serif, system-ui, -apple-system; fill: #b7c6ea; }
+  .small { font: 500 12px ui-sans-serif, system-ui, -apple-system; fill: #b7c6ea; }
+  .note { font: 500 12px ui-sans-serif, system-ui, -apple-system; fill: #9fb2de; }
+  .arrow { stroke: #6aa1ff; stroke-width: 3; fill: none; marker-end: url(#arrowhead); }
+  .arrow2 { stroke: #6dd6a8; stroke-width: 3; fill: none; marker-end: url(#arrowhead2); }
+  .dash { stroke-dasharray: 7 6; }
+</style>
+<defs>
+<marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+<polygon points="0 0, 10 3.5, 0 7" fill="#6aa1ff"/>
+</marker>
+<marker id="arrowhead2" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+<polygon points="0 0, 10 3.5, 0 7" fill="#6dd6a8"/>
+</marker>
+</defs>
+<rect class="bg" x="0" y="0" width="1200" height="420" />
+<text class="title" x="24" y="40">Design Tokens → 出码 → 约束 AI 生成（最小闭环）</text>
+<rect class="card" x="60" y="90" width="260" height="110" rx="14" />
+<text class="title" x="76" y="120">Tokens (JSON)</text>
+<text class="sub" x="76" y="144">唯一事实源 / 版本化</text>
+<rect class="card2" x="360" y="90" width="280" height="110" rx="14" />
+<text class="title" x="376" y="120">出码</text>
+<text class="sub" x="376" y="144">CSS Variables / 多端产物</text>
+<rect class="card" x="680" y="90" width="260" height="110" rx="14" />
+<text class="title" x="696" y="120">UI 组件</text>
+<text class="sub" x="696" y="144">只引用 Token，不写魔法值</text>
+<rect class="card2" x="60" y="240" width="880" height="130" rx="14" />
+<text class="title" x="76" y="270">门禁与回归</text>
+<text class="sub" x="76" y="294">Token 变更 → a11y/Lighthouse/视觉回归 → 退化即阻断</text>
+<path class="arrow" d="M320 145 L360 145" />
+<path class="arrow" d="M640 145 L680 145" />
+<path class="arrow2" d="M210 200 L210 240" />
+<path class="arrow2" d="M800 200 L800 240" />
+<text class="small" x="360" y="215">脚本：docs/examples/ui/design_tokens_to_css.py</text>
+</svg>

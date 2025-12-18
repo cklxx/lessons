@@ -12,6 +12,7 @@ import time
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Literal
+from urllib.parse import urljoin
 
 import requests
 
@@ -109,6 +110,77 @@ def _extract_html_title(html: str) -> str | None:
     return title or None
 
 
+def _is_relative_link(target: str) -> bool:
+    t = target.strip()
+    if not t:
+        return False
+    if t.startswith("#"):
+        return False
+    if re.match(r"^[a-zA-Z][a-zA-Z0-9+.-]*:", t):
+        return False
+    return True
+
+
+def _rewrite_markdown_links(md: str, map_target) -> str:
+    def repl_inline(match: re.Match[str]) -> str:
+        before = match.group(1)
+        target = match.group(2)
+        after = match.group(3) or ""
+        if _is_relative_link(target):
+            target = map_target(target)
+        return f"{before}{target}{after})"
+
+    # Inline links/images: ](target "title") or ](target)
+    md = re.sub(r"(\]\()([^\s)]+)(\s+\"[^\"]*\")?\)", repl_inline, md)
+
+    def repl_ref(match: re.Match[str]) -> str:
+        label = match.group(1)
+        target = match.group(2)
+        rest = match.group(3) or ""
+        if _is_relative_link(target):
+            target = map_target(target)
+        return f"[{label}]: {target}{rest}"
+
+    # Reference definitions: [id]: target "title"
+    md = re.sub(r"(?m)^\[([^\]]+)\]:\s+(\S+)(.*)$", repl_ref, md)
+    return md
+
+
+def _absolutize_links_for_html(md: str, base_url: str) -> str:
+    def map_target(target: str) -> str:
+        return urljoin(base_url, target)
+
+    return _rewrite_markdown_links(md, map_target)
+
+
+def _github_default_branch(owner: str, repo: str, timeout_s: int, user_agent: str) -> str:
+    url = f"https://api.github.com/repos/{owner}/{repo}"
+    headers = {"User-Agent": user_agent, "Accept": "application/vnd.github+json"}
+    resp = requests.get(url, headers=headers, timeout=timeout_s)
+    if resp.status_code != 200:
+        return "main"
+    try:
+        payload = resp.json()
+    except Exception:
+        return "main"
+    branch = str(payload.get("default_branch") or "").strip()
+    return branch or "main"
+
+
+def _absolutize_links_for_github_readme(md: str, owner: str, repo: str, branch: str) -> str:
+    def map_target(target: str) -> str:
+        t = target.strip()
+        frag = ""
+        if "#" in t:
+            t, frag = t.split("#", 1)
+            frag = "#" + frag
+        t = t.lstrip("./")
+        t = t.lstrip("/")
+        return f"https://github.com/{owner}/{repo}/blob/{branch}/{t}{frag}"
+
+    return _rewrite_markdown_links(md, map_target)
+
+
 def _fetch_github_readme(owner: str, repo: str, timeout_s: int, user_agent: str) -> tuple[str, str | None]:
     url = f"https://api.github.com/repos/{owner}/{repo}/readme"
     headers = {
@@ -164,6 +236,8 @@ def _snapshot_url(url: str, out_dir: Path, timeout_s: int, user_agent: str) -> S
             owner, repo = repo_info
             source_type = "github_readme"
             readme, title = _fetch_github_readme(owner, repo, timeout_s, user_agent)
+            branch = _github_default_branch(owner, repo, timeout_s=timeout_s, user_agent=user_agent)
+            readme = _absolutize_links_for_github_readme(readme, owner=owner, repo=repo, branch=branch)
             slug = _slugify(url)
             out_path = out_dir / f"{slug}-{_hash12(url)}.md"
             out_path.write_text(
@@ -279,6 +353,7 @@ def _snapshot_url(url: str, out_dir: Path, timeout_s: int, user_agent: str) -> S
             source_type = "html"
             html = resp.text
             title = _extract_html_title(html)
+            body_md = _absolutize_links_for_html(_html_to_markdown(html).rstrip(), base_url=url)
             md = "\n".join(
                 [
                     f"# {title or url}",
@@ -286,7 +361,7 @@ def _snapshot_url(url: str, out_dir: Path, timeout_s: int, user_agent: str) -> S
                     f"- URL: {url}",
                     f"- Retrieved: {dt.datetime.now(dt.UTC).isoformat()}",
                     "",
-                    _html_to_markdown(html).rstrip(),
+                    body_md,
                     "",
                 ]
             )

@@ -1,5 +1,5 @@
 # 第 10 章：Agent 架构与 RAG：证据、边界与回归
-![Chapter 10 Header](../../assets/figure-placeholder.svg)
+![Chapter 10 Header](../../assets/chapter_10_header_1766035645245.png)
 
 > RAG 解决“回答要有证据”，Agent 解决“让模型会做事”。两者最难的不是“能不能跑”，而是“能不能长期稳定地跑”：证据链、权限边界、评测门禁缺一不可。[6][24][29]
 
