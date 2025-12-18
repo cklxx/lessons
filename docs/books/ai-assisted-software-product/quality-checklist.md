@@ -6,8 +6,8 @@
 - **可运行性：** 每项检查都应对应一个可执行任务（示例以 `make <target>` 表示），并生成可追溯的日志/报告。
 - **可审计性：** 关键数据、模型与配置需有[数据卡片（Datasheet）](glossary.md#datasheet)/[模型卡片（Model Card）](glossary.md#model-card)，引用来源写明许可证。
 - **可回滚：** 任何指标退化必须有回滚路径与版本记录（Git tag + artifact 路径）。
-- **阈值说明：** 文中的阈值/百分比仅作示例占位，必须基于你的基线、样本量与业务容忍度校准；同时区分“告警阈值”和“发布门禁阈值”。
-- **引用自检：** 建议在发布前检查“正文引用的 `[n]` 是否都能在 `references.md` 找到”。可用本仓库脚本：`.venv/bin/python tools/check_citations.py`（或任意 Python 运行 `tools/check_citations.py`）。
+- **阈值说明：** 文中的阈值/百分比仅作示例占位，必须基于你的基线、样本量与业务容忍度校准；同时区分告警阈值和发布门禁阈值。
+- **引用自检：** 建议在发布前检查正文引用的 `[n]` 是否都能在 `references.md` 找到。可用本仓库脚本：`.venv/bin/python tools/check_citations.py`（或任意 Python 运行 `tools/check_citations.py`）。
 
 ---
 
@@ -56,5 +56,5 @@
 
 ## 使用建议
 - 将本清单添加到团队/个人的 CI pipeline，确保每次提交都有自动化证据。
-- 阅读时可对照各章节的“实操与验证”小节，确认已落实对应的质量检查项。
+- 阅读时可对照各章节的实操与验证小节，确认已落实对应的质量检查项。
 - 如需扩展指标或定制阈值，请在每章目录下添加 `local-checklist.md` 并更新引用。
