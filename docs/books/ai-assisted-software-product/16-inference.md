@@ -1,5 +1,5 @@
 # 第 16 章：推理优化：延迟、吞吐与成本的三角形
-![Chapter 16 Header](../../assets/chapter_16_header.svg)
+![Chapter 16 Header](../../assets/chapter_16_header_1766035949233.png)
 
 > 推理优化的本质不是跑得更快，而是在质量、延迟、成本之间建立可裁决的取舍：你知道为了哪一点牺牲哪一点，并且退化时能回滚。[6][44]
 

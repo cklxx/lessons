@@ -1,5 +1,5 @@
 # 第 17 章：部署与运维：灰度、监控与回滚
-![Chapter 17 Header](../../assets/chapter_17_header.svg)
+![Chapter 17 Header](../../assets/chapter_17_header_1766035971472.png)
 
 > 上线不是把版本推上去，而是把不确定性纳入治理：你知道如何灰度、如何观测、如何回滚、如何复盘。没有回滚的发布，等价于赌博。[5][6]
 
