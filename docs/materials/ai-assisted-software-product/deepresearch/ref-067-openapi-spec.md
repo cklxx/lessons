@@ -1,10 +1,10 @@
-# Deep Research: [67] OpenAPI Specification：把接口变成“可执行契约”
+# Deep Research: [67] OpenAPI Specification：把接口变成可执行契约
 
 - Source: https://spec.openapis.org/oas/latest.html
 - Note: ../notes/ref-067-openapi-spec.md
 - Snapshot: ../sources/md/spec-openapis-org-oas-latest-html-529619ee7996.md
 ## TL;DR
-OpenAPI Specification (OAS) 不仅仅是 API 文档标准，它是连接人类意图、AI 理解与机器执行的“可执行契约”。在 AI 辅助开发的语境下，它是这一流程的核心枢纽：向上承接 PRD 的结构化表达，向下作为代码生成、自动化测试及 Agent 工具调用的事实标准。
+OpenAPI Specification (OAS) 不仅仅是 API 文档标准，它是连接人类意图、AI 理解与机器执行的可执行契约。在 AI 辅助开发的语境下，它是这一流程的核心枢纽：向上承接 PRD 的结构化表达，向下作为代码生成、自动化测试及 Agent 工具调用的事实标准。
 
 ## 核心观点
 
@@ -12,7 +12,7 @@ OpenAPI Specification (OAS) 不仅仅是 API 文档标准，它是连接人类�
 2.  **语言无关的通用接口**：无论后端是 Python、Go 还是 Java，OAS 提供了统一的描述层，使得 AI 模型（特别是具备 Function Calling 能力的模型）能够理解并操作服务，而无需阅读底层源码。
 3.  **结构化组件复用**：通过 `components`（如 `schemas`、`responses`、`parameters`）实现数据模型的复用，避免定义冗余。这对于 AI 维护大型系统的逻辑一致性至关重要。
 4.  **不仅是文档，更是验证规则**：OAS 定义的类型（Type）、格式（Format）和约束（Validation）可以直接转化为运行时的数据校验逻辑，阻止非法数据污染系统。
-5.  **Agent 的“说明书”**：对于 AI Agent，`description` 字段不是给人看的注释，而是给模型看的 Prompt。清晰、语义丰富的描述能显著提升 Agent 调用工具的准确率。
+5.  **Agent 的说明书**：对于 AI Agent，`description` 字段不是给人看的注释，而是给模型看的 Prompt。清晰、语义丰富的描述能显著提升 Agent 调用工具的准确率。
 6.  **版本与演进**：OAS 原生支持版本管理（`info.version`）及废弃标记（`deprecated`），配合 `breaking change` 检测工具，可有效治理 API 的生命周期。
 7.  **Webhook 与回调支持**：OAS v3.x 引入了 `webhooks` 和 `callbacks` 定义，使得异步通信和事件驱动架构也能纳入标准契约管理，完善了 AI 对复杂系统交互的认知。
 
@@ -50,21 +50,21 @@ OpenAPI Specification (OAS) 不仅仅是 API 文档标准，它是连接人类�
     *   *对策*：**Design-First** 流程（先改文档再生成代码接口）或 **Code-First** 工具（如 FastAPI 自动生成文档）+ 严格的 CI 差异检测。
 *   **描述过于简略**：
     *   *问题*：`description: "Updates user"` 对人类够用，但 AI 可能不知道它是否支持部分更新（PATCH）或全量替换（PUT）。
-    *   *对策*：在描述中显式说明逻辑，例如“此接口仅更新提供的字段，未提供的字段保持不变”。
+    *   *对策*：在描述中显式说明逻辑，例如此接口仅更新提供的字段，未提供的字段保持不变。
 *   **滥用 `type: object`**：
     *   *问题*：定义参数时未指定具体的 `properties`，导致 AI 无法推断需要填充什么字段，倾向于产生幻觉。
     *   *对策*：严禁使用无结构的 `object`，必须明确所有字段结构；若必须动态，请给出详细的 `example`。
 *   **循环引用爆炸**：
     *   *问题*：过度复杂的 `$ref` 嵌套可能导致部分 AI 工具解析失败或上下文窗口耗尽。
-    *   *对策*：在提供给 AI 之前，考虑使用工具将 OAS 文件“扁平化”（Dereference），或限制嵌套深度。
+    *   *对策*：在提供给 AI 之前，考虑使用工具将 OAS 文件扁平化（Dereference），或限制嵌套深度。
 
 ## 可用于丰富《AI 辅助软件产品》的写作点
 
 *   **第 2 章（PRD）：文档即代码的起点**
-    *   建议引入“PRD 转 OAS”的实战案例。展示如何利用 Prompt 让 AI 从自然语言需求直接输出结构化的 API 契约，并自动补充边界条件（如分页、排序）。
+    *   建议引入PRD 转 OAS的实战案例。展示如何利用 Prompt 让 AI 从自然语言需求直接输出结构化的 API 契约，并自动补充边界条件（如分页、排序）。
 *   **第 5 章（后端 MVP）：契约驱动开发（CDD）**
-    *   可以详细描述“Human 定义接口 -> AI 编写实现 -> AI 编写测试 -> 自动化回归”的闭环。强调 OAS 是这个闭环中不可动摇的“法律条文”。
+    *   可以详细描述Human 定义接口 -> AI 编写实现 -> AI 编写测试 -> 自动化回归的闭环。强调 OAS 是这个闭环中不可动摇的法律条文。
 *   **第 7 章（Agent 构建）：从 OAS 到 Tool Use**
-    *   深入探讨如何优化 OAS 文件以提高 Agent 的工具调用成功率。对比“简陋的 OAS”与“AI 优化后的 OAS”在 Agent 任务完成率上的差异。
+    *   深入探讨如何优化 OAS 文件以提高 Agent 的工具调用成功率。对比简陋的 OAS与AI 优化后的 OAS在 Agent 任务完成率上的差异。
 *   **第 20 章（治理）：API 风格指南**
     *   介绍如何利用 AI 自动审查 OAS 文件是否符合公司规范（如 RESTful 风格、命名约定），将人工 Code Review 的精力解放出来。

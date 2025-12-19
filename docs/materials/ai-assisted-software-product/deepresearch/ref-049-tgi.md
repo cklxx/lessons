@@ -4,12 +4,12 @@
 - Note: ../notes/ref-049-tgi.md
 - Snapshot: ../sources/md/github-com-huggingface-text-generation-inference-07efbedb395d.md
 ## TL;DR
-TGI (Text Generation Inference) 是 Hugging Face 推出的生产级 LLM 推理服务工具箱，它通过连续批处理（Continuous Batching）、张量并行（Tensor Parallelism）和内置的可观测性，将单纯的“模型运行”转化为高吞吐、低延迟且可监控的标准化“微服务”。
+TGI (Text Generation Inference) 是 Hugging Face 推出的生产级 LLM 推理服务工具箱，它通过连续批处理（Continuous Batching）、张量并行（Tensor Parallelism）和内置的可观测性，将单纯的模型运行转化为高吞吐、低延迟且可监控的标准化微服务。
 
 ## 核心观点
 1.  **架构决定性能**：采用 Rust (Router) + Python (Model Server) + gRPC 的分离架构，Router 负责高并发调度与队列管理，Python 侧专注于模型计算，兼顾了性能与生态兼容性。
-2.  **吞吐量为王**：核心特性 **Continuous Batching** 允许在处理长生成的过程中动态插入新的短请求，消除了传统静态 Batching 中的“气泡”等待时间，大幅提升 GPU 利用率。
-3.  **生产级可观测性**：开箱即支持 OpenTelemetry 分布式追踪与 Prometheus 指标（如 `tgi_request_duration`），让推理服务的延迟、吞吐和错误率透明化，拒绝“黑盒”运行。
+2.  **吞吐量为王**：核心特性 **Continuous Batching** 允许在处理长生成的过程中动态插入新的短请求，消除了传统静态 Batching 中的气泡等待时间，大幅提升 GPU 利用率。
+3.  **生产级可观测性**：开箱即支持 OpenTelemetry 分布式追踪与 Prometheus 指标（如 `tgi_request_duration`），让推理服务的延迟、吞吐和错误率透明化，拒绝黑盒运行。
 4.  **硬件与量化宽容度**：原生支持 NVIDIA、AMD、Intel Gaudi 甚至 TPU，且内置 AWQ, GPTQ, bitsandbytes (NF4/FP4) 等多种量化方案，允许在显存受限环境下通过量化换取部署可行性。
 5.  **标准接口降低迁移成本**：不仅提供原生的 gRPC 和 REST 接口，还完全兼容 OpenAI Chat Completion API，使得上层应用（如 RAG 系统、Agent）可以无缝切换后端。
 6.  **安全与合规**：默认支持 Safetensors 权重加载（避免 Pickle 安全风险），并集成水印（Watermarking）功能，符合企业级安全与内容溯源需求。
@@ -55,8 +55,8 @@ TGI (Text Generation Inference) 是 Hugging Face 推出的生产级 LLM 推理�
 
 ## 可用于丰富《AI 辅助软件产品》的写作点
 *   **第 11 章（推理加速与部署）**：
-    *   **案例分析**：将 TGI 作为“如何构建私有模型 API”的标准范例。对比直接用 Python 脚本加载模型（玩具级）与使用 TGI（工业级）在并发处理、排队机制和容错性上的巨大差异。
-    *   **架构图解**：引用 TGI 的 Router-Server 分离架构，解释为什么现代推理服务需要一个高性能的“前台”（Rust）来处理 HTTP 协议和调度，而让“后台”（Python/C++ Kernels）专注于矩阵运算。
+    *   **案例分析**：将 TGI 作为如何构建私有模型 API的标准范例。对比直接用 Python 脚本加载模型（玩具级）与使用 TGI（工业级）在并发处理、排队机制和容错性上的巨大差异。
+    *   **架构图解**：引用 TGI 的 Router-Server 分离架构，解释为什么现代推理服务需要一个高性能的前台（Rust）来处理 HTTP 协议和调度，而让后台（Python/C++ Kernels）专注于矩阵运算。
 *   **第 18 章（评估与运维）**：
     *   **监控指标**：在讲解 LLM 服务监控时，直接引用 TGI 暴露的 Prometheus 指标（如队列长度、生成耗时、Token 吞吐率）作为定义 SLO（服务等级目标）的基础数据源。
 *   **第 10 章（Agent 与 RAG）**：

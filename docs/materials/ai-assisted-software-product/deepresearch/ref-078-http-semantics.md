@@ -1,4 +1,4 @@
-# Deep Research: [78] HTTP Semantics（RFC 9110）：把“请求/重试/状态码”写成可推理的契约
+# Deep Research: [78] HTTP Semantics（RFC 9110）：把请求/重试/状态码写成可推理的契约
 
 - Source: https://www.rfc-editor.org/rfc/rfc9110
 - Note: ../notes/ref-078-http-semantics.md
@@ -6,7 +6,7 @@
 - Category: Backend & Reliability (backend)
 - Chapters: 09-backend, 17-deployment, 07-engineering, 18-evaluation
 ## TL;DR
-RFC 9110 将 HTTP 的“语义”（方法、状态码、头字段）与具体版本的传输语法（HTTP/1.1/2/3）解耦，确立了分布式系统中组件间交互的通用契约；对于 AI 产品，它是构建**Agent 可靠工具调用**、**推理计费幂等性**以及**智能网关流控**的底层基石。
+RFC 9110 将 HTTP 的语义（方法、状态码、头字段）与具体版本的传输语法（HTTP/1.1/2/3）解耦，确立了分布式系统中组件间交互的通用契约；对于 AI 产品，它是构建**Agent 可靠工具调用**、**推理计费幂等性**以及**智能网关流控**的底层基石。
 
 ## 核心观点
 1.  **语义独立性**：HTTP 语义（Intent）独立于传输版本（Wire Format）。无论底层是 TCP 还是 QUIC，GET 的含义不变，429 的含义不变。AI Agent 对接 API 时应依赖这些语义而非特定协议细节。
@@ -35,7 +35,7 @@ RFC 9110 将 HTTP 的“语义”（方法、状态码、头字段）与具体�
     *   余额不足 -> `402 Payment Required`
     *   上下文超长 -> `413 Content Too Large`
     *   模型过载 -> `429 Too Many Requests`
-*   **步骤二**：为 Agent 编写 "System Prompt" 指导其如何处理这些状态码（例如：“如果收到 402，请停止任务并通知用户充值；如果收到 429，请等待 Retry-After 秒数”）。
+*   **步骤二**：为 Agent 编写 "System Prompt" 指导其如何处理这些状态码（例如：如果收到 402，请停止任务并通知用户充值；如果收到 429，请等待 Retry-After 秒数）。
 
 ### 3. 评测侧：鲁棒性测试
 *   **步骤一**：在测试环境中模拟 HTTP 故障（Chaos Engineering）。
@@ -43,7 +43,7 @@ RFC 9110 将 HTTP 的“语义”（方法、状态码、头字段）与具体�
 
 ## 检查清单：AI API 语义合规性
 *   [ ] **幂等性**：关键写操作（POST）是否支持 `Idempotency-Key`？
-*   [ ] **状态码准确性**：是否避免了“万能 200”？（即返回 200 但 Body 里写 `error: true`，这会欺骗 Agent）。
+*   [ ] **状态码准确性**：是否避免了万能 200？（即返回 200 但 Body 里写 `error: true`，这会欺骗 Agent）。
 *   [ ] **参数错误反馈**：`400 Bad Request` 的响应体中是否包含了具体的字段错误描述（便于 Agent 自我修正）？
 *   [ ] **流控契约**：`429` 响应是否必须携带 `Retry-After` 头？
 *   [ ] **内容协商**：是否通过 `Accept` 头正确处理了 JSON 与 Event-Stream（流式）的切换？
@@ -58,10 +58,10 @@ RFC 9110 将 HTTP 的“语义”（方法、状态码、头字段）与具体�
     *   **对策**：缓存 Key 必须包含 `Authorization` 或租户 ID。
 *   **坑**：POST 用于查询。
     *   **后果**：导致中间件无法安全缓存结果，且 Agent 默认不敢重试。
-    *   **对策**：虽然 LLM 输入长常用 POST，但若语义是“查询/计算”，应明确标记为幂等，或使用支持 Body 的 GET 变体（非标但常用）/ PUT（视情况）。
+    *   **对策**：虽然 LLM 输入长常用 POST，但若语义是查询/计算，应明确标记为幂等，或使用支持 Body 的 GET 变体（非标但常用）/ PUT（视情况）。
 
 ## 可用于丰富《AI 辅助软件产品》的写作点
-*   **第 7 章（工程合同）**：重点阐述 **"HTTP Status as a Protocol for Agents"**。Agent 不像人类能看懂弹窗文字，标准状态码是 Agent 唯一能“听懂”的指令。
-*   **第 9 章（后端架构）**：在设计 **AI Gateway** 时，利用 RFC 9110 定义的“中间件”角色，说明如何透明地处理重试、缓存和鉴权，而不需要修改模型服务的代码。
-*   **第 12 章（计费）**：结合 **Idempotency** 概念，讲解如何设计“不重扣费”的 Token 计费系统，特别是在流式传输（Streaming）中断重连的场景下。
+*   **第 7 章（工程合同）**：重点阐述 **"HTTP Status as a Protocol for Agents"**。Agent 不像人类能看懂弹窗文字，标准状态码是 Agent 唯一能听懂的指令。
+*   **第 9 章（后端架构）**：在设计 **AI Gateway** 时，利用 RFC 9110 定义的中间件角色，说明如何透明地处理重试、缓存和鉴权，而不需要修改模型服务的代码。
+*   **第 12 章（计费）**：结合 **Idempotency** 概念，讲解如何设计不重扣费的 Token 计费系统，特别是在流式传输（Streaming）中断重连的场景下。
 *   **第 17 章（部署与运维）**：在可观测性部分，强调通过监控 HTTP 状态码分布来识别模型服务健康度（如 `429` 飙升意味着算力不足，`400` 飙升意味着 Prompt 结构可能发生了破坏性变更）。

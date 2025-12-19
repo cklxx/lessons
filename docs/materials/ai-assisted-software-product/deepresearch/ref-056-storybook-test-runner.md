@@ -4,11 +4,11 @@
 - Note: ../notes/ref-056-storybook-test-runner.md
 - Snapshot: ../sources/md/storybook-js-org-docs-writing-tests-integrations-test-runner-28169fa9753f.md
 ## TL;DR
-Storybook Test Runner 是一个基于 Jest 和 Playwright 的自动化工具，它能将你的 UI 组件故事（Stories）直接转化为可以在 CI 环境中运行的测试用例。它让团队能够以极低的成本实现组件级的“冒烟测试”、“交互测试”和“视觉回归”，是 AI 生成代码时代保障 UI 稳定性的核心防线。
+Storybook Test Runner 是一个基于 Jest 和 Playwright 的自动化工具，它能将你的 UI 组件故事（Stories）直接转化为可以在 CI 环境中运行的测试用例。它让团队能够以极低的成本实现组件级的冒烟测试、交互测试和视觉回归，是 AI 生成代码时代保障 UI 稳定性的核心防线。
 
 ## 核心观点
 
-1.  **“零成本”测试转化**：只要你为组件编写了 Story（展示不同状态），Test Runner 就能自动将其转换为测试用例，验证组件是否能正常渲染（Smoke Test），无需额外编写测试代码。
+1.  **零成本测试转化**：只要你为组件编写了 Story（展示不同状态），Test Runner 就能自动将其转换为测试用例，验证组件是否能正常渲染（Smoke Test），无需额外编写测试代码。
 2.  **真浏览器环境**：底层使用 Playwright，在真实的 Chromium/Firefox/WebKit 中运行，而非模拟的 JSDOM，因此能捕获真实的 CSS 布局问题和浏览器兼容性 bug。
 3.  **多维度的质量网**：同一个 Story 可以同时用于功能测试（配合 `play` 函数）、可访问性测试（a11y check）、视觉快照（Visual Snapshot）和 DOM 快照。
 4.  **左移回归成本**：相比于昂贵且缓慢的页面级 E2E 测试（如 Cypress/Selenium），组件级测试运行更快、更稳定，能更早发现 UI 逻辑的退化。
@@ -20,11 +20,11 @@ Storybook Test Runner 是一个基于 Jest 和 Playwright 的自动化工具，�
 
 ### 1. 工程侧：基础回归防线搭建
 *   **安装与配置**：引入 `@storybook/test-runner`，在 `package.json` 中添加 `test-storybook` 脚本。
-*   **本地开发**：运行 Storybook 本地服务，同时开启 Test Runner 的 `--watch` 模式，实现“改代码 -> 自动测组件”的即时反馈。
+*   **本地开发**：运行 Storybook 本地服务，同时开启 Test Runner 的 `--watch` 模式，实现改代码 -> 自动测组件的即时反馈。
 *   **CI 集成**：在 GitHub Actions 或 GitLab CI 中，先构建静态 Storybook（`build-storybook`），再使用 `concurrently` 配合 `http-server` 启动服务并运行测试，确保合并代码前组件无报错。
 
 ### 2. 研发侧：增强测试深度
-*   **交互测试**：对于表单、弹窗等复杂组件，在 Story 中编写 `play` 函数。Test Runner 会自动执行这些步骤，验证“点击提交后是否显示 Loading”等逻辑。
+*   **交互测试**：对于表单、弹窗等复杂组件，在 Story 中编写 `play` 函数。Test Runner 会自动执行这些步骤，验证点击提交后是否显示 Loading等逻辑。
 *   **可访问性卡点**：配置 `a11y` 插件，让 Test Runner 在跑测试时自动检查 WCAG 标准（如颜色对比度、ARIA 标签），构建无障碍应用。
 
 ### 3. 运维/QA侧：优化执行效率
@@ -54,6 +54,6 @@ Storybook Test Runner 是一个基于 Jest 和 Playwright 的自动化工具，�
 
 ## 可用于丰富《AI 辅助软件产品》的写作点
 
-*   **第 3 章（UI/UX 生成）**：**“AI 的视觉保镖”**。在介绍 AI 生成 UI 组件时，强调 AI 生成的代码往往视觉正确但逻辑脆弱（如缺少 ARIA 属性、状态类名错误）。引入 Test Runner 作为自动化验收工具，AI 生成完代码后，必须通过 Test Runner 的冒烟测试和 A11y 检查才能入库。
-*   **第 4 章（工作流）**：**“回归测试左移”**。对比传统瀑布流中“开发完 -> 部署 -> QA 手测”的链路，展示“AI 编码 -> Test Runner 组件测 -> 部署”的高速闭环。可以用“Storybook Test Runner 是组件的单元测试，Cypress 是应用的集成测试”来划分边界。
-*   **第 10 章（Agent 协作）**：**“自修复流水线”**。设想一个高级场景：CI 跑挂了（Test Runner 报错），报错日志（Log）直接喂给 Coding Agent，Agent 读取 Story 源码进行修复，再次提交。Storybook Test Runner 清晰的报错信息（基于 DOM 节点的断言失败）非常适合作为 Agent 的反馈信号。
+*   **第 3 章（UI/UX 生成）**：**AI 的视觉保镖**。在介绍 AI 生成 UI 组件时，强调 AI 生成的代码往往视觉正确但逻辑脆弱（如缺少 ARIA 属性、状态类名错误）。引入 Test Runner 作为自动化验收工具，AI 生成完代码后，必须通过 Test Runner 的冒烟测试和 A11y 检查才能入库。
+*   **第 4 章（工作流）**：**回归测试左移**。对比传统瀑布流中开发完 -> 部署 -> QA 手测的链路，展示AI 编码 -> Test Runner 组件测 -> 部署的高速闭环。可以用Storybook Test Runner 是组件的单元测试，Cypress 是应用的集成测试来划分边界。
+*   **第 10 章（Agent 协作）**：**自修复流水线**。设想一个高级场景：CI 跑挂了（Test Runner 报错），报错日志（Log）直接喂给 Coding Agent，Agent 读取 Story 源码进行修复，再次提交。Storybook Test Runner 清晰的报错信息（基于 DOM 节点的断言失败）非常适合作为 Agent 的反馈信号。

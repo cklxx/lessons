@@ -1,4 +1,4 @@
-# Deep Research: [69] OpenID Connect Core 1.0：把“登录”做成可互操作的协议
+# Deep Research: [69] OpenID Connect Core 1.0：把登录做成可互操作的协议
 
 - Source: https://openid.net/specs/openid-connect-core-1_0.html
 - Note: ../notes/ref-069-oidc-core.md
@@ -6,15 +6,15 @@
 - Category: User / Auth / Audit (user_auth)
 - Chapters: 09-backend, 11-user
 ## TL;DR
-OpenID Connect (OIDC) 是构建在 OAuth 2.0 之上的身份认证标准层，它通过引入 **ID Token (JWT)** 将“用户身份”结构化、签名化，使得身份验证可以像 REST API 一样在不同系统、应用乃至 AI Agent 之间安全互通，彻底解决了 OAuth 2.0 只能“授权”无法标准化“认证”的痛点。
+OpenID Connect (OIDC) 是构建在 OAuth 2.0 之上的身份认证标准层，它通过引入 **ID Token (JWT)** 将用户身份结构化、签名化，使得身份验证可以像 REST API 一样在不同系统、应用乃至 AI Agent 之间安全互通，彻底解决了 OAuth 2.0 只能授权无法标准化认证的痛点。
 
 ## 核心观点
-1.  **AuthN (认证) 与 AuthZ (授权) 的分层**：OAuth 2.0 负责传递“访问权限”（Access Token），OIDC 在此基础上增加了“身份证明”（ID Token）和用户信息接口（UserInfo Endpoint），明确了“你是谁”的标准答案。
+1.  **AuthN (认证) 与 AuthZ (授权) 的分层**：OAuth 2.0 负责传递访问权限（Access Token），OIDC 在此基础上增加了身份证明（ID Token）和用户信息接口（UserInfo Endpoint），明确了你是谁的标准答案。
 2.  **ID Token 是核心载体**：ID Token 是一个签名的 JSON Web Token (JWT)，它自包含且防篡改。客户端无需再次请求服务器，即可通过公钥校验 Token 的合法性并提取用户 ID (`sub`)、签发者 (`iss`) 和有效期 (`exp`)。
 3.  **身份的全局唯一性由 (iss, sub) 决定**：在开放网络中，单纯的 User ID 可能会冲突，必须结合 Issuer（签发者 URL）和 Subject（用户 ID）来唯一标识一个用户。
 4.  **标准化用户信息获取**：OIDC 规范了 UserInfo Endpoint 的响应格式（Standard Claims），如 `name`, `email`, `picture` 等，极大降低了应用对接多方登录源（如 Google, 微软, 企业 SSO）的解析成本。
 5.  **Discovery 机制实现自动化对接**：通过 `.well-known/openid-configuration` 标准端点，客户端（包括 AI Agent）可以动态发现认证服务器的配置（端点地址、支持的算法、公钥等），无需硬编码。
-6.  **安全基线标准化**：OIDC 强制要求 TLS，并详细定义了 `nonce`（防重放）、`state`（防 CSRF）以及不同流程（Code Flow, Implicit Flow, Hybrid Flow）的安全约束，减少了开发者“造轮子”带来的安全漏洞。
+6.  **安全基线标准化**：OIDC 强制要求 TLS，并详细定义了 `nonce`（防重放）、`state`（防 CSRF）以及不同流程（Code Flow, Implicit Flow, Hybrid Flow）的安全约束，减少了开发者造轮子带来的安全漏洞。
 
 ## 可落地做法
 ### 1. 产品侧：身份体系设计
@@ -56,10 +56,10 @@ OpenID Connect (OIDC) 是构建在 OAuth 2.0 之上的身份认证标准层，�
 
 ## 可用于丰富《AI 辅助软件产品》的写作点
 *   **第 11 章 (用户模块：认证、授权与审计)**：
-    *   **身份模型**：介绍 OIDC Claims 如何作为 AI 理解用户的“结构化上下文”（Context）。例如，AI 可以读取 `locale` 自动切换语言，读取 `zoneinfo` 处理时区。
-    *   **无密码未来**：结合 OIDC 与 Passkeys (WebAuthn)，阐述现代 AI 产品应如何设计“无感登录”体验。
+    *   **身份模型**：介绍 OIDC Claims 如何作为 AI 理解用户的结构化上下文（Context）。例如，AI 可以读取 `locale` 自动切换语言，读取 `zoneinfo` 处理时区。
+    *   **无密码未来**：结合 OIDC 与 Passkeys (WebAuthn)，阐述现代 AI 产品应如何设计无感登录体验。
 *   **第 10 章 (Agentic Workflow)**：
-    *   **Agent 身份标识**：当多个 AI Agent 协作时，如何证明“我是 Agent A，我代表用户 Bob”？OIDC 的 Client Credentials Flow 和 Token Exchange 是实现 **Agent-to-Agent 安全通信**的标准协议。
+    *   **Agent 身份标识**：当多个 AI Agent 协作时，如何证明我是 Agent A，我代表用户 Bob？OIDC 的 Client Credentials Flow 和 Token Exchange 是实现 **Agent-to-Agent 安全通信**的标准协议。
     *   **自动化服务发现**：利用 OIDC Discovery 协议，AI Agent 可以自动读取 `.well-known` 配置，自主学习如何接入一个新的第三方服务，无需人工配置复杂的认证参数。
 *   **第 17 章 (部署与运维)**：
     *   **集中式审计**：强调 OIDC 使得跨系统的用户行为审计成为可能（基于统一的 `sub`），这对于 AI 系统的合规性和溯源（Provenance）至关重要。

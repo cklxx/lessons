@@ -1,22 +1,22 @@
-# Deep Research: [57] Playwright：端到端测试的“最后一道门禁”
+# Deep Research: [57] Playwright：端到端测试的最后一道门禁
 
 - Source: https://playwright.dev/
 - Note: ../notes/ref-057-playwright.md
 - Snapshot: ../sources/md/playwright-dev-8960df5ea200.md
 ## TL;DR
-Playwright 是现代 Web 应用的高可靠性端到端（E2E）测试框架，通过“自动等待”机制和轻量级“浏览器上下文”隔离彻底解决了传统 UI 测试的不稳定性（Flakiness），是自动化验证核心业务链路（如支付、注册）的“最后一道防线”。
+Playwright 是现代 Web 应用的高可靠性端到端（E2E）测试框架，通过自动等待机制和轻量级浏览器上下文隔离彻底解决了传统 UI 测试的不稳定性（Flakiness），是自动化验证核心业务链路（如支付、注册）的最后一道防线。
 
 ## 核心观点
-1.  **告别“人工等待”与 Flaky Tests**：Playwright 的核心杀手锏是 Auto-wait（自动等待），在执行点击或输入前会自动确认元素是否可见、可交互，配合 Web-first assertions（自动重试断言），消除了因网络波动或渲染延迟导致的测试假失败。
-2.  **极速隔离的浏览器上下文 (Browser Contexts)**：不同于启动全新的浏览器实例，它通过 Context 实现类似“无痕模式”的毫秒级隔离。这使得并发执行测试成为常态，且互不污染 Cookie 或 LocalStorage。
-3.  **全真模拟用户环境**：支持 Chromium、Firefox、WebKit 三大主流引擎，覆盖 Windows、Linux、macOS 及移动端视图模拟，确保“一次编写，处处运行”。
-4.  **调试神器 Trace Viewer**：提供“时间旅行”般的调试体验。测试失败时，不仅有截图，还能查看每一帧的 DOM 快照、网络请求和控制台日志，让开发者能“回到现场”排查问题。
+1.  **告别人工等待与 Flaky Tests**：Playwright 的核心杀手锏是 Auto-wait（自动等待），在执行点击或输入前会自动确认元素是否可见、可交互，配合 Web-first assertions（自动重试断言），消除了因网络波动或渲染延迟导致的测试假失败。
+2.  **极速隔离的浏览器上下文 (Browser Contexts)**：不同于启动全新的浏览器实例，它通过 Context 实现类似无痕模式的毫秒级隔离。这使得并发执行测试成为常态，且互不污染 Cookie 或 LocalStorage。
+3.  **全真模拟用户环境**：支持 Chromium、Firefox、WebKit 三大主流引擎，覆盖 Windows、Linux、macOS 及移动端视图模拟，确保一次编写，处处运行。
+4.  **调试神器 Trace Viewer**：提供时间旅行般的调试体验。测试失败时，不仅有截图，还能查看每一帧的 DOM 快照、网络请求和控制台日志，让开发者能回到现场排查问题。
 5.  **多用户/多 Tab 协同场景**：由于采用进程外（Out-of-process）架构，Playwright 能在一个测试脚本中轻松模拟多用户实时协作（如 A 发消息，B 收到）或跨 Tab 操作，这是 Cypress 等竞品较难实现的。
 6.  **低门槛代码生成 (Codegen)**：内置录制工具，可直接记录用户在浏览器中的操作并生成 TypeScript/Python/Java 代码，极大降低了编写 E2E 测试的入门门槛。
 
 ## 可落地做法
 ### 1. 产品经理 (PM) / 业务侧
-*   **定义“黄金链路” (Golden Flows)**：梳理出不容有失的核心业务路径（例如：用户注册 -> 浏览商品 -> 加入购物车 -> 支付成功）。只对这些链路做 E2E 覆盖，避免贪多嚼不烂。
+*   **定义黄金链路 (Golden Flows)**：梳理出不容有失的核心业务路径（例如：用户注册 -> 浏览商品 -> 加入购物车 -> 支付成功）。只对这些链路做 E2E 覆盖，避免贪多嚼不烂。
 
 ### 2. 开发/测试工程师
 *   **初始化与录制**：使用 `npm init playwright@latest` 初始化项目，利用 `npx playwright codegen` 快速录制核心链路的草稿代码。
@@ -44,10 +44,10 @@ Playwright 是现代 Web 应用的高可靠性端到端（E2E）测试框架，�
 
 ## 可用于丰富《AI 辅助软件产品》的写作点
 *   **第 3 章（原型与设计）：AI 生成代码的自动化验收**
-    *   在通过 AI 生成前端组件后，可以直接让 AI 生成对应的 Playwright 基础测试代码（如“检查页面标题”、“确认按钮存在”），作为最基本的质量门禁（Smoke Test）。
-    *   **案例**：展示“Prompt -> UI 代码 -> Playwright 测试代码”的自动化闭环。
+    *   在通过 AI 生成前端组件后，可以直接让 AI 生成对应的 Playwright 基础测试代码（如检查页面标题、确认按钮存在），作为最基本的质量门禁（Smoke Test）。
+    *   **案例**：展示Prompt -> UI 代码 -> Playwright 测试代码的自动化闭环。
 *   **第 5 章（后端与架构）：API 与前端的联调契约**
     *   介绍如何利用 Playwright 的 Network Interception (Mock) 功能，在后端 API 尚未就绪时，先通过 Mock 数据跑通前端 E2E 流程，实现前后端解耦并行开发。
 *   **第 11-12 章（质量与运维）：线上巡检（Synthetic Monitoring）**
     *   Playwright 不仅用于发版前测试，还可用于线上生产环境的定时巡检。编写一个模拟用户登录下单的脚本，每 10 分钟跑一次，一旦失败立即报警，比单纯的接口监控更能反映真实用户体验。
-    *   **金句**：“Playwright 是你的 24 小时虚拟测试员，它不知疲倦地验证着产品的生命线。”
+    *   **金句**：Playwright 是你的 24 小时虚拟测试员，它不知疲倦地验证着产品的生命线。

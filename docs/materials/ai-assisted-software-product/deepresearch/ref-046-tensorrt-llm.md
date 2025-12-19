@@ -4,7 +4,7 @@
 - Note: ../notes/ref-046-tensorrt-llm.md
 - Snapshot: ../sources/md/github-com-nvidia-tensorrt-llm-754595d3bef4.md
 ## TL;DR
-TensorRT-LLM 是 NVIDIA 推出的将 LLM 推理从“单纯运行”转化为“深度工程优化”的工具库，它通过内核融合、显存管理（Paged KV Cache）和动态调度（Inflight Batching）等手段，在 NVIDIA GPU 上实现吞吐量与延迟的极致平衡。
+TensorRT-LLM 是 NVIDIA 推出的将 LLM 推理从单纯运行转化为深度工程优化的工具库，它通过内核融合、显存管理（Paged KV Cache）和动态调度（Inflight Batching）等手段，在 NVIDIA GPU 上实现吞吐量与延迟的极致平衡。
 
 ## 核心观点
 1.  **推理是系统工程而非单点优化**：高性能推理不只靠更强的 GPU，更依赖于算子融合（Kernel Fusion）、量化策略（FP8/INT4）和显存管理的精细配合。
@@ -42,7 +42,7 @@ TensorRT-LLM 是 NVIDIA 推出的将 LLM 推理从“单纯运行”转化为“
 *   [ ] **精度验证**：量化后的模型在特定测试集（如 GSM8K 或业务集）上的准确率下降是否 < 1%？
 
 ## 常见坑与对策
-1.  **坑：过度量化导致“智商”下降**
+1.  **坑：过度量化导致智商下降**
     *   **对策**：不要盲目追求 INT4。对于推理能力要求高的场景（如代码生成、复杂逻辑），先从 FP8 或 INT8 开始，或者采用混合精度（权重 INT4，激活 FP16）。
 2.  **坑：构建环境与运行环境不一致**
     *   **对策**：TensorRT 引擎是硬件强绑定的（甚至依赖具体的 CUDA 版本）。**必须**在与生产环境完全一致的 GPU 型号和驱动环境容器中构建引擎（Build Phase），或者直接使用多阶段 Docker 构建。
@@ -53,8 +53,8 @@ TensorRT-LLM 是 NVIDIA 推出的将 LLM 推理从“单纯运行”转化为“
 
 ## 可用于丰富《AI 辅助软件产品》的写作点
 *   **第 11 章（推理加速与部署）- 引擎选择对比**：
-    *   将 TensorRT-LLM 作为“极致性能派”的代表，与 vLLM（易用性/吞吐平衡派）和 llama.cpp（边缘/CPU 派）进行对比。
-    *   引用观点：*“推理优化的终局是算子定制化”* —— TensorRT-LLM 允许通过 Python API 组合算子，实际上是在用编译器的思路解决模型运行效率问题。
+    *   将 TensorRT-LLM 作为极致性能派的代表，与 vLLM（易用性/吞吐平衡派）和 llama.cpp（边缘/CPU 派）进行对比。
+    *   引用观点：*推理优化的终局是算子定制化* —— TensorRT-LLM 允许通过 Python API 组合算子，实际上是在用编译器的思路解决模型运行效率问题。
 *   **第 12 章（成本模型）**：
     *   **案例分析**：利用 TensorRT-LLM 的量化（如 H100 上的 FP8）和 Inflight Batching，可以将单卡承载的并发用户数提升 2-4 倍，从而直接将单 Token 推理成本降低 50% 以上。这是工程优化直接转化为商业利润的典型例子。
 *   **第 10 章（Agent 与 RAG）**：
