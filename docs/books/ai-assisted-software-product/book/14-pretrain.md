@@ -90,14 +90,14 @@
 5.  **制定详尽的上线与回滚计划：** 为你的预训练模型设计一个从灰度发布到全面上线的部署流程。更重要的是，制定一套清晰的回滚计划，包括触发回滚的条件（例如：守门指标出现严重退化、关键任务性能未达标）和具体的执行步骤，确保你总有一条安全退路。
 
 ## 下一章
-预训练讨论让模型更像你的领域。下一章进入后训练：如何用 SFT/DPO/RLHF 等方法把行为调成可控，并把安全与回归纳入门禁。见：[`15-posttrain-rl.md`](15-posttrain-rl.md)。
+预训练讨论让模型更像你的领域。下一章进入后训练：如何用 SFT/DPO/RLHF 等方法把行为调成可控，并把安全与回归纳入门禁。见：[15-posttrain-rl.md](15-posttrain-rl.md)。
 
 ## 延伸阅读
-- 大模型 | 一文彻底搞懂预训练和微调（Pre-training vs Fine-tuning）-CSDN博客 — [https://blog.csdn.net/m0_56255097/article/details/141311415)
-- 一文搞懂大模型的预训练Pre-training：智能的诞生，零基础小白收藏这一篇就够了!! - 知乎 — [https://zhuanlan.zhihu.com/p/1927426857030099119)
-- GitHub - cwz427/llm: 本项目旨在分享大模型相关技术原理以及实战经验。 — [https://github.com/cwz427/llm)
-- 预训练（Pre-training），人工智能（AI）领域的预训练是什么，初步认识预训练 - 53AI-AI知识库|企业AI知识库|大模型知识库 ... — [https://www.53ai.com/news/finetuning/2024082731097.html)
-- 一文读懂预训练模型（非常详细），零基础入门到精通，看这一篇就够了-csdn博客 — [https://blog.csdn.net/weixin_49892805/article/details/143567152)
-- 深度理解BERT预训练机制：从理论到实践 - AtomGit | GitCode博客 — [https://blog.gitcode.com/dda25fbb11b5a06ca263bf26aa0a9c04.html)
-- 了解"预训练-微调"，看这一篇就够了 - 知乎 — [https://zhuanlan.zhihu.com/p/557958732)
-- TinyAI/book/README.md at main · Leavesfly/TinyAI · GitHub — [https://github.com/Leavesfly/TinyAI/blob/main/book/README.md)
+- 大模型 | 一文彻底搞懂预训练和微调（Pre-training vs Fine-tuning）- CSDN 博客 — https://blog.csdn.net/m0_56255097/article/details/141311415
+- 一文搞懂大模型的预训练：智能的诞生，零基础小白收藏这一篇就够了 - 知乎 — https://zhuanlan.zhihu.com/p/1927426857030099119
+- GitHub - cwz427/llm: 本项目旨在分享大模型相关技术原理以及实战经验 — https://github.com/cwz427/llm
+- 预训练（Pre-training），人工智能（AI）领域的预训练是什么，初步认识预训练 - 53AI — https://www.53ai.com/news/finetuning/2024082731097.html
+- 一文读懂预训练模型（非常详细），零基础入门到精通，看这一篇就够了 - CSDN 博客 — https://blog.csdn.net/weixin_49892805/article/details/143567152
+- 深度理解 BERT 预训练机制：从理论到实践 - AtomGit | GitCode 博客 — https://blog.gitcode.com/dda25fbb11b5a06ca263bf26aa0a9c04.html
+- 了解预训练与微调，看这一篇就够了 - 知乎 — https://zhuanlan.zhihu.com/p/557958732
+- TinyAI/book/README.md at main · Leavesfly/TinyAI · GitHub — https://github.com/Leavesfly/TinyAI/blob/main/book/README.md

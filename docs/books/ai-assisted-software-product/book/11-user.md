@@ -180,7 +180,7 @@ AI产品的出现，更是将用户模块的风险属性几何级放大。在传
 
 *   [Agentic AI基础设施实践经验系列（五）：Agent应用系统中的身份认证与授权管理 | 亚马逊AWS官方博客](https://aws.amazon.com/cn/blogs/china/agentic-ai-infrastructure-practice-series-5/)
 *   [Ai智能体安全必修课：认证与授权体系详解，零基础小白收藏这一篇就够了!!_智能体的身份体系与接入认证-csdn博客](https://blog.csdn.net/bugyinyin/article/details/154578034)
-*   [从"执行规则"到"智能决策"，Iam+Ai是身份与访问管理的新形态 - 知乎](https://zhuanlan.zhihu.com/p/1916464970997342445)
+*   [从执行规则到智能决策，Iam+Ai是身份与访问管理的新形态 - 知乎](https://zhuanlan.zhihu.com/p/1916464970997342445)
 *   [人工智能如何改变应用程序的身份验证和授权 - 腾讯云](https://cloud.tencent.com/developer/article/2453748)
 *   [AI时代身份验证：**智能体身份**与访问控制，安全挑战与实践_认证_管理_火山](https://www.sohu.com/a/919787732_122362510)
 *   [第11章：用户登录授权认证流程的设计与实现 | 冰河技术](https://binghe.gitcode.host/md/project/seckill/2023-05-15-《Seckill秒杀系统》第11章-用户登录流程的设计与实现.html)

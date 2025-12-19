@@ -41,6 +41,16 @@ class SourceEntry:
     title: str | None
 
 
+def _sanitize_generated_md(md: str) -> str:
+    # Hard constraints for published prose:
+    # - No double quotes (ASCII or Chinese curly quotes).
+    # - Prefer plain wording over quote-wrapping.
+    md = md.replace("”“", "、")
+    md = md.replace("“", "").replace("”", "")
+    md = md.replace('"', "")
+    return md
+
+
 def _extract_urls(text: str) -> list[str]:
     urls = re.findall(r"https?://[^\s)>\"]+", text)
     cleaned: list[str] = []
@@ -195,7 +205,7 @@ def _render_deepresearch_index(
     lines: list[str] = []
     lines.append("# Deep Research Index")
     lines.append("")
-    lines.append("> 本目录为每篇资料生成一份更深入的“可落地扩展笔记”，用于补充/强化《AI 辅助软件产品》。")
+    lines.append("> 本目录为每篇资料生成一份更深入的可落地扩展笔记，用于补充/强化《AI 辅助软件产品》。")
     lines.append("")
 
     chapter_title_map = {c["id"]: c["title"] for c in chapters}
@@ -316,7 +326,6 @@ def main() -> int:
     labels_path = Path(args.labels_jsonl)
     out_dir = Path(args.out_dir)
     index_out = Path(args.index_out)
-    project_dir = sources_index.parent.parent
     out_base = out_dir
     if args.out_subdir.strip():
         out_base = out_dir / args.out_subdir.strip()
@@ -403,6 +412,8 @@ def main() -> int:
                 "## 常见坑与对策\n"
                 "## 可用于丰富《AI 辅助软件产品》的写作点（对应章节/段落建议）\n"
                 "Constraints: avoid fabricating exact numbers/citations; if unsure, mark '待核验'.\n"
+                "Style: do not use double quotes (U+0022/U+201C/U+201D); avoid quote-wrapping.\n"
+                "Style: avoid backticks/bold/parentheses and avoid placeholder 'xxx'.\n"
                 "Keep the total length compact (aim ~800-1500 Chinese characters, excluding checklists).\n"
             )
 
@@ -419,11 +430,12 @@ def main() -> int:
 
             print(f"[{i}/{len(note_paths)}] {note_path.name} -> {out_path}")
             body = _run_gemini(stdin, prompt, model=model, timeout_s=args.timeout)
+            body = _sanitize_generated_md(body)
 
             category_name = taxonomy_categories.get(category_id, {}).get("name", category_id)
             chapters_str = ", ".join(chapter_targets) if chapter_targets else ""
             note_link = _rel_link(out_path.parent, note_path)
-            snapshot_link = _rel_link(out_path.parent, project_dir / src.snapshot_rel)
+            snapshot_link = _rel_link(out_path.parent, sources_index.parent / src.snapshot_rel)
             header_lines = [
                 f"# Deep Research: {title}",
                 "",
@@ -541,6 +553,8 @@ def main() -> int:
                 "## 常见坑与对策\n"
                 "## 可用于丰富《AI 辅助软件产品》的写作点（对应章节/段落建议）\n"
                 "Constraints: avoid fabricating exact numbers/citations; if unsure, mark '待核验'.\n"
+                "Style: do not use double quotes (U+0022/U+201C/U+201D); avoid quote-wrapping.\n"
+                "Style: avoid backticks/bold/parentheses and avoid placeholder 'xxx'.\n"
                 "Length: aim ~1000-1800 Chinese characters, excluding checklists.\n"
             )
 
@@ -557,10 +571,11 @@ def main() -> int:
 
             print(f"[{i}/{len(picked)}] {url} -> {out_path}")
             body = _run_gemini(stdin, prompt, model=model, timeout_s=args.timeout)
+            body = _sanitize_generated_md(body)
 
             category_name = taxonomy_categories.get(category_id, {}).get("name", category_id)
             chapters_str = ", ".join(chapter_targets) if chapter_targets else ""
-            snapshot_link = _rel_link(out_path.parent, project_dir / src.snapshot_rel)
+            snapshot_link = _rel_link(out_path.parent, sources_index.parent / src.snapshot_rel)
             header_lines = [
                 f"# Deep Research: {title}",
                 "",

@@ -49,7 +49,7 @@ OpenAPI Specification (OAS) 不仅仅是 API 文档标准，它是连接人类�
     *   *问题*：后端修改了代码逻辑，但忘记更新 OAS 文件，导致 Agent 调用失败。
     *   *对策*：**Design-First** 流程（先改文档再生成代码接口）或 **Code-First** 工具（如 FastAPI 自动生成文档）+ 严格的 CI 差异检测。
 *   **描述过于简略**：
-    *   *问题*：`description: "Updates user"` 对人类够用，但 AI 可能不知道它是否支持部分更新（PATCH）或全量替换（PUT）。
+    *   *问题*：description 写成 Updates user 对人类够用，但 AI 可能不知道它是否支持部分更新（PATCH）或全量替换（PUT）。
     *   *对策*：在描述中显式说明逻辑，例如此接口仅更新提供的字段，未提供的字段保持不变。
 *   **滥用 `type: object`**：
     *   *问题*：定义参数时未指定具体的 `properties`，导致 AI 无法推断需要填充什么字段，倾向于产生幻觉。

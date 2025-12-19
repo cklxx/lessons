@@ -26,7 +26,7 @@ Spectral 是一个强大的 JSON/YAML 规则校验工具（Linter），核心价
 *   **步骤一：初始化**
     在项目根目录创建 `.spectral.yaml`，继承推荐规则集：
     ```yaml
-    extends: ["spectral:oas", "spectral:oas3"]
+    extends: [spectral:oas, spectral:oas3]
     rules:
       operation-description: error # 强制要求操作描述
       path-params: error
@@ -65,7 +65,7 @@ Spectral 是一个强大的 JSON/YAML 规则校验工具（Linter），核心价
     *   **现象**：Spectral 通过了，但接口实现与文档不一致。
     *   **对策**：Spectral 只是静态检查。必须配合 **Contract Testing**（如 Dredd 或 Pact）来验证文档与代码的一致性。
 3.  **坑：忽略对 AI 的适配**
-    *   **现象**：文档符合 OpenAPI 语法，但描述过于简略（如 "Update user"），导致 Agent 无法正确推理参数。
+    *   **现象**：文档符合 OpenAPI 语法，但描述过于简略（如 Update user），导致 Agent 无法正确推理参数。
     *   **对策**：专门编写针对 AI 可读性的 Spectral 规则，将文档质量量化。
 
 ## 可用于丰富《AI 辅助软件产品》的写作点

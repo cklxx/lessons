@@ -59,3 +59,8 @@
 - [77] NIST AI RMF：把AI 风险从口号变成可审计的治理框架：[ref-077-nist-ai-rmf.md](ref-077-nist-ai-rmf.md)
 - [78] HTTP Semantics（RFC 9110）：把请求/重试/状态码写成可推理的契约：[ref-078-http-semantics.md](ref-078-http-semantics.md)
 - [79] Problem Details for HTTP APIs（RFC 9457）：把错误变成可解释、可对账、可回归的合同：[ref-079-problem-details.md](ref-079-problem-details.md)
+- [80] Customer-Service Chat UX（NN/G）：把对话做成可恢复的闭环：[ref-080-chat-ux.md](ref-080-chat-ux.md)
+- [81] Prompt Controls（NN/G）：把可控性做成界面，而不是藏在提示词里：[ref-081-prompt-controls-genai.md](ref-081-prompt-controls-genai.md)
+- [82] Testing AI with Real Design Scenarios（NN/G）：用真实场景给 AI 体验写验收：[ref-082-testing-ai-methodology.md](ref-082-testing-ai-methodology.md)
+- [83] AI 原型工具（NN/G）：远看还行，近看稀碎的风险与用法：[ref-083-ai-prototyping.md](ref-083-ai-prototyping.md)
+- [84] 用 AI 造测试数据（NN/G）：用假表格和图表把原型走查变真实：[ref-084-ai-data-prototype-testing.md](ref-084-ai-data-prototype-testing.md)

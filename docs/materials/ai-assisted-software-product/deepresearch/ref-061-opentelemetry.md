@@ -8,7 +8,7 @@ OpenTelemetry (OTel) 是目前业界公认的可观测性（Observability）标�
 
 ## 核心观点
 1.  **观测性三支柱（Signals）**：OTel 将可观测性数据标准化为三大信号：
-    *   **Traces (追踪)**：记录请求在分布式服务间的完整调用链路，回答 "Where and Why it failed"。
+    *   **Traces (追踪)**：记录请求在分布式服务间的完整调用链路，回答失败发生在哪里、为什么失败。
     *   **Metrics (指标)**：聚合的数值数据（如 QPS、延迟分布），反映系统整体健康度和趋势。
     *   **Logs (日志)**：传统的离散事件记录，通过 Trace ID 关联后价值倍增。
 2.  **上下文传播（Context Propagation）是灵魂**：利用 Baggage 和 Trace Context 在服务间透传元数据（如 User ID、Request ID），是串联分布式系统的关键。
@@ -25,7 +25,7 @@ OpenTelemetry (OTel) 是目前业界公认的可观测性（Observability）标�
 ### 第二步：核心信号接入
 1.  **Traces**：在入口服务生成 Trace ID，确保 HTTP Header（如 `traceparent`）在微服务间正确传递。
 2.  **Metrics**：定义黄金指标（延迟、流量、错误率、饱和度），通过 OTel SDK 暴露。
-3.  **Logs**：配置 Log Appender 将 Trace ID 自动注入每一行日志，实现 "Log-Trace Correlation"。
+3.  **Logs**：配置 Log Appender 将 Trace ID 自动注入每一行日志，实现日志与追踪关联。
 
 ### 第三步：连接与验证
 *   **配置 Exporter**：将数据通过 OTLP 协议发送给 Collector 或直接发送给后端（如 Grafana Tempo/Loki/Mimir）。
@@ -57,4 +57,4 @@ OpenTelemetry (OTel) 是目前业界公认的可观测性（Observability）标�
 *   **第 12 章（LLMOps / 监控）**：
     *   **LLM 也是外部依赖**：将对 OpenAI/Anthropic 的调用视为一种特殊的 DB 或 RPC 调用。
     *   **GenAI 语义约定**：利用 OTel 最新的 GenAI Semantic Conventions，记录 `gen_ai.system` (模型名), `gen_ai.usage.input_tokens` (Token 消耗), `gen_ai.temperature` 等属性。
-    *   **Trace 可视化 RAG**：用 Trace 串联 "用户提问 -> 向量检索 -> Prompt 组装 -> LLM 生成" 的全过程，这是调试 RAG 效果的神器。
+    *   **Trace 可视化 RAG**：用 Trace 串联用户提问 -> 向量检索 -> Prompt 组装 -> LLM 生成的全过程，这是调试 RAG 效果的神器。

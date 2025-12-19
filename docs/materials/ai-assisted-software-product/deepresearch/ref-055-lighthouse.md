@@ -24,7 +24,7 @@ Lighthouse 是 Google 开源的自动化网页质量审计工具，它将性能�
 *   **本地自测**：开发过程中使用 Chrome DevTools 的 Lighthouse 面板（建议使用无痕模式）进行即时反馈。
 *   **流水线集成**：使用 Lighthouse CI (LHCI)。
     *   *步骤 1*：安装 `@lhci/cli`。
-    *   *步骤 2*：配置 `.lighthouserc.json`，设置 `assert` 规则（如 `categories:performance: ["error", {minScore: 0.9}]`）。
+    *   *步骤 2*：配置 `.lighthouserc.json`，设置 `assert` 规则（如 `categories:performance: [error, {minScore: 0.9}]`）。
     *   *步骤 3*：在 GitHub Actions 或 GitLab CI 中添加审计步骤，构建失败即阻止合并。
 
 ### 3. 测试/QA（验收）
@@ -50,7 +50,7 @@ Lighthouse 是 Google 开源的自动化网页质量审计工具，它将性能�
     - [ ] 控制台是否有报错？
     - [ ] 是否使用 HTTPS？
 - [ ] **SEO**：
-    - [ ] 页面是否有 `<meta name="viewport">`？
+    - [ ] 页面是否声明了 meta viewport 标签？
     - [ ] 页面标题和描述是否完整？
 
 ## 常见坑与对策

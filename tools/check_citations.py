@@ -53,7 +53,7 @@ def main() -> int:
         print(f"ERROR: no numbered references found in: {REFERENCES}", file=sys.stderr)
         return 2
 
-    md_files = sorted(glob.glob(os.path.join(BOOK_DIR, "*.md")))
+    md_files = sorted(glob.glob(os.path.join(BOOK_DIR, "**", "*.md"), recursive=True))
     md_files = [p for p in md_files if os.path.abspath(p) != os.path.abspath(REFERENCES)]
 
     cited: dict[int, set[str]] = {}

@@ -13,9 +13,9 @@ RFC 9457（替代 RFC 7807）定义了一种标准化的 JSON/XML 格式（`appl
 1.  **错误是资源，不是随意的字符串**：错误响应应该有固定的结构（Schema），像正常资源一样被设计。
 2.  **五大标准字段**：
     *   `type` (URI)：错误的唯一分类标识，这是机器判断错误类型的依据（类似错误码，但全局唯一且可解析）。
-    *   `title`：简短的人类可读摘要，不随具体实例变化（如 "You do not have enough credit"）。
+    *   `title`：简短的人类可读摘要，不随具体实例变化（如余额不足）。
     *   `status`：HTTP 状态码的冗余副本，防止中间件（如代理）修改头部状态码后导致上下文丢失。
-    *   `detail`：针对当前特定请求的详细说明（如 "Current balance is 30, but cost is 50"）。
+    *   `detail`：针对当前特定请求的详细说明（如当前余额 30，但本次费用 50）。
     *   `instance` (URI)：标识具体错误发生的实例（如 `/account/123/logs/error-99`），用于排查和对账。
 3.  **可扩展性（Extensions）**：允许在标准字段外增加业务特定字段（如 `balance`, `accounts`, `validation_errors`），让前端或 Agent 能根据这些数据直接采取行动（如跳转充值、高亮错误表单项）。
 4.  **解耦 UI 文案与 API 逻辑**：`type` 用于代码逻辑判断，`title`/`detail` 仅供参考或默认展示，客户端可根据 `type` 自行映射多语言文案。
@@ -38,7 +38,7 @@ RFC 9457（替代 RFC 7807）定义了一种标准化的 JSON/XML 格式（`appl
     *   如果包含 `instance`，在报错截图中展示该 ID，方便用户报修。
 
 ### 3. 测试与评测
-*   **回归断言**：测试用例不再断言错误文案包含‘余额’字样，而是断言 `response.json()["type"] == "https://.../out-of-credit"`。
+*   **回归断言**：测试用例不再断言错误文案包含余额字样，而是断言响应 JSON 的 type 字段等于 https://.../out-of-credit。
 *   **模糊测试**：确保所有异常路径返回的 JSON 均符合 RFC 9457 Schema，避免解析层二次崩溃。
 
 ## 检查清单：API 错误规范性
@@ -54,7 +54,7 @@ RFC 9457（替代 RFC 7807）定义了一种标准化的 JSON/XML 格式（`appl
 ## 常见坑与对策
 
 1.  **坑：相对 URI 导致的解析混乱**
-    *   **现象**：不同 Endpoint 返回相同的相对路径 `type: "error-1" `，被解析为完全不同的绝对 URI。
+    *   **现象**：不同 Endpoint 返回相同的相对路径（例如 type 返回 error-1），被解析为完全不同的绝对 URI。
     *   **对策**：始终使用绝对 URI，或以 `/` 开头的根路径 URI。
 2.  **坑：把 Problem Details 当作日志**
     *   **现象**：在 `detail` 中塞入 Java/Python 的 `e.printStackTrace()`。

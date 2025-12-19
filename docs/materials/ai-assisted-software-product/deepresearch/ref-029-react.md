@@ -29,7 +29,7 @@ ReAct 范式通过交替生成推理轨迹（Thought）与行动（Action），�
     6.  重复上述过程，直到解析出 `Finish` 动作或达到最大步数。
 
 ### 2. 产品设计：透明化思考过程
-*   在 UI 上将 `Thought` 内容通过折叠卡片或打字机效果展示给用户（参考 Perplexity 或 ChatGPT 的 "Searching..." 状态），提升用户对 AI 响应的信任度。
+*   在 UI 上将 `Thought` 内容通过折叠卡片或打字机效果展示给用户（参考 Perplexity 或 ChatGPT 的搜索中状态），提升用户对 AI 响应的信任度。
 *   提供人工介入入口：允许高级用户在 Agent 卡住时编辑 `Thought` 文本，引导 Agent 走出死胡同。
 
 ## 检查清单：ReAct Agent 基础实现
@@ -53,7 +53,7 @@ ReAct 范式通过交替生成推理轨迹（Thought）与行动（Action），�
 ## 可用于丰富《AI 辅助软件产品》的写作点
 *   **第 7 章 (Engineering/Backend - Agent)**：
     *   使用 ReAct 的流程图替换传统的请求-响应图，说明 Agent 系统的核心由于无状态变为有状态循环。
-    *   作为 **"Agent State Machine"** 的基础实现模式进行详细代码拆解。
+    *   作为 Agent State Machine 的基础实现模式进行详细代码拆解。
 *   **第 10 章 (Agentic RAG)**：
     *   对比传统 RAG（一次检索 -> 生成）与 **Agentic RAG**（ReAct 模式：检索 -> 看了不够 -> 换个词再搜 -> 生成）。ReAct 是实现复杂问题（Multi-hop QA）检索的关键。
 *   **第 18 章 (Evaluation)**：

@@ -26,7 +26,7 @@ Grafana 是可观测性领域的通用翻译器，解决了从冰冷的系统数
     *   **Quota**：展示当前 API Key 的使用量占每日限额的百分比，设置 80% 预警。
 3.  **质量与反馈层**：
     *   从数据库或日志中聚合用户的点赞/点踩数据，绘制用户满意度趋势图。
-    *   利用 Loki 搜索包含 "fallback" 或 "hallucination" 关键词的日志数量。
+    *   利用 Loki 搜索包含 fallback 或 hallucination 关键词的日志数量。
 4.  **部署与关联**：
     *   在 CI/CD 流水线中集成 Grafana API，每次模型或 Prompt 更新时，自动在看板上打一个 Annotation 标记。
 

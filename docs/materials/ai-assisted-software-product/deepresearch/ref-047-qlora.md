@@ -19,7 +19,7 @@ QLoRA 通过引入 4-bit NormalFloat (NF4) 数据类型、双重量化 (Double Q
 ## 可落地做法
 
 ### 1. 工程实施：低成本微调流水线
-*   **加载阶段**：使用 `bitsandbytes` 库加载 4-bit 基础模型，指定 `bnb_4bit_quant_type="nf4"` 和 `bnb_4bit_use_double_quant=True`。
+*   **加载阶段**：使用 bitsandbytes 库加载 4-bit 基础模型，把量化类型设为 nf4，并开启 double quant。
 *   **配置阶段**：设置 LoRA 配置时，务必将 `target_modules` 设置为所有线性层（如 LLaMA 架构下的 `q_proj, k_proj, v_proj, o_proj, up_proj, down_proj, gate_proj`）。
 *   **训练阶段**：启用分页优化器（如 `paged_adamw_32bit`），以应对显存突发峰值；使用 bf16 进行计算以保证数值稳定性。
 
@@ -29,7 +29,7 @@ QLoRA 通过引入 4-bit NormalFloat (NF4) 数据类型、双重量化 (Double Q
 
 ### 3. 评测方案：Elo 锦标赛
 *   **建立基线**：选择 ChatGPT 或 GPT-4 作为裁判。
-*   **自动化打分**：构建自动化流水线，将微调模型输出与基准模型输出进行 "Head-to-Head" 盲测。
+*   **自动化打分**：构建自动化流水线，将微调模型输出与基准模型输出进行 Head-to-Head 盲测。
 *   **偏差校准**：交换模型输出的顺序进行两次打分，取平均值以消除位置偏差（Position Bias）。
 
 ## 检查清单：QLoRA 微调配置表

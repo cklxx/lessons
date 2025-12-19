@@ -249,5 +249,5 @@ RAG 让回答带证据。当你需要让系统去做事，你将进入 Agent：�
 -   [GitHub - Nipi64310/RAG-Book: 本项目为书籍《大模型RAG实战》的代码以及资料汇总。](https://github.com/Nipi64310/RAG-Book)
 -   [18种RAG技术实战对比：从简单RAG到自适应RAG全面解析 | ApFramework](https://www.apframework.com/blog/essay/2025-04-09-18-RAG-Techniques)
 -   [文末赠书 | 2025年 | 《大模型应用开发：Rag实战课》| 黄佳等编写](https://hub.baai.ac.cn/view/46532)
--   [一文读懂RAG：AI的"外部知识库"如何让回答更精准？ - 53AI-AI知识库|企业AI知识库|大模型知识库|AIHub](https://www.53ai.com/news/RAG/2025051193047.html)
+-   [一文读懂RAG：AI的外部知识库如何让回答更精准？ - 53AI-AI知识库|企业AI知识库|大模型知识库|AIHub](https://www.53ai.com/news/RAG/2025051193047.html)
 -   [RAG全栈技术从基础到精通 ，打造高精准AI应用 - doudouxuexi2025 - 博客园](https://www.cnblogs.com/xuexixiaojia2025/p/18750374)

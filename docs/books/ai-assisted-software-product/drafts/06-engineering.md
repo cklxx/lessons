@@ -36,6 +36,6 @@
 - CI 流水线（lint/test/build）
 - 代码评审清单（含 AI 生成代码专用条目）
 
-!!! tip "AI 提示词（复制即用）"
+!!! tip
+    AI 提示词复制即用  
     你是资深 Tech Lead。请基于Web SaaS + RAG/Agent + 订阅付费的需求，给出一套工程化落地清单：仓库结构、模块边界、测试分层、CI 步骤、代码评审 checklist、以及 AI 参与编码时的约束（禁止/必须）。用 Markdown 输出。
-

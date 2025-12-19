@@ -79,3 +79,8 @@
 77. NIST, *AI Risk Management Framework (AI RMF)*, https://www.nist.gov/itl/ai-risk-management-framework, accessed 2025-12-18.
 78. IETF, 《HTTP Semantics》, RFC 9110, 2022, https://www.rfc-editor.org/rfc/rfc9110, accessed 2025-12-18.
 79. IETF, 《Problem Details for HTTP APIs》, RFC 9457, 2023, https://www.rfc-editor.org/rfc/rfc9457, accessed 2025-12-18.
+80. Nielsen Norman Group, *The User Experience of Customer-Service Chat: 20 Guidelines*, https://www.nngroup.com/articles/chat-ux/, accessed 2025-12-19.
+81. Nielsen Norman Group, *Prompt Controls in GenAI Chatbots: 4 Main Uses and Best Practices*, https://www.nngroup.com/articles/prompt-controls-genai/, accessed 2025-12-19.
+82. Nielsen Norman Group, *Testing AI with Real Design Scenarios: Evaluation Methodology and Prompts*, https://www.nngroup.com/articles/testing-ai-methodology/, accessed 2025-12-19.
+83. Nielsen Norman Group, *Good from Afar, But Far from Good: AI Prototyping in Real Design Contexts*, https://www.nngroup.com/articles/ai-prototyping/, accessed 2025-12-19.
+84. Nielsen Norman Group, *Leverage AI for Mock Tables and Charts When Testing Prototypes*, https://www.nngroup.com/articles/ai-data-prototype-testing/, accessed 2025-12-19.

@@ -24,17 +24,14 @@
 *   **设计预算阈值体验**：当用户达到预算的 80%、100% 时，系统是通过邮件通知、Webhook 回调还是直接拒绝服务（Hard Stop）？
 
 ### 2. 工程实现阶段（面向研发）
-*   **设计计量事件结构**：
-    ```json
-    {
-      "event_id": "evt_123456", // 业务侧唯一ID，作为幂等键
-      "timestamp": 1715432100,
-      "customer_id": "cus_abc123",
-      "action": "model_inference",
-      "value": 1500, // Token count
-      "metadata": { "model": "gpt-4", "trace_id": "req_xyz" }
-    }
-    ```
+*   **设计计量事件结构**：至少把字段和口径写清楚，便于对账与回放。
+    *   event_id：evt_123456，用作幂等键
+    *   timestamp：1715432100
+    *   customer_id：cus_abc123
+    *   action：model_inference
+    *   value：1500
+    *   metadata.model：gpt-4
+    *   metadata.trace_id：req_xyz
 *   **实现旁路计量器**：不要将计费逻辑硬编码在业务主流程中。使用异步队列（如 Kafka/SQS）将业务完成的信号发送给计费服务（Billing Service），确保主业务低延迟。
 *   **实现死信队列与重试**：上报 Stripe 失败的事件不能丢，必须存入 DLQ 并有后台任务进行指数退避重试。
 
