@@ -94,7 +94,7 @@
 **定义：** 分词器（Tokenizer）把文本切分后的最小单位；模型以 token 为基本处理粒度。  
 **用法约定：**
 - 本书首次出现会写作 token（词元）；后续可直接用 token。
-- 讨论长度/成本时优先用token 数作为口径（例如 P50/P95 分位数、tokens/step）。[39]
+- 讨论长度/成本时优先用 token 数作为口径（例如 P50/P95 分位数、tokens/step）。[39]
 
 <a id="oov"></a>
 ## OOV（词表外 / Out-of-Vocabulary）
