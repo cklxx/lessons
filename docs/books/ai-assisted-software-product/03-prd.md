@@ -172,7 +172,7 @@ PRD 最常见的后遗症是：验收标准写在文档里，但产品界面不�
 - 验收清单（可复核证据的位置与口径）。[18]
 
 ## 下一章
-PRD 解决做到什么算完，原型解决关键路径能不能发生。下一章见：[`04-prototype.md`](04-prototype.md)。
+PRD 解决做到什么算完，原型解决关键路径能不能发生。下一章见：[04-prototype.md](04-prototype.md)。
 
 ## 参考
-详见本书统一参考文献列表：[`references.md`](references.md)。
+详见本书统一参考文献列表：[references.md](references.md)。

@@ -104,7 +104,7 @@
 - 上线与回滚计划（模型/策略版本化）。[6]
 
 ## 下一章
-预训练讨论让模型更像你的领域。下一章进入后训练：如何用 SFT/DPO/RLHF 等方法把行为调成可控，并把安全与回归纳入门禁。见：[`15-posttrain-rl.md`](15-posttrain-rl.md)。
+预训练讨论让模型更像你的领域。下一章进入后训练：如何用 SFT/DPO/RLHF 等方法把行为调成可控，并把安全与回归纳入门禁。见：[15-posttrain-rl.md](15-posttrain-rl.md)。
 
 ## 参考
-详见本书统一参考文献列表：[`references.md`](references.md)。
+详见本书统一参考文献列表：[references.md](references.md)。

@@ -157,10 +157,16 @@ python3 docs/examples/inference/budgeted_gateway.py --provider mock --port 8787
 请求示例：
 
 ```bash
-curl -sS -X POST http://127.0.0.1:8787/chat \
+python3 - <<'PY' | curl -sS -X POST http://127.0.0.1:8787/chat \
   -H 'content-type: application/json' \
   -H 'x-trace-id: demo-001' \
-  -d '{"user_id":"u1","prompt":"给一个推理预算与降级的最小策略","budget_ms":1200}'
+  --data-binary @-
+import json
+print(json.dumps(
+    {'user_id': 'u1', 'prompt': '给一个推理预算与降级的最小策略', 'budget_ms': 1200},
+    ensure_ascii=False,
+))
+PY
 ```
 
 观察响应里的 trace_id，它能帮你把一次请求的链路串起来。重复的 prompt 会标记为 cached，说明缓存真的生效了。并发过高时，系统会返回 429，这种预防机制远比等到 OOM 再救火要划算。
@@ -252,7 +258,7 @@ python3 docs/examples/inference/budgeted_gateway.py --provider gemini --gemini-m
 - 量化上线自查记录（引擎支持/校准集/回退路径/回归结果）。[48][59]
 
 ## 下一章
-推理优化让系统跑得稳、跑得起。下一章进入部署与运维：如何灰度发布、监控退化、回滚与复盘，让系统长期健康。见：[`17-deployment.md`](17-deployment.md)。
+推理优化让系统跑得稳、跑得起。下一章进入部署与运维：如何灰度发布、监控退化、回滚与复盘，让系统长期健康。见：[17-deployment.md](17-deployment.md)。
 
 ## 参考
-详见本书统一参考文献列表：[`references.md`](references.md)。
+详见本书统一参考文献列表：[references.md](references.md)。

@@ -1,10 +1,10 @@
-# AI 校对与审稿 SOP（基于 `gemini -p`）
+# AI 校对与审稿 SOP（基于 gemini CLI）
 
 > 目标：让 AI 做校对、找漏洞、补桥接、查一致性，而不是替代作者决策；所有建议必须能回到可验收的改动。
 
 ## 0) 三层思考框架（固定用法）
 
-- **定位**：把 AI 当成写作 linter，不是共同作者（co-author）。
+- **定位**：把 AI 当成写作 linter，不是共同作者，也不是 co-author。
 - **第 1 层：读者目标与问题**：读者带着什么困惑来？读完能完成什么动作？
 - **第 2 层：论证链条**：本文的步骤是否构成闭环？每一步是否都解释了为什么需要它？
 - **第 3 层：落地与验收**：输出是否能直接转化为补丁？验收标准是否明确、可复现、可回滚？
@@ -21,38 +21,27 @@
 
 ```bash
 ai_review() {
-  local target_file="$1"  # e.g. docs/books/ai-assisted-software-product/02-discovery.md
-  local lines="$2"        # e.g. 1,160p
-  local instruction="$3"  # Prompt 主体（不含章节摘录）
+  local target_file=$1  # e.g. docs/books/ai-assisted-software-product/02-discovery.md
+  local lines=$2        # e.g. 1,160p
 
-  local excerpt
-  excerpt=$(sed -n "$lines" "$target_file")
-
-  local prompt
-  prompt=$(cat <<EOF
-$instruction
-
-章节摘录：
-<<<
-$excerpt
->>>
-EOF
-)
-  gemini -p "$prompt"
+  {
+    cat
+    printf '\n\n章节摘录：\n<<<\n'
+    sed -n $lines $target_file
+    printf '\n>>>\n'
+  } | gemini -o text
 }
 
 # 用法示例：
-# instruction=$(cat <<'EOF'
+# ai_review docs/books/ai-assisted-software-product/02-discovery.md 1,160p <<'EOF'
 # 你是中文技术书编辑。请做结构完整性检查……
 # 输出：缺失项列表 + 每项一条补写建议（带验收标准）。
 # EOF
-# )
-# ai_review "docs/books/ai-assisted-software-product/02-discovery.md" "1,160p" "$instruction"
 ```
 
 ## 3) 常用审稿任务（Prompt 模板：复制即用）
 
-> 用法：把下面任意一个 `instruction` 复制出来，配合 `ai_review <file> <lines> "$instruction"` 调用；除Prompt 主体外，其余 Shell 逻辑不再重复展示。
+> 用法：把下面任意一个 instruction 复制出来，通过 heredoc 传给 ai_review；除 Prompt 主体外，其余 Shell 逻辑不再重复展示。
 
 ### 3.1 任务：结构完整性检查
 ```text
@@ -134,10 +123,10 @@ EOF
 - **无补丁不采纳**：建议要么给出可直接替换的一句话/一段话，要么给出明确的标题与要点清单；只给泛泛而谈视为无效。
 - 对工具/框架推荐默认谨慎：优先保留范式与可迁移原则，工具清单放附录。
 - 任何涉及安全/合规的建议：必须补一句边界条件/前置假设，避免被当成通用结论。
-- **禁用双引号，少用格式符号**：输出中不要使用双引号字符 U+201C 和 U+201D，也不要用双引号包裹术语或举例。尽量用更具体的句子表达，不靠反引号、加粗、括号堆效果；示例优先给可运行的具体值；确实需要占位时，占位符要少，并在同一行提醒读者替换。
+- **禁用双引号，少用格式符号**：输出中不要出现双引号字符 U+0022、U+201C、U+201D，也不要用双引号去圈住术语或举例。尽量用更具体的句子表达，不靠反引号、加粗、括号堆效果；示例优先给可运行的具体值；能不用占位就不用，别写 xxx 这类占位，确实需要时占位符要少，并在同一行提醒读者替换。章节内链接用普通链接即可，不用把文件名写成代码格式；模板段落优先用小标题而不是加粗标签。
 - **人工介入触发条件**：同一段落连续两次输出互相矛盾的建议、或建议引入与本章无关的依赖/技术栈时，立即终止自动化并由作者裁决。
 
 ## 5) 实用提醒
 - **长文本分块**：对整章审阅，优先按小节分块（`sed -n` 取 100–200 行），避免提示过长导致输出发散或命令行参数过大。
 - **切片边界**：尽量以 `##` 小节为边界取段，避免截断代码块或长表格；跨度很大的章节，宁可多次调用，也不要一次塞满。
-- **保存审稿结果**：需要留档时用 `| tee` 保存输出（示例：`gemini -p "$prompt" | tee review.md`）。
+- **保存审稿结果**：需要留档时用 `| tee` 保存输出，例如把结果写到 `review.md`。

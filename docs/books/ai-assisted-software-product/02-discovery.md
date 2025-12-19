@@ -205,4 +205,4 @@
 - [数据去重（减少污染与虚高结论）](../../materials/ai-assisted-software-product/notes/ref-035-llm-dedup.md)
 
 ## 参考
-详见本书统一参考文献列表：[`references.md`](references.md)。
+详见本书统一参考文献列表：[references.md](references.md)。
