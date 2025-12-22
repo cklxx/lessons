@@ -44,13 +44,26 @@
 
 ![图 20-1：治理闭环示意](../../assets/figure_20_1_1766035315450.png)
 
+文字版图 20-1：治理闭环（不依赖图片也能执行）
+
+```text
+边界定义
+  → 数据与权限控制
+  → 审计与留档
+  → 评测与红队
+  → 发布门禁
+  → 事故处置与复盘
+  → 边界更新
+  ↺ 规则与回归集更新（让问题不复发）
+```
+
 ### 边界文档最小可执行版
 
 | 类别 | 必须回答的问题 | 可执行规则示例 |
 | --- | --- | --- |
-| 数据 | 哪些数据不可进入系统 | 不采集/不出网/脱敏后才可用 |
+| 数据 | 哪些数据不可进入系统；如何脱敏；如何留存与删除 | 不采集/不出网/脱敏后才可用；敏感数据自动清洗或假名化；非必要数据定期自动删除或归档 |
 | 版权 | 引用如何展示 | 必须标注来源；禁止输出受限内容全文 |
-| 权限 | 谁能访问哪些资源 | 默认拒绝；跨租户阻断；导出需审计 |
+| 权限 | 谁能访问哪些资源；资源级授权策略；导出与分享策略 | 默认拒绝；跨租户阻断；按角色授权资源访问；导出需审计；分享链接带有效期与访问控制 |
 | 行为 | 何时拒答/何时提示风险 | 命中高风险即拒答或要求确认 |
 
 ### 拒答不是关门：给用户留一条能继续走的路
@@ -63,6 +76,32 @@
 - 引导改写：提示用户把目标改写成模型可安全完成的子任务（例如给出检查清单/问题框架而不是给出诊断结论）。
 - 保留升级口：对高风险但可能有合法授权的场景，提供提交授权/人工复核的入口，而不是永远拒绝。
 
+#### 拒答与降级策略：最小可执行实现
+把边界写成可执行规则时，最怕两件事：规则只存在文档里，以及规则命中后没有一致的动作与留档。一个更稳的方式是把策略写成规则表，并在每次请求上强制执行与审计。
+
+为把规则与工程连起来，rule_id 应当同时出现在三个地方：边界文档、策略执行器的命中输出（如 `docs/examples/evaluation/enforce_policy_example.py` 的 policy_hits）、以及审计日志的 policy_hits 字段。这样你才能从风险登记表一路追溯到具体门禁与证据。
+
+| rule_id | 触发条件（示例） | 动作 | 是否阻断级 | 对用户交付（示例） | 必须留档 |
+| --- | --- | --- | --- | --- | --- |
+| cross_tenant | 访问资源 tenant 不一致 | reject | 是 | 拒答并提示申请授权 | trace_id + 规则命中 + 版本指纹 |
+| secret_output | 输出包含密钥或系统提示片段 | reject | 是 | 拒答并提示移除敏感信息 | 同上 |
+| jailbreak | 检测到越狱或注入意图 | reject | 是 | 拒答并给可行替代路线 | 同上 |
+| dangerous_command | 输出包含危险操作建议 | confirm | 是（未确认前阻断） | 提示风险并要求二次确认 | 同上 |
+| pii_output | 输出包含 PII | degrade | 视场景 | 脱敏后交付并提示已脱敏 | 同上 |
+| copyrighted_fulltext | 输出疑似大段受限内容 | degrade | 视场景 | 改为摘要 + 引用清单 | 同上 |
+
+最小可执行示例（策略执行与自检）：
+
+- 示例脚本：`docs/examples/evaluation/enforce_policy_example.py`
+- 运行命令：`python3 docs/examples/evaluation/enforce_policy_example.py`
+- 失败判定：脚本退出码非 0 视为策略回归；在 CI 中应阻断发布。
+
+脚本会模拟多种输入并打印 `decision`、`processed_output`、`user_message`、`policy_hits`，同时对内置用例做自检。
+
+验收标准（最低门槛）：
+- 阻断级规则命中时，必须拒答或阻断访问，且写入审计日志。
+- 降级规则命中时，必须交付可用替代物（摘要、清单、引用），而不是只说不能做。
+
 ### 最小审计与证据包：出了事你需要什么
 治理不仅是为了把风险挡在门外，更是为了在事故发生后有据可查、能自证尽责。很多项目直到收到投诉或合规问询，才发现日志里全是零碎调试信息：既不能还原当时发生了什么，也不能说明系统有没有启用边界策略。
 
@@ -74,16 +113,54 @@
 - 不可抵赖链路：`request_id/trace_id`、时间戳、主体标识（用户/租户），用于复盘与取证（注意合规脱敏与最小化）。
 - 影响面评估：受影响请求范围、是否涉及敏感数据、是否需要通知用户/下线入口、是否需要紧急回滚。
 
+#### 审计日志最小格式（示例）
+审计日志要能被查询与聚合，而不是只存在开发者的临时打印里。最小可用的做法是：每次请求产出一行结构化记录，并把它写到专用的审计通道（文件或日志系统）。
+
+| 字段 | 示例 | 用途 |
+| --- | --- | --- |
+| ts | 2025-12-22T10:30:00Z | 时间线复盘 |
+| request_id | req-abc-123 | 定位单次请求 |
+| trace_id | trace-def-456 | 串联全链路日志 |
+| actor_id | u-123 | 追溯主体（注意最小化） |
+| tenant_id | t-001 | 租户隔离与影响面 |
+| action | inference | 区分推理/导出/分享等 |
+| policy_hits | cross_tenant,pii_output | 哪些规则命中 |
+| decision | reject 或 degrade 或 allow | 当时的裁决 |
+| version_fp | model=v3 prompt=p12 index=i7 policy=r9 | 行为可回放 |
+| input_hash | sha256:... | 在不存原文时做追溯 |
+| output_hash | sha256:... | 同上 |
+
+单行示例（key=value，便于落地成 JSONL 或日志字段）：
+
+```text
+ts=2025-12-22T10:30:00Z request_id=req-abc-123 trace_id=trace-def-456 tenant_id=t-001 actor_id=u-123 action=inference decision=degrade policy_hits=pii_output version_fp=model=v3 prompt=p12 index=i7 policy=r9 input_hash=sha256:... output_hash=sha256:...
+```
+
+持久化与查询最低门槛（示例）：
+- 审计日志走独立存储或索引，权限隔离，避免被业务方随意修改。
+- 留存至少 180 天（按法规与合同调整），并保留版本指纹以支持回放。
+- 验收：拿到一个 trace_id，能在 5 分钟内定位到对应的边界裁决与规则命中记录。
+
 ## 风险登记表：把风险变成可管理对象
 风险不怕存在，怕不可见。建议你把风险登记表作为持续资产：每次事故与红队都能回写进去。[6]
 
-### 风险登记表
+建议把风险登记表单独放在仓库内可追溯的位置，例如 `docs/books/ai-assisted-software-product/risk-register.md`（或同目录下的 `risk-register.csv`）。每次事故复盘或红队发现都提交一个最小变更：新增或更新一行，并附证据路径（trace_id、回归样本 id、对比报告路径）。
 
-| 风险 | 等级 | 触发条件 | 影响面 | 处置动作 | 证据留档 |
-| --- | --- | --- | --- | --- | --- |
-| 隐私泄露 | 高 | 输出包含敏感信息 | 用户/租户 | 阻断+回滚+通知 | 审计/样本/版本 |
-| 越权访问 | 高 | 跨租户数据可见 | 全量 | 阻断+补回归 | 回归集+审计 |
-| 版权争议 | 中 | 输出大段受限内容 | 部分 | 降级展示+提示 | 引用记录 |
+字段建议（最小可用）：risk_id、severity、trigger、gate_rule、owner、status、last_review_at、evidence_paths。
+
+风险等级定义（示例，按你业务调整但要写清）：
+- 高：可能导致法律合规风险、数据泄露、服务中断或重大经济损失。默认阻断并触发应急响应。
+- 中：可能导致声誉受损、功能降级或少量数据暴露。默认降级或人工确认，并纳入下一次迭代修复。
+- 低：主要是体验瑕疵或轻微资源滥用。默认记录并进入后续优化。
+
+### 风险登记表（模板）
+
+| risk_id | severity | trigger（示例） | gate_rule（对应 rule_id） | owner | status | last_review_at | evidence_paths（示例） |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| privacy_leak_pii | 高 | policy_hit=pii_output 或 pii_detector=true | pii_output | security | active | 2025-12-20 | trace_id=..., regression_sample=... |
+| unauthorized_access | 高 | policy_hit=cross_tenant 或 authz=deny | cross_tenant | engineering | active | 2025-12-18 | trace_id=..., regression_sample=... |
+| copyright_fulltext | 中 | policy_hit=copyrighted_fulltext | copyrighted_fulltext | legal | active | 2025-12-15 | audit_log=..., mitigation=summary |
+| dangerous_command_injection | 高 | policy_hit=dangerous_command 或 policy_hit=jailbreak | dangerous_command | security | active | 2025-12-21 | trace_id=..., regression_sample=... |
 
 ## 治理门禁：把高风险变成阻断级失败
 推荐把以下内容纳入阻断级门禁：
@@ -95,6 +172,76 @@
 别把护栏只写在提示词里：规则命中要进回归，门禁要能阻断发布，事后还要能回溯到当时生效的策略与版本。[51][6]
 
 这些门禁要进入回归集：命中即阻断发布，避免线上才发现。[6]
+
+### 门禁如何接入回归与 CI（最小可复跑）
+把治理门禁落到工程里，至少要做到：有样本、有报告、有退出码。建议把阻断级风险用例固化成回归样本（按你自己的工程放置位置），每次发布前都复跑一次。
+
+最小跑法（示例，复用第 18 章的脚本）：
+
+回归与门禁的详细解释见：[18-evaluation.md](18-evaluation.md)。
+
+准备输入文件（最小要求）：
+- 冻结一批 prompt（阻断级红队 + 高风险业务样本）。
+- 用上一稳定版本跑一遍，得到 b；用候选版本跑一遍，得到 a。
+- 把同一条 prompt 的 a 与 b 写在同一行记录里，并给出可追溯的 id。
+
+本仓库的演示数据是 `docs/examples/evaluation/sample.jsonl`，字段结构为 `{id,prompt,a,b}`。`judge_pairwise.py` 会产出评审报告（例如 `report.candidate.json`），该报告可作为 `judge_gate.py` 的 candidate 输入；上一轮通过的报告冻结为 baseline。
+
+1) 产出评审报告（输入为 JSONL：`{id,prompt,a,b}`，其中 a 是候选版本输出，b 是上一稳定版本输出）：
+
+```bash
+python3 docs/examples/evaluation/judge_pairwise.py \
+  --in docs/examples/evaluation/sample.jsonl \
+  --judge gemini \
+  --model gemini-2.5-flash \
+  --out docs/examples/evaluation/report.candidate.json
+```
+
+首次运行时，或你接受当前 `report.candidate.json` 的结果作为新基线时，可将其复制为 `report.baseline.json`：
+
+```bash
+cp docs/examples/evaluation/report.candidate.json docs/examples/evaluation/report.baseline.json
+```
+
+2) 把上一轮通过的报告冻结为基线（例如保存为 `docs/examples/evaluation/report.baseline.json`），再做门禁判断：
+
+```bash
+python3 docs/examples/evaluation/judge_gate.py \
+  --baseline docs/examples/evaluation/report.baseline.json \
+  --candidate docs/examples/evaluation/report.candidate.json \
+  --max-win-rate-drop 0.01 \
+  --max-win-count-drop 1 \
+  --max-tie-rate-increase 0.03 \
+  --max-tie-count-increase 5
+```
+
+注意：上述 `--max-win-rate-drop`、`--max-win-count-drop` 等参数为示例阈值。先用最近几次通过的报告估算自然波动，再把阈值设置在可接受风险范围内；阻断级样本应单独要求 100% 通过。
+
+失败判定：`judge_gate.py` 退出码非 0 即阻断发布。
+
+对 RAG 链路，可同时运行 RAGAS 门禁（离线跑，退出码表示通过或失败）：
+
+输入文件格式（JSONL，每行一个对象）：`{question,answer,contexts}`
+
+| 字段 | 类型 | 说明 |
+| --- | --- | --- |
+| question | string | 用户问题 |
+| answer | string | 模型回答 |
+| contexts | list[string] | 检索上下文列表 |
+
+示例文件见 `docs/examples/evaluation/ragas_sample.jsonl`，文件内容必须是严格 JSON。
+
+```bash
+python3 docs/examples/evaluation/ragas_gate.py \
+  --in docs/examples/evaluation/ragas_sample.jsonl \
+  --threshold-faithfulness 0.85 \
+  --threshold-answer-relevancy 0.70 \
+  --threshold-context-precision 0.60
+```
+
+注意：上述阈值为示例。应以基线为参照，结合可接受风险与成本开销设置阈值，并在低于阈值时阻断发布。
+
+失败判定：`ragas_gate.py` 退出码非 0 即阻断发布。
 
 ## 复现检查清单（本章最低门槛）
 - 边界文档存在并可执行：数据/版权/权限/行为边界写清楚。[35][68]

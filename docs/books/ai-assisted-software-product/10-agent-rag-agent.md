@@ -13,7 +13,7 @@
 - 一份工具合同模板：每个工具都有输入/输出/权限/副作用/预算。
 - 一套回归门禁：越权、注入、无限循环、成本失控都能被拦在上线前。[6][29]
 
-![图 10-3：Agent 骨架（状态机 + 工具合同 + 预算/审计/回滚）示意（占位）](../../assets/figure_10_3_1765971191769.png)
+![图 10-3：Agent 骨架（状态机 + 工具合同 + 预算/审计/回滚）示意](../../assets/figure_10_3_1765971191769.png)
 
 ## 三层思考：Agent 的关键矛盾
 ### 第 1 层：读者目标
@@ -62,6 +62,29 @@ Agent 的可控链条是：
 | 副作用 | 会改变什么；如何撤回/补偿 |
 | 审计字段 | 需要记录哪些信息用于追责 |
 
+把表格变成可落地合同，建议补一个可复用示例，明确输入校验、权限边界与副作用。下面是一个最小工具合同（示意）：
+
+```text
+tool: create_invoice
+purpose: 为某租户创建一张草稿账单（只允许草稿）
+allowed_actions: write
+permission_scope:
+  tenant_id: 必须等于当前会话 tenant_id
+  role: billing_admin
+input_validation:
+  currency: 仅允许 CNY/USD
+  amount_cents: 1..5000000
+  customer_id: 必填，长度<=64
+budget:
+  max_calls_per_task: 1
+  timeout_ms: 3000
+side_effect:
+  writes: invoices(draft)
+  rollback: delete_draft_invoice（同 action_id）
+audit_fields:
+  action_id, request_id, user_id, tenant_id, tool, params_hash, result, latency_ms
+```
+
 ## 第三步：做一个可解释的状态机
 Agent 不应该是无边界的自由发挥。最实用的做法是把它写成状态机：每一步明确输入、输出与停止条件。
 
@@ -75,6 +98,17 @@ Agent 不应该是无边界的自由发挥。最实用的做法是把它写成�
 | 总结 | 有结果 | 解释+证据+下一步 | 交付 | 不确定则回到追问 |
 
 状态机的价值在于：它让你能写评测、能回归、能定位，而不是把系统交给不可预测的自由对话。
+
+要让状态机真正可解释，最低要求是记录状态流转日志：每次进入/退出状态都带上理由、预算与关键输入摘要。否则出了事故只能猜它为什么会走到那一步。
+
+| 字段 | 为什么需要 |
+| --- | --- |
+| action_id / trace_id | 串起整条任务链路 |
+| state | 当前状态名 |
+| event | enter/exit/fail |
+| reason | 为什么进入/为什么失败 |
+| tool | 若调用工具，记录工具名 |
+| budget_remaining | 剩余预算（步数/成本/时间） |
 
 ## 第四步：预算与停止条件（防止勤奋导致破产）
 Agent 最危险的不是不会做，而是做太多：反复思考、反复检索、反复调用工具。最低止损要求：
@@ -108,12 +142,25 @@ Agent 的两类常见事故：
 - 工具层做权限校验与输入校验（不要只在提示里说不要）。
 - 任何越权尝试都要阻断并记录，且进入回归集。[6][29]
 
+把防护落到代码层，最低是一道工具调用闸门：所有工具调用必须走同一个校验入口。
+
+```text
+validate_tool_call(tool, params, actor, budget):
+  if tool not in allowlist: reject
+  if not schema_validate(params, tool.input_schema): reject
+  if not rbac_allow(actor, tool, params): reject
+  if budget_exceeded(budget): reject
+  return ok
+```
+
 ## 评测与回归：Agent 的门禁比 RAG 更硬
 Agent 的评测不止看答得对不对，还要看做得安不安全：
 - 越权率（必须为 0 或可解释豁免）
 - 预算越界率（必须可控）
 - 副作用可回滚率（关键动作必须可撤回）
 - 失败恢复质量（是否能停止并给出下一步建议）[6]
+
+预算与停止条件要能被观测系统看见，否则阈值只是文档。最低落地是把任务级指标打点出来：steps_used、tool_calls、token_cost、latency_ms、aborted_reason，并把越界与阻断当成告警事件。
 
 ## 复现检查清单（本章最低门槛）
 - 每个工具都有工具合同：权限/输入校验/预算/副作用/审计字段齐全。[29]
