@@ -84,3 +84,9 @@
 82. Nielsen Norman Group, *Testing AI with Real Design Scenarios: Evaluation Methodology and Prompts*, https://www.nngroup.com/articles/testing-ai-methodology/, accessed 2025-12-19.
 83. Nielsen Norman Group, *Good from Afar, But Far from Good: AI Prototyping in Real Design Contexts*, https://www.nngroup.com/articles/ai-prototyping/, accessed 2025-12-19.
 84. Nielsen Norman Group, *Leverage AI for Mock Tables and Charts When Testing Prototypes*, https://www.nngroup.com/articles/ai-data-prototype-testing/, accessed 2025-12-19.
+85. J. Schulman et al., 《Proximal Policy Optimization Algorithms》, arXiv:1707.06347, 2017, https://arxiv.org/abs/1707.06347.
+86. P. F. Christiano et al., 《Deep Reinforcement Learning from Human Preferences》, NeurIPS, 2017, https://arxiv.org/abs/1706.03741.
+87. D. Ziegler et al., 《Fine-Tuning Language Models from Human Preferences》, arXiv:1909.08593, 2019, https://arxiv.org/abs/1909.08593.
+88. N. Stiennon et al., 《Learning to Summarize from Human Feedback》, NeurIPS, 2020, https://arxiv.org/abs/2009.01325.
+89. Y. Bai et al., 《Constitutional AI: Harmlessness from AI Feedback》, arXiv:2212.08073, 2022, https://arxiv.org/abs/2212.08073.
+90. D. Amodei et al., 《Concrete Problems in AI Safety》, arXiv:1606.06565, 2016, https://arxiv.org/abs/1606.06565.

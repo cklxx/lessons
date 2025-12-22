@@ -196,6 +196,12 @@
 - [[47] QLoRA：把微调从奢侈品变成日用品](ref-047-qlora.md)（9.55） · Training & Alignment
 - [[36] Self-Instruct：低成本生成指令数据的起手式](ref-036-self-instruct.md)（9.40） · Training & Alignment
 - [[41] RLHF：对齐不是更听话，而是可控且可回归](ref-041-rlhf.md)（9.10） · Training & Alignment
+- [[85] PPO：把策略更新做稳，是 RLHF 能跑起来的关键细节](ref-085-ppo.md) · Training & Alignment
+- [[86] 人类偏好强化学习：偏好数据如何变成奖励信号](ref-086-rl-from-human-preferences.md) · Training & Alignment
+- [[87] 语言模型偏好对齐：早期 RLHF 方案里的关键工程思路](ref-087-finetuning-lms-from-human-preferences.md) · Training & Alignment
+- [[88] 用人类反馈做摘要：把好和坏写成可训练的差异](ref-088-learning-to-summarize-from-human-feedback.md) · Training & Alignment
+- [[89] Constitutional AI：用规则与 AI 反馈降低人工标注压力](ref-089-constitutional-ai.md) · Training & Alignment
+- [[90] 强化学习安全：奖励投机与副作用不是理论问题](ref-090-concrete-problems-in-ai-safety.md) · Governance & Security
 - [[66] WizardLM / Evol-Instruct：让合成指令更难一点](ref-066-wizardlm.md)（8.40） · Training & Alignment
 
 ## 第 16 章：推理优化
@@ -282,8 +288,8 @@
 - [[75] Usage-based Billing（Stripe）：把计量口径写成能对账的产品合同](ref-075-stripe-usage-based-billing.md)（9.25） · Billing & Pricing
 - [[23] PCI DSS v4.0：把支付合规当作产品边界](ref-023-pci-dss.md)（9.20） · Billing & Pricing
 - [[22] OAuth 2.0（RFC 6749）：认证授权的最小事实源](ref-022-oauth2.md)（9.10） · User / Auth / Audit
+- [[90] 强化学习安全：奖励投机与副作用不是理论问题](ref-090-concrete-problems-in-ai-safety.md) · Governance & Security
 - [[51] Guardrails：给生成式系统加护栏，不是加枷锁](ref-051-guardrails.md)（8.90） · Governance & Security
 - [[35] LLM 数据去重：为什么重复会伤模型（以及怎么测）](ref-035-llm-dedup.md)（8.75） · Data
 - [[5] 持续交付（Continuous Delivery）：把发布做成可回滚的流水线](ref-005-continuous-delivery.md)（8.45） · Deployment & Operations
 - [[62] Prometheus：指标监控的事实标准（但别滥用标签）](ref-062-prometheus.md)（8.40） · Deployment & Operations
-

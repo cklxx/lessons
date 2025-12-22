@@ -103,6 +103,10 @@
 - QLoRA（Dettmers et al., 2023）https://arxiv.org/abs/2305.14314 （笔记：[笔记](../notes/ref-047-qlora.md)）
 - RLHF（Ouyang et al., 2022）https://arxiv.org/abs/2203.02155 （笔记：[笔记](../notes/ref-041-rlhf.md)）
 - DPO（Rafailov et al., 2023）https://arxiv.org/abs/2305.18290 （笔记：[笔记](../notes/ref-042-dpo.md)）
+- PPO（Schulman et al., 2017）https://arxiv.org/abs/1707.06347 （笔记：[笔记](../notes/ref-085-ppo.md)）
+- Deep RL from Human Preferences（Christiano et al., 2017）https://arxiv.org/abs/1706.03741 （笔记：[笔记](../notes/ref-086-rl-from-human-preferences.md)）
+- Learning to Summarize from Human Feedback（Stiennon et al., 2020）https://arxiv.org/abs/2009.01325 （笔记：[笔记](../notes/ref-088-learning-to-summarize-from-human-feedback.md)）
+- Constitutional AI（Bai et al., 2022）https://arxiv.org/abs/2212.08073 （笔记：[笔记](../notes/ref-089-constitutional-ai.md)）
 
 ## 第 16 章：推理优化（Inference）
 
@@ -130,6 +134,7 @@
 ## 第 20 章：合规与伦理（风险/隐私/安全/治理）
 
 - NIST AI RMF https://www.nist.gov/itl/ai-risk-management-framework （笔记：[笔记](../notes/ref-077-nist-ai-rmf.md)）
+- Concrete Problems in AI Safety（Amodei et al., 2016）https://arxiv.org/abs/1606.06565 （笔记：[笔记](../notes/ref-090-concrete-problems-in-ai-safety.md)）
 
 ## 说明：如何“查找与补充”更多材料
 
