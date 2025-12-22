@@ -1,5 +1,5 @@
 # 第 19 章：迭代与增长：路线图、实验与定价
-![Chapter 19 Header](../../assets/chapter_19_header.svg)
+![Chapter 19 Header](../../assets/chapter_19_header_1766373232862.png)
 
 > 迭代不是做更多，而是更快裁决。在 AI 时代，你最大的优势是速度，但你最大的风险也是速度：没有门槛与止损线，速度只会把你带向更大的偏航。[4][6]
 

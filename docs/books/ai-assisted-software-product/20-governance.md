@@ -1,5 +1,5 @@
 # 第 20 章：合规与伦理：数据、版权与安全边界
-![Chapter 20 Header](../../assets/chapter_20_header.svg)
+![Chapter 20 Header](../../assets/chapter_20_header_1766373537832.png)
 
 > 合规不是上线前盖章，而是你每天做决策时的边界：什么能收、什么能用、什么能展示、什么必须拒绝。边界写不清，增长只是在放大风险。[35][68]
 

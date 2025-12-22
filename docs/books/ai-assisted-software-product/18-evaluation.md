@@ -1,5 +1,5 @@
 # 第 18 章：评测体系：离线/在线、红队与回归
-![Chapter 18 Header](../../assets/chapter_18_header.svg)
+![Chapter 18 Header](../../assets/chapter_18_header_1766373204077.png)
 
 > 评测不是上线前做一次，而是把变化变成可裁决的日常：回归不过不发布，退化可定位可回滚。[6]
 

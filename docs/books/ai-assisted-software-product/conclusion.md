@@ -1,5 +1,5 @@
 # 结语：通往 AGI 时代的船票
-![Conclusion Header](../../assets/conclusion_header.svg)
+![Conclusion Header](../../assets/conclusion_header_1766373558820.png)
 
 > 在算法模型日新月异的迷雾中，本书无法为你提供一张永不过时的航海图，但希望它能帮你锻造一只即使在风暴中也能校准航向的罗盘。这不仅仅是关于代码的构建，更是一套可迁移的工程与实验方法：在不确定的模型迭代中，用证据驱动决策，用自动化守住质量。[4][5][6]
 

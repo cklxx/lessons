@@ -55,7 +55,7 @@ PRD 里最常见的模糊，不是漏了某个功能，而是用了含糊的口�
 ## 把合同自动验收：OpenAPI + Spectral（把 PRD 落到门禁）
 当你的产品能力需要被前端/第三方/Agent 工具调用时，接口契约就不该只存在于 PRD 的文字里。一个可落地的做法是把它落到 OpenAPI，然后用 lint 工具把它变成 CI 门禁：不符合合同条款就不允许合并。[67][65]
 
-![图 3-4：PRD → OpenAPI → Spectral → CI 门禁（占位）](../../assets/figure-placeholder.svg)
+![图 3-4：PRD → OpenAPI → Spectral → CI 门禁](../../assets/figure_03_4_prd_ci_pipeline_1766373696972.png)
 
 !!! note
     作图提示：建议画成一条管道，从条款到门禁一路可追溯。
@@ -76,7 +76,7 @@ PRD（MUST/SHOULD/MAY 的条款）
 ## 模板 1：一页 PRD（MVP 合同）
 用法：先写这一页，再允许自己写任何细节。写不满一页不是问题；写不清一句话才是问题。
 
-![图 3-2：一页 PRD 视觉示例（占位）](../../assets/figure-placeholder.svg)
+![图 3-2：一页 PRD 视觉示例](../../assets/figure_03_2_one_page_prd_1766373715477.png)
 
 !!! note
     作图提示：建议画成一页纸卡片，结构简单但可验收。
@@ -117,7 +117,7 @@ PRD 最常见的后遗症是：验收标准写在文档里，但产品界面不�
 
 当两层能对齐，你就能做到：上线前靠清单验收，上线后靠证据复盘，退化时靠回滚止损。[5][18]
 
-![图 3-3：验收映射表（占位）](../../assets/figure-placeholder.svg)
+![图 3-3：验收映射表](../../assets/figure_03_3_acceptance_criteria_map_1766373734131.png)
 
 !!! note
     作图提示：建议画成四列映射，左边是用户感知，右边是系统证据与回滚。
