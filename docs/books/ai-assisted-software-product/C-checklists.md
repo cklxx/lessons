@@ -30,7 +30,7 @@
 - `release`：灰度发布（绑定 Runbook，按表推进/暂停/回滚）
 - `rollback`：一键回滚/降级（10 分钟止损）
 
-Runbook 模板与常见事故的 10 分钟止损动作库见：[E-runbooks.md](E-runbooks.md)。
+Runbook 模板与常见事故的 10 分钟止损动作库见：[E-runbooks.md](E-runbooks.md)；指标字典与告警门禁速查见：[F-metrics-alerts.md](F-metrics-alerts.md)。
 
 ## C.1 发布前（阻断项）
 

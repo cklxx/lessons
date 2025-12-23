@@ -303,3 +303,97 @@
 - attack_cases（可选，若缺失你需补齐最少 10 条）：...
 - allowed_alternatives：...
 ```
+
+## B.9 配方：事故复盘（Postmortem）→ 门禁回写（让问题不复发）
+**适用场景：** 发生线上事故后，不只写“检讨”，而要把复现路径变成可执行门禁：同类问题以后命中即阻断发布。
+
+**输入清单（最少字段）：**
+- `incident_context`：事故上下文（触发时间、影响范围、关键报错、用户反馈摘录）。
+- `version_set`：事故时刻版本集合（代码/配置/提示/模型/索引/策略）。
+- `timeline_raw`：原始时间线片段（告警触发、回滚、恢复、二次波动等，允许是草稿）。
+- `fix_patch`：修复补丁（代码 diff 或配置变更摘要）。
+- `samples`：可复现样本（trace_id 列表或 JSONL，已脱敏）。
+
+**输出格式：** 结构化复盘报告（Markdown）+ 可执行门禁（脚本/规则/样本集更新说明）。
+
+**验收标准（门禁）：**
+- **时间线必须精确到分钟**：从触发→发现→止血→恢复→验证全过程。
+- **5 Whys 必须落到可执行行动项**：行动项必须能落成门禁/回归/默认配置，而不是“加强培训/提高意识”。
+- **必须包含回滚指针**：明确回滚到哪个 `version_set` 能在 10 分钟内止损，并附“恢复证明”的指标口径。
+- **必须产出可复跑的回归用例**：该用例必须在事故版本上失败、在修复版本上通过，且能作为 `gate` 的阻断项（退出码非 0 即失败）。
+- **证据包必须齐全**：按 `D-evidence-pack.md` 归档到 `reports/YYYY-MM-DD/<change-id>/`。
+
+**失败判定：**
+- 归因停在形容词（“网络波动/偶发/运气不好”）且无证据；行动项不可执行；没有回归样本与门禁入口。
+
+**回归沉淀：**
+- 将触发样本写入阻断级回归集（见 `18-evaluation.md`），并补齐标签（越权/注入/超时/成本/格式/证据不足）。
+- 将证据包按 `D-evidence-pack.md` 归档至 `reports/YYYY-MM-DD/<change-id>/`（必须含 `version_set.json` 与 `rollback_plan.md`）。
+- 延伸阅读：[`17-deployment.md`](17-deployment.md)（回滚与灰度）· [`E-runbooks.md`](E-runbooks.md)（10 分钟止损动作库）。
+
+**提示词模板（可直接复制）：**
+```text
+你是严苛的 SRE/安全负责人。请基于输入生成一份“可执行复盘报告”，要求：
+- 只输出 Markdown；不要输出安抚性废话。
+- 报告必须包含（按顺序）：
+  1) 定级：S0/S1/S2/S3，影响面与止损结论。
+  2) Timeline：分钟级时间线（触发→发现→止血→恢复→验证）。
+  3) 5 Whys：至少 5 层追问，直到找到可落成门禁/默认配置的根因（禁止停在“人为疏忽”）。
+  4) Version Set：事故时刻版本集合（代码/配置/提示/模型/索引/策略）+ 回滚指针。
+  5) Stop-Loss：10 分钟内做了什么（引用 E-runbooks.md 的 RB-xx），以及为何这些动作可逆。
+  6) Actionable Gates：把本次事故变成门禁的具体改动清单（样本/规则/阈值/退出码）；给出可执行入口命名建议（gate/evidence/release/rollback）。
+  7) Evidence Pack：列出必须归档的证据文件清单，并声明目录为 reports/YYYY-MM-DD/<change-id>/（参照 D-evidence-pack.md）。
+- 行动项必须满足：可执行、可验证、可回滚、可留档；否则视为无效。
+
+输入：
+- incident_context：<<<事故描述>>>
+- version_set：<<<版本集合>>>
+- timeline_raw：<<<时间线草稿>>>
+- fix_patch：<<<修复摘要或 diff>>>
+- samples：<<<trace_id/样本（脱敏）>>>
+```
+
+## B.10 配方：指标/告警/Runbook 维护（把观测变成可执行门禁）
+**适用场景：** 系统演进导致旧指标失效或噪音过大；你需要按周期（例如每月）重刷指标字典、阈值与 Runbook，让告警“响了就能动，动了能止损”。
+
+**输入清单（最少字段）：**
+- `service_slo`：服务 SLO（可用性/延迟/成本/风险红线）。
+- `baseline_stats`：过去 30 天基线统计（按 `entrypoint × input_len_bucket × version_set` 的 P50/P95/P99）。
+- `alert_history`：告警历史（误报/漏报/响应耗时/是否回滚）。
+- `runbooks`：当前 Runbook（含默认回滚指针）。
+
+**输出格式：** 指标字典 + 阈值表 + 告警到动作映射表（Markdown）+ 末日演练脚本（按分钟）+ 证据包清单。
+
+**验收标准（门禁）：**
+- **阈值必须三段式**：基线分位数（Baseline）+ 倍数阈值（Multiplier）+ 绝对红线（Absolute Redline）；且区分告警阈值与阻断阈值。
+- **告警必须映射到动作**：每条告警必须绑定 `E-runbooks.md` 的 RB-xx 与“首要止血动作”，无动作告警必须废弃。
+- **必须对齐版本集合口径**：所有阈值与面板必须能按 `version_set` 归因；禁止混版本求平均。
+- **必须包含每月演练脚本**：演练要覆盖告警→Runbook→证据包→回滚验证的闭环（参照 `F-metrics-alerts.md`）。
+- **证据包必须可落盘**：把本次阈值/告警变更的基线快照、规则 diff、演练记录归档到 `reports/YYYY-MM-DD/<change-id>/`（参照 `D-evidence-pack.md`）。
+
+**失败判定：**
+- 阈值没有推导依据；告警无法落到 Runbook；没有演练；或无法产出证据包证明“改完更可用”。
+
+**回归沉淀：**
+- 将“误报/漏报样本”写回回归与门禁阈值（见 `18-evaluation.md`），并更新 `E-runbooks.md` 的默认回滚指针。
+- 将指标字典与阈值表固化为文档资产：[`F-metrics-alerts.md`](F-metrics-alerts.md)；与发布流程对齐：[`17-deployment.md`](17-deployment.md)。
+- 延伸阅读：[`12-billing.md`](12-billing.md)（成本止损）、[`11-user.md`](11-user.md)（越权/审计）、[`20-governance.md`](20-governance.md)（风险红线）。
+
+**提示词模板（可直接复制）：**
+```text
+你是可观测性与门禁负责人。请基于历史数据重构“指标/阈值/告警/Runbook”体系，要求：
+- 只输出 Markdown（表格为主）；不要输出空泛解释。
+- 产出必须包含：
+  1) 指标字典（按质量/延迟/成本/风险分组，每个指标写清定义、单位、分桶/标签、采集点、误区）。
+  2) 阈值表：对每个关键指标给出三段式阈值（Baseline 分位数 + 倍数 + 绝对红线），并区分告警与阻断。
+  3) 告警→动作映射表：告警名/触发条件/默认级别（S0-S3）/首要止血动作/对应 RB-xx（E-runbooks.md）。
+  4) 每月 30 分钟演练脚本：按分钟列步骤，覆盖告警触发→执行 Runbook→证据包归档→回滚验证→复盘回写。
+  5) Evidence Pack：声明证据包目录为 reports/YYYY-MM-DD/<change-id>/，并列出需要归档的文件清单（参照 D-evidence-pack.md）。
+- 口径约束：所有统计必须按 version_set 对齐；禁止混版本求平均。
+
+输入：
+- service_slo：<<<SLO 与红线>>>
+- baseline_stats：<<<过去 30 天分桶基线>>>
+- alert_history：<<<误报/漏报与响应记录>>>
+- runbooks：<<<当前 Runbook 摘要>>>
+```

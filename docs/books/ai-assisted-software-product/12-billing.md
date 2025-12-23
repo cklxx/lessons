@@ -338,6 +338,40 @@ AI 产品的计量争议，往往不在单价，而在边界条件：失败算�
 
 阈值不要拍脑袋，最低做法是先建立基线（过去 7 天分位数），再用倍数作为门槛；并区分告警阈值与阻断阈值。[6]
 
+#### 闭环：计量→账本→对账→止损→纠错→回写（把计费事故变成门禁）
+计费风控不是单点拦截，而是一条可执行的闭环：**止损能立刻生效，证据能立刻落盘，纠错能回写到门槛与规则**。否则你只是在“处理一次事故”，而不是“让它不再复发”。
+
+成本指标的统一口径与推荐标签见：[F-metrics-alerts.md](F-metrics-alerts.md)。证据包的统一结构与字段模板见：[D-evidence-pack.md](D-evidence-pack.md)。
+
+```text
+[ 计量 Metering ] -> [ 不可变账本 Ledger ] -> [ 对账 Reconciliation ] -> [ 止损 Stop-Loss ]
+      ^                    |                        |                        |
+      |                    v                        v                        v
+      +------------ [ 纠错 Correction（冲正/补记） ] <- [ 证据包 Evidence（可审计） ] <-+
+                         |
+                         v
+                  [ 回写 Writeback（阈值/规则/回归样本） ]
+```
+
+| 告警信号（Signal） | 三段式阈值（基线分位数 + 倍数 + 绝对红线） | 首要止血动作（先可逆） | 证据（落到 `reports/YYYY-MM-DD/<change-id>/`） | Runbook |
+| --- | --- | --- | --- | --- |
+| 单用户/单 API Key 消耗突增 | `tenant/user` 维度的 `cost.cost_per_request`：`current_p99 > 7d_p99×1.5` 或 `> hard_cap` | 临时冻结计费能力/触发二次校验（避免继续烧钱） | `signals/billing_metrics.json` + `samples/trace_ids.txt` | [E-runbooks.md](E-runbooks.md)（RB-08） |
+| 租户日消耗异常 | `cost.tenant_daily_burn`：`current > baseline_p95×2` 或 `> hard_cap` | 限流/暂停高成本入口；提示升级/扩容前置 | `signals/tenant_burn.csv` + `diffs/price.diff` | [E-runbooks.md](E-runbooks.md)（RB-08） |
+| 全局小时燃烧率异常（破产曲线） | `cost.global_hourly_burn`：`current > baseline_p95×2` 或 `> hard_cap` | 熔断非核心入口；切换到低成本路径 | `signals/global_burn.png` + `action_log.md` | [E-runbooks.md](E-runbooks.md)（RB-02） |
+| 对账差异（实收 vs 应收） | 差异率 `gap_rate`：`current > baseline_p99×1.2` 或 `gap_amount > hard_cap` | 暂停自动出账；冻结部分退款；进入人工复核 | `recon/recon_diff.csv` + `ledger/ledger_slice.jsonl` | [E-runbooks.md](E-runbooks.md)（RB-08） |
+| 重复计费（重试/回调重放） | 同一 `idempotency_key` 出现多条 `ledger_event`（红线：>0） | 暂停计量写入；启用去重/回放校验；必要时冲正 | `recon/duplicate_keys.txt` + `ledger/ledger_slice.jsonl` | [E-runbooks.md](E-runbooks.md)（RB-08） |
+| 退款/拒付风暴 | 退款率/拒付数：`current > baseline_p95×2` 或 `> hard_cap` | 暂停高风险渠道/国家；提高风控等级；强制人工审批 | `recon/refunds.csv` + `support/disputes.md` | [E-runbooks.md](E-runbooks.md)（RB-08） |
+| 失败重试浪费（越错越贵） | `cost.retry_waste_rate`：`current_p95 > baseline_p95×1.5` 或 `> hard_cap` | 降低重试上限；启用降级；排查依赖故障 | `signals/retry_waste.csv` + `samples/errors.jsonl` | [E-runbooks.md](E-runbooks.md)（RB-02/RB-07） |
+
+最小证据包（5–8 条即可，但缺一条就很难自证）：
+- `meta.json`：事件信息、定级（S0–S3）、负责人、触发规则 id（对齐 [E-runbooks.md](E-runbooks.md) 的约定）。
+- `version_set.json`：事故发生时的版本组合（代码/配置/模型/提示/索引/策略），用于精确回滚与归因（见 [D-evidence-pack.md](D-evidence-pack.md)）。
+- `signals/billing_metrics.json`：触发时刻的指标快照（当前值、基线分位数、倍数阈值、绝对红线）。
+- `ledger/ledger_slice.jsonl`：关联账本事件切片（脱敏），证明“计费事实”。
+- `recon/recon_diff.csv`：对账差异明细（差异来源分类：漏记/重复/退款/汇率/税）。
+- `samples/trace_ids.txt`：可回放的 `trace_id/request_id` 列表（用于复现与争议处理）。
+- `action_log.md`：系统执行的止损/纠错动作日志（暂停、限流、冲正、回滚指针）。
+
 ## 复现检查清单（本章最低门槛）
 - 计量口径卡可审计：单位、计费时机、去重键、豁免、展示方式与争议处理口径写清楚。
 - 账本事件不可变：event_id 唯一、幂等去重、支持冲正/补记，能追溯到一次行为与审计事件。[5]

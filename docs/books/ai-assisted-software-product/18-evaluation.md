@@ -370,6 +370,8 @@ python3 docs/examples/evaluation/ragas_gate.py \
 
 下表给出一个可执行门槛示例，你可以按业务调整，但必须写成数字与阻断规则，避免出现 X/Y 这类不可执行占位。
 
+指标口径、阈值三段式（基线分位数 + 倍数 + 绝对红线）与“告警→动作→Runbook”映射表见：[F-metrics-alerts.md](F-metrics-alerts.md)。证据包落盘结构见：[D-evidence-pack.md](D-evidence-pack.md)。你要的不是一张表，而是“门禁失败时下一步能立刻执行”。
+
 | 类别 | 门槛 | 退化动作 |
 | --- | --- | --- |
 | 离线回归 | 阻断级样本 100% 通过；其余样本通过率不低于基线，且平均分不下降超过 0.02 | 失败即阻断 |

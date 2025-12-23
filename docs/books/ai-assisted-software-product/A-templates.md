@@ -234,3 +234,97 @@
   }
 }
 ```
+
+## A.9 事故复盘（Postmortem）模板（分钟级时间线 + 可执行回写）
+
+> 用法：事故结束后 24 小时内完成。重点不是写得漂亮，而是把“复现路径”变成门禁、把“止损动作”变成默认配置、把“证据”变成可审计资产。
+>
+> 对齐口径：证据包见 `D-evidence-pack.md`；10 分钟止损动作见 `E-runbooks.md`；指标与阈值见 `F-metrics-alerts.md`。
+
+```markdown
+# [INC-YYYY-MM-DD-XXX] 事故复盘：<一句话标题>
+
+- 严重级别：S0/S1/S2/S3
+- 状态：已恢复/已降级/持续观察
+- 证据包目录：`reports/YYYY-MM-DD/<change-id>/`
+
+## 1) 执行摘要（3 句话）
+- 发生了什么（可复现事实，不写观点）：…
+- 影响了谁/多大（用户数/请求数/金额/风险）：…
+- 我们如何止损（回滚/降级/熔断，引用 RB-xx）：…
+
+## 2) 影响面（必须量化）
+- 用户影响：<受影响租户/用户/入口>，<比例/数量>
+- 业务影响：<转化/留存/退款/投诉>，<变化>
+- 成本影响：<成本曲线/峰值/预算耗尽>，<变化>
+- 风险影响：<越权/PII/注入/违规内容>，命中情况
+
+## 3) Timeline（分钟级）
+| 时间 | 事件 | 信号/证据 | 动作 | 结果 |
+| --- | --- | --- | --- | --- |
+| 00:00 | 触发 | <告警/工单/面板截图> | - | - |
+| 00:02 | 发现 | <trace_id/错误码> | <暂停扩量/降级> | <指标变化> |
+| 00:05 | 止血 | <回滚指针> | <rollback/release 操作> | <恢复证明> |
+| 00:10 | 验证 | <黄金链路用例> | <复跑> | <通过/失败> |
+
+## 4) 版本集合与回滚指针（必须写清）
+- 事故时刻 `version_set`：<code/config/prompt/model/index/policy>
+- 10 分钟止损动作：RB-xx（写明做了哪些可逆动作）
+- 回滚指针：回到哪个 `version_set`；如何证明已恢复（指标口径 + 证据路径）
+
+## 5) 5 Whys（必须落到机制缺失）
+1. 为什么发生：…
+2. 为什么没提前发现：…
+3. 为什么门禁没挡住：…
+4. 为什么回滚/降级不够快：…
+5. 为什么同类问题可能复发：…
+
+## 6) 根因与促发因素（可验证）
+- 根因（可复现）：…
+- 促发因素（让根因更易发生）：…
+- 哪些猜测已被证伪：…
+
+## 7) 行动项（必须可执行、可验证、可回滚）
+| Action | Owner | Deadline | 落地位置 | 验收门槛 | 证据 |
+| --- | --- | --- | --- | --- | --- |
+| 把触发样本加入阻断级回归 | <me> | <date> | `18-evaluation.md` 对应回归集 | 门禁退出码=0 | `reports/.../` |
+| 更新阈值（三段式） | <me> | <date> | `F-metrics-alerts.md` + 告警配置 | 告警不误报且可触发 | `reports/.../` |
+| 更新 Runbook | <me> | <date> | `E-runbooks.md` | 10 分钟止损可演练 | `reports/.../` |
+
+## 8) 复发预防：门禁回写清单
+- 新增阻断级样本：<id 列表>
+- 新增/调整门禁阈值：<metric + threshold>
+- 新增/调整默认回滚指针：<version_set>
+- 更新演练脚本：<drill id>
+
+## 9) 沟通记录（可选，但建议）
+- 对内：何时通知、通知了什么、谁确认
+- 对外：是否公告、公告口径、用户补偿策略（若涉及计费见 `12-billing.md`）
+```
+
+## A.10 阈值与告警→动作映射模板（对齐 Runbook）
+
+> 用法：把“指标”写成“可执行门禁”。每条阈值必须能回答：触发后做什么（降级/回滚/暂停），证据存哪里，怎么证明恢复。
+
+```markdown
+# 观测门禁：阈值与告警→动作映射
+
+## 1) 指标与阈值（三段式）
+| Metric | Baseline（7d P95/P99） | Warn（×k） | Block（×k 或红线） | 分桶 | 说明 |
+| --- | --- | --- | --- | --- | --- |
+| `latency.ttft_ms` | <p99> | <p99*1.5> | <min(p99*3, 3000ms)> | entrypoint + input_len_bucket + version_set | TTFT 红线优先 |
+| `cost.global_hourly_burn` | <p95> | <p95*2> | <min(p95*5, hard_cap)> | env + version_set | 破产曲线 |
+| `risk.unauthorized_access_count` | 0 | 0 | 0 | tenant_id + resource_type | 命中即 S0 |
+
+## 2) 告警→动作→证据→Runbook
+| Alert | Trigger | Default Severity | First Action | Runbook | Evidence Pack |
+| --- | --- | --- | --- | --- | --- |
+| `alert.latency_spike` | TTFT/端到端超阈值 | S1 | 削减链路/降级 | RB-03 | `reports/YYYY-MM-DD/<change-id>/`（见 `D-evidence-pack.md`） |
+| `alert.cost_surge` | 成本/小时超阈值 | S0 | 限流/降级/熔断 | RB-02 | 同上 |
+| `alert.cross_tenant` | 越权命中>0 | S0 | 维护/只读 | RB-04 | 同上 |
+
+## 3) 恢复判定（必须量化）
+- 指标回到基线区间并稳定 <30m>
+- 黄金链路手工复跑 <3 条> 通过
+- 证据包齐全：`meta.json`、`version_set.json`、`rollback_plan.md`、`signals/`、`samples/`
+```

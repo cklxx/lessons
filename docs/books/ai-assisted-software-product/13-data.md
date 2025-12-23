@@ -228,6 +228,43 @@ PY
 - 统计对比：脱敏前后做长度分布、字符集分布、实体类型分布对比，防止规则失效。
 - 红队回归：对脱敏后的数据做反推测试，把可逆脱敏当作缺陷回写到规则。
 
+### 清洗门禁：把污染拦在训练/索引之前（RB-10）
+清洗不是为了“跑通流程”，而是为了**拒收批次**。一旦脏数据进入 `snapshot_id` 并污染训练集或索引，你后面所有“效果优化”都可能变成把风险做得更稳定。因此清洗流水线的出口必须有强制门禁：不达标就不产出快照、不允许进入训练与索引。
+
+阈值不要拍脑袋，按三段式写（基线分位数 + 倍数 + 绝对红线），并强制按 `batch_id/snapshot_id/version_set` 对齐口径。指标与阈值的统一写法见：[F-metrics-alerts.md](F-metrics-alerts.md)。数据污染的 10 分钟止损动作见：[E-runbooks.md](E-runbooks.md)（RB-10）。合规边界与处置建议见：[20-governance.md](20-governance.md)。
+
+| 门禁/信号（Gate） | 三段式阈值（示例） | 首要止血动作（先断源） | 证据要求（必须可审计） | Runbook |
+| --- | --- | --- | --- | --- |
+| PII 命中 | `risk.pii_detected_count > 0`（绝对红线） | 立刻隔离批次 + 暂停摄入/训练/索引 | `samples/pii_hits.jsonl`（脱敏）+ `signals/pii_scan_report.json` | [E-runbooks.md](E-runbooks.md)（RB-10） |
+| Schema/字段校验失败 | `fail_rate > baseline_p99×1.5` 或 `> 5%`（红线示例） | 拒收批次（不产出快照）+ 回滚到上一快照 | `signals/schema_validation.json` + `diffs/schema.diff` | [E-runbooks.md](E-runbooks.md)（RB-10） |
+| 分布突变（长度/语言/标签比例） | `drift_score > baseline_p95×2` 或 `> 0.05`（绝对红线示例） | 冻结下游使用（训练/索引指针不前移）+ 人工抽检 | `signals/distribution_diff.csv` + `samples/shift_samples.jsonl` | [E-runbooks.md](E-runbooks.md)（RB-10） |
+| 训练/评测泄露（数据混流） | `leak_count > 0`（绝对红线） | 立刻隔离批次 + 下线污染快照/索引 | `signals/leak_check.json` + `samples/leak_pairs.jsonl` | [E-runbooks.md](E-runbooks.md)（RB-10） |
+| 注入指令/命令式句子混入（可选但强烈建议） | `hit_rate > baseline_p95×1.5` 或 `> 1%`（绝对红线示例） | 暂停摄入 + 启用更严格过滤；若已进入索引需回滚 | `signals/injection_hits.json` + `samples/injection_hits.jsonl` | [E-runbooks.md](E-runbooks.md)（RB-10/RB-05/RB-06） |
+| 审计与血缘缺口（不可追溯） | `risk.audit_gap_count > 0`（绝对红线） | 禁止产出/发布该快照（先补齐元数据） | `meta.json` + `version_set.json` + `registry_snapshot.json` | [E-runbooks.md](E-runbooks.md)（RB-10） |
+
+```text
+清洗作业完成
+  → 计算门禁指标（按 batch_id/snapshot_id/version_set 分桶）
+  → 通过：产出新 snapshot_id + 写入数据注册表
+  → 失败（任一红线命中）：
+      1) 隔离批次（tainted，禁止进入训练/索引）
+      2) 暂停摄入/训练/索引构建（先断源）
+      3) 回滚指针到上一 snapshot_id（训练/索引）
+      4) 清理污染（按 batch_id 删除/回滚）
+      5) 复跑校验（PII 扫描 + schema 校验必须全绿）
+      6) 恢复（逐步放开下游；把触发样本回写到门禁）
+```
+
+最小证据包（落到 `reports/YYYY-MM-DD/<change-id>/`，参照 [D-evidence-pack.md](D-evidence-pack.md)）：
+- `meta.json`：批次信息、时间窗、来源、定级、负责人。
+- `version_set.json`：本次处理的 `code_revision/config_hash/schema_version`（用于回滚与复跑）。
+- `manifest.json`：输入/输出文件列表、校验和、行数与统计摘要（快照指纹）。
+- `signals/pii_scan_report.json`：PII 扫描报告（命中率、规则版本、漏报样本 id）。
+- `signals/schema_validation.json`：字段/Schema 校验结果（通过率、错误类型分布）。
+- `signals/distribution_diff.csv`：清洗前后关键分布对比（长度/语言/标签等）。
+- `samples/pii_hits.jsonl`：污染样本抽样（必须脱敏），用于复盘与回归门禁。
+- `action_log.md`：隔离/回滚/清理动作日志 + 回滚指针。
+
 ## 第四步：标注与一致性（让标签可被信任）
 标注最贵的不是人工成本，而是不一致：同一个问题，不同标注者给出不同标准，训练出来的模型会学会矛盾。
 

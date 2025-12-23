@@ -108,6 +108,70 @@ else: call llm/tools with action_id, record cost, store result, return
 - tool_calls：调用了哪些工具与次数（含失败原因）。
 - cache_hit：是否命中缓存，避免把缓存命中误判成模型变强。
 
+#### 版本集合（version_set）与标签口径：拒绝“差不多”
+如果你的监控面板不带 `version_set`，你看到的就是混合平均值：新旧版本、不同入口、不同输入长度、不同租户被搅在一起，最后你只能在事故发生后“凭感觉回滚”。这不是可观测性，这是祈祷。
+
+- **告警与面板必须按 `version_set` 对齐口径**：否则你无法回答“这次发布让哪个版本变好/变坏”。指标字典与统一标签规范见：[F-metrics-alerts.md](F-metrics-alerts.md)。
+- **证据包目录必须固定**：每次变更把日志/指标/对比表归档到 `reports/YYYY-MM-DD/<change-id>/`，否则告警响了也找不到证据。结构模板见：[D-evidence-pack.md](D-evidence-pack.md)。
+
+| 字段 | 用途 | 示例值 | 常见误区 |
+| --- | --- | --- | --- |
+| `version_set` | 唯一确定本次行为来自哪套组合（代码/配置/模型/提示/索引/策略） | `code=a1b2c3 cfg=sha256:... model=v3 prompt=p12 index=i7 policy=r9` | 只记 git commit；提示词/索引/策略变了却查不出来 |
+| `request_id` | 用户侧可追踪（客服/工单/导出明细） | `req-abc-123` | 只在网关有，后端/worker 不透传 |
+| `trace_id` | 工程侧可串起全链路（网关→服务→工具→回调） | `trace-def-456` | 有 trace 但缺关键 span 属性，还是定位不了 |
+| `tenant_id` | 定位影响面与隔离归因 | `t-001` | 只在业务库里有，监控侧丢失 |
+| `actor_id` | 审计与追责（谁触发） | `u-123` | 只记录“匿名”，出事无法解释 |
+| `action` | 业务语义（可聚合统计） | `chat.complete` / `kb.ingest` | 只写 URL 路径，语义不可读 |
+| `model_version` | 模型升级/回滚归因 | `model=v3` | 同一指标混多个模型版本 |
+| `prompt_version` | prompt 漂移归因 | `prompt=p12` | prompt 变更不留痕，只能靠猜 |
+| `index_version` | RAG 索引/语料回滚归因 | `index=i7` | 只记录 index alias，不记录具体版本 |
+| `policy_version` | 安全策略/拒答口径归因 | `policy=r9` | 策略误伤/漏拦截无法追溯到版本 |
+| `aborted_reason` | 记录“为什么没做完”（预算/安全/依赖） | `budget_exceeded` / `policy_blocked` | 把熔断/拒答记为成功或未知错误 |
+
+| Label | 必选 | 示例 | 为什么 |
+| --- | --- | --- | --- |
+| `env` | 是 | `prod` | 生产与灰度口径必须隔离 |
+| `entrypoint` | 是 | `web` / `api` / `batch` | batch 的慢不该淹没 web 的慢 |
+| `input_len_bucket` | 是 | `<1k` / `1k-4k` / `4k-16k` / `>16k` | 不分桶会把长输入的尾延迟误判成整体退化 |
+| `version_set` | 是 | `code=a1b2c3+prompt=p12+model=v3` | 不带版本指纹就无法判断“这次发布变好了吗” |
+| `tenant_id` | 是（多租户） | `t-001` | 单一租户爆炸会被全局平均掩盖 |
+| `model_version` | 强烈建议 | `v3` | 模型升级的收益/代价必须可对比 |
+| `prompt_version` | 强烈建议 | `p12` | prompt 漂移是最常见的隐性回归源 |
+| `index_version` | 强烈建议（RAG） | `i7` | 索引/语料变化必须能一键回滚 |
+| `policy_version` | 强烈建议 | `r9` | 安全策略拦截率上升要能归因 |
+| `tool_name` | 工具链路有用 | `search` / `payment` | 工具失败/慢会放大端到端尾延迟 |
+
+```text
+请求进入
+  → 结构化日志（带 version_set + trace_id）
+  → 指标聚合（按 env/entrypoint/input_len_bucket/version_set 分桶）
+  → 证据包落盘（reports/YYYY-MM-DD/<change-id>/）
+  → 告警触发（阈值三段式：基线分位数 + 倍数 + 绝对红线）
+  → 执行动作（降级/回滚，绑定 Runbook）
+```
+
+```text
+# 示例 1：一行结构化日志（让每条日志都能归因到版本与租户）
+ts=2025-12-23T22:10:00Z request_id=req-abc-123 trace_id=trace-def-456 tenant_id=t-001 actor_id=u-123 action=chat.complete result=success latency_ms=1250 tokens_in=500 tokens_out=120 tool_calls=search:1 cache_hit=false cost_usd=0.002 version_set='code=a1b2c3 cfg=sha256:... model=v3 prompt=p12 index=i7 policy=r9'
+```
+
+```yaml
+# 示例 2：告警规则（阈值三段式：基线分位数 + 倍数 + 绝对红线）
+alert: alert.latency_spike
+metric: latency.ttft_ms
+window: 5m
+bucket_by: [entrypoint, input_len_bucket, version_set]
+baseline:
+  source: rolling_7d_p99
+warn:
+  when: current_p99 > baseline_p99 * 1.5
+  action: "暂停扩量，进入 RB-03（见 E-runbooks.md）"
+block:
+  when: current_p99 > 3000 # 绝对红线示例：3s
+  action: "立即降级/回滚，进入 RB-03（见 E-runbooks.md）"
+evidence_dir: reports/YYYY-MM-DD/<change-id>/ # 参照 D-evidence-pack.md
+```
+
 ### 5) 成本守门：把预算写进系统默认值
 在 AI 产品里，成本不是财务报表里的事，而是运行时行为。建议你把预算做成三层：
 - **单次请求预算**：超过就降级（减少上下文、跳过重排、减少工具调用）。
