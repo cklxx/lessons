@@ -168,7 +168,7 @@ python3 docs/examples/evaluation/judge_pairwise.py \
 - 评测脚本可用（示例脚本见 `docs/examples/evaluation/`）
 
 **输出格式：**
-- 候选报告：`reports/<date>/<change-id>/report.candidate.json`
+- 候选报告：`reports/YYYY-MM-DD/<change-id>/report.candidate.json`
 - 基线报告：`reports/baselines/report.baseline.json`
 
 **步骤：**

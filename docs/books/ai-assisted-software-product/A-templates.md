@@ -66,7 +66,7 @@
 ## 风险与开放问题
 
 ## 证据留档（可选）
-- 证据目录：<例如 reports/<date>/<change-id>>
+- 证据目录：<例如 reports/YYYY-MM-DD/<change-id>>
 - 对比表/评测报告：<路径>
 ```
 
@@ -187,7 +187,7 @@
 
 ## A.8 复现包 `manifest.json` 模板（与 QCR 对齐）
 
-> 用法：把一次改动压缩成固定字段集合，避免“我也不知道当时用了什么版本/口径”。建议把它放在复现包目录根（例如 `reports/<date>/<change-id>/manifest.json`）。
+> 用法：把一次改动压缩成固定字段集合，避免“我也不知道当时用了什么版本/口径”。建议把它放在复现包目录根（例如 `reports/YYYY-MM-DD/<change-id>/manifest.json`）。
 >
 > 替换点：优先补齐 `code_ref`、`config_hash`、`data_snapshot`、`model_version`、`random_control`、`eval_spec` 与 `gates`。
 
