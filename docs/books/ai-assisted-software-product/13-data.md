@@ -1,5 +1,5 @@
 # 第 13 章：数据收集与清洗：从语料到可训练数据集
-![Chapter 13 Header](../../assets/chapter_13_header_1766035711036.png)
+![第 13 章封面](../../assets/chapter_13_header_1766035711036.png)
 
 > 数据不是原材料，而是你的产品资产：它决定你能训练什么、能评测什么、能否合规上线，以及你能否在同一问题上持续变强。[34]
 
@@ -32,7 +32,8 @@
 
 ![图 13-1：数据资产化流水线（边界→清洗→标注→版本→回归）示意](../../assets/figure_13_1_1765971297073.png)
 
-文字版图 13-1：数据资产化流水线（不依赖图片也能执行）
+## 关键流程图（纯文本）：数据资产化流水线（边界→清洗→标注→快照→回归）
+不依赖图片也能执行：把每个阶段的输入/输出与最低门禁写清楚，你才能做审计、做回滚、做复跑。
 
 | 阶段 | 输入 | 输出 | 质量门禁（最低要求） |
 | --- | --- | --- | --- |
@@ -42,6 +43,103 @@
 | 标注与一致性 | cleaned | 标注版 labeled | 抽检、仲裁、IAA 指标 |
 | 版本化与审计 | labeled | 快照 snapshot | 数据指纹、处理配置、可回滚 |
 | 回归与迭代 | snapshot | 评测报告 | 指标达标才进入训练或索引 |
+
+## 示例（可复制）：一份最小清洗报告 + 快照 manifest（可回滚）
+
+**目标：** 用 1 个最小脚本把“清洗不是随便删”落成可复跑证据：输入/规则/例外/输出统计 + 快照指纹。
+
+**前置条件：**
+- Python 3 可用
+
+**步骤：**
+1. 复制并运行下面脚本：它会生成一份 `raw` 样本，按 `pii=true` 规则过滤，输出 `cleaned`、`cleaning_report.md` 与 `manifest.json`。
+```bash
+python3 - <<'PY'
+from __future__ import annotations
+
+import hashlib
+import json
+from pathlib import Path
+
+root = Path("tmp/data-snapshot-demo")
+raw_path = root / "raw" / "sample.jsonl"
+cleaned_path = root / "cleaned" / "sample.cleaned.jsonl"
+report_path = root / "cleaning_report.md"
+manifest_path = root / "manifest.json"
+
+root.mkdir(parents=True, exist_ok=True)
+raw_path.parent.mkdir(parents=True, exist_ok=True)
+cleaned_path.parent.mkdir(parents=True, exist_ok=True)
+
+raw_samples = [
+    {"id": "s_001", "text": "为什么我被扣费了？", "pii": False},
+    {"id": "s_002", "text": "我的邮箱是 a@example.com，帮我改密码", "pii": True},
+    {"id": "s_003", "text": "如何导出账单明细？", "pii": False},
+]
+raw_path.write_text("".join(json.dumps(x, ensure_ascii=False) + "\n" for x in raw_samples), encoding="utf-8")
+
+total = 0
+removed_pii = 0
+kept = []
+for line in raw_path.read_text(encoding="utf-8").splitlines():
+    total += 1
+    obj = json.loads(line)
+    if obj.get("pii") is True:
+        removed_pii += 1
+        continue
+    kept.append(obj)
+
+cleaned_path.write_text("".join(json.dumps(x, ensure_ascii=False) + "\n" for x in kept), encoding="utf-8")
+
+h = hashlib.sha256()
+h.update(cleaned_path.read_bytes())
+sha256 = h.hexdigest()
+
+report_path.write_text(
+    "\n".join(
+        [
+            "# 清洗报告（示例）",
+            "",
+            "## 输入与规则",
+            "- 输入：raw/sample.jsonl",
+            "- 规则：过滤 pii=true 的样本（可用于训练/索引之前的最小门禁示例）",
+            "",
+            "## 输出统计",
+            f"- total={total}",
+            f"- removed_pii={removed_pii}",
+            f"- kept={len(kept)}",
+            "",
+            "## 回滚指针",
+            "- rollback_to：上一快照 snapshot_id（示例留空，由你的数据注册表提供）",
+            "",
+        ]
+    ),
+    encoding="utf-8",
+)
+
+manifest = {
+    "snapshot_id": "snapshot_demo_001",
+    "schema_version": "v1",
+    "input": {"path": str(raw_path), "lines": total},
+    "output": {"path": str(cleaned_path), "lines": len(kept), "sha256": sha256},
+}
+manifest_path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
+assert removed_pii == 1
+assert '"pii": true' not in cleaned_path.read_text(encoding="utf-8").lower()
+print("ok")
+PY
+```
+2. 把这个形态迁移到你的真实流水线：固定 `schema_version`、记录 `code_revision/config_hash`、输出 `manifest` 与 `cleaning_report`，并把 `snapshot_id` 写进训练/评测/RAG 的版本组合。
+
+**验证命令：**
+- 上面脚本输出 `ok` 且退出码为 0；并生成 `tmp/data-snapshot-demo/manifest.json` 与 `tmp/data-snapshot-demo/cleaning_report.md`。
+
+**失败判定：**
+- 清洗规则不可解释（没有报告/没有例外），或风险样本仍混入输出（PII 未被过滤），或快照无指纹（无法比较/无法回滚）。
+
+**回滚：**
+- 立即回滚到上一 `snapshot_id`（训练/评测/RAG 同步回退到对应版本组合），并把触发问题的样本写入清洗回归（命中即阻断）。
 
 ## 第一步：先写数据边界（不要先抓再说）
 数据边界决定两件事：你能不能用，以及你该不该用。建议你先写清楚：
@@ -180,23 +278,29 @@
 | rollback_to | 回滚指针 |
 
 ## 复现检查清单（本章最低门槛）
-- 每个数据集都有数据卡（目的、来源、许可、风险、止损）。[34][35]
-- 每次清洗都有清洗报告（规则、阈值、例外、回滚）。[34]
-- 标注有指南与抽检策略（一致性可回归）。
-- 数据可版本化：训练/评测/RAG 都能指向明确数据快照。[34]
+- 数据卡齐全：目的、来源、许可、风险、止损与删除策略写清；无许可或边界不清视为阻断。[34][35]
+- 清洗报告可复跑：规则、阈值、例外、抽检样例与回滚指针齐全；处理可追溯 code_revision/config_hash。[34]
+- 标注与抽检可回归：指南、抽检策略与一致性口径明确；争议样本回写指南与回归集。
+- 数据快照可追溯：训练/评测/RAG 都能指向明确数据快照，并能查到来源时间窗与统计摘要。[34]
 
 ## 常见陷阱（失败样本）
-1. **现象**：训练或 RAG 越做越乱，表现波动难解释。  
-   **根因**：数据版本不可追溯；每次清洗都像重新洗牌。  
-   **修复**：强制数据卡 + 清洗报告 + 版本化；没有证据的清洗不进入训练。[34]
+1. **现象：** 训练或 RAG 越做越乱，表现波动难解释；同样问题今天好、明天坏。  
+   **根因：** 数据版本不可追溯；每次清洗都像重新洗牌，且缺少清洗报告与指纹。[34]  
+   **复现：** 同一时间窗的数据用不同清洗配置重跑两次，发现样本数/分布差异明显，但你说不清差异来自哪条规则。  
+   **修复：** 强制数据卡 + 清洗报告 + 快照 manifest；没有证据与回滚指针的数据不得进入训练/索引。[34]  
+   **回归验证：** 固定 `snapshot_id` 复跑三次结果一致；清洗规则与例外可解释，且快照指纹可用于对比与回滚。
 
-2. **现象**：模型学会了危险行为（泄露、越权、注入）。  
-   **根因**：采集时把风险样本当噪声删掉；或未做合规边界。  
-   **修复**：把高风险失败样本当资产；纳入评测与回归；合规边界先行。[35]
+2. **现象：** 模型学会了危险行为（泄露、越权、注入），而你以为自己做了安全。  
+   **根因：** 把风险样本当噪声删掉；或未先写合规边界，导致敏感数据混入训练/索引。[35]  
+   **复现：** 抽检训练/RAG 语料，发现含敏感字段或越权指令；或红队样本在数据流里被“清洗掉”。  
+   **修复：** 高风险失败样本当资产：单独分流进 redteam/回归集；合规边界与 `consent_state` 先行，命中即阻断。[35]  
+   **回归验证：** PII/敏感内容扫描与越权/注入样本回归稳定复跑：命中即阻断，且审计记录能追溯到来源与处理动作。
 
-3. **现象**：数据量很大，但训练收益很小。  
-   **根因**：数据与任务不匹配；噪声比例高；标注不一致。  
-   **修复**：回到数据卡的覆盖范围；先提升一致性与密度，再扩量。[34]
+3. **现象：** 数据量很大，但训练收益很小；越扩量越像噪声。  
+   **根因：** 数据与任务不匹配；噪声比例高；标注不一致导致模型学会矛盾。[34]  
+   **复现：** 抽检 50 条样本：大量与目标任务无关，或同一类型样本标签互相矛盾；IAA 指标低且无仲裁机制。  
+   **修复：** 回到数据卡的覆盖范围与“不覆盖范围”；先提升一致性与密度（标注指南/仲裁/抽检），再扩量。[34]  
+   **回归验证：** 抽检与一致性指标稳定（或明确达标阈值）；训练/评测对比能解释收益来自哪些数据分桶，而不是“感觉更好”。
 
 ## 交付物清单与验收标准
 - 数据卡（Datasheet）与合规边界说明。[34][35]

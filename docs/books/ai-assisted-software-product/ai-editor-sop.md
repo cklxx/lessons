@@ -14,6 +14,7 @@
 - 优先以标题为边界切片：尽量按 `##` 小节切，不要截断代码块、长表格或引用块。
 - 涉及隐私/机密信息先脱敏：别把不该外发的内容塞进 Prompt。
 - 对代码类内容：附验证命令/失败判定/禁止改动范围（例如禁止改实现，只能补测试）。
+- 做一致性检查时，额外提供“真值表”摘录：`style-guide.md` 的关键约束 + `glossary.md` 的相关条目索引（只摘与本段相关的部分，避免塞全书）。
 
 ## 2) 工具链准备（减少重复、提高可维护性）
 
@@ -23,25 +24,46 @@
 ai_review() {
   local target_file=$1  # e.g. docs/books/ai-assisted-software-product/02-discovery.md
   local lines=$2        # e.g. 1,160p
+  local model=${3:-${GEMINI_MODEL:-gemini-3-pro-preview}}
+  local context_files=${4:-} # 可选：额外上下文文件（空格分隔）
 
   {
     cat
-    printf '\n\n章节摘录：\n<<<\n'
-    sed -n $lines $target_file
+    if [ -n "$context_files" ]; then
+      printf '\n\n上下文约束（可选）：\n<<<\n'
+      for f in $context_files; do
+        printf '\n# %s\n' "$f"
+        sed -n '1,200p' "$f"
+      done
+      printf '\n>>>\n'
+    fi
+
+    printf '\n\n章节摘录（带行号）：\n<<<\n'
+    sed -n $lines $target_file | nl -ba -w 4
     printf '\n>>>\n'
-  } | gemini -o text
+  } | gemini -m "$model" -o text
 }
 
 # 用法示例：
-# ai_review docs/books/ai-assisted-software-product/02-discovery.md 1,160p <<'EOF'
+# ai_review docs/books/ai-assisted-software-product/02-discovery.md 1,160p gemini-3-pro-preview <<'EOF'
 # 你是中文技术书编辑。请做结构完整性检查……
 # 输出：缺失项列表 + 每项一条补写建议（带验收标准）。
+# EOF
+#
+# 带“真值表”示例（术语/格式一致性检查常用）：
+# ai_review docs/books/ai-assisted-software-product/02-discovery.md 1,160p gemini-3-pro-preview \
+#   "docs/books/ai-assisted-software-product/style-guide.md docs/books/ai-assisted-software-product/glossary.md" <<'EOF'
+# ……
 # EOF
 ```
 
 ## 3) 常用审稿任务（Prompt 模板：复制即用）
 
 > 用法：把下面任意一个 instruction 复制出来，通过 heredoc 传给 ai_review；除 Prompt 主体外，其余 Shell 逻辑不再重复展示。
+>
+> 统一输出约束（强烈建议写进每个 Prompt）：
+> - 如果没有问题，输出 `PASS`；
+> - 如果要改，必须输出“可直接粘贴的补丁块”：给出位置（标题或行号范围）+ 替换前/替换后（Markdown 代码块）。不要只给泛泛建议。
 
 ### 3.1 任务：结构完整性检查
 ```text
@@ -118,15 +140,29 @@ ai_review() {
 - 内容必须覆盖边界条件 / 失败回退 / 验证动作。
 ```
 
+### 3.7 任务：图片 / 引用 / 占位符门禁检查（发布前必做）
+```text
+你是文档交付审稿人。请检查下面章节摘录中的以下问题，并输出可直接粘贴的补丁块：
+
+1) 图片是否“信息增益不足”（更像装饰）：若是，建议删图或改成表格/纯文本流程图，并说明替代内容放在哪。
+2) 图片 alt 是否缺失/过泛：必须补成一句可读描述，并建议正文首次出现处加一句“这图用于证明什么”。
+3) 是否存在占位图/占位词（如 TODO、placeholder）：命中即列为 L0 阻断，并给出替换策略（删掉/补齐/降级为文字）。
+4) 引用编号 `[n]` 是否可疑（断号/重复/突然跳号）：列出本段出现的编号集合，并提示需要跑 `python3 tools/check_citations.py` 做最终裁决。
+
+输出要求：
+- 若无问题输出 `PASS`；
+- 若有问题：按条输出补丁块，包含位置（标题或行号范围）+ 替换前/替换后（Markdown 代码块）。
+```
+
 ## 4) 采纳规则（作者作为裁判）
 - 只采纳能落到可验收改动的建议（补桥接、补约束、补步骤、补验收标准、补失败判定）。
 - **无补丁不采纳**：建议要么给出可直接替换的一句话/一段话，要么给出明确的标题与要点清单；只给泛泛而谈视为无效。
 - 对工具/框架推荐默认谨慎：优先保留范式与可迁移原则，工具清单放附录。
 - 任何涉及安全/合规的建议：必须补一句边界条件/前置假设，避免被当成通用结论。
-- **禁用双引号，少用格式符号**：输出中不要出现双引号字符 U+0022、U+201C、U+201D，也不要用双引号去圈住术语或举例。尽量用更具体的句子表达，不靠反引号、加粗、括号堆效果；示例优先给可运行的具体值；能不用占位就不用，别写一眼可见的占位串，确实需要时占位符要少，并在同一行提醒读者替换。章节内链接用普通链接即可，不用把文件名写成代码格式；模板段落优先用小标题而不是加粗标签。
+- **格式与标点约束**：默认遵循 [写作风格与格式约定](style-guide.md)。重点：正文避免英文双引号（U+0022、U+201C、U+201D）等修辞性标点；代码块里可使用引号以保证可复制；不要用过量的加粗/代码格式/括号堆叠去代替解释；模板占位符少而统一，并说明替换点。
 - **人工介入触发条件**：同一段落连续两次输出互相矛盾的建议、或建议引入与本章无关的依赖/技术栈时，立即终止自动化并由作者裁决。
 
 ## 5) 实用提醒
 - **长文本分块**：对整章审阅，优先按小节分块（`sed -n` 取 100–200 行），避免提示过长导致输出发散或命令行参数过大。
 - **切片边界**：尽量以 `##` 小节为边界取段，避免截断代码块或长表格；跨度很大的章节，宁可多次调用，也不要一次塞满。
-- **保存审稿结果**：需要留档时用 `| tee` 保存输出，例如把结果写到 `review.md`。
+- **保存审稿结果**：需要留档时用 `| tee` 保存输出；建议纳入复现包目录（例如 `reports/<date>/<change-id>/ai-review/<file>_<section>.md`），至少记录：文件、行号范围/标题、模型名、Prompt 版本、采纳/拒绝结论。

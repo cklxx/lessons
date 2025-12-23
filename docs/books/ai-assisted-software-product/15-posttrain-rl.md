@@ -1,5 +1,5 @@
 # 第 15 章：后训练：SFT/DPO/RLHF 与行为可控
-![Chapter 15 Header](../../assets/chapter_15_header_1766035751003.png)
+![第 15 章封面](../../assets/chapter_15_header_1766035751003.png)
 
 > 后训练的目标不是更像人，而是更像你的产品需求：更稳定、更安全、更符合格式、更能在边界内拒绝与追问。对个人而言，后训练的第一原则是：先用评测证明收益，再为它增加预算。[6][41][42]
 
@@ -29,6 +29,33 @@
 后训练闭环也很简单：先写清行为目标与失败判定，再准备回归集与门槛，随后做数据采集与标注，选择训练方案，产出训练前后对比报告，最后用灰度与回流把线上真实问题收回来。[6][41]
 
 验收必须对比式：关键任务质量要过门槛，安全与边界指标不能退化，拒答与追问要更会推进对话，而不是只会说不行。[6][41]
+
+## 关键流程图（纯文本）：后训练闭环（契约→数据→训练→门禁→灰度→回流）
+
+```text
+写行为契约（格式/引用/不确定处理/拒答边界/工具调用边界）
+  ↓
+准备回归集（固定版本）
+  - 关键任务集（主指标）
+  - 攻击集/边界集（守门指标：注入/越权/PII/危险指令）
+  - 失败样本池（线上回流）
+  ↓
+先走便宜路径（约束/提示/产品流程/工具闸门）
+  - 达标：不进入训练
+  - 不足：进入后训练阶梯（SFT → DPO → RLHF）
+  ↓
+训练与对比（每个 checkpoint 都产出对比报告）
+  - 主指标达标且守门不越界：进入灰度
+  - 任一守门越界：阻断 + 回滚到基线版本组合
+  ↓
+灰度发布（慢推进）
+  - 线上退化越界：一键回滚
+  - 稳定：固化模型版本与门禁口径
+  ↓
+回流（把线上失败变资产）
+  - 新失败样本入回归/攻击集
+  - 更新行为契约与门禁阈值
+```
 
 ## 路线选择：后训练阶梯（从便宜到昂贵）
 ![图 15-1：后训练阶梯（约束→SFT→偏好优化→RLHF）](../../assets/figure_15_1_1765971376277.png)
@@ -118,6 +145,126 @@ RLHF 适合更复杂的行为目标，尤其是那些很难写成规则、但人
 | 语气与风格 | 是否需要简洁，是否需要分步骤，是否允许幽默 | 漂移超过阈值即失败 |
 | 成本意识与简洁 | 输出长度上限；预算紧张时先摘要或先追问再继续 | 冗长、无提示、无降级即失败 |
 
+## 示例（可复制）：把行为契约落成结构化门禁（拒答/追问/引用）
+
+**目标：** 用一个最小脚本把“行为契约”变成可复跑门禁：结构化输出、引用要求、不确定时先追问。
+
+**前置条件：**
+- Python 3 可用
+
+**步骤：**
+1. 复制并运行下面脚本：它会验证 2 条合格输出可通过，并确保 2 条常见坏输出会被拦住。
+```bash
+python3 - <<'PY'
+from __future__ import annotations
+
+import json
+
+class Reject(Exception):
+    pass
+
+def validate_output(text: str) -> None:
+    try:
+        obj = json.loads(text)
+    except Exception as e:
+        raise Reject(f"not_json: {e}")
+
+    status = obj.get("status")
+    if status not in ["ok", "need_info", "refuse"]:
+        raise Reject("bad_status")
+
+    answer = str(obj.get("answer", ""))
+    if not answer:
+        raise Reject("empty_answer")
+
+    citations = obj.get("citations", [])
+    next_question = str(obj.get("next_question", ""))
+    refusal_reason = str(obj.get("refusal_reason", ""))
+
+    if status == "ok":
+        if not isinstance(citations, list) or len(citations) == 0:
+            raise Reject("missing_citations")
+    if status == "need_info":
+        if not next_question:
+            raise Reject("missing_next_question")
+    if status == "refuse":
+        if not refusal_reason:
+            raise Reject("missing_refusal_reason")
+
+def must_pass(text: str) -> None:
+    try:
+        validate_output(text)
+    except Reject as e:
+        raise SystemExit(f"UNEXPECTED REJECT: {e}")
+
+def must_reject(text: str, expect: str) -> None:
+    try:
+        validate_output(text)
+        raise SystemExit("UNEXPECTED PASS")
+    except Reject as e:
+        if str(e) != expect:
+            raise SystemExit(f"WRONG REJECT: got={e} expect={expect}")
+
+good_ok = json.dumps(
+    {
+        "status": "ok",
+        "answer": "可以导出账单明细：进入账单页→选择周期→导出 CSV。",
+        "citations": ["billing_help_v1#export"],
+        "next_question": "",
+        "refusal_reason": "",
+    },
+    ensure_ascii=False,
+)
+good_need_info = json.dumps(
+    {
+        "status": "need_info",
+        "answer": "我需要确认你要导出哪个结算周期。",
+        "citations": [],
+        "next_question": "请提供账单周期（例如 2025-12）。",
+        "refusal_reason": "",
+    },
+    ensure_ascii=False,
+)
+bad_missing_citations = json.dumps(
+    {
+        "status": "ok",
+        "answer": "当然可以，直接去后台点导出。",
+        "citations": [],
+        "next_question": "",
+        "refusal_reason": "",
+    },
+    ensure_ascii=False,
+)
+bad_need_info_no_question = json.dumps(
+    {
+        "status": "need_info",
+        "answer": "我需要更多信息。",
+        "citations": [],
+        "next_question": "",
+        "refusal_reason": "",
+    },
+    ensure_ascii=False,
+)
+
+must_pass(good_ok)
+must_pass(good_need_info)
+must_reject(bad_missing_citations, "missing_citations")
+must_reject(bad_need_info_no_question, "missing_next_question")
+
+print("ok")
+PY
+```
+2. 把这类结构化门禁接进你的评测回归：训练前/后同口径跑一遍，失败即阻断发布；并把触发样本写回“失败样本池”。
+
+**验证命令：**
+- 上面脚本输出 `ok` 且退出码为 0；在你的工程中，对应门禁任务应能稳定复跑。
+
+**失败判定：**
+- 合格输出被误杀（大量 `UNEXPECTED REJECT`），或坏输出被放行（出现 `UNEXPECTED PASS`）。
+
+**回滚：**
+- 回滚到上一稳定 checkpoint/策略版本组合；把触发误杀/放行的样本加入阻断级回归，复跑通过才允许继续迭代。
+
 ## 数据：后训练最贵的是标准不一致
 后训练数据常见三类：
 - 指令-答案（用于 SFT）
@@ -135,26 +282,34 @@ RLHF 适合更复杂的行为目标，尤其是那些很难写成规则、但人
 - 守门指标（成本/延迟/错误率）退化即回滚。[6]
 
 ## 复现检查清单（本章最低门槛）
-- 行为契约已写清：格式、引用、拒答、安全边界齐全。
-- 有回归集与攻击集：命中即阻断发布。[6]
-- 有对比报告：训练前/后同口径对比，能解释收益与代价。[6]
+- 行为契约已写清：格式、引用、不确定处理、拒答与安全边界齐全，并能落成可执行门禁。
+- 回归集与攻击集固定可复跑：命中即阻断发布，并要求给出最小复现与修复证据。[6]
+- 对比报告可裁决：训练前/后同口径对比，能解释收益与代价，并写清回滚到哪一版策略/模型。[6]
 
 ## 常见陷阱（失败样本）
-1. 现象：模型更会说，但更爱编造。  
-   根因：训练与评测只奖励流畅，缺少证据与不确定处理门禁。  
-   修复：把引用、不确定处理与拒答写进行为契约；无证据就追问或拒答，并把这类用例写进回归集。[41]
+1. **现象：** 模型更会说，但更爱编造；用户体验像“自信漂移”。  
+   **根因：** 训练与评测只奖励流畅，缺少引用/不确定处理的硬门槛。[41]  
+   **复现：** 在知识依赖型问题上观察输出：没有引用仍给确定结论，且不追问上下文；回归集里缺这类用例。  
+   **修复：** 把引用、不确定处理与追问写进行为契约，并落成结构化门禁；无证据就追问或拒答，触发样本写回回归集。[41]  
+   **回归验证：** 固定回归集复跑：`missing_citations`、`missing_next_question` 等违规项必被拦截；训练前/后对比报告能解释变化来自哪些样本分桶。
 
-2. 现象：偏好胜率提升，但安全与边界退化。  
-   根因：缺攻击回归；标注标准隐含鼓励答出来就好。  
-   修复：把攻击集常态化，命中即阻断发布；把边界任务当硬门槛，而不是附加分。[6][90]
+2. **现象：** 偏好胜率提升，但安全与边界退化（越狱/注入更容易成功）。  
+   **根因：** 缺攻击回归；标注标准隐含鼓励“答出来就好”，把边界当附加分。[6][90]  
+   **复现：** 用固定攻击集复跑（注入/越权/敏感内容），训练后命中率上升但发布门禁没有阻断。  
+   **修复：** 攻击集常态化并版本化，命中即阻断发布；把边界任务当硬门槛写进守门指标与止损线。[6][90]  
+   **回归验证：** 攻击集与守门指标进入发布门禁：任一越界即失败；修复后复跑能恢复到基线或更好。
 
-3. 现象：模型变得更谨慎，但用户觉得更难用。  
-   根因：训练把安全提示当成万能答案，导致过度拒答或过度提醒。  
-   修复：把拒答质量做成评测维度，要求拒答也能给替代方案或追问信息，让对话继续往前走。[41][88]
+3. **现象：** 模型变得更谨慎，但用户觉得更难用：过度拒答/过度提醒，闭环推进变慢。  
+   **根因：** 训练把安全提示当万能答案，没有把“拒答质量”定义成可评测行为。[41][88]  
+   **复现：** 在低风险任务上拒答率上升，且拒答不提供替代方案/追问，导致用户无法继续。  
+   **修复：** 把拒答与追问写成契约条款：拒答也必须给替代方案或明确追问；把“闭环推进率/有效追问率”纳入评测与门禁。[41]  
+   **回归验证：** 在固定用例上拒答率与有效追问率稳定；拒答样本能产生可用下一步而不是结束对话。
 
-4. 现象：训练迭代频繁，但收益递减。  
-   根因：没有明确门槛与止损线；用更复杂的方法掩盖数据问题。  
-   修复：先提升数据密度与一致性，把失败样本沉淀进回归集；收益达不到门槛就停。[34]
+4. **现象：** 训练迭代频繁，但收益递减；团队用更复杂的方法掩盖数据问题。  
+   **根因：** 没有明确门槛与止损线；数据密度低、标准不一致，导致训练信号噪声化。[34]  
+   **复现：** 同一任务的偏好对/标注标准不一致；换一轮超参或方法结论大幅波动且无法解释原因。  
+   **修复：** 先提升数据密度与一致性（标注指南/抽检/仲裁）；把失败样本沉淀进回归；收益达不到门槛就停。[34]  
+   **回归验证：** 标注一致性指标（或替代口径）稳定；训练对比报告能解释收益来自哪些数据分桶；成本账本不越界。
 
 ## 交付物清单与验收标准
 - 行为契约与门禁阈值（格式/引用/拒答/安全）。[6]

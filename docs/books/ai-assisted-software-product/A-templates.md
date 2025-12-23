@@ -2,6 +2,12 @@
 
 > 本附录提供可直接复制使用的模板。你可以按需裁剪，并把这些模板作为团队的共同语言。
 
+使用方式（建议先看完再复制）：
+
+- 模板中的占位符用 `<...>` 表示；复制后只替换最少的 1–3 个关键占位符即可开跑。
+- 任何会进入交付/门禁的文档，至少要能回答：**怎么验收、失败怎么算、怎么回滚、证据放哪**。
+- 需要对外发布的内容（包含图片）建议对照：[写作风格与格式约定](style-guide.md) 与 [全书质量控制与复现清单（QCR）](quality-checklist.md)。
+
 ## A.1 访谈记录模板
 
 ```markdown
@@ -22,6 +28,11 @@
 ### 我们的推断（与证据分开）
 - 推断：
 - 不确定点：
+
+### 结论与行动（可选，但强烈建议）
+- 是否值得解决（Yes/No/Pending）：
+- 需要补的证据：
+- 下一步行动：<继续访谈/做原型/先做 Wizard-of-Oz/暂不做>
 
 ### 后续追问
 - 问题：
@@ -48,7 +59,15 @@
 
 ## 验收标准（Given/When/Then）
 
+## 失败判定（阻断条件）
+
+## 回滚与止损
+
 ## 风险与开放问题
+
+## 证据留档（可选）
+- 证据目录：<例如 reports/<date>/<change-id>>
+- 对比表/评测报告：<路径>
 ```
 
 ## A.3 架构设计模板（ADR + 拓扑）
@@ -66,6 +85,11 @@
 ## 影响面
 
 ## 风险与缓解
+
+## 验证与验收（可裁决）
+- 验证方法：<压测/回归/灰度观察窗口>
+- 失败判定：<出现什么现象就算失败>
+- 回滚/降级：<如何撤回该决策或降级到安全路径>
 ```
 
 ## A.4 评测集模板（RAG/Agent）
@@ -159,4 +183,54 @@
 ## 4) 证据留档（Evidence）
 - 对比表/评测报告：<路径或链接>
 - 决策记录：<路径或链接>
+```
+
+## A.8 复现包 `manifest.json` 模板（与 QCR 对齐）
+
+> 用法：把一次改动压缩成固定字段集合，避免“我也不知道当时用了什么版本/口径”。建议把它放在复现包目录根（例如 `reports/<date>/<change-id>/manifest.json`）。
+>
+> 替换点：优先补齐 `code_ref`、`config_hash`、`data_snapshot`、`model_version`、`random_control`、`eval_spec` 与 `gates`。
+
+```json
+{
+  "change_id": "<date-or-ticket-id>",
+  "summary": "<一句话描述你改了什么>",
+  "version_set": {
+    "code_ref": "<git commit/tag>",
+    "config_hash": "<config hash/version>",
+    "data_snapshot": "<snapshot_id or path>",
+    "model_version": "<model_id/checkpoint>",
+    "prompt_or_policy_version": "<prompt_id/index_id/policy_id>"
+  },
+  "env_info": {
+    "os": "<os/version>",
+    "runtime": "<python/node/java version>",
+    "hardware": "<cpu/gpu type if relevant>"
+  },
+  "random_control": {
+    "seed": 42,
+    "temperature": 0.0
+  },
+  "eval_spec": {
+    "dataset_or_regression_set": "<eval_set_id/version>",
+    "metrics": ["<primary_metric>", "<guardrail_metric_1>", "<guardrail_metric_2>"],
+    "window": "<time window or sample size>",
+    "notes": "<口径说明：去重/分桶/阈值等>"
+  },
+  "gates": {
+    "decision": "go|hold|rollback",
+    "primary_metric_result": "<number or pass/fail>",
+    "guardrails_result": "<pass/fail + brief reason>",
+    "evidence_paths": ["<path/to/metrics.json>", "<path/to/diff.md>"]
+  },
+  "rollback": {
+    "trigger": "<触发条件>",
+    "action": "<回滚到哪个 version_set / 如何降级>",
+    "proof": "<path/to/rollback.md>"
+  },
+  "compliance": {
+    "data_license": "<allowed/unknown/blocked + note>",
+    "pii_sanitized": true
+  }
+}
 ```

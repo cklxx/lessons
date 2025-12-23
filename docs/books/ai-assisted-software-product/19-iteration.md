@@ -1,5 +1,5 @@
 # 第 19 章：迭代与增长：路线图、实验与定价
-![Chapter 19 Header](../../assets/chapter_19_header_1766373232862.png)
+![第 19 章封面](../../assets/chapter_19_header_1766373232862.png)
 
 > 迭代不是做更多，而是更快裁决。在 AI 时代，你最大的优势是速度，但你最大的风险也是速度：没有门槛与止损线，速度只会把你带向更大的偏航。[4][6]
 
@@ -30,12 +30,7 @@
 - 守门指标不退化；
 - 决策可追溯（为什么保留/回滚/继续）。[6]
 
-## 路线图：从功能列表改成验证列表
-0→1 的路线图不要写成要做 N 个功能，而要写成要验证 N 个关键假设。[4]
-
-![图 19-1：迭代节拍示意](../../assets/figure_19_1_1765971530480.png)
-
-文字版图 19-1：迭代节拍（不依赖图片也能执行）
+## 关键流程图（纯文本）：两周迭代节拍（裁决驱动）
 
 ```text
 北极星指标 → 断点地图 → 实验卡片（门槛/止损/回滚/证据）
@@ -45,6 +40,13 @@
   → 归档（报告、截图、trace_id、失败样本回写）
   ↺ 路线图更新
 ```
+
+## 路线图：从功能列表改成验证列表
+0→1 的路线图不要写成要做 N 个功能，而要写成要验证 N 个关键假设。[4]
+
+![图 19-1：迭代节拍示意](../../assets/figure_19_1_1765971530480.png)
+
+迭代节拍的纯文本闭环见本章「关键流程图」；这里把它落到路线图表格与门槛上。
 
 ### 路线图（验证视角）
 
@@ -100,6 +102,65 @@
 - 记录实验前后的关键证据：对比表、面板截图、代表性 `trace_id`、用户反馈摘要。
 - 记录解释变量：流量来源、分桶策略、版本集合（代码/配置/prompt/模型/索引）。
 - 记录行动项：下一次要补的回归样本、要加的门禁、要调整的止损线。
+
+## 示例（可复制）：一轮实验如何留证据并可回滚
+
+**目标：** 把一次迭代变成可复盘资产：实验卡片 + 门禁报告 + 裁决记录 + 回滚动作齐全。
+
+**前置条件：**
+- 本仓库示例脚本可用：`docs/examples/evaluation/`
+- 你的系统支持灰度开关（feature flag 或配置版本切换）
+
+**步骤：**
+1. 建一个固定证据目录，并把实验卡片写进去（只改一个问题）。
+```bash
+DATE=$(date +%F)
+EXP_ID=exp-onboarding-001
+mkdir -p "reports/$DATE/$EXP_ID"
+
+cat > "reports/$DATE/$EXP_ID/experiment-card.md" <<'EOF'
+# 实验卡片：新用户引导减摩擦（示例）
+- 假设：把注册后强制弹窗改为侧栏提示，会让首日闭环率提升
+- 成功门槛：首日闭环率 ≥ 35%，且较基线提升 ≥ 5%
+- 守门指标：7 日留存不下降超过 1%；P95 延迟不增加超过 50ms；单位成本不增加超过阈值
+- 失败判定：首日闭环率 < 30% 或 7 日留存下降 > 1%
+- 回滚：关闭 feature flag；恢复旧引导；记录触发样本
+EOF
+```
+2. 先用 `mock` 跑通门禁链路（验证样本格式与报告产出）。
+```bash
+python3 docs/examples/evaluation/judge_pairwise.py \
+  --in docs/examples/evaluation/sample.jsonl \
+  --judge mock \
+  --out "reports/$DATE/$EXP_ID/judge.candidate.json"
+
+cp "reports/$DATE/$EXP_ID/judge.candidate.json" "reports/$DATE/$EXP_ID/judge.baseline.json"
+python3 docs/examples/evaluation/judge_gate.py \
+  --baseline "reports/$DATE/$EXP_ID/judge.baseline.json" \
+  --candidate "reports/$DATE/$EXP_ID/judge.candidate.json" \
+  --max-win-rate-drop 0.01 \
+  --max-win-count-drop 1 \
+  --max-tie-rate-increase 0.03 \
+  --max-tie-count-increase 5
+```
+3. 写下裁决并绑定证据：只允许三选一（保留/暂停/回滚）。
+```bash
+cat > "reports/$DATE/$EXP_ID/decision.md" <<'EOF'
+# 裁决（示例）
+- 结论：暂停（补证据）
+- 原因：线上分桶数据不足；离线门禁通过但无代表性样本
+- 下一步：补 20 条真实失败样本进回归集，并复跑门禁；达标才继续灰度
+EOF
+```
+
+**验证命令：**
+- `judge_gate.py` 退出码为 0，且 `reports/<date>/<exp-id>/` 中存在：实验卡片、报告、裁决记录。
+
+**失败判定：**
+- 门禁退出码非 0；或守门指标越界；或无法给出可追溯裁决（缺证据/缺回滚）。
+
+**回滚：**
+- 立即关闭开关/回退配置版本到上一稳定版本组合；把触发失败的样本写入阻断级回归，并在复跑通过前暂停扩量。
 
 ## 定价：把愿意付费写成可验证假设
 定价不是拍脑袋，而是对价值与成本的共同裁决：
@@ -163,23 +224,53 @@
 - 路线图以验证假设组织，而不是功能堆叠。[4]
 - 每次迭代都有实验卡片与对比表；无证据不宣称增长。[6]
 - 定价与成本同口径：守门指标（成本/退款率）写成止损线。[6]
-- 评测门禁可复跑：至少能跑通门禁示例脚本，并明确失败判定。[6]
-  - Pairwise Judge：先跑 `python3 docs/examples/evaluation/judge_pairwise.py --in docs/examples/evaluation/sample.jsonl --judge gemini --model gemini-2.5-flash --out docs/examples/evaluation/report.candidate.json` 产出报告；再跑 `python3 docs/examples/evaluation/judge_gate.py --baseline docs/examples/evaluation/report.baseline.json --candidate docs/examples/evaluation/report.candidate.json --max-win-rate-drop 0.01 --max-win-count-drop 1 --max-tie-rate-increase 0.03 --max-tie-count-increase 5` 做门禁判断。
-  - RAGAS：跑 `python3 docs/examples/evaluation/ragas_gate.py --in docs/examples/evaluation/ragas_sample.jsonl --threshold-faithfulness 0.85 --threshold-answer-relevancy 0.70 --threshold-context-precision 0.60`。
-  - 失败判定：`judge_gate.py` 或 `ragas_gate.py` 退出码非 0。
+- 评测门禁可复跑：至少能跑通门禁示例脚本，并明确失败判定（退出码非 0 即阻断）。[6]
+
+!!! note
+    门禁示例命令（可复制）
+    ```bash
+    # Pairwise Judge（Gemini 裁判）
+    python3 docs/examples/evaluation/judge_pairwise.py \
+      --in docs/examples/evaluation/sample.jsonl \
+      --judge gemini \
+      --model gemini-3-pro-preview \
+      --out docs/examples/evaluation/report.candidate.json
+
+    python3 docs/examples/evaluation/judge_gate.py \
+      --baseline docs/examples/evaluation/report.baseline.json \
+      --candidate docs/examples/evaluation/report.candidate.json \
+      --max-win-rate-drop 0.01 \
+      --max-win-count-drop 1 \
+      --max-tie-rate-increase 0.03 \
+      --max-tie-count-increase 5
+
+    # RAGAS
+    python3 docs/examples/evaluation/ragas_gate.py \
+      --in docs/examples/evaluation/ragas_sample.jsonl \
+      --threshold-faithfulness 0.85 \
+      --threshold-answer-relevancy 0.70 \
+      --threshold-context-precision 0.60
+    ```
+    失败判定：`judge_gate.py` 或 `ragas_gate.py` 退出码非 0。
 
 ## 常见陷阱（失败样本）
-1. **现象**：迭代频繁，但方向越来越散。  
-   **根因**：路线图是功能清单，没有验证假设与门槛。  
-   **修复**：把路线图改写为验证列表；每项都有门槛与止损线。[4]
+1. **现象：** 迭代频繁，但方向越来越散；做了很多功能却无法解释为什么做。  
+   **根因：** 路线图是功能清单，没有验证假设与门槛；缺少“失败就停”的止损线。[4]  
+   **复现：** 回看最近 4 次迭代：每次都能说做了什么，但说不清验证了什么、成功门槛是什么、失败怎么判。  
+   **修复：** 把路线图改写为验证列表；每项都有门槛、失败判定与止损线，并绑定证据来源。[4]  
+   **回归验证：** 任一迭代都能在证据目录中找到：实验卡片、对比表、裁决结论与下一步行动项。
 
-2. **现象**：指标短期上涨，长期留存下降。  
-   **根因**：只优化表层转化，忽略闭环价值与质量。  
-   **修复**：把质量与失败恢复作为守门指标；退化即回滚。[6]
+2. **现象：** 指标短期上涨，长期留存下降；用户说“不稳定/不可信”。  
+   **根因：** 只优化表层转化，忽略闭环价值与质量；守门指标缺失导致副作用扩散。[6]  
+   **复现：** 为了提升转化加大默认能力或减少拒答，但离线回归与红队未同步更新；上线后差评率/工单量上升。  
+   **修复：** 把质量与失败恢复作为守门指标；回归不过不扩量；退化即回滚并沉淀失败样本。[6]  
+   **回归验证：** 在同口径分桶下，主指标提升且守门指标不退化；新增失败样本已进入回归并能稳定阻断复发。
 
-3. **现象**：增长越快亏得越快。  
-   **根因**：成本守门缺失；定价与成本脱钩。  
-   **修复**：先止损，再增长；把预算与降级写进系统默认值。[6]
+3. **现象：** 增长越快亏得越快；现金流被异常峰值与高成本路径吞噬。  
+   **根因：** 成本守门缺失；定价与成本脱钩；缺预算与降级梯度。[6]  
+   **复现：** 扩量后单位成本持续上升，预算耗尽率明显增加；系统没有自动止损，只能靠人工停机或降级。  
+   **修复：** 先止损再增长：把预算与降级写进系统默认值；把定价/配额/降级与成本口径对齐。[6]  
+   **回归验证：** 扩量压测与真实流量下，预算越界可触发并自动降级/限流；单位成本回到可接受区间，且证据包可复盘。
 
 ## 交付物清单与验收标准
 - 路线图（验证视角）与每项的门槛/止损线。[4]

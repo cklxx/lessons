@@ -2,6 +2,16 @@
 
 This repository is a MkDocs Material–based “digital bookshelf” where the primary source is Markdown under `docs/` and the output is a static site.
 
+## Non‑Negotiables (Stop‑The‑Line)
+
+- Do not edit or commit `site/` (generated build output).
+- Prefer relative links with explicit `.md` (MkDocs rewrites on build); broken links must be fixed, not ignored.
+- If you add a new page that should be discoverable, wire it into `mkdocs.yml` `nav` in the right place.
+- Avoid renaming published files (URLs are path-based); if you must, add a prominent note and update inbound links.
+- Before you consider a change “done”, run:
+  - `mkdocs build --strict`
+  - `python3 tools/check_citations.py` (when editing `docs/books/**` or `references.md`)
+
 ## Project Structure & Module Organization
 
 - `docs/`: content source (Markdown).
@@ -30,6 +40,12 @@ Typical local setup:
 - Filenames: use `kebab-case.md`; avoid renames after publishing (URLs are path-based).
 - Assets: place images in `docs/assets/` and reference via relative paths.
 - Python scripts: target `python3`, 4-space indentation, keep changes minimal and readable.
+
+## Quality Bar (Docs That People Can Actually Follow)
+
+- Avoid “wishlist” instructions: every checklist item should map to an action + observable evidence (log/report/table).
+- For procedural guidance, prefer: goal → prerequisites → steps → verification → failure criteria → rollback.
+- When you reference a tool/command, ensure the prerequisites are stated and the command is copyable.
 
 ## Testing Guidelines
 

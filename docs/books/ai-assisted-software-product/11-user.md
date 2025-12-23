@@ -1,5 +1,5 @@
 # 第 11 章：用户模块：认证、授权与审计
-![Chapter 11 Header](../../assets/chapter_11_header_1766035665346.png)
+![第 11 章封面](../../assets/chapter_11_header_1766035665346.png)
 
 > 能登录不等于能上线。0→1 最容易出事故的地方往往是权限边界不清、审计缺失、账号体系一改就崩。本章把用户模块当作生产系统的底座来写：边界清晰、可追溯、可回滚。[22][68]
 
@@ -32,6 +32,120 @@ AI 产品会把用户模块的风险放大：一旦越权，泄露的不只是�
 
 ## 方法论速览：先定模型，再定事件，再写回归
 ![图 11-1：用户模块分层示意](../../assets/figure_11_1_1765971227695.png)
+
+## 关键流程图（纯文本）：一次请求如何被允许/拒绝并可追溯
+
+```text
+请求（含凭证/tenant_id）
+  ↓
+AuthN（你是谁）
+  - 校验凭证有效性（过期/撤销/轮换）
+  - 失败：拒绝 + 记录审计（login_fail / token_invalid）
+  ↓
+AuthZ（你能做什么）
+  - 取主体（user/service）→ 取资源（resource_id）→ 取动作（read/write/admin）
+  - tenant_id 必须一致；资源级谓词必须成立
+  - 失败：拒绝 + 记录审计（access_denied + reason + policy_version）
+  ↓
+执行（只在允许后发生）
+  - 返回结果或业务错误（与权限错误区分）
+  ↓
+审计（可搜索、可串联、可解释）
+  - who/when/where/what/action/result/reason/trace_id/policy_version
+  ↓
+回归与变更治理
+  - 越权用例入回归：跨租户、降权后访问、敏感操作审计缺失
+  - 策略版本化与灰度：新旧策略并行窗口 → 指标不退化才切换 → 退化即回滚
+```
+
+## 示例（可复制）：3 条阻断级权限回归（跨租户/越权/口径）
+
+**目标：** 用最小回归集把“越权必失败”固化成可复跑门禁，并确保拒绝原因可解释（便于审计与对外沟通）。
+
+**前置条件：**
+- Python 3 可用
+
+**步骤：**
+1. 复制并运行下面脚本：它模拟一个最小 RBAC + 租户隔离，并验证 3 条回归用例。
+```bash
+python3 - <<'PY'
+from __future__ import annotations
+
+class Denied(Exception):
+    def __init__(self, reason: str):
+        self.reason = reason
+
+def authorize(actor: dict, resource: dict, action: str, policy: dict) -> dict:
+    if actor["tenant_id"] != resource["tenant_id"]:
+        raise Denied("tenant_mismatch")
+    allowed_actions = policy["roles"].get(actor["role"], [])
+    if action not in allowed_actions:
+        raise Denied("action_not_allowed")
+    return {"allow": True, "policy_version": policy["version"]}
+
+def must_allow(case: dict) -> None:
+    try:
+        out = authorize(case["actor"], case["resource"], case["action"], case["policy"])
+    except Denied as e:
+        raise SystemExit(f"UNEXPECTED DENY: {e.reason}")
+    if out.get("policy_version") != case["expect_policy_version"]:
+        raise SystemExit("WRONG POLICY VERSION")
+
+def must_deny(case: dict, expect_reason: str) -> None:
+    try:
+        authorize(case["actor"], case["resource"], case["action"], case["policy"])
+        raise SystemExit("UNEXPECTED ALLOW")
+    except Denied as e:
+        if e.reason != expect_reason:
+            raise SystemExit(f"WRONG DENY REASON: got={e.reason} expect={expect_reason}")
+
+policy = {"version": "p_001", "roles": {"owner": ["read", "write", "admin"], "viewer": ["read"]}}
+resource = {"tenant_id": "t_001", "resource_id": "kb_1"}
+
+must_allow(
+    {
+        "policy": policy,
+        "actor": {"tenant_id": "t_001", "role": "owner"},
+        "resource": resource,
+        "action": "read",
+        "expect_policy_version": "p_001",
+    }
+)
+
+must_deny(
+    {
+        "policy": policy,
+        "actor": {"tenant_id": "t_999", "role": "owner"},
+        "resource": resource,
+        "action": "read",
+    },
+    "tenant_mismatch",
+)
+
+must_deny(
+    {
+        "policy": policy,
+        "actor": {"tenant_id": "t_001", "role": "viewer"},
+        "resource": resource,
+        "action": "write",
+    },
+    "action_not_allowed",
+)
+
+print("ok")
+PY
+```
+2. 将这 3 条用例迁移到你的服务端授权层回归（真实 API/真实租户/真实资源），并把拒绝原因落到审计字段（`reason` + `policy_version` + `trace_id`）。
+3. 权限策略变更必须先灰度：新旧策略并行一个窗口；回归全绿且线上拒绝率不异常，才允许切换。
+
+**验证命令：**
+- 上面脚本输出 `ok` 且退出码为 0；在你的工程中，对应回归任务应稳定通过。
+
+**失败判定：**
+- 任一越权用例被放行（出现 `UNEXPECTED ALLOW`），或拒绝原因/策略版本口径不一致（出现 `WRONG ...`）。
+
+**回滚：**
+- 立即切回上一策略版本（`policy_version` 回退），并在回归集中加入触发问题的最小用例；复跑通过才允许继续变更。
 
 ### 1) 身份体系（AuthN）：你是谁
 AuthN 的核心是凭证生命周期：签发、过期、撤销、轮换。0→1 阶段不追求花哨，但必须可解释可撤销。[22]
@@ -190,23 +304,29 @@ AuthN 的核心是凭证生命周期：签发、过期、撤销、轮换。0→1
 - 权限变更必须产生审计事件。[68]
 
 ## 复现检查清单（本章最低门槛）
-- 权限模型一页纸已完成：主体/资源/动作/租户隔离清晰。[68]
-- 越权回归用例存在：跨租户与资源级权限必测，失败即阻断发布。[68]
-- 审计事件规范存在：关键操作可追溯可查询。[68]
-- 权限变更有回滚策略：能在事故时快速回到旧策略。
+- 权限模型一页纸已完成：主体/资源/动作/租户隔离清晰，并能映射到关键 API 与页面入口。[68]
+- 越权回归用例阻断发布：跨租户与资源级权限必测，失败即阻断发布；权限变更后必须复跑回归。[68]
+- 审计事件规范可查询：关键操作可追溯可查询，字段一致且不泄露敏感信息（含 trace_id 与策略版本）。[68]
+- 权限变更可回滚：策略版本化并支持灰度切换；事故时能快速回到上一策略，并留痕可复盘。
 
 ## 常见陷阱（失败样本）
-1. **现象**：UI 隐藏了按钮，但接口仍然可调用。  
-   **根因**：把前端显示逻辑当成授权。  
-   **修复**：授权必须在服务端做，并有越权回归用例。[68]
+1. **现象：** UI 隐藏了按钮，但接口仍然可调用（越权成功）。  
+   **根因：** 把前端显示逻辑当成授权；服务端缺少资源级校验与回归用例。[68]  
+   **复现：** 用低权限账号/跨租户 token 直接调用资源接口（绕过 UI），观察是否仍能读到/改到资源。  
+   **修复：** 授权必须在服务端做：tenant_id 强校验 + 资源级谓词；把越权请求写成阻断级回归集。[68]  
+   **回归验证：** 固定回归用例稳定复跑：跨租户/降权后访问/资源级越权全部失败，并记录一致的拒绝原因。
 
-2. **现象**：权限改一次，线上就出现大量无法访问。  
-   **根因**：权限模型缺少迁移策略与兼容窗口。  
-   **修复**：权限变更需要版本化与灰度；先兼容旧策略，再切换新策略，并保留回滚路径。
+2. **现象：** 权限改一次，线上就出现大量无法访问或权限漂移，支持成本暴涨。  
+   **根因：** 权限模型缺少迁移策略与兼容窗口；策略变更没有灰度与回滚。  
+   **复现：** 推出新角色或调整动作集合后，旧数据/旧邀请/旧成员关系无法解释地变成拒绝或误授权。  
+   **修复：** 权限策略版本化：新旧策略并行一段窗口；按租户/比例灰度切换；保留一键回滚路径。  
+   **回归验证：** 灰度期间关键指标稳定（拒绝率、越权率、支持工单量）；出现异常能快速回退到上一策略版本并恢复口径。
 
-3. **现象**：出了事故无法追责，只能猜。  
-   **根因**：审计字段缺失或不一致，无法串起链路。  
-   **修复**：先统一审计事件规范；缺审计视为未完成。[68]
+3. **现象：** 出了事故无法追责，只能猜；对外也解释不清为什么允许/为什么拒绝。  
+   **根因：** 审计字段缺失或不一致，无法串起链路；缺少 `trace_id` 与策略版本。[68]  
+   **复现：** 随机抽一条敏感操作（导出/删除/权限变更），尝试回答“谁做的/做了什么/对哪个资源/结果与原因/当时的策略版本”。答不上即命中。  
+   **修复：** 先统一审计事件规范（字段与脱敏规则）；把审计写成硬门槛：缺审计视为未完成。[68]  
+   **回归验证：** 对固定敏感操作回归用例，审计事件可查询且字段齐全（含 `trace_id`、`reason`、`policy_version`），并能串起整条链路。
 
 ## 交付物清单与验收标准
 - 权限模型说明与变更策略（含租户隔离）。[68]

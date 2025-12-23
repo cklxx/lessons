@@ -1,5 +1,5 @@
 # 第 10 章（Agent 深入）：让模型在边界内会做事
-![Chapter 10 Agent Header](../../assets/chapter_10_header_1766035645245.png)
+![第 10 章封面（Agent 深入）](../../assets/chapter_10_header_1766035645245.png)
 
 > Agent 不是让模型更勤奋，而是让它在边界内行动：能做什么、不能做什么、做到哪一步停、出了问题怎么回滚。越权与不可追溯，是 Agent 的原罪。[29][6]
 
@@ -14,6 +14,138 @@
 - 一套回归门禁：越权、注入、无限循环、成本失控都能被拦在上线前。[6][29]
 
 ![图 10-3：Agent 骨架（状态机 + 工具合同 + 预算/审计/回滚）示意](../../assets/figure_10_3_1765971191769.png)
+
+## 关键流程图（纯文本）：一次任务的可控行动闭环
+
+```text
+用户请求（不可信输入）
+  ↓
+任务边界判定
+  - 不需要行动：直接答复（带证据/拒答）
+  - 需要行动：进入状态机
+  ↓
+状态机循环（每一步都可审计/可停止）
+  1) 收集信息（追问/澄清）
+  2) 计划（列步骤 + 标注所需工具）
+  3) 执行（工具调用只能走“闸门”）
+      validate_tool_call:
+        - allowlist 检查（工具名）
+        - schema 校验（必填/格式/白名单/长度/范围）
+        - 权限校验（user/tenant/resource）
+        - 预算校验（调用次数/成本/时间）
+      - 失败：aborted_reason 记录 → 停止/降级/请求确认
+      - 成功：写审计字段 → 更新状态 → 继续下一步
+  4) 总结（解释 + 证据 + 下一步）
+  ↓
+副作用治理
+  - 任何写操作：必须有补偿/回滚（同 action_id 可追溯）
+  - 退化/事故：回滚 → 留证据 → 失败样本入回归 → 阻断发布
+```
+
+## 示例（可复制）：工具闸门 + 最小回归样本（越权/预算）
+
+**目标：** 为一个“有副作用”的工具补齐闸门校验，并把越权/预算越界写成阻断级回归样本。
+
+**前置条件：**
+- Python 3 可用
+
+**步骤：**
+1. 复制并运行下面脚本：它会验证 1 条合法调用可通过、2 条非法调用必须被拒绝。
+```bash
+python3 - <<'PY'
+from __future__ import annotations
+
+class Reject(Exception):
+    pass
+
+def validate_tool_call(call: dict, actor: dict, budget: dict, contracts: dict) -> None:
+    tool = call.get("tool")
+    if tool not in contracts:
+        raise Reject("tool_not_allowlisted")
+
+    contract = contracts[tool]
+    required_role = contract["permission_scope"]["role"]
+    if required_role not in actor.get("roles", []):
+        raise Reject("rbac_denied")
+
+    if call.get("tenant_id") != actor.get("tenant_id"):
+        raise Reject("tenant_mismatch")
+
+    amount_cents = int(call.get("amount_cents", -1))
+    if not (1 <= amount_cents <= contract["input_validation"]["amount_cents_max"]):
+        raise Reject("amount_out_of_range")
+
+    if call.get("currency") not in contract["input_validation"]["allowed_currencies"]:
+        raise Reject("currency_not_allowed")
+
+    customer_id = str(call.get("customer_id", ""))
+    if not (1 <= len(customer_id) <= contract["input_validation"]["customer_id_max_len"]):
+        raise Reject("customer_id_invalid")
+
+    if budget["calls_used"] + 1 > budget["max_calls_per_task"]:
+        raise Reject("budget_calls_exceeded")
+
+def must_pass(case: dict) -> None:
+    try:
+        validate_tool_call(case["call"], case["actor"], case["budget"], case["contracts"])
+    except Reject as e:
+        raise SystemExit(f"UNEXPECTED REJECT: {e}")
+
+def must_reject(case: dict, expect: str) -> None:
+    try:
+        validate_tool_call(case["call"], case["actor"], case["budget"], case["contracts"])
+        raise SystemExit("UNEXPECTED PASS")
+    except Reject as e:
+        if str(e) != expect:
+            raise SystemExit(f"WRONG REJECT: got={e} expect={expect}")
+
+contracts = {
+    "create_invoice": {
+        "permission_scope": {"role": "billing_admin"},
+        "input_validation": {
+            "allowed_currencies": ["CNY", "USD"],
+            "amount_cents_max": 5_000_000,
+            "customer_id_max_len": 64,
+        },
+    }
+}
+actor_ok = {"tenant_id": "t_001", "roles": ["billing_admin"]}
+budget_ok = {"calls_used": 0, "max_calls_per_task": 1}
+
+case_ok = {
+    "contracts": contracts,
+    "actor": actor_ok,
+    "budget": budget_ok,
+    "call": {
+        "tool": "create_invoice",
+        "tenant_id": "t_001",
+        "currency": "CNY",
+        "amount_cents": 1200,
+        "customer_id": "c_123",
+    },
+}
+must_pass(case_ok)
+
+case_unauthorized_tenant = {**case_ok, "call": {**case_ok["call"], "tenant_id": "t_999"}}
+must_reject(case_unauthorized_tenant, "tenant_mismatch")
+
+case_budget_exceeded = {**case_ok, "budget": {"calls_used": 1, "max_calls_per_task": 1}}
+must_reject(case_budget_exceeded, "budget_calls_exceeded")
+
+print("ok")
+PY
+```
+2. 把 `validate_tool_call` 迁移到你的统一工具入口（所有工具调用必须经过同一闸门），并把拒绝原因写入审计字段（如 `aborted_reason`）。
+3. 把失败用例固化成回归样本：至少覆盖 `tenant_mismatch`（越权）、`schema_invalid`（输入不合规）、`budget_exceeded`（成本/次数越界）；命中即阻断发布。
+
+**验证命令：**
+- 上面脚本输出 `ok` 且退出码为 0；在你的工程中，对应回归任务应稳定通过。
+
+**失败判定：**
+- 任一非法用例被放行（出现 `UNEXPECTED PASS`），或拒绝原因不一致（出现 `WRONG REJECT`）。
+
+**回滚：**
+- 立即将该工具从 allowlist 移除（或通过配置禁用），并回滚到上一稳定版本组合；把触发事故的输入写入阻断级回归样本，复跑通过才允许重新启用。
 
 ## 三层思考：Agent 的关键矛盾
 ### 第 1 层：读者目标
@@ -163,22 +295,35 @@ Agent 的评测不止看答得对不对，还要看做得安不安全：
 预算与停止条件要能被观测系统看见，否则阈值只是文档。最低落地是把任务级指标打点出来：steps_used、tool_calls、token_cost、latency_ms、aborted_reason，并把越界与阻断当成告警事件。
 
 ## 复现检查清单（本章最低门槛）
-- 每个工具都有工具合同：权限/输入校验/预算/副作用/审计字段齐全。[29]
-- Agent 有状态机与停止条件；无限循环与预算越界可被门禁拦截。[6]
-- 越权与注入样本进入回归集：命中即阻断发布。[6][29]
+- 工具合同齐全：权限/输入校验/预算/副作用/审计字段/回滚动作齐全。[29]
+- 状态机与停止条件可观测：无限循环、预算越界、工具失败能被门禁拦截，并输出 aborted_reason。[6]
+- 越权/注入/预算越界样本进入回归：命中即阻断发布，并要求给出最小复现与修复证据。[6][29]
+- 对比证据可解释：每次变更有同口径对比表（越权率、预算越界率、任务成功率、成本/延迟），退化即回滚。[6]
 
 ## 常见陷阱（失败样本）
-1. **现象**：Agent 偶尔做出危险操作（越权/误删/误发）。  
-   **根因**：把安全写在提示里，而不是写在工具与权限层。  
-   **修复**：工具层强校验 + 审计 + 回滚；越权命中即阻断。[29]
+1. **现象：** Agent 偶尔做出危险操作（越权/误删/误发），而且你无法解释它为什么敢这么做。  
+   **根因：** 把安全写在提示里，而不是写在工具与权限层；工具入口没有统一闸门。[29]  
+   **复现：** 移除或绕过工具闸门，让模型直接构造工具参数；用越权 `tenant_id` 或越界资源 id 触发工具调用。  
+   **修复：** 所有工具调用必须经过同一校验入口（allowlist + schema + rbac + budget）；越权命中即阻断，并写入回归集。[29][6]  
+   **回归验证：** 阻断级回归样本（越权/注入）稳定复跑：非法调用必拒绝，且 `aborted_reason` 与审计字段齐全可查询。
 
-2. **现象**：Agent 表现很努力，但成本失控、延迟巨大。  
-   **根因**：无预算与停止条件；把循环当聪明。  
-   **修复**：写预算上限与停止条件；越界必须停止并解释。[6]
+2. **现象：** Agent 表现很努力，但成本失控、延迟巨大，甚至进入无限循环。  
+   **根因：** 没有预算与停止条件；把反复调用工具当成聪明。[6]  
+   **复现：** 给一个开放式任务（信息不足但可无限追问/检索），观察工具调用次数与总时长持续增长且无停止。  
+   **修复：** 写任务级预算（步数/调用次数/成本/时间）与硬停止条件；越界必须停止并解释下一步建议。[6]  
+   **回归验证：** 回归任务在最坏输入下也会在阈值内停止，并产出一致的 `aborted_reason`；预算越界率不随版本漂移。
 
-3. **现象**：出了事故无法复盘，只能猜。  
-   **根因**：缺审计字段；工具输入输出不可追溯。  
-   **修复**：补齐审计与可重放记录；把可追责当成功条件。[29]
+3. **现象：** 出了事故无法复盘，只能猜；同样输入复跑也复不出同样轨迹。  
+   **根因：** 缺审计字段与可重放记录；状态流转与工具输入输出不可追溯。[29]  
+   **复现：** 发生一次错误后，尝试回答“谁触发/用的什么参数/改了什么资源/为什么进入该状态”；若只能靠口头推测即命中。  
+   **修复：** 补齐 `trace_id/action_id`、state enter/exit、tool params_hash、result、latency、budget_remaining 等字段；关键链路提供重放入口（回放同一请求）。  
+   **回归验证：** 随机抽 5 条真实任务：能从审计系统还原状态轨迹与关键工具参数，并复现同口径的门禁结论。
+
+4. **现象：** “回滚”只写在文档里，真正出问题时撤不回，自动化变成不可逆伤害。  
+   **根因：** 工具有副作用但没有补偿动作；缺少幂等键与 action_id 绑定，导致无法定位/无法撤回。  
+   **复现：** 让 Agent 执行写操作（支付/删除/权限变更），在中途失败或重复执行时出现重复扣费/误删/权限漂移。  
+   **修复：** 为关键写操作设计补偿/冲正，并与 `action_id` 绑定；引入幂等键与重试语义，默认“先草稿、后确认”。  
+   **回归验证：** 故障注入下（超时/重试/重复请求）副作用不重复；执行回滚动作后，资源状态与账本口径恢复到同一基线。
 
 ## 交付物清单与验收标准
 - 工具合同库（白名单）：至少覆盖 5 个关键工具。[29]
