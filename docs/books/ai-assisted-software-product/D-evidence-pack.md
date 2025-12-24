@@ -68,7 +68,7 @@ project-root/
   },
   "version_set": {
     "code": { "git_commit": "a1b2c3d4" },
-    "config": { "config_hash": "sha256:..." },
+    "config": { "config_hash": "sha256:0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef" },
     "data": { "dataset_snapshot_id": "ds_2025_12_23_01" },
     "index": { "index_id": "kb_v17" },
     "model": { "model_id": "model_v4", "checkpoint": "ckpt_0123" },
@@ -176,7 +176,7 @@ release: evidence
 3. **结构化输出解析失败**
    - **现象**：看似输出了 JSON，但包含 Markdown 包裹/注释，解析直接崩溃。
    - **根因**：契约不硬（schema 不校验）或缺少重试/修复策略。
-   - **最小复现**：让模型输出 ```` ```json {...} ``` ````，观察解析失败。
+   - **最小复现**：让模型输出 ```` ```json {"ok": true} ``` ````，观察解析失败。
    - **修复**：启用严格模式（如 JSON-only）+ schema 校验；失败走“修复/重试/降级”分支。
    - **回归验证**：给一批脏输出样本，解析与校验能稳定产出结构化结果或明确失败。
 

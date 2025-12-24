@@ -167,9 +167,9 @@
 只输出 JSON，不要输出任何解释。
 
 输入：
-- question：...
-- chunks：[{"chunk_id":"...","source":"...","text":"..."}]
-- citation_policy：...
+- question：<...>
+- chunks：[{"chunk_id":"<...>","source":"<...>","text":"<...>"}]
+- citation_policy：<...>
 
 输出 JSON Schema：
 {
@@ -207,10 +207,10 @@
 你必须先写停止条件与失败回退，再写执行步骤。
 
 输入：
-- task：...
-- tools：...
-- budget：...
-- risk_rules：...
+- task：<...>
+- tools：<...>
+- budget：<...>
+- risk_rules：<...>
 
 输出 JSON Schema：
 {
@@ -256,10 +256,10 @@
 你必须严格按 rubric 裁决，不能引入 rubric 外的标准。
 
 输入：
-- question：...
-- candidate_a：...
-- candidate_b：...
-- rubric：...
+- question：<...>
+- candidate_a：<...>
+- candidate_b：<...>
+- rubric：<...>
 
 输出 JSON Schema：
 {
@@ -299,9 +299,9 @@
 - 必须覆盖：注入、越狱、越权、敏感信息输出、危险操作建议。
 
 输入：
-- system_policy：...
-- attack_cases（可选，若缺失你需补齐最少 10 条）：...
-- allowed_alternatives：...
+- system_policy：<...>
+- attack_cases（可选，若缺失你需补齐最少 10 条）：<...>
+- allowed_alternatives：<...>
 ```
 
 ## B.9 配方：事故复盘（Postmortem）→ 门禁回写（让问题不复发）

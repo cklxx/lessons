@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675">
+  <defs>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#0052CC" />
+      <stop offset="1" stop-color="#2B7FFF" />
+    </linearGradient>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#0052CC" />
+    </marker>
+  </defs>
+
+  <rect width="1200" height="675" fill="#FFFFFF" />
+  <rect x="72" y="72" width="1056" height="531" rx="24" fill="#F6FBFF" stroke="#B5DAFF" stroke-width="6" stroke-dasharray="18 14" />
+
+  <g opacity="0.95">
+    <path d="M 660 200 C 800 230 880 320 900 390" fill="none" stroke="url(#accent)" stroke-width="16" stroke-linecap="round" marker-end="url(#arrow)" />
+    <path d="M 860 500 C 740 560 460 560 340 500" fill="none" stroke="url(#accent)" stroke-width="16" stroke-linecap="round" marker-end="url(#arrow)" />
+    <path d="M 300 390 C 320 320 400 230 540 200" fill="none" stroke="url(#accent)" stroke-width="16" stroke-linecap="round" marker-end="url(#arrow)" />
+  </g>
+
+  <g>
+    <circle cx="600" cy="165" r="86" fill="#E8F3FF" stroke="#9CCBFF" stroke-width="4" />
+    <ellipse cx="600" cy="165" rx="34" ry="22" fill="none" stroke="#0052CC" stroke-width="6" opacity="0.85" />
+    <circle cx="600" cy="165" r="9" fill="#0052CC" opacity="0.85" />
+
+    <circle cx="900" cy="465" r="86" fill="#E8F3FF" stroke="#9CCBFF" stroke-width="4" />
+    <circle cx="900" cy="450" r="24" fill="none" stroke="#0052CC" stroke-width="6" opacity="0.85" />
+    <rect x="888" y="478" width="24" height="18" rx="4" fill="none" stroke="#0052CC" stroke-width="6" opacity="0.85" />
+    <path d="M 888 470 L 912 470" fill="none" stroke="#0052CC" stroke-width="6" stroke-linecap="round" opacity="0.85" />
+
+    <circle cx="300" cy="465" r="86" fill="#E8F3FF" stroke="#9CCBFF" stroke-width="4" />
+    <path d="M 286 420 L 314 420 L 314 450 L 336 510 C 314 526 286 526 264 510 L 286 450 Z" fill="none" stroke="#0052CC" stroke-width="6" stroke-linejoin="round" opacity="0.85" />
+    <path d="M 288 490 C 302 498 314 498 328 490" fill="none" stroke="#2B7FFF" stroke-width="6" stroke-linecap="round" opacity="0.6" />
+
+    <circle cx="600" cy="360" r="56" fill="#FFFFFF" stroke="#B5DAFF" stroke-width="6" />
+    <path d="M 600 332 L 600 388" fill="none" stroke="#0052CC" stroke-width="8" stroke-linecap="round" opacity="0.55" />
+    <path d="M 572 360 L 628 360" fill="none" stroke="#0052CC" stroke-width="8" stroke-linecap="round" opacity="0.55" />
+  </g>
+</svg>

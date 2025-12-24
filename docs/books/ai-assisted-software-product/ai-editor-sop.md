@@ -46,14 +46,14 @@ ai_review() {
 
 # 用法示例：
 # ai_review docs/books/ai-assisted-software-product/02-discovery.md 1,160p gemini-3-pro-preview <<'EOF'
-# 你是中文技术书编辑。请做结构完整性检查……
+# 你是中文技术书编辑。请做结构完整性检查。
 # 输出：缺失项列表 + 每项一条补写建议（带验收标准）。
 # EOF
 #
 # 带“真值表”示例（术语/格式一致性检查常用）：
 # ai_review docs/books/ai-assisted-software-product/02-discovery.md 1,160p gemini-3-pro-preview \
 #   "docs/books/ai-assisted-software-product/style-guide.md docs/books/ai-assisted-software-product/glossary.md" <<'EOF'
-# ……
+# <...>
 # EOF
 ```
 

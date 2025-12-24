@@ -450,9 +450,9 @@ printf '{"change_id":"%s","date":"%s","severity":"S?","owner":"me"}\n' "$CHG_ID"
 - 严重级别：S0/S1/S2/S3
 - 触发条件（示例阈值）：
   - <metric> > <threshold> 持续 <duration>
-  - 触发样本：<id/trace_id>
+- 触发样本：<id/trace_id>
 - 守门指标（不得退化）：
-  - <success_rate>, <unauthorized_hits>, <pii_hits> ...
+  - <success_rate>, <unauthorized_hits>, <pii_hits> 等关键指标
 
 ## 0–10 分钟止损（只做可逆动作）
 - 0:00–1:00 建证据包目录：`reports/YYYY-MM-DD/<change-id>/`

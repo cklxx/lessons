@@ -53,14 +53,14 @@ aspect_ratio=16:9, quality=high
 
 把图片当资产，就别让它散落成垃圾堆。
 
-- **目录**：`docs/assets/books/ai-assisted-software-product/`（按章节主题建子目录或统一 `generated/`）。
+- **目录**：推荐 `docs/assets/books/ai-assisted-software-product/`（按章节主题建子目录或统一 `generated/`）；如果图片已在 `docs/assets/` 被引用，就不要为“好看”去移动/重命名，避免死链与历史回溯困难。
 - **文件名**：`ch<chapter>_<topic>_<concept>.png`（示例：`ch12_billing_loop.png`）。
 - **alt 文本**：必须描述“图证明什么”，不是“image”。
 
 引用示例（注意路径与 alt）：
 
 ```markdown
-![计费闭环：计量-账本-对账-止损的循环底图](../../assets/books/ai-assisted-software-product/generated/ch12_billing_loop.png)
+![计费闭环：计量-账本-对账-止损的循环底图](../../assets/figure_12_1_1765971267577.png)
 ```
 
 ## 5) 生成流程（两种方式）
@@ -481,4 +481,3 @@ aspect_ratio=16:9, quality=high
 
 #### 推荐放置位置
 [01-method.md](01-method.md)
-
