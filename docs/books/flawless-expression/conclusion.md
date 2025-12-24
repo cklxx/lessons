@@ -2,6 +2,8 @@
 
 提示词工程不是玄学，而是一门工程学科：版本控制、回归测试、发布门禁、回滚预案缺一不可。当你把 Prompt 当成交付物而不是聊天记录，你就获得了“可复刻高质量输出”的能力。
 
+![结语插图占位：把提示词变成默认交付](../../assets/books/flawless-expression/chapter-hero.svg)
+
 ## 你应该带走的资产（最小集合）
 
 1. Prompt 分级标准（草稿/协作/机器执行）：决定写到什么强度（见 [01-mindset.md](01-mindset.md)）。
@@ -80,6 +82,20 @@ params:
 - aspect_ratio: 16:9
 - quality: high
 - seed: <工具支持才填写；用于复现与归因>
+```
+
+### 配图提示词：默认 SOP 的“清单化”隐喻（无文字底图）
+
+```text
+image_prompt:
+flat 2D vector illustration, minimalist stack of checklists and a version tag icon, clean tech style, blue and white palette,
+solid white background, high contrast, crisp edges, no text
+
+negative_prompt:
+text, letters, numbers, watermark, signature, handwriting, photorealistic, 3d render, gradients, heavy shadows, blur, messy background, humans, faces
+
+params:
+aspect_ratio=16:9, quality=high
 ```
 
 ## 命令行最小用法（Gemini CLI）

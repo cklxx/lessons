@@ -4,6 +4,8 @@ Prompt 最昂贵的代价不是“第一次写错”，而是“修完之后不�
 
 本章把软件工程的回归测试引入 Prompt：每一次失败都要变成可复现样本、可自动化验收的门禁。
 
+![章节插图占位：回归与发布门禁](../../assets/books/flawless-expression/chapter-hero.svg)
+
 ## 你将收获什么
 
 - 一套静态评审清单：发给模型前先拦住低级错误（零成本）。
@@ -164,6 +166,22 @@ if __name__ == '__main__':
 - 规则验收：Prompt 是否仍包含风格底座与负向约束？是否引入了会破坏风格的词（如 photorealistic/3d render）？
 - 视觉验收：把锚点生成的图片平铺对比，线条粗细、色板、背景复杂度一致；若工具支持则锁 seed 以便归因。
 
+### 配图提示词：反馈回路与门禁（无文字底图）
+
+你要表达的是“闭环”，不是“流程图文学”。画一个环，环上有四个节点：写 Prompt、跑回归、评审、发布门禁。
+
+```text
+image_prompt:
+flat 2D vector illustration, minimalist circular feedback loop with four abstract nodes connected by arrows, clean tech style,
+blue and white palette, solid white background, high contrast, no text
+
+negative_prompt:
+text, letters, numbers, watermark, signature, handwriting, photorealistic, 3d render, gradients, shadows, blur, messy background, humans, faces
+
+params:
+aspect_ratio=16:9, quality=high
+```
+
 ## 6) 常见陷阱（失败样本）
 
 ### 1) 只改措辞，不改规则
@@ -200,3 +218,5 @@ if __name__ == '__main__':
 - [ ] 回滚指针：回到哪个版本可立即止损。
 
 结语：[conclusion.md](conclusion.md)
+
+质量清单：[C-quality-checklist.md](C-quality-checklist.md)

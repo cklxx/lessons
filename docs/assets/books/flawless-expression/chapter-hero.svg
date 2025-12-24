@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FFFFFF" />
+      <stop offset="1" stop-color="#EAF4FF" />
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2B7FFF" />
+      <stop offset="1" stop-color="#00C2FF" />
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="6" stdDeviation="10" flood-color="#2B7FFF" flood-opacity="0.10" />
+    </filter>
+  </defs>
+
+  <rect width="1200" height="675" fill="url(#bg)" />
+
+  <g filter="url(#shadow)">
+    <rect x="180" y="140" width="840" height="420" rx="28" fill="#FFFFFF" stroke="#B5DAFF" stroke-width="6" />
+    <rect x="240" y="210" width="360" height="84" rx="16" fill="#E8F3FF" stroke="#9CCBFF" stroke-width="3" />
+    <rect x="240" y="322" width="520" height="84" rx="16" fill="#E8F3FF" stroke="#9CCBFF" stroke-width="3" />
+    <rect x="240" y="434" width="420" height="84" rx="16" fill="#E8F3FF" stroke="#9CCBFF" stroke-width="3" />
+  </g>
+
+  <g>
+    <circle cx="880" cy="275" r="46" fill="none" stroke="url(#accent)" stroke-width="12" />
+    <path d="M 880 245 L 880 305" stroke="url(#accent)" stroke-width="12" stroke-linecap="round" />
+    <path d="M 850 275 L 910 275" stroke="url(#accent)" stroke-width="12" stroke-linecap="round" />
+  </g>
+
+  <g opacity="0.25">
+    <path d="M 120 560 C 220 500, 360 520, 460 470" fill="none" stroke="#2B7FFF" stroke-width="10" stroke-linecap="round" />
+    <path d="M 740 160 C 860 120, 980 150, 1080 110" fill="none" stroke="#00C2FF" stroke-width="10" stroke-linecap="round" />
+  </g>
+</svg>

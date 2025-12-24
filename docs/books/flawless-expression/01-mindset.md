@@ -4,6 +4,14 @@
 
 本章把提示词工程重新定义为软件工程的一部分：Prompt 是交付物，需要版本控制、验收门槛、回归样本与回滚机制。
 
+![章节插图占位：提示词从聊天到交付](../../assets/books/flawless-expression/chapter-hero.svg)
+
+## 先把幻觉掐死：你不是在“沟通”，你是在“定义接口”
+
+很多人写 Prompt 的姿势像写朋友圈：先抒情，再许愿，最后祈祷模型懂你。你以为你在“表达”，模型只会把它当作一段噪声上下文，继续按概率补全它最熟悉的套路句式。
+
+换句话说：**不写接口，你就只能赌采样。**
+
 ## 你将收获什么
 
 - 一套提示词分级标准：什么时候可以写草稿，什么时候必须写到“机器可执行”。
@@ -106,6 +114,22 @@ directional arrows showing data flow, high contrast, solid white background
 
 negative_prompt:
 text, letters, numbers, watermark, signature, handwriting, 3d, isometric, photorealistic, shadow, blurry, messy lines, noisy background, humans, faces
+
+params:
+aspect_ratio=16:9, quality=high
+```
+
+### 配图提示词：三阶能力台阶（无文字底图）
+
+如果你想给本章加一张“能力进阶”的插图，用台阶比“炫酷人物”更可靠：它不会误导读者，也更容易做成系列。
+
+```text
+image_prompt:
+flat 2D vector illustration, three-step staircase made of simple geometric blocks, upward arrow suggesting progress, minimal tech style,
+blue and white palette, solid white background, clean composition, high contrast, no text
+
+negative_prompt:
+text, letters, numbers, watermark, signature, handwriting, photorealistic, 3d render, gradients, heavy shadows, blur, messy background, humans, faces
 
 params:
 aspect_ratio=16:9, quality=high

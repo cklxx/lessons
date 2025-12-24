@@ -5,6 +5,10 @@
 - **文本生成 Prompt**：产出稳定的 Markdown/JSON/表格/代码。
 - **图片生成 Prompt**：产出风格统一、可控差异、避免文字乱码的视觉资产（Prompt 文本本身）。
 
+先读序章（把“咒语心态”戒掉）：[00-prologue.md](00-prologue.md)
+
+![总览插图占位：提示词工程化作战手册](../../assets/books/flawless-expression/chapter-hero.svg)
+
 ## 1) 适用性与画像
 
 | 维度 | 适用场景 / 核心画像 | 不适用场景 / 反向画像 |
@@ -21,6 +25,9 @@
 - 去歧义规则：把“尽快/优化/专业/好看”替换成阈值、窗口、触发/排除条件（见 [04-language.md](04-language.md)）。
 - 输出协议库：Markdown 报告、JSON Schema、表格对比，以及图片 Prompt 配置块（见 [05-medium.md](05-medium.md)）。
 - 回归集与 A/B：失败样本入库，改 Prompt 先跑回归再发布（见 [06-feedback.md](06-feedback.md)）。
+- 文本 Prompt 配方库：摘要/抽取/对比/审查/评测等常用模板（见 [A-text-prompts.md](A-text-prompts.md)）。
+- 图片 Prompt 配方库：无文字底图的系列配方与风格底座（见 [B-image-prompts.md](B-image-prompts.md)）。
+- 质量控制清单：发布门禁、最小命令集与复现规范（见 [C-quality-checklist.md](C-quality-checklist.md)）。
 
 ## 3) 怎么用：最小命令闭环（Gemini CLI）
 
@@ -100,3 +107,9 @@ aspect_ratio=16:9, quality=high
    - 交付目标：回归集目录结构 + A/B 流程 + 最小自动化脚本（批量跑测 + 断言）。
 7. [结语：让提示词成为默认交付物（文本+图片）](conclusion.md)
    - 交付目标：个人/团队 Prompt SOP（发布前清单、版本管理、回滚策略）。
+8. [附录 A：文本 Prompt 配方库](A-text-prompts.md)
+   - 交付目标：常用任务的 Prompt 模板（输入/输出契约、门禁、回滚一次写清）。
+9. [附录 B：图片 Prompt 配方库（无文字底图）](B-image-prompts.md)
+   - 交付目标：系列插图的风格底座 + 常见示意图配方（可叠字、可维护）。
+10. [附录 C：质量控制与复现清单（Prompt 版）](C-quality-checklist.md)
+   - 交付目标：发布门禁、回归结构、最小命令集（可复现闭环）。

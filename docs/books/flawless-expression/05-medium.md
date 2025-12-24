@@ -4,6 +4,8 @@ Prompt 的一半是“写什么”，另一半是“怎么交付”。选择错�
 
 本章把“载体选择”写成决策树，并给出可复制的输出协议：Markdown 报告、JSON Schema、表格对比，以及图片 Prompt 的工程化配置块。
 
+![章节插图占位：载体选择与交付协议](../../assets/books/flawless-expression/chapter-hero.svg)
+
 ## 你将收获什么
 
 - 一个媒介选择决策树（纯文本）：用消费对象决定输出是 Markdown/JSON/表格/图片。
@@ -137,6 +139,22 @@ params:
 aspect_ratio=16:9, quality=high
 ```
 
+### 配图提示词：载体选择决策树（无文字底图）
+
+决策树配图不要画满文字。画“分叉箭头 + 不同载体图标”的底图，文字后期叠加即可。
+
+```text
+image_prompt:
+flat 2D vector illustration, minimal decision tree with branching arrows leading to simple icons (document, table grid, code brackets, image frame),
+blue and white palette, solid white background, clean composition, high contrast, no text
+
+negative_prompt:
+text, letters, numbers, watermark, signature, handwriting, photorealistic, 3d render, gradients, shadows, blur, messy background, humans, faces
+
+params:
+aspect_ratio=16:9, quality=high
+```
+
 ## 文本 Prompt 示例（Gemini CLI）：输出可解析 JSON
 
 目标：让模型返回“错误类型 + 修复建议”的 JSON，便于脚本后处理。
@@ -189,3 +207,5 @@ result = 10 / user_input
 - 回归验证：连续运行 10 次字段名与结构完全一致。
 
 上一章：[04-language.md](04-language.md) · 下一章：[06-feedback.md](06-feedback.md)
+
+配方库：文本见 [A-text-prompts.md](A-text-prompts.md) · 图片见 [B-image-prompts.md](B-image-prompts.md)

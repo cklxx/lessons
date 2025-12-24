@@ -2,6 +2,8 @@
 
 事实类输出最致命的缺陷不是文笔差，而是“一本正经地编造”。当你要求模型生成非虚构内容时，Prompt 必须像一份审计合同：**不知道就说不知道，有结论必能举证，有冲突就并列展示**。
 
+![章节插图占位：证据矩阵与审计账本](../../assets/books/flawless-expression/chapter-hero.svg)
+
 ## 你将收获什么
 
 - 一套“拒答/追问/标注不确定性”的指令规则，让模型不再硬凑答案。
@@ -42,6 +44,22 @@
 ```
 
 替换点：只替换 `<...>`，不要新增列名（列名稳定比“更全面”更重要）。
+
+### 配图提示词：证据矩阵的“账本”隐喻（无文字底图）
+
+证据矩阵本质是审计账本。配图不要画复杂表格文字，画“账本 + 标签 + 勾叉”的隐喻就够了。
+
+```text
+image_prompt:
+flat 2D vector illustration, minimalist ledger book and stacked cards representing evidence units, simple tags and checkmark/cross icons as shapes,
+blue and white palette, solid white background, clean composition, high contrast, no text
+
+negative_prompt:
+text, letters, numbers, watermark, signature, handwriting, photorealistic, 3d render, gradients, shadows, blur, messy background, humans, faces
+
+params:
+aspect_ratio=16:9, quality=high
+```
 
 ## 冲突证据处理策略（别让模型替你裁判）
 

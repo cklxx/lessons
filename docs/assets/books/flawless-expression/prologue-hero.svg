@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#E8F3FF" />
+      <stop offset="1" stop-color="#FFFFFF" />
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2B7FFF" />
+      <stop offset="1" stop-color="#00C2FF" />
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="675" fill="url(#bg)" />
+  <rect x="48" y="48" width="1104" height="579" rx="24" fill="#FFFFFF" stroke="#9CCBFF" stroke-width="6" />
+
+  <g opacity="0.92">
+    <!-- Left: chaotic -->
+    <rect x="120" y="150" width="420" height="360" rx="20" fill="#F6FBFF" stroke="#B5DAFF" stroke-width="4" />
+    <path d="M 200 280 C 160 250, 160 340, 200 310 C 240 280, 240 370, 200 340 C 160 310, 160 400, 215 380" fill="none" stroke="#6BA9FF" stroke-width="10" stroke-linecap="round" />
+    <path d="M 305 245 C 265 215, 265 305, 305 275 C 345 245, 345 335, 305 305 C 265 275, 265 365, 320 345" fill="none" stroke="#6BA9FF" stroke-width="10" stroke-linecap="round" opacity="0.7" />
+    <circle cx="430" cy="360" r="64" fill="none" stroke="#2B7FFF" stroke-width="10" stroke-dasharray="18 12" />
+
+    <!-- Right: engineered -->
+    <rect x="660" y="150" width="420" height="360" rx="20" fill="#F6FBFF" stroke="#B5DAFF" stroke-width="4" />
+    <rect x="720" y="210" width="300" height="60" rx="12" fill="#E8F3FF" stroke="#9CCBFF" stroke-width="3" />
+    <rect x="720" y="300" width="300" height="60" rx="12" fill="#E8F3FF" stroke="#9CCBFF" stroke-width="3" />
+    <rect x="720" y="390" width="300" height="60" rx="12" fill="#E8F3FF" stroke="#9CCBFF" stroke-width="3" />
+
+    <path d="M 610 338 L 660 338" stroke="url(#accent)" stroke-width="14" stroke-linecap="round" />
+    <path d="M 640 320 L 668 338 L 640 356" fill="none" stroke="url(#accent)" stroke-width="14" stroke-linejoin="round" />
+  </g>
+
+  <g opacity="0.32">
+    <circle cx="1040" cy="96" r="32" fill="#2B7FFF" />
+    <circle cx="1088" cy="112" r="18" fill="#00C2FF" />
+    <circle cx="1120" cy="88" r="10" fill="#2B7FFF" />
+  </g>
+</svg>

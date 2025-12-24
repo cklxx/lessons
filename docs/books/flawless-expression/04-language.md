@@ -4,6 +4,8 @@
 
 本章把自然语言升级为可执行指令：把形容词替换成参数，把隐含条件写成触发/排除条件，用示例与反例锁定口径。
 
+![章节插图占位：把形容词变成参数](../../assets/books/flawless-expression/chapter-hero.svg)
+
 ## 你将收获什么
 
 - 一套去歧义工作流：扫描 → 替换 → 验收。
@@ -119,6 +121,22 @@ subject: a simplified cloud icon with an upward arrow launching a rocket, abstra
 style: flat vector art, minimalist tech style, thin blue line art on white background, clean composition, high contrast, 4k
 negative_prompt: text, letters, numbers, watermark, signature, photorealistic, 3d render, shading, gradients, blur, messy background, humans, faces
 params: aspect_ratio=16:9
+```
+
+### 配图提示词：参数化仪表盘（无文字底图）
+
+“去歧义”最好的视觉隐喻不是人脸表情，而是仪表盘：旋钮、阈值线、开关，都是可执行的。
+
+```text
+image_prompt:
+flat 2D vector illustration, minimalist dashboard with dials, sliders and toggle switches represented by simple geometric shapes,
+blue and white palette, solid white background, clean composition, high contrast, no text
+
+negative_prompt:
+text, letters, numbers, watermark, signature, handwriting, photorealistic, 3d render, gradients, shadows, blur, messy background, humans, faces
+
+params:
+aspect_ratio=16:9, quality=high
 ```
 
 ## 复现检查清单（防呆测试）
