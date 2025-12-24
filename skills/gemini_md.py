@@ -9,6 +9,7 @@ from pathlib import Path
 
 
 _CITATION_BRACKET_RE = re.compile(r"\[(\d+)\]")
+_FENCE_START_RE = re.compile(r"^\s*([`~]{3,})")
 
 
 def _read_text(path: Path) -> str:
@@ -31,9 +32,75 @@ def _guardrails(text: str, *, allow_bracket_digits: bool) -> list[str]:
         errors.append("Found bracket-only numeric citation like [12]. This repo's citation checker may treat it as a missing reference.")
     if "TODO" in text:
         errors.append("Found TODO in output.")
-    if "..." in text or "……" in text:
+    text_for_ellipsis_check = text.replace("<...>", "")
+    if "..." in text_for_ellipsis_check or "……" in text_for_ellipsis_check:
         errors.append("Found ellipsis (... or …… ) in output.")
     return errors
+
+
+def _strip_inline_code(text: str) -> str:
+    out: list[str] = []
+    i = 0
+    in_code = False
+    fence_len = 0
+
+    while i < len(text):
+        if not in_code:
+            if text[i] == "`":
+                j = i
+                while j < len(text) and text[j] == "`":
+                    j += 1
+                in_code = True
+                fence_len = j - i
+                i = j
+                continue
+            out.append(text[i])
+            i += 1
+            continue
+
+        if text[i] == "`":
+            j = i
+            while j < len(text) and text[j] == "`":
+                j += 1
+            if j - i == fence_len:
+                in_code = False
+                fence_len = 0
+            i = j
+            continue
+
+        i += 1
+
+    return "".join(out)
+
+
+def _extract_numeric_citations(markdown: str) -> set[int]:
+    cleaned: list[str] = []
+    in_fence = False
+    fence_char = ""
+    fence_len = 0
+
+    for raw_line in markdown.splitlines(keepends=True):
+        fence_match = _FENCE_START_RE.match(raw_line)
+        if fence_match:
+            fence = fence_match.group(1)
+            if not in_fence:
+                in_fence = True
+                fence_char = fence[0]
+                fence_len = len(fence)
+            else:
+                if fence[0] == fence_char and len(fence) >= fence_len:
+                    in_fence = False
+                    fence_char = ""
+                    fence_len = 0
+            continue
+
+        if in_fence:
+            continue
+
+        cleaned.append(_strip_inline_code(raw_line))
+
+    text = "".join(cleaned)
+    return {int(m.group(1)) for m in _CITATION_BRACKET_RE.finditer(text)}
 
 
 def _run_gemini(*, model: str, prompt: str, stdin_text: str) -> str:
@@ -102,6 +169,11 @@ def build_parser() -> argparse.ArgumentParser:
         help="Allow bracket-only digits like [12] in output (useful when editing books that intentionally use numbered citations).",
     )
     parser.add_argument(
+        "--no-new-citations",
+        action="store_true",
+        help="When citations like [12] are allowed, ensure Gemini does not introduce new numeric citations not present in the original file.",
+    )
+    parser.add_argument(
         "--no-guardrails",
         action="store_true",
         help="Disable output guardrails checks.",
@@ -136,6 +208,7 @@ def main() -> int:
             raise SystemExit(f"Input not found: {path}")
 
         original = _read_text(path)
+        original_citations = _extract_numeric_citations(original) if args.no_new_citations else set()
         output = _run_gemini(model=args.model, prompt=prompt, stdin_text=original)
 
         if not args.no_guardrails:
@@ -143,6 +216,13 @@ def main() -> int:
             if problems:
                 joined = "\n".join(f"- {p}" for p in problems)
                 raise SystemExit(f"Guardrails failed for {path}:\n{joined}")
+
+        if args.no_new_citations:
+            output_citations = _extract_numeric_citations(output)
+            added = sorted(n for n in output_citations if n not in original_citations)
+            if added:
+                joined = ", ".join(f"[{n}]" for n in added)
+                raise SystemExit(f"Guardrails failed for {path}:\n- Introduced new numeric citations not present in original: {joined}")
 
         if args.in_place:
             path.write_text(output, encoding="utf-8")

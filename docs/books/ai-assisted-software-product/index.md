@@ -2,6 +2,24 @@
 
 > 面向超级个体的实战手册：覆盖从机会发现、工程交付到模型训练与商业闭环的全链路。本书只强调一件事：**可裁决性**——关键论点尽量给出权威来源或**验收标准**（对比表、评测集、决策日志）。注意：本仓库是方法论文档，不绑定具体技术栈；重点在于建立同口径的证据链与回滚机制。[1][2][5][18]
 
+![总览插图占位：价值/交付/治理三层闭环（无文字底图）](../../assets/books/ai-assisted-software-product/chapter-hero.svg)
+
+## 你读这本书为了什么（先说人话）
+
+你想要的不是“更会用 AI 聊天”，而是两件更难的事：
+
+- **更快裁决**：这事值不值得做，今天就能证明或否掉。
+- **更稳交付**：改动能验收、能留档、退化能回滚，不靠运气上线。
+
+如果你读完后能做到“每次迭代都能拿出证据包，说清楚改了什么、好在哪里、差在哪里、失败怎么退”，这本书就算完成任务了。
+
+## 你将得到什么（交付物清单）
+
+- **一套五分身作战地图**：指挥官/工程师/架构师/造物主/运维专家，按阶段跳读，不用硬背顺序。
+- **一套门禁语言**：把“好/快/专业/稳定”改写成阈值、窗口、触发与失败判定。
+- **一套可复跑的证据链**：决策日志、对比表、评测集版本、回滚指针。
+- **一套可复制的模板与配方库**：PRD 合同、证据包、Runbook、指标字典、提示词与图片 Prompt。
+
 ## 范围与前置假设
 
 - **适用对象**：个人开发者/小团队；希望用 AI 提升验证速度、工程交付与模型能力，并最终跑通商业闭环的人。
@@ -17,6 +35,7 @@
 本仓库是**方法论文档仓库**：你会看到“可复制”的示例与脚手架形态，但它们用于表达门禁与证据链的结构，而不是某个框架的开箱即用工程。
 
 - **本书仓库的必做自检**：
+  - `bash skills/check_docs.sh`（一键跑引用检查 + 严格构建）
   - `python3 tools/check_citations.py`（引用编号是否存在）
   - `python3 -m mkdocs build --strict`（死链/缺页/配置错误）
 - **AI 审稿（可选）**：默认基于 `gemini` CLI；用法与 Prompt 模板见：[ai-editor-sop.md](ai-editor-sop.md)。
@@ -31,6 +50,26 @@
 指标字典、阈值三段式与告警到动作映射详见：[附录 F：指标字典与告警门禁速查](F-metrics-alerts.md)。
 插图规范与图片 Prompt 配方详见：[附录 G：图片 Prompt 与插图规范](G-image-prompts.md)。
 
+## 配图建议（占位图 + 图片 Prompt 文本）
+
+这本书的配图不追求“酷”，追求“可维护”：风格统一、无文字底图、留白可叠字。占位图先用下面这张顶住，等你确定需要再生成正式图。
+
+![占位图：结构/对比/关系示意（无文字底图）](../../assets/books/ai-assisted-software-product/placeholder-diagram.svg)
+
+用于生成“总览三层闭环”配图的图片 Prompt 文本（输出给你的生图工具）：
+
+```text
+image_prompt:
+flat 2D vector illustration, three concentric loops made of clean arrows representing value, delivery, governance, minimalist tech diagram,
+blue and teal palette, solid white background, high contrast, ample whitespace for later typography, no text
+
+negative_prompt:
+text, letters, numbers, watermark, signature, handwriting, photorealistic, 3d render, gradients, heavy shadows, blur, messy background, humans, faces
+
+params:
+aspect_ratio=16:9, quality=high
+```
+
 ## 本书的写法（你会看到的风格）
 我尽量把这本书写成一份可长期复用的作战手册，而不是工具清单：
 
@@ -42,7 +81,7 @@
 ---
 
 ## 导航与阅读路径
-- **序言：** [一人即是一支队伍](preface.md) —— 定位、范式转移与实践节奏。
+- **序言：** [一人即是一支队伍](preface.md) —— 把三重责任说清楚：价值、交付、治理。
 - **第一篇 指挥官：**
   - [第 1 章 全流程方法论与 AI 工作台](01-method.md)
   - [第 2 章 需求挖掘：从问题到机会](02-discovery.md)

@@ -1,89 +1,126 @@
 # 反馈、校对与迭代：把 Prompt 的失败变成回归资产
 
-Prompt 最昂贵的代价不是“第一次写错”，而是“修完之后不知道什么时候会再坏”。如果不做回归，你每一次“优化”都像打地鼠：修了格式，丢了事实；加强约束，损了可用性；改了风格，系列崩盘。
+Prompt 开发最昂贵的代价不是“第一次写错”，而是“修完之后不知道什么时候会再坏”。如果你不做回归测试，每一次所谓的“优化”都只是在打地鼠：修好了 JSON 格式，弄丢了关键事实；加强了语气约束，牺牲了指令可用性；改了一种画风，结果整个系列崩盘。
 
-本章把软件工程的回归测试引入 Prompt：每一次失败都要变成可复现样本、可自动化验收的门禁。
+本章把软件工程的“回归测试”引入 Prompt 开发：每一次失败，都必须变成一个可复现的样本、一道可自动验收的门禁。
 
 ![章节插图占位：回归与发布门禁](../../assets/books/flawless-expression/chapter-hero.svg)
 
-## 你将收获什么
+## 你的痛点与本章交付物
 
-- 一套静态评审清单：发给模型前先拦住低级错误（零成本）。
-- 一个回归集目录结构：把 Prompt 当源码管理，版本可追踪、可回滚。
-- 一个文本 Prompt 的 A/B 回归流程：修复目标问题，同时不引入退化。
-- 一个图片 Prompt 的风格回归流程：系列一致性可检查，差异可控。
-- 两个可复制脚本：批量跑测（Gemini CLI）+ 最小断言（JSON/关键字）。
+**你现在卡在哪：**
+你改了 Prompt 的一句话，感觉这次稳了，但不敢保证之前跑通的 50 个 Case 还能不能过。你每次发布都心惊胆战，因为你的“测试”全靠人工肉眼抽查。
 
-## 1) Prompt 评审清单（静态）
+**这章能把你从哪救出来：**
+把“靠运气发布”变成“靠数据发布”。建立一套只要跑一遍就能告诉你“改对了没”和“改坏了没”的自动化防线。
 
-在消耗 token 之前先做静态审查，能拦下大量“明明写错了却还在跑”的浪费。
+**交付物：**
+1.  **静态评审清单**：发给模型前先拦住低级错误的检查表。
+2.  **回归测试集结构**：把 Prompt 当源码管理，版本可追踪、可回滚。
+3.  **自动化测试脚本**：两个拿来就能用的脚本（批量运行 + 结果断言）。
+4.  **A/B 测试流程**：文本与图片 Prompt 的稳健迭代方法。
+
+## 1. 静态评审：别把垃圾发给模型
+
+在消耗 Token 和时间之前，先用人眼做第一道静态审查。这能拦下 80% “明明写错了却还在跑”的低级浪费。
 
 | 维度 | 检查项 | 通过标准 |
 | :--- | :--- | :--- |
-| 结构 | 定界清晰 | 是否用标题/分隔符把“指令”和“数据”分开（避免混在一段话里） |
-| 角色 | 身份明确 | 是否写清“你是谁”（审计工具/编辑/提取器），而不是只写“请做什么” |
-| 约束 | 禁止项明确 | 是否把“不做什么”写成可检测规则（禁止寒暄语/禁止 Markdown 包裹 JSON） |
-| 输出 | 协议固定 | 是否提供模板/Schema/列名，并声明顺序与字段不可变 |
-| 兜底 | 未知出口 | 缺信息时是否允许拒答并输出缺口清单（而不是硬编） |
-| 回滚 | 有退路 | 失败后怎么降级/回滚是否写清（重试一次/返回固定错误结构） |
+| **结构** | 定界清晰 | 是否用标题或明显的分隔符把“指令区”和“数据区”物理隔绝？不要让数据里的文字干扰指令。 |
+| **角色** | 身份明确 | 是否写清了“你是谁”（如：审计工具、提取器），而不是只写卑微的“请帮我做”？ |
+| **约束** | 负向明确 | “不做什么”是否写成了可检测的规则？（如：禁止使用 Markdown 包裹 JSON，禁止输出寒暄语）。 |
+| **输出** | 协议固定 | 是否提供了 JSON Schema 或固定的模板结构？是否声明了字段顺序不可变？ |
+| **兜底** | 异常出口 | 当信息缺失时，是否有明确的拒答话术或特定的错误码？（不要让模型瞎编）。 |
+| **回滚** | 降级策略 | 失败后是重试还是返回兜底文本？这一步想清楚了吗？ |
 
-## 2) 建立回归集：把失败固化下来
+## 2. 建立回归集：把失败固化下来
 
-任何一次失败，都必须入库成为回归样本，否则你只是在“修一次”，不是“免疫一次”。
+任何一次线上事故或测试失败，都必须入库成为一个“回归样本”。否则你只是在“修一个 Bug”，而不是“免疫一类 Bug”。
 
-### 回归集结构（目录树）
+### 标准回归集目录结构
+
+建议在你的代码库中建立如下结构。这不是建议，是工程标准。
 
 ```text
 prompts/
 ├── production/
-│   ├── prompt_a.v1.txt
-│   └── prompt_b.v3.txt
+│   ├── prompt_analyst.v1.txt      <-- 线上正在跑的版本
+│   └── prompt_writer.v3.txt
 └── regression/
-    ├── case_001_chatty_json/
-    │   ├── input.txt
-    │   ├── prompt_base.txt
-    │   ├── prompt_candidate.txt
-    │   └── expected.json
+    ├── case_001_chatty_json/      <-- 以前失败过的典型案例
+    │   ├── input.txt              <-- 触发问题的原始输入
+    │   ├── prompt_base.txt        <-- 当时的 Prompt 快照
+    │   ├── prompt_candidate.txt   <-- 你正在修的 Prompt
+    │   └── expected.json          <-- 人工校对过的标准答案（真值）
     ├── case_002_missing_fields/
     │   ├── input.txt
-    │   ├── prompt_base.txt
-    │   ├── prompt_candidate.txt
-    │   └── expected.md
-    ├── case_003_image_no_text/
-    │   ├── prompt_image.txt
-    │   └── expected_rules.md
-    ├── run_batch.sh
-    └── check_results.py
+    │   ├── <...>
+    │   └── expected.md            <-- 也可以是 Markdown 规则
+    ├── run_batch.sh               <-- 批量运行脚本
+    └── check_results.py           <-- 自动断言脚本
 ```
 
-说明：
-- `expected.*` 是人工校对过的“验收真值”（可以是 JSON，也可以是 Markdown 规则）。
-- 图片回归不追求像素级一致，而是追求规则一致（例如“不得出现文字/水印”）。
+**关键点：**
+*   `expected.*` 是你的真理。它必须是人工确认过的。
+*   每一个 Case 对应一个具体的边缘情况（比如：输入为空、输入包含干扰字符、需要提取的字段不存在）。
 
-## 3) 文本 Prompt 的 A/B 回归流程
+## 3. 文本 Prompt 的 A/B 回归流程
 
-1. 基线：用 `prompt_base.txt` 跑一遍回归集，记录通过率与失败原因。
-2. 变量控制：只改一件事（例如增加“禁止 Markdown 包裹 JSON”），保存为候选 Prompt。
-3. 同集 A/B：用同一批 `input.txt` 跑候选 Prompt。
-4. 裁决：
-   - 目标 Case 是否修复？
-   - 是否引入新退化（格式/事实/风格）？
-5. 发布：修复成功且无退化才替换 `production/`。
+不要直接改生产环境的 Prompt。遵循以下流程：
 
-## 4) 最小自动化脚本（可复制）
+1.  **基线（Baseline）：** 用 `production/` 里的 Prompt 跑一遍所有回归 Case，记录通过率。这是你的底线。
+2.  **变量控制：** 复制一份 Prompt 到 `regression/` 目录下，只改动你想优化的那个点（比如增加一句“禁止输出 Markdown 代码块”）。不要同时改两件事。
+3.  **同集跑测：** 用同一批 `input.txt` 跑你的候选 Prompt。
+4.  **裁决：**
+    *   **修复目标达成？** 那个让你头疼的 Case 过了吗？
+    *   **无退化（No Regression）？** 之前那 49 个通过的 Case 还在通过吗？
+    *   **格式/风格检查：** 输出格式是否依然符合下游解析器的要求？
+5.  **发布：** 只有修复成功且无退化，才替换 `production/` 下的文件。
 
-### 脚本 A：批量跑 Prompt（`run_batch.sh`）
+### 模板：文本 Prompt 修复专用模版
+
+当你修复一个 Prompt 时，不要只在脑子里想，把它写下来作为提交记录的一部分。
+
+```markdown
+# Prompt 修复记录
+
+## 1. 问题描述
+- **现象**：模型偶尔会在 JSON 前面加一句“好的，这是结果”。
+- **影响**：导致后端 JSON 解析器报错 `Unexpected token`。
+- **Case ID**：`case_001_chatty_json`
+
+## 2. 修改方案
+- **原 Prompt**：请输出 JSON 格式。
+- **新 Prompt**：你是一个无情的 JSON 生成机器。严禁输出任何非 JSON 字符。严禁使用 ```json 包裹。直接输出原始 JSON 字符串。
+
+## 3. 回归结果
+- **目标 Case**：通过。
+- **全量回归**：50/50 通过。
+- **新增风险**：无。
+```
+
+## 4. 最小自动化脚本（拿去用）
+
+这一步是把“人肉测试”变成“机器测试”的关键。你需要安装 Gemini CLI。
+
+### 脚本 A：批量运行器 (`run_batch.sh`)
+
+这个脚本会遍历你的回归目录，把 Prompt 和 Input 拼在一起发给模型，并把结果存下来。
 
 ```bash
 #!/usr/bin/env bash
 set -euo pipefail
 
+# 配置模型名称
 MODEL="gemini-3-pro-preview"
-PROMPT_FILE=${1:?usage: run_batch.sh <prompt_file> <cases_dir> <out_dir>}
-CASES_DIR=${2:?usage: run_batch.sh <prompt_file> <cases_dir> <out_dir>}
-OUT_DIR=${3:?usage: run_batch.sh <prompt_file> <cases_dir> <out_dir>}
+
+PROMPT_FILE=${1:?用法: run_batch.sh <prompt_file> <cases_dir> <out_dir>}
+CASES_DIR=${2:?用法: run_batch.sh <prompt_file> <cases_dir> <out_dir>}
+OUT_DIR=${3:?用法: run_batch.sh <prompt_file> <cases_dir> <out_dir>}
 
 mkdir -p "$OUT_DIR"
+
+echo "开始执行回归测试，使用模型: $MODEL"
 
 for case_dir in "$CASES_DIR"/*; do
   [ -d "$case_dir" ] || continue
@@ -91,132 +128,147 @@ for case_dir in "$CASES_DIR"/*; do
   [ -f "$input" ] || continue
 
   name=$(basename "$case_dir")
-  query_file=$(mktemp)
-  cat "$PROMPT_FILE" "$input" > "$query_file"
+  
+  # 拼接 Prompt 和 Input 构造完整查询
+  # 注意：这里假设你的 Prompt 需要拼接 Input 才能工作
+  full_prompt=$(cat "$PROMPT_FILE" "$input")
 
-  echo "Running $name"
-  gemini -m "$MODEL" -p "$(cat "$query_file")" > "$OUT_DIR/$name.out"
+  echo "正在运行 Case: $name"
+  
+  # 调用 Gemini CLI，强制指定模型
+  # 结果直接写入输出目录
+  gemini -m "$MODEL" -p "$full_prompt" > "$OUT_DIR/$name.out"
 
-  rm -f "$query_file"
+  # 稍微停顿，避免触发极其严格的速率限制（如果你的配额很低）
   sleep 1
 done
+
+echo "回归测试执行完毕。结果保存在 $OUT_DIR"
 ```
 
-### 脚本 B：最小断言（`check_results.py`）
+### 脚本 B：最小断言器 (`check_results.py`)
 
-这个脚本只做两类硬门禁：
-- JSON 必须可解析（用于结构化输出）
-- 输出不得包含禁用短语（用于“话痨输出”）
+这个脚本只做最硬的门禁检查：是不是 JSON？有没有废话？
 
 ```python
 import argparse
 import json
+import sys
 from pathlib import Path
 
-FORBIDDEN = [
+# 绝对禁止出现的“废话”列表
+FORBIDDEN_PHRASES = [
     "好的，这是",
-    "希望这对你有帮助",
-    "Here is",
-    "```json",
+    "Here is the",
+    "Sure, I can help",
+    "```json",  # 我们要求纯 JSON，不要 Markdown 包裹
+    "```",
 ]
 
 def looks_like_json(text: str) -> bool:
     text = text.strip()
     return text.startswith("{") or text.startswith("[")
 
-def main(out_dir: Path) -> None:
-    failed = 0
+def check_file(file_path: Path) -> bool:
+    content = file_path.read_text(encoding="utf-8", errors="replace").strip()
+    
+    # 检查 1: 禁用词
+    for phrase in FORBIDDEN_PHRASES:
+        if phrase in content:
+            print(f"[失败] {file_path.name}: 发现了禁用词 '{phrase}'")
+            return False
+
+    # 检查 2: JSON 合法性 (如果你的目标是 JSON)
+    if looks_like_json(content):
+        try:
+            json.loads(content)
+        except json.JSONDecodeError:
+            print(f"[失败] {file_path.name}: JSON 解析失败")
+            return False
+    else:
+        # 如果不是 JSON 格式，根据你的需求决定是否报错
+        # 这里假设所有输出都必须是 JSON
+        print(f"[失败] {file_path.name}: 输出不是 JSON 结构")
+        return False
+
+    print(f"[通过] {file_path.name}")
+    return True
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("out_dir", help="包含模型输出文件的目录")
+    args = parser.parse_args()
+    
+    out_dir = Path(args.out_dir)
+    if not out_dir.exists():
+        print(f"错误: 目录 {out_dir} 不存在")
+        sys.exit(1)
+
+    failed_count = 0
+    total_count = 0
+
     for p in sorted(out_dir.glob("*.out")):
-        content = p.read_text(encoding="utf-8", errors="replace")
+        total_count += 1
+        if not check_file(p):
+            failed_count += 1
 
-        if any(x in content for x in FORBIDDEN):
-            print(f"[FAIL] {p.name}: forbidden phrase found")
-            failed += 1
-            continue
-
-        if looks_like_json(content):
-            try:
-                json.loads(content)
-            except json.JSONDecodeError:
-                print(f"[FAIL] {p.name}: invalid json")
-                failed += 1
-                continue
-
-        print(f"[PASS] {p.name}")
-
-    if failed:
-        raise SystemExit(1)
+    print(f"\n总结: 总计 {total_count}, 失败 {failed_count}")
+    
+    if failed_count > 0:
+        sys.exit(1)
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser()
-    parser.add_argument("out_dir")
-    args = parser.parse_args()
-    main(Path(args.out_dir))
+    main()
 ```
 
-## 5) 图片 Prompt 的风格回归流程（系列一致性）
+## 5. 图片 Prompt 的风格回归（系列一致性）
 
-图片回归更难，因为你既要控内容，也要控风格。推荐用“三件套”做回归：
+图片生成最怕的是“第一张是极简风，第二张变成了赛博朋克”。图片回归不看像素，看**规则**。
 
-1) 风格底座：所有 Prompt 共享的 style 段落（见 [05-medium.md](05-medium.md)）。
-2) 负向约束：所有 Prompt 继承同一份 negative_prompt（至少包含 text/letters/numbers/watermark）。
-3) 锚点主题：固定 3 个锚点主体（例如“服务器/盾牌/云”），每次改风格都用锚点跑一轮对比。
+### 风格一致性“三件套”
 
-验收方式（不依赖具体生图工具）：
-- 规则验收：Prompt 是否仍包含风格底座与负向约束？是否引入了会破坏风格的词（如 photorealistic/3d render）？
-- 视觉验收：把锚点生成的图片平铺对比，线条粗细、色板、背景复杂度一致；若工具支持则锁 seed 以便归因。
+1.  **风格底座 (Style Base)**：把所有的风格描述提取出来，做成一个固定的文本块，所有 Prompt 必须强制包含。
+2.  **负向约束 (Negative Prompt)**：这是一道防火墙。必须包含所有你痛恨的元素。
+3.  **锚点测试 (Anchor Test)**：选定 3 个固定的主体（比如：一个方块、一只猫、一棵树）。每次修改风格参数时，先跑这 3 个锚点，平铺对比。
 
-### 配图提示词：反馈回路与门禁（无文字底图）
+### 可复制图片 Prompt 配置
 
-你要表达的是“闭环”，不是“流程图文学”。画一个环，环上有四个节点：写 Prompt、跑回归、评审、发布门禁。
+直接拿这个作为你的图片生成规范。
 
 ```text
 image_prompt:
-flat 2D vector illustration, minimalist circular feedback loop with four abstract nodes connected by arrows, clean tech style,
-blue and white palette, solid white background, high contrast, no text
+<主体描述>, flat 2D vector illustration, minimalist design, circular feedback loop structure, four abstract nodes connected by arrows, clean tech style, blue and white color palette, solid white background, high contrast, no text labels
 
 negative_prompt:
-text, letters, numbers, watermark, signature, handwriting, photorealistic, 3d render, gradients, shadows, blur, messy background, humans, faces
+text, letters, numbers, watermark, signature, handwriting, photorealistic, 3d render, gradients, shadows, blur, messy background, humans, faces, distortion, noise
 
 params:
-aspect_ratio=16:9, quality=high
+aspect_ratio=16:9, quality=high, seed=42
 ```
 
-## 6) 常见陷阱（失败样本）
+**验收标准：**
+*   **规则验收**：检查最终的 Prompt 字符串，是否完整包含了上面的 `negative_prompt`？
+*   **视觉验收**：生成出来的图片，背景是不是纯白的？有没有出现那该死的文字？
+
+## 6. 常见陷阱与自救
 
 ### 1) 只改措辞，不改规则
+**现象：** 你把“请输出 JSON”改成了“跪求输出 JSON”，结果模型偶尔还是会输出废话。
+**根因：** 你在试图用情感感化模型，而不是用规则约束它。
+**自救：** 别废话。直接在 Prompt 里加上 `Negative Constraint`：禁止输出任何非 JSON 字符。并在代码层用 `check_results.py` 这种脚本做硬拦截。
 
-- 现象：输出仍然夹带解释文本，解析器仍然失败。
-- 根因：你改了“请输出 JSON”的措辞，但没有写出硬约束与失败判定。
-- 复现：同一 Prompt 多次运行，输出格式波动。
-- 修复：把输出协议写成不可变模板；禁用短语写成断言；失败返回固定错误结构。
-- 回归验证：`check_results.py` 全绿且稳定复跑。
+### 2) 只有修复，没有记忆
+**现象：** 上周修好的 Bug，这周换了个同事写 Prompt 又出现了。
+**根因：** 你们的组织没有记忆。失败的 Case 没有进回归库。
+**自救：** 建立 Git 提交规范。修改 Prompt 必须附带一个新的 `regression/case_xxx`。没有 Case 不许合并。
 
-### 2) 只修一次，不入回归
+### 3) 图片风格漂移
+**现象：** 系列插图画到第 10 张时，画风已经完全变了。
+**根因：** 你的风格描述和主体描述混在一起了，主体描述太长冲淡了风格权重。
+**自救：** 强制分离。风格描述必须永远放在 Prompt 的最前或最后（取决于模型特性，通常最前权重大），并且使用完全一致的词汇。
 
-- 现象：同类错误在另一个 Prompt 或另一次改动里复发。
-- 根因：没有把失败样本固化成回归 case；组织没有记忆。
-- 复现：换一个作者/换一个入口，错误再次出现。
-- 修复：任何事故必须新增一个 `case_XXX/`；并在发布前跑一遍回归。
-- 回归验证：后续迭代中同类错误被门禁提前拦下。
+## 结语
 
-### 3) 风格漂移（图片系列）
+不要相信你的直觉，不要相信模型的“承诺”。只相信测试结果。把每一次失败都变成资产，你的 Prompt 工程才会越来越稳固。
 
-- 现象：系列图第一张扁平，第二张 3D，第三张带阴影渐变。
-- 根因：风格底座不一致或被主体描述覆盖；negative_prompt 未继承。
-- 复现：每次只写“科技感插图”，模型会自由发挥。
-- 修复：风格底座前置 + 继承 negative_prompt；每次改动都跑锚点主题对比。
-- 回归验证：锚点主题平铺对比一致；Prompt 规则检查不过即打回。
-
-## 复现检查清单（报告失败/修复时必须记录）
-
-- [ ] 模型版本：`gemini-3-pro-preview` 等（版本变动会引入行为差异）。
-- [ ] Prompt 版本：文件名/哈希（别只说“我改了一下”）。
-- [ ] 输入样本：触发失败的最小输入（不要脱敏到改变语义）。
-- [ ] 输出协议：当次要求的模板/Schema（否则无法判定对错）。
-- [ ] 失败判定：命中哪条门禁（解析失败/禁用短语/缺字段）。
-- [ ] 回滚指针：回到哪个版本可立即止损。
-
-结语：[conclusion.md](conclusion.md)
-
-质量清单：[C-quality-checklist.md](C-quality-checklist.md)
+下一步，去检查你的质量清单：[C-quality-checklist.md](C-quality-checklist.md)

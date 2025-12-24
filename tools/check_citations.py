@@ -3,12 +3,16 @@ from __future__ import annotations
 
 import glob
 import os
+import re
 import sys
 
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BOOK_DIR = os.path.join(ROOT, "docs", "books", "ai-assisted-software-product")
 REFERENCES = os.path.join(BOOK_DIR, "references.md")
+
+_CITATION_RE = re.compile(r"\[(\d+)\]")
+_FENCE_START_RE = re.compile(r"^\s*([`~]{3,})")
 
 
 def parse_reference_numbers(path: str) -> set[int]:
@@ -24,23 +28,70 @@ def parse_reference_numbers(path: str) -> set[int]:
     return numbers
 
 
-def parse_citations_from_markdown(path: str) -> list[int]:
-    with open(path, "r", encoding="utf-8") as f:
-        text = f.read()
-    out: list[int] = []
+def _strip_inline_code(text: str) -> str:
+    out: list[str] = []
     i = 0
-    while True:
-        start = text.find("[", i)
-        if start == -1:
-            break
-        end = text.find("]", start + 1)
-        if end == -1:
-            break
-        inner = text[start + 1 : end]
-        if inner.isdigit():
-            out.append(int(inner))
-        i = end + 1
-    return out
+    in_code = False
+    fence_len = 0
+
+    while i < len(text):
+        if not in_code:
+            if text[i] == "`":
+                j = i
+                while j < len(text) and text[j] == "`":
+                    j += 1
+                in_code = True
+                fence_len = j - i
+                i = j
+                continue
+            out.append(text[i])
+            i += 1
+            continue
+
+        if text[i] == "`":
+            j = i
+            while j < len(text) and text[j] == "`":
+                j += 1
+            if j - i == fence_len:
+                in_code = False
+                fence_len = 0
+            i = j
+            continue
+
+        i += 1
+
+    return "".join(out)
+
+
+def parse_citations_from_markdown(path: str) -> list[int]:
+    cleaned: list[str] = []
+    in_fence = False
+    fence_char = ""
+    fence_len = 0
+
+    with open(path, "r", encoding="utf-8") as f:
+        for raw_line in f:
+            fence_match = _FENCE_START_RE.match(raw_line)
+            if fence_match:
+                fence = fence_match.group(1)
+                if not in_fence:
+                    in_fence = True
+                    fence_char = fence[0]
+                    fence_len = len(fence)
+                else:
+                    if fence[0] == fence_char and len(fence) >= fence_len:
+                        in_fence = False
+                        fence_char = ""
+                        fence_len = 0
+                continue
+
+            if in_fence:
+                continue
+
+            cleaned.append(_strip_inline_code(raw_line))
+
+    text = "".join(cleaned)
+    return [int(m.group(1)) for m in _CITATION_RE.finditer(text)]
 
 
 def main() -> int:

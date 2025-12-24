@@ -60,6 +60,8 @@ python3 skills/genimage.py \
 位置：
 - `skills/prompts/flawless-expression-enrich.txt`（用于《绝对正确的提示词》：默认禁止方括号纯数字，避免误触引用规则）
 - `skills/prompts/ai-assisted-software-product-enrich.txt`（用于《AI 辅助软件产品》：保留既有引用编号，禁止新增误判形态）
+- `skills/prompts/flawless-expression-rewrite.txt`（用于“说人话重写”：更口语、更像作战手册，强调文本与图片 Prompt 交付）
+- `skills/prompts/ai-assisted-software-product-rewrite.txt`（用于“说人话重写”：更口语、更可裁决，强调门禁/回滚/证据）
 
 模板默认约束：不外链、相对链接带 `.md`、保持尖锐批判、补模板/示例/失败判定/回滚、并插入占位图与图片 Prompt 文本。
 
@@ -79,6 +81,7 @@ python3 skills/gemini_md.py \
 python3 skills/gemini_md.py \
   --prompt-file skills/prompts/ai-assisted-software-product-enrich.txt \
   --allow-bracket-digits \
+  --no-new-citations \
   docs/books/ai-assisted-software-product/02-discovery.md > /tmp/02-discovery.new.md
 ```
 

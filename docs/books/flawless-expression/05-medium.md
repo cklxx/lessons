@@ -1,211 +1,206 @@
-# 媒介与格式：为文本/结构化输出/图片选择最优 Prompt 载体
+# 05 媒介与格式：别让交付格式毁了你的 Prompt
 
-Prompt 的一半是“写什么”，另一半是“怎么交付”。选择错误的载体会让下游链路断裂：让模型用自然语言输出本该是 JSON 的数据；让图片模型在图里渲染关键文字；最后一定是返工与事故。
+Prompt 的一半是“内容”，另一半是“载体”。
 
-本章把“载体选择”写成决策树，并给出可复制的输出协议：Markdown 报告、JSON Schema、表格对比，以及图片 Prompt 的工程化配置块。
+很多 Prompt 工程师死在最后一步：你让模型用自然语言输出本该是 JSON 的数据，下游解析器直接报错；你让模型在图片里硬写文字，结果生成了一堆乱码火星文。
 
-![章节插图占位：载体选择与交付协议](../../assets/books/flawless-expression/chapter-hero.svg)
+这一章不讲虚的，直接给你一套决策树和三个强制协议。别让模型猜你要什么格式，直接把模具扣在它脸上。
 
-## 你将收获什么
+![章节插图：载体选择与交付协议](../../assets/books/flawless-expression/chapter-hero.svg)
 
-- 一个媒介选择决策树（纯文本）：用消费对象决定输出是 Markdown/JSON/表格/图片。
-- 三类文本输出模板：Markdown 报告协议、JSON Schema 协议、表格对比协议。
-- 一个图片 Prompt 配置块模板：主体/风格/构图/光影/参数/负向约束/一致性策略。
-- 两个图片 Prompt 示例：技术示意图底图（无文字）与章节封面插画（可当分隔图）。
-- 一个 Gemini CLI 示例：生成可被脚本解析的 JSON 输出。
+## 你的痛点与交付物
 
-## 媒介选择决策树（纯文本可复制）
+**你现在的处境：**
+- 也就是写个脚本处理数据，结果模型有时候返回 JSON，有时候返回 Markdown，正则表达式写得比 Prompt 还长。
+- 想做个技术示意图，结果图片里的文字全是错别字，根本没法用。
+- 输出的报告格式满天飞，标题层级乱跳，自动化脚本读不到重点。
+
+**本章交付物：**
+- **一张决策表**：一眼看出该用 JSON、Markdown 还是表格。
+- **三套文本协议**：直接复制进 Prompt，锁死输出格式。
+- **一套图片配置块**：把画图变成填空题，杜绝文字乱码。
+- **一个 CLI 脚本**：演示如何生成可被机器读取的结构化数据。
+
+## 决策树：到底该输出什么？
+
+别拍脑袋选格式。问自己两个问题，答案就出来了。
+
+### 第一层：谁是消费者？
+1. **解析器 / API / 脚本** -> 必须用 **JSON**。不要用 Markdown，不要用自然语言。
+2. **人类（决策者 / 开发者）** -> 用 **Markdown 报告**。固定标题层级，方便快速扫描。
+3. **人类（对比者 / 审核员）** -> 用 **表格（Table）**。固定列名，强制对齐。
+4. **视觉资产** -> 用 **图片 Prompt**。生成无文字底图，文字后期 P 上去。
+
+### 第二层：是否需要自动化？
+- **是** -> 必须提供 Schema（结构定义）和失败判定。禁止任何寒暄（"好的，这是结果。"）。
+- **否** -> 依然建议给结构，避免模型写出长篇大论的废话。
+
+### 第三层：图片里有字吗？
+- **有关键信息** -> **严禁**让模型画字。生成底图，文字后期叠加。
+- **纯装饰/氛围** -> 可以让模型发挥，但要用 Negative Prompt 压制乱码风险。
+
+## 文本输出协议：复制这三段就够了
+
+把这些协议块直接粘到你的 Prompt 末尾。
+
+### 1. Markdown 报告协议（给人看）
+
+用于日报、Code Review、架构设计文档。
 
 ```text
-1) 谁是结果的第一消费者？
-   - 解析器/脚本/API：输出必须结构化（JSON 优先）。
-   - 人类阅读（决策/复盘/说明）：输出 Markdown 报告（固定标题层级）。
-   - 人类对比（竞品/参数/清单）：输出二维表（列名固定）。
-   - 视觉资产（插图/封面/示意）：输出图片 Prompt（生成底图，关键文字后期叠加）。
-
-2) 结果是否需要被自动化处理？
-   - 需要：给 Schema/模板 + 失败判定；禁止寒暄语与多余解释。
-   - 不需要：仍建议给结构（标题/清单/表格），避免散文。
-
-3) 图片是否包含关键文字信息？
-   - 是：不要让图片模型写字。生成无文字底图，文字后期叠加。
-   - 否：可以用图片模型生成插图/氛围/封面分隔图。
+### Output Protocol
+1. Format: Markdown only.
+2. Headings: Use strictly level 2 (##) and level 3 (###). Do NOT use level 1 (#).
+3. Structure:
+   - ## Executive Summary (Max 3 sentences, straight to the point)
+   - ## Risk Analysis (Must include "Severity" and "Mitigation")
+   - ## Action Items (Bulleted list)
+4. Constraints: No conversational filler (e.g., "Here is the report"). No introductory text.
 ```
 
-## 文本输出：三类可复制协议
+### 2. JSON Schema 协议（给机器看）
 
-### 1) Markdown 报告协议（面向人类）
+用于 API 对接、数据清洗、自动化流。
 
 ```text
-输出协议：
-1) 只输出 Markdown。
-2) 标题层级固定为：## / ###（不要输出 #）。
-3) 第一段必须是“执行摘要”（最多 3 句话）。
-4) 必须包含：风险、失败判定、回滚/降级建议。
-5) 禁止：前言式寒暄、长段散文、空泛口号。
-```
+### Output Protocol
+1. Format: Raw JSON string only. NO Markdown code blocks (no ```json wrapper).
+2. Schema Compliance: Output MUST match the following schema exactly. NO new fields.
+3. Error Handling: If unable to generate valid JSON, return: {"error": "SCHEMA_FAIL", "reason": "<reason>"}
 
-### 2) JSON Schema 协议（面向解析器）
-
-```text
-输出协议：
-1) 只输出 JSON 字符串本体（不要 Markdown 代码块包裹）。
-2) 字段名与类型必须完全匹配下列 Schema；不允许新增字段。
-3) 若无法生成合法 JSON：返回固定错误结构 {\"error\":\"SCHEMA_FAIL\",\"reason\":\"<reason>\"}。
-```
-
-Schema 示例（用于放进 Prompt 里约束输出）：
-
-```json
+### JSON Schema
 {
   "type": "object",
   "properties": {
-    "summary": { "type": "string" },
-    "items": {
+    "status": { "type": "string", "enum": ["success", "failed"] },
+    "data": {
       "type": "array",
       "items": {
         "type": "object",
         "properties": {
-          "id": { "type": "string" },
-          "issue": { "type": "string" },
-          "fix": { "type": "string" }
+          "id": { "type": "integer" },
+          "value": { "type": "string" }
         },
-        "required": ["id", "issue", "fix"]
+        "required": ["id", "value"]
       }
     }
   },
-  "required": ["summary", "items"]
+  "required": ["status", "data"]
 }
 ```
 
-### 3) 表格对比协议（面向速览与对齐）
+### 3. 表格对比协议（一目了然）
+
+用于竞品分析、参数对比、选型决策。
 
 ```text
-输出协议：
-1) 输出 Markdown 表格，列名固定：功能点/方案A/方案B/推荐结论/风险。
-2) “功能点”按重要性降序排列。
-3) 单元格为空必须写 N/A（避免读者猜）。
+### Output Protocol
+1. Format: Markdown Table only.
+2. Columns: Feature | Solution A | Solution B | Verdict | Risk Level
+3. Content:
+   - "Feature": Sort by importance (High to Low).
+   - Empty cells: Must be filled with "N/A".
+   - "Verdict": Must be one of [A wins, B wins, Tie].
 ```
 
-## 图片生成：把 Prompt 写成配置块（可维护、可复用）
+## 图片生成：把 Prompt 变成工程配置文件
 
-图片 Prompt 推荐拆成“配置块”，从而做到风格复用、差异可控。
+不要用自然语言写小作文。把图片 Prompt 拆成三个工程配置块：**画面描述、负向约束、参数设置**。
 
-### 配置块模板（可复制）
+### 通用配置模板
 
 ```text
 image_prompt:
-subject: <主体（名词 + 属性）>
-scene: <环境/背景（尽量少）>
-style: <flat vector / sketch / isometric 等>
-composition: <centered / top-down / wide 等>
-lighting_color: <soft light / monochrome / palette 等>
-constraints: <硬约束（no text / no faces / clean background）>
+subject: <核心主体，名词+修饰词>
+scene: <背景环境，越简单越好>
+style: <风格定义，如 flat vector, isometric, sketch>
+lighting: <光影设定，如 soft lighting, cinematic, studio light>
+composition: <构图视角，如 top-down, centered, wide angle>
 
 negative_prompt:
-<禁止项：text/letters/numbers/watermark + 低质/噪声/写实/3d 等>
+<所有你不想要的东西，必须包含文字和水印的禁令>
 
 params:
-aspect_ratio=<...>, quality=<...>
+aspect_ratio=<比例>, quality=<质量>
 ```
 
-## 图片 Prompt 示例 1：技术示意图底图（无文字）
+### 实战：技术架构图底图（无文字版）
+
+这个 Prompt 的核心是**不让模型写字**。我们只要一个干净的底座。
+
+![插图占位：生成的无文字架构底图](../../assets/books/flawless-expression/placeholder-diagram.svg)
 
 ```text
 image_prompt:
-flat 2D vector art, minimalist tech diagram, blue and white palette, solid white background,
-abstract server blocks and database cylinders connected by arrows showing data flow, simple geometric data packets, high contrast
+flat 2D vector art, minimalist tech diagram foundation, 
+subject: abstract server blocks and cylinder databases connected by smooth flow arrows,
+style: corporate memphis tech style, blue and grey color palette, clean lines,
+background: solid white background, high contrast,
+composition: centered layout, ample whitespace for text overlay
 
 negative_prompt:
-text, letters, numbers, watermark, signature, handwriting, photorealistic, 3d render, shading, gradients, blur, messy background, humans, faces
-
-params:
-aspect_ratio=16:9, quality=high
-```
-
-## 图片 Prompt 示例 2：章节封面插画（用于视觉分隔）
-
-封面/分隔图的原则：可以氛围化，但不要承载关键定义（关键定义必须在正文用文字复述）。
-
-```text
-image_prompt:
-abstract illustration of a “prompt engineer”, a glowing notebook hovering above a terminal window,
-clean futuristic style, soft gradient background, minimal composition, calm color palette (blue/purple), cinematic light
-
-negative_prompt:
-text, letters, numbers, watermark, signature, photorealistic faces, crowded background, blurry, noisy, low quality
+text, letters, numbers, characters, watermark, signature, handwriting, logo, brand name, photorealistic, 3d render, shading, complex details, messy background, humans, faces
 
 params:
 aspect_ratio=16:9, quality=high
 ```
 
-### 配图提示词：载体选择决策树（无文字底图）
+### 实战：章节视觉分隔图（氛围版）
 
-决策树配图不要画满文字。画“分叉箭头 + 不同载体图标”的底图，文字后期叠加即可。
+用于给长文档做视觉呼吸，不需要承载具体信息。
 
 ```text
 image_prompt:
-flat 2D vector illustration, minimal decision tree with branching arrows leading to simple icons (document, table grid, code brackets, image frame),
-blue and white palette, solid white background, clean composition, high contrast, no text
+digital illustration of "code architecture", 
+subject: glowing geometric structures floating in void, abstract representation of data streams,
+style: synthwave aesthetic, neon blue and magenta,
+lighting: volumetric lighting, cinematic atmosphere,
+composition: wide shot, minimal details
 
 negative_prompt:
-text, letters, numbers, watermark, signature, handwriting, photorealistic, 3d render, gradients, shadows, blur, messy background, humans, faces
+text, letters, numbers, watermark, complex machinery, biological forms, messy details, low resolution, blurry
 
 params:
 aspect_ratio=16:9, quality=high
 ```
 
-## 文本 Prompt 示例（Gemini CLI）：输出可解析 JSON
+## Gemini CLI 实战：自动化 JSON 管道
 
-目标：让模型返回“错误类型 + 修复建议”的 JSON，便于脚本后处理。
+这是本章的终极形态：用 CLI 结合 JSON 协议，把非结构化文本直接转成下游脚本可用的数据文件。
+
+场景：你是运维工程师，要把一段乱七八糟的日志报错分析成结构化的 JSON，存到文件里供后续脚本读取。
 
 ```bash
 gemini -m gemini-3-pro-preview -p "
-你是静态分析工具。请分析下面的代码片段可能出现的异常，并以纯 JSON 输出。
+你是日志分析专家。请分析下面的系统日志片段，提取关键错误信息，并输出为纯 JSON。
 
-输出协议：
-1) 只输出 JSON 字符串（不要 Markdown 代码块包裹）。
-2) 输出是一个数组，每个对象包含 error_type 与 fix_suggestion 两个字段。
+### 输入日志
+[2024-05-20 10:00:01] ERROR Connection refused to DB-01 (192.168.1.5)
+[2024-05-20 10:00:02] WARN Retry attempt 1 failed
+[2024-05-20 10:00:05] CRITICAL Service PaymentGateway crashed: OutOfMemory
 
-代码片段：
-result = 10 / user_input
-"
+### 输出协议
+1. 格式：纯 JSON 字符串（不要 Markdown 代码块）。
+2. 结构：一个对象数组，每个对象包含 timestamp, level, service, message 四个字段。
+3. 字段说明：
+   - timestamp: 统一格式化为 ISO8601。
+   - level: 统一大写 (ERROR, WARN, CRITICAL)。
+   - service: 涉及的服务或组件名（如 DB-01, PaymentGateway）。
+" > analysis_result.json
 ```
 
-## 复现检查清单
+**验证方法**：运行完这行命令，直接用 `cat analysis_result.json | jq .` 检查。如果 `jq` 报错，说明你的 Prompt 协议还没锁死。
 
-1. 载体匹配：是否为解析器/脚本输出选择了 JSON（而不是自然语言）？
-2. 结构定义：是否给了模板/Schema/列名，并固定顺序与字段？
-3. 纯净度：是否禁止寒暄语、多余解释、Markdown 包裹导致的解析失败？
-4. 图片约束：是否明确禁止文字/水印/签名，避免伪文字事故？
-5. 系列一致性：是否固定风格底座与 negative prompt（必要时锁 seed）？
+## 验收清单 & 炸弹排查
 
-## 常见陷阱（失败样本）
+在交付 Prompt 之前，过一遍这个清单。如果有一项没过，这就是个残次品。
 
-### 1) 话痨 JSON
-
-- 现象：输出前后带解释文本，解析器直接失败。
-- 根因：没有把“只输出 JSON 本体”写成硬约束。
-- 复现：只写“输出 JSON”而不给 Schema/模板/禁止项。
-- 修复：写清输出协议；失败时返回固定错误结构；必要时在流程里增加清洗器。
-- 回归验证：输出可直接 `json.loads`/`jq` 解析通过。
-
-### 2) 图片乱码文字
-
-- 现象：示意图里出现不可读字符或类似水印。
-- 根因：让图片模型渲染关键文字，触发模型弱项。
-- 复现：Prompt 含“label every component / detailed metrics text”。
-- 修复：生成无文字底图 + 后期叠字；negative prompt 明确禁止 text/letters/numbers/watermark。
-- 回归验证：连续生成多张底图均无可见字符。
-
-### 3) Schema 幻觉
-
-- 现象：同一 Prompt 多次运行字段名漂移（userName/user_name 混用）。
-- 根因：没有显式 Schema 或字段模板，模型按概率选命名风格。
-- 复现：重复运行 5 次，观察字段是否一致。
-- 修复：把字段模板或 JSON Schema 放进 Prompt；禁止新增字段；缺字段视为失败。
-- 回归验证：连续运行 10 次字段名与结构完全一致。
+1.  **解析器友好性**：如果是给机器看的，有没有禁止 Markdown 代码块（````json <payload> `````）？这东西是解析器的噩梦。
+2.  **Schema 锁死**：JSON 输出是否定义了 Schema？如果没有，模型今天叫 `user_name`，明天叫 `userName`，你的代码就崩了。
+3.  **图片无字化**：生成示意图时，Negative Prompt 里有没有写死 `text, letters, watermark`？没有的话，等着看鬼画符吧。
+4.  **兜底逻辑**：如果模型处理不了（比如输入为空），它会胡编乱造还是返回标准的 Error 结构？
+5.  **去废话**：输出里还有没有 "好的，这是您要的表格" 这种废话？有就删掉，这都是干扰噪声。
 
 上一章：[04-language.md](04-language.md) · 下一章：[06-feedback.md](06-feedback.md)
 
-配方库：文本见 [A-text-prompts.md](A-text-prompts.md) · 图片见 [B-image-prompts.md](B-image-prompts.md)
+配方库：文本模板 [A-text-prompts.md](A-text-prompts.md) · 图片配置 [B-image-prompts.md](B-image-prompts.md)
