@@ -1,45 +1,102 @@
-# 绝对正确的表达：作战手册总览
+# 绝对正确的提示词：作战手册总览
 
-本书不是理论读物，而是一套**高精度沟通的执行协议**：把“表达”从模糊的软技能，转化为可验证、可审计、可复现的工程能力。
+本书不是“咒语大全”，而是一套**提示词工程（Prompt Engineering）的工程规范**：把提示词从聊天记录，变成可版本控制、可测试、可回滚的交付物。你将用同一套方法写两类 Prompt：
+
+- **文本生成 Prompt**：产出稳定的 Markdown/JSON/表格/代码。
+- **图片生成 Prompt**：产出风格统一、可控差异、避免文字乱码的视觉资产（Prompt 文本本身）。
 
 ## 1) 适用性与画像
 
 | 维度 | 适用场景 / 核心画像 | 不适用场景 / 反向画像 |
 | :--- | :--- | :--- |
-| 对象 | 产品经理、架构师、分析师、研究者、法律与咨询从业者 | 以抒情与审美为核心目标的写作者 |
-| 目标 | 消除歧义、降低沟通熵值、通过逻辑审计 | 追求多义性、情绪张力、意象表达 |
-| 场景 | PRD、事故复盘、投研报告、Prompt/规则文本 | 闲聊、即兴演讲、小说写作 |
+| 对象 | AI 应用开发者、内容工程师、产品/运营、需要把输出接进流程的人 | 只想靠运气“一次就中”的投机式使用 |
+| 目标 | 确定性交付：格式可解析、逻辑可审计、失败可兜底 | 纯发散闲聊：不关心结构、不关心复现 |
+| 场景 | 结构化提取、批量写作、RAG/Agent、技术文档、图标/插图资产化 | 无明确目标的聊天；把敏感/合规风险外包给模型 |
 
 ## 2) 武器库：本书交付物清单
-阅读不应止于“知道”，而应产出可复用资产：
 
-- 检查表：事实核查清单、逻辑完备性自测表、歧义扫描清单。
-- 模板：证据矩阵、反驳预案、决策摘要、缺陷报告。
-- 协议：歧义熔断与回滚规则（发现缺口时如何暂停、补证据、改结论）。
+- Prompt 合同：ID/版本、输入约束、输出协议、失败判定、回滚/降级一次写清（见 [01-mindset.md](01-mindset.md)）。
+- 证据矩阵：对“事实类输出”强制举证；冲突证据并列，不擅自调和（见 [02-facts.md](02-facts.md)）。
+- 论证骨架：把结论拆成可审计节点，写清前提与失效条件（见 [03-argument.md](03-argument.md)）。
+- 去歧义规则：把“尽快/优化/专业/好看”替换成阈值、窗口、触发/排除条件（见 [04-language.md](04-language.md)）。
+- 输出协议库：Markdown 报告、JSON Schema、表格对比，以及图片 Prompt 配置块（见 [05-medium.md](05-medium.md)）。
+- 回归集与 A/B：失败样本入库，改 Prompt 先跑回归再发布（见 [06-feedback.md](06-feedback.md)）。
 
-## 3) 七日特训路径（游泳道）
-建议按以下节奏训练，把方法内化为肌肉记忆：
+## 3) 怎么用：最小命令闭环（Gemini CLI）
 
-- Day 1（心智重构）：阅读第 1 章，把“表达”当作可交付、可验收的系统，并画出自己的知识边界。
-- Day 2–3（信息审计）：阅读第 2–3 章，做一次深度检索→筛选→论证；产出一张证据矩阵 + 一条可审计论证链。
-- Day 4（降噪与去歧义）：阅读第 4 章，挑选一篇旧文档，删减 30% 字数并提升可执行性（把模糊词替换成阈值/条件）。
-- Day 5（载体适配）：阅读第 5 章，把同一内容改写为适合决策/执行/对齐的载体（邮件/备忘录/工单/契约）。
-- Day 6（闭环）：阅读第 6 章，建立“错误资产表”，复盘一次沟通事故并提炼可复用规则。
-- Day 7（内化）：阅读结语，写出个人“默认正确性”SOP（什么时候必须查证、什么时候可以降级）。
+### 文本生成（直接跑 Prompt）
 
-## 4) 目录（读完能产出什么）
+```bash
+gemini -m gemini-3-pro-preview -p "
+你是中文技术文档编辑。
+任务：把输入内容改写为一份可执行的检查清单。
+约束：只输出 Markdown；每条不超过一行；必须包含失败判定与回滚。
+输入：<把你的材料粘贴在这里>
+"
+```
 
-1. [心智模型：正确性的定义与边界](01-mindset.md)
-   - 交付目标：确立“可验证性”标准，输出个人的“信任边界图谱”。
-2. [事实与知识：信息获取、校验与溯源](02-facts.md)
-   - 交付目标：建立信源分级，产出可复用的“事实核查工作流 + 证据矩阵”。
-3. [论证与结构：让结论可审计](03-argument.md)
-   - 交付目标：写出可审计推理链，输出“论证骨架 + 反驳预案”。
-4. [语言与措辞：减少歧义的微调](04-language.md)
-   - 交付目标：清洗模糊表达，形成“歧义扫描与替换规则”（可人工/可 AI 辅助）。
-5. [媒介与格式：为场景选最优载体](05-medium.md)
-   - 交付目标：匹配信息密度与接收带宽，输出“媒介选择决策树 + 场景模板”。
-6. [反馈、校对与迭代：把错误变成资产](06-feedback.md)
-   - 交付目标：建立“反馈→修订→回归”闭环，把错误沉淀为模板与清单。
-7. [结语：让正确性成为默认](conclusion.md)
-   - 交付目标：签署个人“沟通质量 SLA”（默认门槛与例外策略）。
+### 图片生成（先让模型产出“文生图 Prompt 文本”）
+
+这一步的目标不是“让 Gemini 生成图片”，而是让它产出可复制的**图片 Prompt 文本**（含 negative prompt 与参数建议），你再把它粘贴到自己的生图工具里。
+
+```bash
+gemini -m gemini-3-pro-preview -p "
+你是文生图提示词工程师。请为‘技术示意图（无文字）’生成一份可复制的提示词配置。
+输出必须包含三段：image_prompt / negative_prompt / params。
+要求：扁平矢量、蓝白配色、箭头表达数据流；禁止任何文字、数字、水印。
+"
+```
+
+## 4) 图片生成 Prompt 的最小语法（可复制）
+
+把图片 Prompt 当“配置文件”写，而不是当作文写。一个最小可复用结构如下：
+
+- `subject`：主体（用具体名词与属性）
+- `scene`：环境/背景（越少越干净）
+- `style`：媒介与风格（flat vector / isometric / sketch）
+- `composition`：构图与视角（top-down / centered / wide）
+- `lighting_color`：光影与色调（soft light / monochrome / palette）
+- `constraints`：硬约束（no text / no watermark / no faces）
+- `params`：宽高比/清晰度等（按你的工具填写）
+- `negative_prompt`：明确禁止项（把乱码与低质先拦住）
+
+示例（可作为系列插图的风格底座）：
+
+```text
+image_prompt:
+flat 2D vector art, minimalist tech diagram, blue and white color palette, clean composition, high contrast, white background,
+abstract server blocks and database cylinders connected by arrows, simple geometric data packets
+
+negative_prompt:
+text, letters, numbers, watermark, signature, photorealistic, 3d render, shading, gradients, blur, messy background, humans, faces
+
+params:
+aspect_ratio=16:9, quality=high
+```
+
+## 5) 七日特训路径（游泳道）
+
+- Day 1：分级与合同——把 Prompt 当交付物（[01-mindset.md](01-mindset.md)）
+- Day 2：事实与拒答——“不知道就说不知道”（[02-facts.md](02-facts.md)）
+- Day 3：论证骨架——写清前提与失效条件（[03-argument.md](03-argument.md)）
+- Day 4：去歧义——把形容词改成参数（[04-language.md](04-language.md)）
+- Day 5：输出协议——文本/JSON/表格/图片配置块（[05-medium.md](05-medium.md)）
+- Day 6：回归与 A/B——把失败变成资产（[06-feedback.md](06-feedback.md)）
+- Day 7：默认 SOP——发布、回滚与协作规范（[conclusion.md](conclusion.md)）
+
+## 6) 目录（读完能产出什么）
+
+1. [第 1 章：提示词心智模型：正确性的定义与边界](01-mindset.md)
+   - 交付目标：Prompt 分级标准 + Prompt 合同模板（含失败判定与回滚）。
+2. [第 2 章：事实与知识：如何写“可核查/可溯源”的 Prompt](02-facts.md)
+   - 交付目标：拒答/追问/不确定性规则 + 证据矩阵模板 + 冲突并列策略。
+3. [第 3 章：论证与结构：让 Prompt 输出可审计](03-argument.md)
+   - 交付目标：论证骨架表 + 前提表 + 反驳预案 + 可审计输出协议。
+4. [第 4 章：语言与措辞：如何写不歧义的 Prompt（文本+图片）](04-language.md)
+   - 交付目标：歧义扫描与替换表 + 参数化四件套 + 可控差异的风格变体写法。
+5. [第 5 章：媒介与格式：为文本/结构化输出/图片选择最优 Prompt 载体](05-medium.md)
+   - 交付目标：输出协议库（Markdown/JSON/表格）+ 图片 Prompt 配置块模板（含 negative prompt）。
+6. [第 6 章：反馈、校对与迭代：把 Prompt 的失败变成回归资产](06-feedback.md)
+   - 交付目标：回归集目录结构 + A/B 流程 + 最小自动化脚本（批量跑测 + 断言）。
+7. [结语：让提示词成为默认交付物（文本+图片）](conclusion.md)
+   - 交付目标：个人/团队 Prompt SOP（发布前清单、版本管理、回滚策略）。

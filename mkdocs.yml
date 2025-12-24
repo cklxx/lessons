@@ -75,22 +75,22 @@ nav:
           - 附录 D：证据包与门禁速查: books/ai-assisted-software-product/D-evidence-pack.md
           - 附录 E：10 分钟止损 Runbook 库: books/ai-assisted-software-product/E-runbooks.md
           - 附录 F：指标字典与告警门禁速查: books/ai-assisted-software-product/F-metrics-alerts.md
-      - 绝对正确的表达:
+      - 绝对正确的提示词:
           - 总览: books/flawless-expression/index.md
-          - 第 1 章：心智模型：正确性的定义与边界: books/flawless-expression/01-mindset.md
-          - 第 2 章：事实与知识：信息获取、校验与溯源: books/flawless-expression/02-facts.md
-          - 第 3 章：论证与结构：让结论可审计: books/flawless-expression/03-argument.md
-          - 第 4 章：语言与措辞：减少歧义的微调: books/flawless-expression/04-language.md
-          - 第 5 章：媒介与格式：为场景选最优载体: books/flawless-expression/05-medium.md
-          - 第 6 章：反馈、校对与迭代：把错误变成资产: books/flawless-expression/06-feedback.md
-          - 结语：让正确性成为默认: books/flawless-expression/conclusion.md
+          - 第 1 章：提示词心智模型：正确性的定义与边界: books/flawless-expression/01-mindset.md
+          - 第 2 章：事实与知识：如何写“可核查/可溯源”的 Prompt: books/flawless-expression/02-facts.md
+          - 第 3 章：论证与结构：让 Prompt 输出可审计: books/flawless-expression/03-argument.md
+          - 第 4 章：语言与措辞：如何写不歧义的 Prompt（文本+图片）: books/flawless-expression/04-language.md
+          - 第 5 章：媒介与格式：为文本/结构化输出/图片选择最优 Prompt 载体: books/flawless-expression/05-medium.md
+          - 第 6 章：反馈、校对与迭代：把 Prompt 的失败变成回归资产: books/flawless-expression/06-feedback.md
+          - 结语：让提示词成为默认交付物（文本+图片）: books/flawless-expression/conclusion.md
   - 资料池:
       - AI 辅助软件产品 / 资料池说明: materials/ai-assisted-software-product/README.md
       - AI 辅助软件产品 / 精选资料: materials/ai-assisted-software-product/filtered/top-resources.md
       - AI 辅助软件产品 / 资料索引: materials/ai-assisted-software-product/indexes.md
       - AI 辅助软件产品 / Deep Research: materials/ai-assisted-software-product/deepresearch/index.md
       - AI 辅助软件产品 / 资料笔记（精选）: materials/ai-assisted-software-product/notes/index.md
-      - 绝对正确的表达 / 资料池说明: materials/flawless-expression/README.md
-      - 绝对正确的表达 / 精选资料: materials/flawless-expression/filtered/top-resources.md
-      - 绝对正确的表达 / 资料索引: materials/flawless-expression/indexes.md
-      - 绝对正确的表达 / 原始抓取（500 条）: materials/flawless-expression/raw/link-index-batch1.csv
+      - 绝对正确的提示词 / 资料池说明: materials/flawless-expression/README.md
+      - 绝对正确的提示词 / 精选资料: materials/flawless-expression/filtered/top-resources.md
+      - 绝对正确的提示词 / 资料索引: materials/flawless-expression/indexes.md
+      - 绝对正确的提示词 / 原始抓取（500 条）: materials/flawless-expression/raw/link-index-batch1.csv
