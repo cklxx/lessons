@@ -46,3 +46,53 @@ python3 skills/genimage.py \
 
 参考实现与更多说明：<https://github.com/HanaokaYuzu/Gemini-API>
 
+## gemini_md：用 Gemini 批量扩写/改写 Markdown（带门禁）
+
+位置：`skills/gemini_md.py`
+
+这个脚本解决两个重复劳动：
+
+1) 用 `gemini -m gemini-3-pro-preview -p` 对现有 Markdown 进行扩写/改写（stdin 输入原文，prompt 负责规则与目标）。  
+2) 输出前做硬门禁，避免触发仓库的 citation 检查规则（例如方括号纯数字的 `[12]` 会被当成缺失引用）。
+
+### 配套 prompt 模板
+
+位置：`skills/prompts/flawless-expression-enrich.txt`
+
+模板默认约束：不外链、相对链接带 `.md`、保持尖锐批判、补模板/示例/失败判定/回滚、并插入占位图与图片 Prompt 文本。
+
+### 用法
+
+单文件输出到 stdout（推荐先审再覆盖）：
+
+```bash
+python3 skills/gemini_md.py \
+  --prompt-file skills/prompts/flawless-expression-enrich.txt \
+  docs/books/flawless-expression/01-mindset.md > /tmp/01-mindset.new.md
+```
+
+批量生成到目录（保留相对路径，并在文件名后追加 `.gemini.md`）：
+
+```bash
+python3 skills/gemini_md.py \
+  --prompt-file skills/prompts/flawless-expression-enrich.txt \
+  --out-dir /tmp/gemini-out \
+  docs/books/flawless-expression
+```
+
+确认无误后再原地覆盖（会先跑门禁，失败直接退出）：
+
+```bash
+python3 skills/gemini_md.py \
+  --prompt-file skills/prompts/flawless-expression-enrich.txt \
+  --in-place \
+  docs/books/flawless-expression/02-facts.md
+```
+
+## check_docs：一键跑文档门禁
+
+位置：`skills/check_docs.sh`
+
+```bash
+bash skills/check_docs.sh
+```
