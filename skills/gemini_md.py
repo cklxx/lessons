@@ -25,10 +25,10 @@ def _discover_markdown_files(paths: list[Path]) -> list[Path]:
     return sorted(dict.fromkeys(files))
 
 
-def _guardrails(text: str) -> list[str]:
+def _guardrails(text: str, *, allow_bracket_digits: bool) -> list[str]:
     errors: list[str] = []
-    if _CITATION_BRACKET_RE.search(text):
-        errors.append("Found bracket-only numeric citation like [12]. This repo's citation checker will treat it as a missing reference.")
+    if not allow_bracket_digits and _CITATION_BRACKET_RE.search(text):
+        errors.append("Found bracket-only numeric citation like [12]. This repo's citation checker may treat it as a missing reference.")
     if "TODO" in text:
         errors.append("Found TODO in output.")
     if "..." in text or "……" in text:
@@ -97,6 +97,11 @@ def build_parser() -> argparse.ArgumentParser:
         help="Overwrite input files in place (runs guardrails; writes only when passing).",
     )
     parser.add_argument(
+        "--allow-bracket-digits",
+        action="store_true",
+        help="Allow bracket-only digits like [12] in output (useful when editing books that intentionally use numbered citations).",
+    )
+    parser.add_argument(
         "--no-guardrails",
         action="store_true",
         help="Disable output guardrails checks.",
@@ -134,7 +139,7 @@ def main() -> int:
         output = _run_gemini(model=args.model, prompt=prompt, stdin_text=original)
 
         if not args.no_guardrails:
-            problems = _guardrails(output)
+            problems = _guardrails(output, allow_bracket_digits=args.allow_bracket_digits)
             if problems:
                 joined = "\n".join(f"- {p}" for p in problems)
                 raise SystemExit(f"Guardrails failed for {path}:\n{joined}")

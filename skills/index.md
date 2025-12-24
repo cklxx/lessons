@@ -57,7 +57,9 @@ python3 skills/genimage.py \
 
 ### 配套 prompt 模板
 
-位置：`skills/prompts/flawless-expression-enrich.txt`
+位置：
+- `skills/prompts/flawless-expression-enrich.txt`（用于《绝对正确的提示词》：默认禁止方括号纯数字，避免误触引用规则）
+- `skills/prompts/ai-assisted-software-product-enrich.txt`（用于《AI 辅助软件产品》：保留既有引用编号，禁止新增误判形态）
 
 模板默认约束：不外链、相对链接带 `.md`、保持尖锐批判、补模板/示例/失败判定/回滚、并插入占位图与图片 Prompt 文本。
 
@@ -69,6 +71,15 @@ python3 skills/genimage.py \
 python3 skills/gemini_md.py \
   --prompt-file skills/prompts/flawless-expression-enrich.txt \
   docs/books/flawless-expression/01-mindset.md > /tmp/01-mindset.new.md
+```
+
+第一本书建议加 `--allow-bracket-digits`（因为本书有编号引用），并在最后跑一次 `python3 tools/check_citations.py`：
+
+```bash
+python3 skills/gemini_md.py \
+  --prompt-file skills/prompts/ai-assisted-software-product-enrich.txt \
+  --allow-bracket-digits \
+  docs/books/ai-assisted-software-product/02-discovery.md > /tmp/02-discovery.new.md
 ```
 
 批量生成到目录（保留相对路径，并在文件名后追加 `.gemini.md`）：
