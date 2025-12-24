@@ -304,4 +304,220 @@ aspect_ratio=21:9, quality=high
 
 ---
 
+## 配方 11：One Person is a Team（超级个体网络）
+
+### 用途
+用于展示“超级个体”概念，即一个人通过编排 AI 和工具来形成一个完整的团队能力。对应 [05-medium.md](05-medium.md) 中关于工具杠杆的讨论。
+
+### 构图要点
+- **核心：** 画面中心为一个抽象的、极简的人物轮廓或代表“核心智能”的实心圆点。
+- **连接：** 从核心向四周辐射出多条连接线，每条线连接一个代表不同职能（如代码、设计、测试、部署）的抽象图标（齿轮、画笔、盾牌、云端）。
+- **风格：** 强调连接线的张力和网络的扩张感，表现出“控制”与“辐射”的动态平衡。
+
+### image_prompt
+```text
+flat 2D vector art, minimalist tech diagram, a central hub node connecting to multiple satellite functional nodes, network graph, orchestration, amplification, blue and white palette, solid white background, high contrast, clean lines, geometric shapes, no text
+```
+
+### negative_prompt
+```text
+text, letters, numbers, watermark, signature, faces, detailed features, 3D, shadow, gradient, complexity, chaotic lines
+```
+
+### params
+```text
+aspect_ratio=16:9, quality=high
+```
+
+---
+
+## 配方 12：Value / Delivery / Governance（三环闭环）
+
+### 用途
+表现软件工程的核心价值闭环，展示价值定义、持续交付与治理审计三者之间的动态平衡与相互制约。
+
+### 构图要点
+- **结构：** 三个大小一致的圆环或圆角矩形，呈三角形排列或品字形排列。
+- **流向：** 它们之间有单向箭头首尾相连，形成一个永不停歇的循环。
+- **隐喻：** 一个代表“价值”（灯泡或钻石抽象），一个代表“交付”（盒子或传送带抽象），一个代表“治理”（天平或直尺抽象）。
+
+### image_prompt
+```text
+flat 2D vector art, minimalist tech diagram, three interlocking rings, cyclic arrows connecting rings, balance between value delivery governance, subtle icons as simple shapes, blue and white palette, solid white background, clean composition, high contrast, no text
+```
+
+### negative_prompt
+```text
+text, letters, numbers, watermark, signature, cluttered icons, photorealistic, 3D render, gradients, heavy shadows, messy background
+```
+
+### params
+```text
+aspect_ratio=16:9, quality=high
+```
+
+---
+
+## 配方 13：Billing Loop（计费闭环）
+
+### 用途
+用于计费、用量、对账与止损主题：展示从计量到对账再到止损的闭环。
+
+### 构图要点
+- **循环：** 环形箭头形成闭环，四个节点代表 metering/ledger/reconciliation/stop-loss。
+- **符号化：** 用抽象的圆柱（数据）、票据（账本）、天平（对账）、闸门（止损）表达含义。
+- **留白：** 节点附近留白用于后期叠加关键词。
+
+### image_prompt
+```text
+flat 2D vector art, minimalist tech diagram, circular billing loop with four abstract nodes, metering ledger reconciliation stop-loss represented by simple geometric icons, arrows forming a closed cycle, blue and white palette, solid white background, high contrast, no text
+```
+
+### negative_prompt
+```text
+text, letters, numbers, watermark, signature, currency symbols, photorealistic, 3D render, gradients, shadows, cluttered background
+```
+
+### params
+```text
+aspect_ratio=16:9, quality=high
+```
+
+---
+
+## 配方 14：Agent Tool Graph（工具编排图）
+
+### 用途
+用于表达 Agent 如何编排多个工具与子任务，强调“有边界的调用”而不是“随便乱用”。
+
+### 构图要点
+- **图结构：** 有向图节点与边，中心节点为 Agent 核心，外圈为工具节点。
+- **层次：** 核心、规划、执行、校验四层可用形状区分（圆/方/菱形）。
+- **可叠字：** 每个节点内部留空，文字后期叠加。
+
+### image_prompt
+```text
+flat 2D vector art, minimalist tech diagram, directed graph of nodes and arrows, central agent core node connected to multiple tool nodes, clean layered layout, blue and white palette, solid white background, high contrast, no text
+```
+
+### negative_prompt
+```text
+text, letters, numbers, watermark, signature, messy graph, tangled arrows, photorealistic, 3D render, gradients, shadows
+```
+
+### params
+```text
+aspect_ratio=16:9, quality=high
+```
+
+---
+
+## 配方 15：Evidence Gate（证据门禁）
+
+### 用途
+用于强调“没有证据就不发布”的门禁理念，适合评测与治理章节。
+
+### 构图要点
+- **阻断感：** 一个闸门拦截不合格的数据块。
+- **分流：** 合格（蓝色）通过，不合格（红色）被拦截回炉。
+- **克制：** 用形状表达，不用文字表达规则。
+
+### image_prompt
+```text
+flat 2D vector art, minimalist tech diagram, a clean gate or checkpoint filtering geometric blocks, blue blocks passing through, red blocks blocked and redirected, quality gate metaphor, blue and white palette, solid white background, high contrast, no text
+```
+
+### negative_prompt
+```text
+text, letters, numbers, watermark, signature, police imagery, photorealistic, 3D render, gradients, heavy shadows, messy background
+```
+
+### params
+```text
+aspect_ratio=16:9, quality=high
+```
+
+---
+
+## 配方 16：Before / After（对比前后）
+
+### 用途
+用于展示改造前后的对比：混乱 vs 结构化、无门禁 vs 有门禁。
+
+### 构图要点
+- **一分为二：** 左右对称，中间有分隔线。
+- **差异：** 左侧线条更杂乱但不脏，右侧结构更整洁。
+- **留白：** 左右上方各留一块区域用于后期叠字。
+
+### image_prompt
+```text
+flat 2D vector art, minimalist split-screen comparison, left side chaotic abstract lines and blocks, right side clean structured blocks and checklists, thin divider line, blue and white palette, solid white background, high contrast, no text
+```
+
+### negative_prompt
+```text
+text, letters, numbers, watermark, signature, photorealistic, 3D render, gradients, shadows, cluttered background, humans, faces
+```
+
+### params
+```text
+aspect_ratio=16:9, quality=high
+```
+
+---
+
+## 配方 17：Knowledge Index（资料池索引）
+
+### 用途
+用于资料池、索引与检索主题：表现“结构化的知识块与可检索入口”。
+
+### 构图要点
+- **有序网格：** 立方体或卡片整齐排列，局部高亮表示检索命中。
+- **检索隐喻：** 放大镜用几何形状抽象表达。
+- **不密集：** 留白足够，避免信息噪声。
+
+### image_prompt
+```text
+flat 2D vector art, minimalist tech diagram, structured grid of knowledge blocks and index cards, subtle highlight indicating search hit, abstract magnifier icon as simple shapes, blue and white palette, solid white background, high contrast, no text
+```
+
+### negative_prompt
+```text
+text, letters, numbers, watermark, signature, photorealistic, 3D render, gradients, shadows, cluttered layout, messy background
+```
+
+### params
+```text
+aspect_ratio=16:9, quality=high
+```
+
+---
+
+## 配方 18：Roadmap Timeline（里程碑路线图）
+
+### 用途
+用于展示迭代节奏与里程碑路线图：强调“阶段”与“推进”。
+
+### 构图要点
+- **轴线：** 一条清晰的水平线贯穿画面。
+- **节点：** 线上 3-5 个关键节点（圆点/菱形）代表里程碑。
+- **节奏：** 节点间距可不等，暗示不同开发周期；当前节点可用不同填充强调。
+
+### image_prompt
+```text
+flat 2D vector art, minimalist tech diagram, horizontal timeline with milestone nodes, subtle forward arrow indicating progression, clean whitespace for later labels, blue and white palette, solid white background, high contrast, no text
+```
+
+### negative_prompt
+```text
+text, letters, numbers, watermark, signature, calendar, clock, dates, photorealistic, 3D render, gradients, shadows
+```
+
+### params
+```text
+aspect_ratio=16:9, quality=high
+```
+
+---
+
 更多“图文混排与载体选择”规则见 [05-medium.md](05-medium.md)。记住：底图是容器，文字才是定义。

@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675">
+  <defs>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#0052CC" />
+      <stop offset="1" stop-color="#2B7FFF" />
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="675" fill="#FFFFFF" />
+  <rect x="72" y="72" width="1056" height="531" rx="24" fill="#F6FBFF" stroke="#B5DAFF" stroke-width="6" stroke-dasharray="18 14" />
+
+  <g opacity="0.9">
+    <rect x="180" y="190" width="280" height="220" rx="18" fill="#E8F3FF" stroke="#9CCBFF" stroke-width="3" />
+    <rect x="520" y="190" width="500" height="90" rx="18" fill="#E8F3FF" stroke="#9CCBFF" stroke-width="3" />
+    <rect x="520" y="320" width="500" height="90" rx="18" fill="#E8F3FF" stroke="#9CCBFF" stroke-width="3" />
+
+    <path d="M 470 300 L 520 300" stroke="url(#accent)" stroke-width="14" stroke-linecap="round" />
+    <path d="M 500 282 L 528 300 L 500 318" fill="none" stroke="url(#accent)" stroke-width="14" stroke-linejoin="round" />
+
+    <path d="M 360 430 C 460 500, 700 520, 860 450" fill="none" stroke="#0052CC" stroke-width="10" stroke-linecap="round" opacity="0.45" />
+    <circle cx="860" cy="450" r="10" fill="#0052CC" opacity="0.55" />
+  </g>
+</svg>

@@ -57,6 +57,23 @@ ai_review() {
 # EOF
 ```
 
+### 2.2 批量扩写与一致性门禁（可选，但省命）
+
+当你要对多章做同一类改动（补“复现步骤/门禁/回滚”、统一术语、补桥接），不要在网页里手工打地鼠。用仓库脚本批量跑一遍，先生成候选稿再人工裁决：
+
+```bash
+# 生成候选稿到目录（不覆盖原文）
+python3 skills/gemini_md.py \
+  --prompt-file skills/prompts/ai-assisted-software-product-enrich.txt \
+  --out-dir /tmp/gemini-out \
+  docs/books/ai-assisted-software-product
+
+# 跑文档门禁（死链与引用）
+bash skills/check_docs.sh
+```
+
+注意：本书的引用编号是硬门禁。批量改写后务必跑 `python3 tools/check_citations.py`，别把“看着像引用”的方括号数字写进代码块或正文里。
+
 ## 3) 常用审稿任务（Prompt 模板：复制即用）
 
 > 用法：把下面任意一个 instruction 复制出来，通过 heredoc 传给 ai_review；除 Prompt 主体外，其余 Shell 逻辑不再重复展示。
@@ -147,7 +164,8 @@ ai_review() {
 1) 图片是否“信息增益不足”（更像装饰）：若是，建议删图或改成表格/纯文本流程图，并说明替代内容放在哪。
 2) 图片 alt 是否缺失/过泛：必须补成一句可读描述，并建议正文首次出现处加一句“这图用于证明什么”。
 3) 是否存在占位图/占位词（如 TODO、placeholder）：命中即列为 L0 阻断，并给出替换策略（删掉/补齐/降级为文字）。
-4) 引用编号 `[n]` 是否可疑（断号/重复/突然跳号）：列出本段出现的编号集合，并提示需要跑 `python3 tools/check_citations.py` 做最终裁决。
+4) 是否违反“无文字底图”原则：图片若承载关键文字信息，必须改为无文字底图 + 后期叠字；配图规范参考 `G-image-prompts.md`。
+5) 引用编号 `[n]` 是否可疑（断号/重复/突然跳号）：列出本段出现的编号集合，并提示需要跑 `python3 tools/check_citations.py` 做最终裁决。
 
 输出要求：
 - 若无问题输出 `PASS`；
