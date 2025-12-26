@@ -151,7 +151,7 @@ RAG 有一个巨大的安全盲区：**Prompt Injection via Corpus（通过语�
 
 ## 示例（可复制）：引用合同验证器
 
-这是一个使用 `gemini` CLI 的可执行示例，用于验证模型是否遵守了“引用合同”。
+这是一个可执行示例，用于验证模型是否遵守了“引用合同”。
 
 **场景**：用户问“RAG 的核心风险是什么？”，我们模拟检索到了两段 Context，要求模型生成符合 JSON Schema 的带引用回答。
 
@@ -166,10 +166,12 @@ Question: RAG 有哪些核心风险？
 
 **2. 运行命令**
 
-我们使用 Gemini 生成回答，并要求它遵循 JSON 结构。
+我们让模型生成回答，并要求它遵循 JSON 结构。
 
 ```bash
-gemini -m gemini-3-pro-preview -p "
+mkdir -p out
+{
+  cat <<'PROMPT'
 你是一个严格的 RAG 问答机器人。
 请根据提供的 Context 回答 Question。
 必须严格遵守以下 JSON 格式输出，不要包含 Markdown 代码块标记：
@@ -179,9 +181,9 @@ gemini -m gemini-3-pro-preview -p "
   \"fallback\": false
 }
 如果 Context 不足以回答问题，设置 \"fallback\": true 并留空 answer。
-
-$(cat input_rag.txt)
-" > out/rag_output.json
+PROMPT
+  cat input_rag.txt
+} | <LLM_CLI> > out/rag_output.json
 ```
 
 **3. 验证脚本 `check_contract.py`**

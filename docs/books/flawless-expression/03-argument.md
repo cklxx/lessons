@@ -34,7 +34,8 @@
 直接在终端运行，把输出存为 Markdown 文件进行代码 Review 级别的审查：
 
 ```bash
-gemini -m gemini-3-pro-preview -p "
+mkdir -p out
+cat <<'PROMPT' | <LLM_CLI> > out/audit_report.md
 你是一个偏执的技术审计师。请基于输入材料，输出一份严格的论证结构报告。
 
 硬性约束：
@@ -64,7 +65,7 @@ gemini -m gemini-3-pro-preview -p "
 
 输入材料：
 <在此处粘贴你的技术文档、会议纪要或数据片段>
-" > out/audit_report.md
+PROMPT
 ```
 
 ## 进阶技巧：从证据矩阵到论证链

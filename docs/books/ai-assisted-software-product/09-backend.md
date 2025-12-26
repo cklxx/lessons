@@ -55,13 +55,13 @@ AI 链路天然不稳定：模型响应慢、工具不可靠、幻觉难预测�
 
 **错误语义表（Error Taxonomy）模板：**
 
-| 错误码 (Error Code) | HTTP 状态 | 用户看到的文案 | 客户端行为 (Client Action) | 是否告警 | 备注 |
+| 错误码 (Error Code) | HTTP | 用户提示 | 重试策略 (Retry) | 重试预算 | 告警 |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| `INVALID_INPUT` | 400 | 请检查输入字段 X | **不可重试**，提示用户修改 | 否 | 校验层拦截 |
-| `QUOTA_EXCEEDED` | 429 | 访问过于频繁，请稍候 | **指数退避重试** | 视阈值 | 需配合 Retry-After 头 |
-| `UPSTREAM_TIMEOUT` | 504 | 服务处理超时，已为您保留进度 | **后台静默重试** / 轮询结果 | 是 | 必须幂等 |
-| `POLICY_VIOLATION` | 400/403 | 内容无法处理（安全拦截） | **不可重试**，提示违规 | 是 | 需记录原始内容审计 |
-| `BUDGET_EXHAUSTED` | 402/429 | 今日额度已用完 | **降级**，引导升级或明日再来 | 是 | 成本守门触发 |
+| `INVALID_INPUT` | 400 | 输入内容不合法 | 不可重试 | 0 | 否 |
+| `QUOTA_EXCEEDED` | 429 | 访问过快，稍后再试 | 指数退避 (Exp Backoff) | 3 次 | 否 |
+| `UPSTREAM_TIMEOUT` | 504 | 服务繁忙，请稍后 | 静默重试 (Silent) | 2 次 | 是 |
+| `BUDGET_EXHAUSTED` | 402 | 今日额度已用完 | 不可重试 (需手工充值) | 0 | 是 |
+| `SAFETY_VIOLATION` | 403 | 触碰合规红线 | 不可重试 (记录审计) | 0 | 是 |
 
 ### 3. 幂等与重试：把“重复”当成常态
 在分布式系统里，**只有成功和未知，没有失败**。超时意味着你不知道对面执行了没有。
@@ -137,13 +137,16 @@ AI 产品最怕的不是没人用，而是被恶意刷单或者程序死循环�
 我们用 AI 辅助生成一份标准的后端设计文档，并用脚本进行强校验。
 
 **第 1 步：生成文档草稿**
-使用 Gemini 生成错误语义表和幂等设计卡草稿。
+让模型生成错误语义表和幂等设计卡草稿。
 
 ```bash
-gemini -m gemini-3-pro-preview -p "作为资深后端架构师，请为一款 AI 写作助手生成两份设计文档：
+mkdir -p docs/backend
+cat <<'PROMPT' | <LLM_CLI> > docs/backend/design_drafts.md
+作为资深后端架构师，请为一款 AI 写作助手生成两份设计文档：
 1. error-taxonomy.md: 包含 INVALID_INPUT, QUOTA_EXCEEDED, UPSTREAM_TIMEOUT, POLICY_VIOLATION, BUDGET_EXHAUSTED 等错误码的表格，列出 HTTP 状态、用户文案、是否可重试。
 2. idempotency.md: 针对 '生成大纲', '扩写段落', '导出文档' 三个动作的幂等性设计表格，包含幂等键构成和冲突处理。
-请直接输出 Markdown 内容，不需要废话。" > docs/backend/design_drafts.md
+请直接输出 Markdown 内容，不需要废话。
+PROMPT
 ```
 
 **第 2 步：拆分并保存（手动或脚本）**
@@ -153,47 +156,31 @@ gemini -m gemini-3-pro-preview -p "作为资深后端架构师，请为一款 AI
 这个脚本不看内容写得好不好，只看**关键要素全不全**。缺了关键字段，禁止提交。
 
 ```python
-"""
-tools/check_backend_design.py
-后端设计文档门禁脚本
-"""
+# gate_backend.py - 后端架构哨兵
 import sys
 from pathlib import Path
 
-def check_file(path_str, required_terms):
-    path = Path(path_str)
-    if not path.exists():
-        print(f"❌ 缺失文件: {path_str}")
-        return False
+def validate_backend_design(file_path):
+    required_checks = {
+        "幂等键": "核心写操作必须包含幂等键设计。防止副作用叠加。",
+        "trace_id": "日志必须包含 trace_id。确保全链路可追溯。",
+        "version_set": "必须记录版本组合。确保 AI 效果归因准确。",
+        "重试预算": "必须定义重试次数。防止重试风暴（Retry Storm）。"
+    }
     
-    content = path.read_text(encoding='utf-8')
-    missing = [term for term in required_terms if term not in content]
+    content = Path(file_path).read_text(encoding='utf-8')
+    missing = [v for k, v in required_checks.items() if k not in content]
     
     if missing:
-        print(f"❌ {path_str} 缺少关键字段: {missing}")
-        return False
-    
-    print(f"✅ {path_str} 校验通过")
-    return True
-
-def main():
-    # 错误语义表必须包含这几列
-    error_ok = check_file(
-        'docs/backend/error-taxonomy.md', 
-        ['错误码', 'HTTP', '用户看到', '可重试', '告警']
-    )
-    
-    # 幂等设计卡必须包含这几列
-    idempotency_ok = check_file(
-        'docs/backend/idempotency.md', 
-        ['副作用', '幂等键', '冲突处理', '证据']
-    )
-
-    if not (error_ok and idempotency_ok):
+        print("❌ FAILED: 后端架构设计不规范。缺失以下关键要素：")
+        for m in missing:
+            print(f"  - {m}")
         sys.exit(1)
+    
+    print(f"✅ PASS: {file_path} 后端架构校验通过。准许进入实现阶段。")
 
-if __name__ == '__main__':
-    main()
+if __name__ == "__main__":
+    validate_backend_design(sys.argv[1])
 ```
 
 **运行命令：**

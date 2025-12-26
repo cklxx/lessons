@@ -23,18 +23,19 @@
 2.  **统一语义**：关键名词、状态、错误边界不靠口头记忆，白纸黑字写下来。
 3.  **裁决交付**：上线前不靠争论，靠清单与门槛。
 
-### 第 2 层：论证链条（从问题到验收的闭环）
-一份能推进交付的 PRD，逻辑链条必须闭合：
+### 第 2 层：论证链条（工程逻辑闭环）
+一份能推进交付的 PRD，其逻辑链条必须是**防弹的**：
 
-`问题证据` &rarr; `目标/非目标` &rarr; `用户与场景` &rarr; `用例（含异常流）` &rarr; `需求拆分` &rarr; `NFR 与预算` &rarr; `指标口径` &rarr; `验收与回滚` &rarr; `决策记录`
+`问题证据` &rarr; `目标/非目标` &rarr; `边界约束 (Constraints)` &rarr; `用例 (UC, 含异常流)` &rarr; `NFR 与预算` &rarr; `验收标准 (Acceptance)` &rarr; `回滚动作 (Rollback)`
 
-这条链条里最容易缺的是**异常流、NFR、回滚**。缺了它们，PRD 就在裸奔，实现阶段必然会发生隐性返工。[5][6]
+这条链条的核心是**准入与准出**：没有证据不准入，没有回滚方案不准出。
 
-### 第 3 层：落地与验收（怎么判断 PRD 写对了）
-把 PRD 当作合同，它至少要通过三类读者的审查：
-- **产品视角**：价值闭环能不能跑通？
-- **工程视角**：边界清不清楚？失败能不能恢复？实现能不能拆分？
-- **治理视角**：风险控没控制住？成本有没有上限？出事能不能回滚？
+### 第 3 层：落地与验收（PRD 即测试用例）
+把 PRD 当作自动化测试的“自然语言描述”。它必须能被拆解为：
+- **前置条件**：系统处于什么状态？
+- **触发动作**：用户或系统做了什么？
+- **预期结果**：证据是什么？存储在哪个字段？
+- **回滚点**：如果失败，怎么恢复到前置条件？
 
 ![图 3-1：PRD 逻辑链（证据→范围→用例→NFR→验收→回滚）示意](../../assets/figure_03_1_1765970838431.png)
 
@@ -110,9 +111,10 @@ PRD 最常见的烂尾：验收标准写在文档里，UI 上却看不见。
 
 ![图 3-3：验收映射表](../../assets/figure_03_3_acceptance_criteria_map_1766373734131.png)
 
-| PRD 验收条目（用户任务视角） | 前端可见状态/文案（可理解、可行动） | 后端证据（日志字段/指标/trace_id） | 回滚/降级动作（越界时怎么退一步） |
+| PRD 验收条目 (Criterion) | 前端观察点 (UI Observation) | 后端证据 (System Evidence) | 降级/回滚动作 (Mitigation) |
 | :--- | :--- | :--- | :--- |
-| 用户上传文件格式错误 | 红色提示框 + 具体错误行号 + “下载错误报告”按钮 | Log: `upload_error` (reason="format", line=12) | 连续失败 N 次触发报警，前端暂时隐藏入口 |
+| **UC-01: 登录失败处理** | 红色 Toast 提示，带错误码及重试按钮 | `auth_log` 中 `status=fail`, 含有 `trace_id` | 超过 3 次失败触发验证码；500 报错则降级为只读模式 |
+| **UC-02: 大文件上传** | 实时百分比进度条 + 可取消按钮 | 存储桶中存在 `temp` 片段，且 `md5` 校验一致 | 网络中断则保留 24h 断点延续；失败则自动清理临时碎片 |
 
 ## AI 辅助生成：用 Agent 找漏洞
 别让 AI 替你拍板，让它替你找茬。让它扮演“挑刺的测试经理”或“悲观的架构师”。
@@ -121,63 +123,65 @@ PRD 最常见的烂尾：验收标准写在文档里，UI 上却看不见。
 复制这段 Prompt 到你的 AI 助手：
 
 ```bash
-gemini -m gemini-3-pro-preview -p "任务：补全异常流与补偿路径。
+mkdir -p out
+cat <<'PROMPT' | <LLM_CLI> > out/exceptions.md
+任务：补全异常流与补偿路径。
 输入：一个<用户上传文件并解析>的功能。
 要求：
 1. 列出至少 5 种失败场景（网络、权限、配额、格式、并发）。
 2. 每种失败场景必须给出：用户端的恢复动作（重试/修改/联系）、系统的补偿动作（回滚/清理/幂等）。
 3. 输出为 Markdown 表格。
-4. 不要废话，直接给表格。" > out/exceptions.md
+4. 不要废话，直接给表格。
+PROMPT
 ```
 
 ### 场景：攻击 PRD 漏洞
 复制这段 Prompt 检查你的 PRD 草稿：
 
 ```bash
-gemini -m gemini-3-pro-preview -p "任务：列出边界值与攻击向量。
+mkdir -p out
+cat <<'PROMPT' | <LLM_CLI> > out/risk_audit.md
+任务：列出边界值与攻击向量。
 输入：[粘贴你的一页 PRD 内容]
 输出：最多 12 条风险点清单。每条包含：
 - 风险点一句话
 - 最小复现条件
 - 建议门禁（测试/日志/阈值）
 - 回滚动作
-规则：优先写业务逻辑漏洞（如价格为负、库存超卖），而非通用技术故障。" > out/risk_audit.md
+规则：优先写业务逻辑漏洞（如价格为负、库存超卖），而非通用技术故障。
+PROMPT
 ```
 
 ## 自动化验证：PRD 结构检查脚本
 PRD 如果连基本结构都缺，就别进入评审浪费时间。用这个脚本自测：
 
 ```python
-# check_prd_structure.py
+# check_prd.py - PRD 契约哨兵
 import sys
 from pathlib import Path
 
-def check_prd(file_path):
-    path = Path(file_path)
-    if not path.exists():
-        print(f"ERROR: File {file_path} not found.")
-        sys.exit(1)
-
-    content = path.read_text(encoding='utf-8')
-    required_sections = [
-        '# 背景', '# 目标', '# 非目标', 
-        '# 验收标准', '# 回滚策略', '# 守门指标'
-    ]
+def check_contract_integrity(file_path):
+    sections = {
+        "## 1. 证据 (Evidence)": "必须提供问题来源。没有证据，不准立项。",
+        "## 2. 目标与非目标 (Scope)": "必须划定边界。避免需求无限膨胀。",
+        "## 3. 验收标准 (Acceptance)": "必须定义做到什么算完、证据在哪。",
+        "## 4. 守门指标与预算 (Guardrails)": "必须定义成本与风险红线。",
+        "## 5. 回滚方案 (Rollback)": "必须有一键撤销或修复的预案。"
+    }
     
-    missing = [s for s in required_sections if s not in content]
+    content = Path(file_path).read_text(encoding='utf-8')
+    missing = [k for k, v in sections.items() if k not in content]
     
     if missing:
-        print(f"FAILED: PRD is missing mandatory sections: {missing}")
-        print("Rule: A PRD implies a contract. No contract, no code.")
+        print("❌ FAILED: PRD 契约不规范。缺失以下核心条款：")
+        for m in missing:
+            print(f"  - {m}: {sections[m]}")
         sys.exit(1)
     
-    print(f"PASS: {file_path} structure is valid.")
+    print(f"✅ PASS: {file_path} 契约完整性校验通过。准许动工。")
 
 if __name__ == "__main__":
-    if len(sys.argv) < 2:
-        print("Usage: python check_prd_structure.py <prd_file.md>")
-        sys.exit(1)
-    check_prd(sys.argv[1])
+    check_contract_integrity(sys.argv[1])
 ```
 
 ## 变更协议：防止合同腐烂

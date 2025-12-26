@@ -22,9 +22,9 @@
 
 你将建立一套**以“否决”为核心**的筛选机制：
 
-1.  **全信号采集：** 抓取公开样本，严格记录来源、时间与许可证，确保结论可复核。[34]
-2.  **结构化压缩：** 将非结构化文本转化为**《问题—证据》矩阵**，强制绑定样本量与反例。[4]
-3.  **实验化裁决：** 设计 **7 天验证闭环**，设定明确通过门槛，达不到就停。[4][6]
+1.  **全信号采集：** 建立 **数据卡片 (Datasheet)**，严格记录来源、时间窗与隐私许可，确保结论可审计。[34]
+2.  **证据链化：** 将零散反馈压缩为 **《问题—证据》矩阵**，强制绑定原文引用与反例（Red Team 视角）。[4]
+3.  **实验裁决：** 设计 **7 天验证闭环**，设定明确的 ROI 门槛。不达标即触发**止损回滚**。[4][6]
 
 ## 你将收获什么
 *   **《问题—证据》矩阵**：不再是“我觉得”，而是“有多少人说过”。包含证据链、反例与下一步实验计划。[4]
@@ -40,13 +40,14 @@
 
 我们将机会管理抽象为一棵树。从北极星指标出发，向下拆解机会，再拆解为方案，最后挂载实验。
 
-```text
-北极星指标/目标
-  ├─ 机会：<用户痛点/场景>
-  │    ├─ 方案：<最小能力/流程/原型>
-  │    │    └─ 实验：<7 天内可证伪的门槛 + 失败判定 + 证据>
-  │    └─ 方案：<...>
-  └─ 机会：<...>
+```mermaid
+graph TD
+    A["北极星指标/业务目标"] --> B["机会/用户痛点 (需证据支持)"]
+    B --> C["方案/最小能力 (需契约定义)"]
+    C --> D["实验/7天验证 (含止损线)"]
+    D --> E{"裁决 (Decision Gate)"}
+    E -- "通过" --> F["进入 Ch 03: PRD 契约"]
+    E -- "失败" --> G["归档并回滚投入"]
 ```
 
 ![图 2-1：需求验证闭环](../../assets/ch01-demand-validation-loop.png)
@@ -125,11 +126,12 @@
 
 **步骤 2：执行分析命令**
 
-使用 Gemini 进行结构化提取。注意，我们强制要求它输出 JSON 以便程序化验证。
+使用一个可脚本化的模型调用入口做结构化提取。这里强制要求输出 JSON，方便程序化验证。下面示例用 `<LLM_CLI>` 表示你的模型命令。
 
 ```bash
-gemini -m gemini-3-pro-preview -p \
-"你是一个严厉的产品经理助理。分析以下用户反馈，提取痛点。
+{
+  cat <<'PROMPT'
+你是一个严厉的产品经理助理。分析以下用户反馈，提取痛点。
 输出格式为 JSON 列表，每项包含：
 - pain_point (简短描述)
 - evidence (原文引用，必须逐字)
@@ -137,8 +139,9 @@ gemini -m gemini-3-pro-preview -p \
 - counter_argument (基于常识的反例或风险)
 
 输入数据：
-$(cat feedback.txt)" \
-> problem_matrix.json
+PROMPT
+  cat feedback.txt
+} | <LLM_CLI> > problem_matrix.json
 ```
 
 **步骤 3：验证与门禁（Python）**
@@ -146,35 +149,43 @@ $(cat feedback.txt)" \
 别只看输出，用脚本卡住质量。如果证据不足，直接报错。
 
 ```python
+# gate_discovery.py - 发现门禁脚本
 import json
 import sys
 from pathlib import Path
 
-try:
-    data = json.loads(Path('problem_matrix.json').read_text())
-except Exception as e:
-    print(f"FAIL: JSON 解析失败 - {e}")
-    sys.exit(1)
+def validate_discovery(matrix_file):
+    try:
+        data = json.loads(Path(matrix_file).read_text())
+    except Exception as e:
+        print(f"❌ FAIL: JSON 解析失败 - {e}")
+        return False
 
-valid_entries = 0
-for entry in data:
-    # 门禁 1: 必须有证据
-    if not entry.get('evidence') or len(entry['evidence']) < 5:
-        print(f"WARN: 痛点 '{entry.get('pain_point')}' 证据不足")
-        continue
-    
-    # 门禁 2: 必须包含反例思考
-    if not entry.get('counter_argument'):
-        print(f"WARN: 痛点 '{entry.get('pain_point')}' 缺少反例思考")
-        continue
+    valid_count = 0
+    for i, entry in enumerate(data):
+        # 门禁 1: 证据必须是逐字原文，严禁概括
+        evidence = entry.get('evidence', '')
+        if len(evidence) < 10 or "用户说" in evidence:
+            print(f"⚠️ WARN [Item {i}]: 证据链薄弱，需补充原文引用。")
+            continue
+        
+        # 门禁 2: 必须有反例分析 (Red Teaming)
+        if not entry.get('counter_argument'):
+            print(f"⚠️ WARN [Item {i}]: 缺少反例分析，存在幸存者偏差风险。")
+            continue
 
-    valid_entries += 1
+        valid_count += 1
 
-if valid_entries == 0:
-    print("FAIL: 没有提取到任何有效痛点，请检查数据源或 Prompt")
-    sys.exit(1)
+    if valid_count < 3:
+        print(f"❌ FAIL: 有效痛点不足 ({valid_count}/3)。无法进入 PRD 阶段。")
+        return False
 
-print(f"PASS: 提取到 {valid_entries} 个有效痛点。请人工复核 'counter_argument' 字段。")
+    print(f"✅ PASS: 提取到 {valid_count} 个合格痛点。准许进入 Ch 03 生成 PRD 契约。")
+    return True
+
+if __name__ == "__main__":
+    if not validate_discovery('problem_matrix.json'):
+        sys.exit(1)
 ```
 
 **步骤 4：决策**

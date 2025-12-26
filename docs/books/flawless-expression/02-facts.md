@@ -87,10 +87,10 @@ aspect_ratio=16:9, quality=high
 
 目标：把一段混乱的输入材料，整理成一张干净的证据矩阵，并自动吐出“缺口清单”。
 
-请在终端运行以下命令（确保你已经安装并配置了 Gemini CLI）：
+请在终端运行以下命令（使用任何可脚本化的模型调用入口，把输出落盘为文件）：
 
 ```bash
-gemini -m gemini-3-pro-preview -p "
+cat <<'PROMPT' | <LLM_CLI> > evidence_matrix.md
 任务：基于输入材料，生成一张证据矩阵（Markdown 表格）。
 
 硬约束：
@@ -106,7 +106,7 @@ gemini -m gemini-3-pro-preview -p "
 【来源A】2023年Q1营收增长20%，主要得益于云服务。
 【来源B】2023年第一季度营收持平，受限于硬件供应链短缺。
 【来源C】新产品发布于4月，不在Q1统计范围内。
-" > evidence_matrix.md
+PROMPT
 ```
 
 运行后，检查 `evidence_matrix.md`。你应该能看到关于营收增长的冲突被清晰地列了出来，而不是被抹平成“增长约10%”。

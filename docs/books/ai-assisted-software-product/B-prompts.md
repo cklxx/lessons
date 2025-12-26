@@ -14,18 +14,17 @@
 
 建议对照：[全书质量控制与复现清单（QCR）](quality-checklist.md) · [写作风格与格式约定](style-guide.md) · [术语表](glossary.md)。
 
-## B.1 通用提示词骨架（推荐）
+## B.1 提示词资产骨架 (Executable Prompt Skeleton)
 
 ```text
-角色：你是谁（资深 PM/架构师/设计师/SRE…）
-背景：产品是什么、当前阶段、已知约束与资料（必要时附摘录）
-目标：本次要达成什么（可量化、可验收）
-输入：最少字段清单（缺哪个就必须追问）
-约束：不能做什么、必须满足什么（技术/合规/成本/时间/格式）
-输出：只允许一种格式（表格/JSON/清单其一），禁止额外解释
-验收门槛：主指标 + 守门指标 + 失败判定 + 回滚动作
-回归沉淀：失败样本如何写入回归集（新增样本字段/标签/更新规则）
-追问：不确定点与必须补齐的信息（最多 5 条）
+角色 (Context)：你是谁 (资深 SRE/架构师/PM...)。
+背景 (Rationale)：要解决的问题 (Evidence ID) 及当前版本组合 (Version Set)。
+目标 (Goal)：本次生成的可复现目标 (如生成补丁/生成用例)。
+约束 (Constraints)：严禁项 (Safety/Policy)、白名单 (Tools)、资源上限 (Token/Budget)。
+输入 (Input)：结构化数据/代码片段 (只提供必要上下文)。
+输出协议 (Contract)：强制 JSON/Diff/Table。严禁包含闲聊。
+验证门禁 (Gate)：生成的产物必须通过的具体检查 (如 Schema 校验)。
+回滚预案 (Rollback)：若生成产物无法通过门禁，如何降级执行。
 ```
 
 ## B.2 配方：需求挖掘 → PRD 合同（从原话到可验收）
@@ -442,9 +441,9 @@
 4) 只输出 Markdown 表格，不要输出额外解释。
 ```
 
-**Gemini CLI（最小可复现命令）：**
+**CLI（示例命令）：**
 ```bash
-gemini -m gemini-3-pro-preview -p "$(cat <<'EOF'
+cat <<'EOF' | <LLM_CLI> > /tmp/pricing.md
 你是资深商业化产品经理。请基于输入输出一张“可上线”的定价与止损策略表。
 
 输入：
@@ -459,7 +458,6 @@ gemini -m gemini-3-pro-preview -p "$(cat <<'EOF'
 3) 必须给出最坏使用情况测算结论与止损熔断动作（降级/暂停/加购）。
 4) 只输出 Markdown 表格，不要输出额外解释。
 EOF
-)" > /tmp/pricing.md
 ```
 
 ## B.12 配方：数据契约与 Schema 版本化（兼容性门禁）
@@ -513,9 +511,9 @@ EOF
 4) 每个字段必须定义类型、枚举范围（如有）、默认值与兜底说明。
 ```
 
-**Gemini CLI（最小可复现命令）：**
+**CLI（示例命令）：**
 ```bash
-gemini -m gemini-3-pro-preview -p "$(cat <<'EOF'
+cat <<'EOF' | <LLM_CLI> > /tmp/schema-contract.json
 你是系统架构师。请为 AI Agent 的结构化输出定义数据契约，并做兼容性检查。
 
 输入：
@@ -530,7 +528,6 @@ gemini -m gemini-3-pro-preview -p "$(cat <<'EOF'
 3) 对破坏性变更零容忍：若删除必填字段或修改类型，必须写入 breaking_changes 并给出回滚/迁移策略。
 4) 每个字段必须定义类型、枚举范围（如有）、默认值与兜底说明。
 EOF
-)" > /tmp/schema-contract.json
 ```
 
 ## B.13 配方：多模型路由与降级策略（熔断与回滚指针）
@@ -572,9 +569,9 @@ EOF
 3) 禁止空泛建议，所有条件必须可检测。
 ```
 
-**Gemini CLI（最小可复现命令）：**
+**CLI（示例命令）：**
 ```bash
-gemini -m gemini-3-pro-preview -p "$(cat <<'EOF'
+cat <<'EOF' | <LLM_CLI> > /tmp/routing.md
 你是平台架构师。请为模型池设计可执行的路由与降级策略。
 
 输入：
@@ -588,7 +585,6 @@ gemini -m gemini-3-pro-preview -p "$(cat <<'EOF'
 2) 输出一份熔断与回滚清单：触发条件、执行步骤、验证口径。
 3) 禁止空泛建议，所有条件必须可检测。
 EOF
-)" > /tmp/routing.md
 ```
 
 ## B.14 配方：离线评测集生成与维护（覆盖矩阵与门禁）
@@ -629,9 +625,9 @@ EOF
 2) 用例生成规范（包含：最小输入、期望输出协议、失败判定、回滚/降级）。
 ```
 
-**Gemini CLI（最小可复现命令）：**
+**CLI（示例命令）：**
 ```bash
-gemini -m gemini-3-pro-preview -p "$(cat <<'EOF'
+cat <<'EOF' | <LLM_CLI> > /tmp/evalset.md
 你是评测集作者。请为给定任务生成离线评测覆盖矩阵与用例规范。
 
 输入：
@@ -644,7 +640,6 @@ gemini -m gemini-3-pro-preview -p "$(cat <<'EOF'
 1) 覆盖矩阵表（维度/覆盖点/用例数量/阻断级用例是否覆盖）。
 2) 用例生成规范（包含：最小输入、期望输出协议、失败判定、回滚/降级）。
 EOF
-)" > /tmp/evalset.md
 ```
 
 ## B.15 配方：线上实验与灰度策略（停机条件与证据包）
@@ -687,13 +682,13 @@ EOF
 4) 只输出 Markdown 表格与清单，不要输出额外解释。
 ```
 
-**Gemini CLI（最小可复现命令）：**
+**CLI（示例命令）：**
 ```bash
-gemini -m gemini-3-pro-preview -p "$(cat <<'EOF'
+cat <<'EOF' | <LLM_CLI> > /tmp/rollout.md
 你是 SRE / 发布经理。制定一份可执行的灰度发布与回滚策略。
 
 输入：
-- change_impact：将主模型从 gemini-1.5-flash 升级为 gemini-3-pro-preview，预期质量提升但延迟与成本上升
+- change_impact：将主模型从 <old_model> 升级为 <new_model>，预期质量提升但延迟与成本上升
 - success_metrics：用户满意度提升 10%
 - guardrail_metrics：P99 延迟不超过 5s，API 错误率不超过 0.1%，单日成本不超过阈值
 - rollout_budget：四阶段放量，每阶段至少观察 2 小时，阶段间必须留证据包
@@ -704,5 +699,4 @@ gemini -m gemini-3-pro-preview -p "$(cat <<'EOF'
 3) 定义每阶段的证据包：放量前必须看到的具体数据证据与抽查项。
 4) 只输出 Markdown 表格与清单，不要输出额外解释。
 EOF
-)" > /tmp/rollout.md
 ```

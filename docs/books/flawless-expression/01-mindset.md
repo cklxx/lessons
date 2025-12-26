@@ -73,7 +73,7 @@
 
 ```bash
 mkdir -p out
-gemini -m gemini-3-pro-preview -p "
+cat <<'PROMPT' | <LLM_CLI> > out/review_result.md
 你是 Python 代码审查工具（不是聊天助手）。
 
 输入：一段 Python 代码。
@@ -102,7 +102,7 @@ gemini -m gemini-3-pro-preview -p "
 def fetch_data(url):
     import requests
     return requests.get(url).content
-" > out/review_result.md
+PROMPT
 ```
 
 ## 实战示例：图片生成配置（无文字底图）

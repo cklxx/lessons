@@ -98,17 +98,19 @@ image_prompt:
 
 ### 可执行示例：用 AI 帮你设计实验
 
-如果你只有一个模糊的想法，可以用 Gemini 帮你生成严谨的实验卡片。
+如果你只有一个模糊的想法，可以让模型帮你生成更严谨的实验卡片。
 
 ```bash
 # 假设你想做个功能：在文档里自动插入相关图片
 # 让 AI 帮你把这个想法变成可执行的实验设计
-gemini -m gemini-3-pro-preview -p "我是独立开发者。我想在 AI 生成的文档里自动插入相关图片，目的是提升用户的阅读体验。请把这个想法转化为一个标准的'增长实验卡片'。
+cat <<'PROMPT' | <LLM_CLI> > experiment_design.md
+我是独立开发者。我想在 AI 生成的文档里自动插入相关图片，目的是提升用户的阅读体验。请把这个想法转化为一个标准的'增长实验卡片'。
 要求输出 Markdown 表格，包含：
 1. 具体的假设（Hypothesis）
 2. 成功指标与量化门槛（Success Metrics）
 3. 守门指标与止损线（Guardrail Metrics，必须包含成本和延迟）
-4. 失败后的回滚动作（Rollback Plan）" > experiment_design.md
+4. 失败后的回滚动作（Rollback Plan）
+PROMPT
 
 cat experiment_design.md
 ```

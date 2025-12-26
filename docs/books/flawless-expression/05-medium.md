@@ -164,14 +164,14 @@ params:
 aspect_ratio=16:9, quality=high
 ```
 
-## Gemini CLI 实战：自动化 JSON 管道
+## CLI 实战：自动化 JSON 管道
 
 这是本章的终极形态：用 CLI 结合 JSON 协议，把非结构化文本直接转成下游脚本可用的数据文件。
 
 场景：你是运维工程师，要把一段乱七八糟的日志报错分析成结构化的 JSON，存到文件里供后续脚本读取。
 
 ```bash
-gemini -m gemini-3-pro-preview -p "
+cat <<'PROMPT' | <LLM_CLI> > analysis_result.json
 你是日志分析专家。请分析下面的系统日志片段，提取关键错误信息，并输出为纯 JSON。
 
 ### 输入日志
@@ -186,7 +186,7 @@ gemini -m gemini-3-pro-preview -p "
    - timestamp: 统一格式化为 ISO8601。
    - level: 统一大写 (ERROR, WARN, CRITICAL)。
    - service: 涉及的服务或组件名（如 DB-01, PaymentGateway）。
-" > analysis_result.json
+PROMPT
 ```
 
 **验证方法**：运行完这行命令，直接用 `cat analysis_result.json | jq .` 检查。如果 `jq` 报错，说明你的 Prompt 协议还没锁死。

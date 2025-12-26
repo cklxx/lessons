@@ -71,11 +71,11 @@
 
 把这三个时刻填进下面的表，填不出来就别画图：
 
-| 关键时刻 | 系统必须交代什么 | 用户手边必须有什么武器 | 失败了往哪儿跑（恢复） |
-| :--- | :--- | :--- | :--- |
-| **首次接触** | 我能写代码/画图；但我不会算命 | 点击示例 / 粘贴模板 | 看演示视频 / 回首页 |
-| **正在执行** | 正在联网搜索；预计 10 秒 | 取消生成 / 补充条件 | 停止并保留已生成内容 |
-| **结果交付** | 这是基于 <文档A> 的回答；置信度低 | 复制 / 只有这一段有用 / 重新生成 | 手动编辑 / 回退到上一步 |
+| 关键时刻 (Moment) | 系统契约 (System Contract) | 用户武器 (User Control) | 失败自救 (Recovery) | 证据点 (Logging) |
+| :--- | :--- | :--- | :--- | :--- |
+| **首次接触** | 声明能力边界与 PII 政策 | 点击示例 / 查看 Demo | 返回引导页 / 切换模式 | `first_contact_source` |
+| **正在执行** | 实时输出中间状态 (Thought) | 取消生成 / 实时反馈 | 停止并保留片段 | `generation_latency_p95` |
+| **结果交付** | 标注置信度与引用来源 | 采纳 / 纠错 / 追问 | 重新生成 / 手动编辑 | `usage_acceptance_rate` |
 
 ---
 
@@ -94,11 +94,11 @@ AI 产品往往页面很少（Chat-first），但**功能节点**很多。
 
 **模板：AI 交互流程表**
 
-| 步骤 | 用户动作 | 系统反馈（Happy Path） | **AI 抽风了（异常流）** | **用户如何自救（恢复）** |
-| :--- | :--- | :--- | :--- | :--- |
-| 1 | 输入指令 | 解析意图，开始执行 | 提示“涉及敏感词”或“看不懂” | 修改指令 / 查看合规指南 |
-| 2 | 等待生成 | 流式吐字，展示进度 | 卡在 99% / 吐字乱码 / 报错 | 点击“重试” / 切换模型 |
-| 3 | 结果确认 | 展示结果 + 引用来源 | 产生幻觉 / 引用不存在 | 点击“溯源” / 手动修正 |
+| 步骤 | 用户动作 | 系统反馈 (Happy Path) | **异常流 (Fail Path)** | **自救动作 (Recovery)** | **证据字段 (Evidence)** |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 1 | 输入任务 | 识别意图并分类 | 意图不明 / 触碰黑名单 | 提示示例 / 修改输入 | `intent_type`, `risk_score` |
+| 2 | 等待结果 | 展示流式进度与 Thought | 超时 / 熔断 / Token 耗尽 | 回退到缓存 / 降级模型 | `request_latency`, `error_code` |
+| 3 | 确认采纳 | 将结果存入资产库 | 幻觉发现 / 格式错误 | 在线纠错 / 丢弃并重试 | `user_feedback`, `is_accepted` |
 
 ### 第三张纸：状态清单（State Matrix）—— 填补真空
 原型最好看的时候是有数据的时候。
@@ -160,72 +160,31 @@ AI 产品往往页面很少（Chat-first），但**功能节点**很多。
 **验证脚本：`check_prototype_readiness.py`**
 
 ```python
-import os
-import re
+# gate_prototype.py - 原型准入哨兵
+import sys
+from pathlib import Path
 
-def check_file_exists(path):
-    if not os.path.exists(path):
-        print(f"[FAIL] Missing file: {path}")
-        return False
-    return True
-
-def check_content_pattern(path, pattern, min_count, error_msg):
-    try:
-        with open(path, 'r', encoding='utf-8') as f:
-            content = f.read()
-        matches = re.findall(pattern, content, re.MULTILINE)
-        if len(matches) < min_count:
-            print(f"[FAIL] {path}: {error_msg} (Found {len(matches)}, Need {min_count})")
-            return False
-        print(f"[PASS] {path}: Found {len(matches)} items matching '{pattern}'")
-        return True
-    except Exception as e:
-        print(f"[ERROR] Could not read {path}: {e}")
-        return False
-
-def main():
-    print("--- Starting Prototype Gate Check ---")
-    all_pass = True
+def validate_prototype_completeness(file_path):
+    required_elements = {
+        "BP-": "必须有断点记录 (Breakpoint)。没有断点说明测试不彻底。",
+        "自救": "必须有失败自救路径。严禁死胡同。",
+        "证据": "必须定义日志证据点。确保后期可审计。",
+        "异常流": "必须覆盖异常情况。严禁只做 Happy Path。"
+    }
     
-    # 1. 检查核心文档是否存在
-    required_docs = [
-        'docs/prototype/ia.md',
-        'docs/prototype/user-flow.md',
-        'docs/prototype/state-matrix.md',
-        'docs/prototype/breakpoints.md'
-    ]
-    for doc in required_docs:
-        if not check_file_exists(doc):
-            all_pass = False
-
-    # 2. 检查断点列表是否包含具体行动项
-    # 假设断点格式为 "| BP-xx |"
-    if not check_content_pattern(
-        'docs/prototype/breakpoints.md', 
-        r'\|\s*BP-\d+\s*\|', 
-        5, 
-        "Need at least 5 logged breakpoints (BP-xx)"
-    ):
-        all_pass = False
-
-    # 3. 检查用户流是否包含异常流
-    # 假设异常流在表格中标记为 "异常" 或 "Exception"
-    if not check_content_pattern(
-        'docs/prototype/user-flow.md', 
-        r'(异常|Exception|Fail)', 
-        3, 
-        "User flow must document at least 3 exception paths"
-    ):
-        all_pass = False
-
-    if all_pass:
-        print("\n>>> GATE PASSED: Prototype artifacts are structured and ready for review.")
-    else:
-        print("\n>>> GATE FAILED: Please fix missing artifacts or details.")
-        exit(1)
+    content = Path(file_path).read_text(encoding='utf-8')
+    missing = [v for k, v in required_elements.items() if k not in content]
+    
+    if missing:
+        print("❌ FAILED: 原型设计不合格。缺失以下关键要素：")
+        for m in missing:
+            print(f"  - {m}")
+        sys.exit(1)
+    
+    print(f"✅ PASS: {file_path} 原型验证通过。准许进入研发阶段。")
 
 if __name__ == "__main__":
-    main()
+    validate_prototype_completeness(sys.argv[1])
 ```
 
 ### 进阶：用 AI 帮你找茬（生成边缘案例）
@@ -234,7 +193,12 @@ if __name__ == "__main__":
 
 **命令示例**：
 ```bash
-gemini -m gemini-3-pro-preview -p "我是产品经理。我的功能是'用户上传 PDF，AI 总结全文'。请列出 10 个可能导致失败或体验糟糕的边缘案例（Edge Cases），包括恶意输入、文件问题、模型限制等。输出为 Markdown 表格。" > out/edge_cases.md
+mkdir -p out
+cat <<'PROMPT' | <LLM_CLI> > out/edge_cases.md
+我是产品经理。我的功能是'用户上传 PDF，AI 总结全文'。
+请列出 10 个可能导致失败或体验糟糕的边缘案例（Edge Cases），包括恶意输入、文件问题、模型限制等。
+输出为 Markdown 表格。
+PROMPT
 ```
 
 **预期输出（示例）**：

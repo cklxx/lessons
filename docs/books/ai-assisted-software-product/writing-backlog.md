@@ -5,7 +5,7 @@
 ## 状态快照（2025-12-23）
 - **章节标准化完成**：第 1–20 章（含第 10 章 3 个子篇）均已补齐：关键流程图（纯文本）、示例（可复制）、复现检查清单、常见陷阱（失败样本 ≥ 3 条，含现象/根因/复现/修复/回归验证）。
 - **清单与规范升级**：`quality-checklist.md`（QCR）与 `C-checklists.md` 已完成结构化升级；`style-guide.md` 已明确章节最低构件要求。
-- **AI 审稿**：SOP 已更新，默认模型配置为 `gemini-3-pro-preview`。
+- **AI 审稿**：SOP 已更新，模型与工具不绑定，流程见 `ai-editor-sop.md`。
 - **资料笔记**：`docs/materials/ai-assisted-software-product/notes/` 已建立基础覆盖，并在部分章节提供资料笔记（可选）回链。
 
 ## 已完成（2025-12-23）

@@ -38,36 +38,31 @@
 - 问题：
 ```
 
-## A.2 PRD 模板（精简但可落地）
+## A.2 PRD 契约模板 (PRD as Contract)
 
 ```markdown
-# <产品/功能名称> PRD
+# <项目名称> PRD 契约
 
-## 背景与问题
+## 1. 证据 (Evidence)
+- 访谈/调研证据 ID：<ref_id>
+- 验证失败样本集：<eval_set_path>
+- 现状数据基线：<metrics_baseline>
 
-## 目标 / 非目标
+## 2. 目标与非目标 (Goals & Non-Goals)
 
-## 用户与场景
+## 3. 需求契约 (Requirement Contract)
+- 用户用例 (Use Cases)
+- 异常流处理 (Exceptions)
+- 性能/安全/隐私红线 (NFRs)
 
-## 需求范围（用户故事 & 用例）
+## 4. 验收与回滚 (Acceptance & Rollback)
+- 准入门槛 (Admission Gate)：<测试全绿/性能不退化>
+- 守门指标 (Guardrails)：<成本上限/P99 延迟>
+- 失败判定 (Failure Analysis)：<幻觉率 > X% / 越权 > 0>
+- 回滚策略 (Rollback Plan)：<切回上一版本 / 只读降级>
 
-## 功能需求（按模块）
-
-## 非功能需求（性能/可用性/安全/隐私/成本）
-
-## 指标与埋点
-
-## 验收标准（Given/When/Then）
-
-## 失败判定（阻断条件）
-
-## 回滚与止损
-
-## 风险与开放问题
-
-## 证据留档（可选）
-- 证据目录：<例如 reports/YYYY-MM-DD/<change-id>>
-- 对比表/评测报告：<路径>
+## 5. 证据留档 (Post-Implementation Evidence)
+- 复现包路径：`reports/YYYY-MM-DD/<change-id>/`
 ```
 
 ## A.3 架构设计模板（ADR + 拓扑）

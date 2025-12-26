@@ -116,13 +116,19 @@ class Metrics:
             return "\n".join(lines)
 
 
-class GeminiProvider:
-    def __init__(self, model: str):
+class CliProvider:
+    def __init__(self, cmd: str, model: str, model_flag: str):
+        self.cmd = cmd
         self.model = model
+        self.model_flag = model_flag
 
     def generate(self, prompt: str, timeout_s: int) -> str:
+        cmd: list[str] = [self.cmd]
+        if self.model:
+            cmd.extend([self.model_flag, self.model])
+        cmd.append(prompt)
         proc = subprocess.run(
-            ["gemini", "--model", self.model, prompt],
+            cmd,
             check=False,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
@@ -131,8 +137,9 @@ class GeminiProvider:
             env={**os.environ, "NO_COLOR": "1"},
         )
         if proc.returncode != 0:
-            raise RuntimeError(proc.stderr.strip() or f"gemini exited {proc.returncode}")
-        return proc.stdout.strip()
+            stderr = (proc.stderr or "").strip()
+            raise RuntimeError(stderr or f"cli exited {proc.returncode}")
+        return (proc.stdout or "").strip()
 
 
 class MockProvider:
@@ -262,14 +269,18 @@ def main() -> int:
     parser = argparse.ArgumentParser(description="A tiny budgeted chat gateway (stdlib-only).")
     parser.add_argument("--host", default="127.0.0.1")
     parser.add_argument("--port", type=int, default=8787)
-    parser.add_argument("--provider", choices=["mock", "gemini"], default="mock")
-    parser.add_argument("--gemini-model", default="gemini-2.5-flash")
+    parser.add_argument("--provider", choices=["mock", "cli"], default="mock")
+    parser.add_argument("--cli-cmd", default=os.environ.get("LLM_CLI_CMD", ""))
+    parser.add_argument("--cli-model", default=os.environ.get("LLM_MODEL", ""))
+    parser.add_argument("--cli-model-flag", default=os.environ.get("LLM_MODEL_FLAG", "--model"))
     parser.add_argument("--cache-ttl", type=int, default=60, help="Cache TTL in seconds.")
     parser.add_argument("--concurrency", type=int, default=4, help="Max concurrent generations.")
     args = parser.parse_args()
 
-    if args.provider == "gemini":
-        provider: Any = GeminiProvider(model=args.gemini_model)
+    if args.provider == "cli":
+        if not args.cli_cmd:
+            raise SystemExit("Missing --cli-cmd (or set LLM_CLI_CMD).")
+        provider: Any = CliProvider(cmd=args.cli_cmd, model=args.cli_model, model_flag=args.cli_model_flag)
     else:
         provider = MockProvider()
 

@@ -34,10 +34,10 @@
 
 **模板：关键页面状态矩阵**
 
-| 页面 | 空状态 (Empty) | 加载状态 (Loading) | 成功状态 (Success) | 失败状态 (Error) | 无权限 (No Auth) | 恢复入口 (Recovery) |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **核心任务页** | 引导用户开始第一次输入 | 显示具体阶段（检索/生成）+ 取消按钮 | 结果 + 依据 + 下一步操作 | 错误原因 + 修正建议 | 申请权限入口/切换账号 | 重试/回退/人工介入 |
-| **历史记录页** | "暂无记录" + 新建入口 | 骨架屏 | 列表 + 搜索/筛选 | 网络错误提示 + 刷新 | 登录引导 | 刷新/返回首页 |
+| 页面 (Page) | 空状态 (Empty) | 加载状态 (Loading) | 成功状态 (Success) | 失败状态 (Error) | 证据点 (Evidence) |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **核心 AI 对话** | 显示 3-5 个引导 Prompt | 耗时预估 + “Thought” 展开 | 结果 + 引用 + 采纳按钮 | 修复建议 + 重试/回滚 | `chat_state_transition` |
+| **任务流水线** | 显示“暂无任务”插图 + 新建 | 实时进度条 (Step N/M) | 结果卡片 + 导出按钮 | 报错行列号 + 修改入口 | `flow_step_latency` |
 
 ### 2. 错误语义：把报错变成行动指南
 前端最常见的浪费，就是把技术堆栈直接扔给用户。错误提示必须是**可行动的**。
@@ -132,15 +132,13 @@ interface OutputState {
 
 **目标**：用 AI 辅助生成一个符合上述要求的状态机定义，并验证其包含了关键字段。
 
-**前置条件**：
-*   安装 `gemini` CLI 工具。
-*   项目根目录在 Git 管理下。
+**前置条件**：准备一个可脚本化的模型调用入口，并确保项目根目录在 Git 管理下。
 
 **步骤 1：生成代码**
-使用 `gemini` 生成 TypeScript 接口定义。
+让模型生成 TypeScript 接口定义。
 
 ```bash
-gemini -m gemini-3-pro-preview -p "
+cat <<'PROMPT' | <LLM_CLI> > src/types/ai_output_schema.ts
 作为一个资深前端架构师，请为我不基于任何框架（纯 TypeScript）写一个 AI 输出区的状态管理接口定义。
 要求：
 1. 包含 idle, running, done, aborted, error 五种状态。
@@ -149,40 +147,38 @@ gemini -m gemini-3-pro-preview -p "
 4. 包含用于调试的 trace_id 和 timing 指标（首字延迟、总耗时）。
 5. 包含简单的 Action 定义（start, stop, feedback）。
 只输出代码，不要解释。
-" > src/types/ai_output_schema.ts
+PROMPT
 ```
 
 **步骤 2：验证代码结构**
 用 Python 脚本快速检查生成的代码是否合格（包含必要字段）。
 
 ```python
-# 验证脚本：check_schema.py
+# gate_frontend.py - 前端体验哨兵
 import sys
+from pathlib import Path
 
-try:
-    with open('src/types/ai_output_schema.ts', 'r', encoding='utf-8') as f:
-        content = f.read()
-        
-    required_keywords = [
-        'trace_id', 
-        'evidences', 
-        'content', 
-        'idle', 
-        'running', 
-        'error'
-    ]
+def validate_frontend_states(file_path):
+    required_checks = {
+        "trace_id": "必须包含 trace_id 透传。确保前后端日志可串联。",
+        "evidences": "必须定义证据渲染逻辑。确保 AI 结论可审计。",
+        "timing": "必须记录性能指标 (TTFT)。确保响应速度可监控。",
+        "recovery": "必须提供失败恢复入口。确保体验闭环不中断。"
+    }
     
-    missing = [kw for kw in required_keywords if kw not in content]
+    content = Path(file_path).read_text(encoding='utf-8')
+    missing = [v for k, v in required_checks.items() if k not in content]
     
     if missing:
-        print(f"❌ 验证失败，缺少关键定义: {missing}")
+        print("❌ FAILED: 前端状态定义不规范。缺失以下关键要素：")
+        for m in missing:
+            print(f"  - {m}")
         sys.exit(1)
-        
-    print("✅ 状态机定义验证通过")
     
-except FileNotFoundError:
-    print("❌ 文件未生成")
-    sys.exit(1)
+    print(f"✅ PASS: {file_path} 前端状态校验通过。准许动工。")
+
+if __name__ == "__main__":
+    validate_frontend_states(sys.argv[1])
 ```
 
 **步骤 3：运行验证**

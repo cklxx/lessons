@@ -96,7 +96,7 @@ params:
 aspect_ratio=16:9, quality=high
 ```
 
-## 命令行实战（Gemini CLI）
+## 命令行实战（工具无关）
 
 把 Prompt 当代码跑。别在网页框里点来点去，用命令行让流程自动化。
 
@@ -108,12 +108,8 @@ aspect_ratio=16:9, quality=high
 # 我们可以先用 sed 或者其他工具替换，或者直接把两个文件拼接
 # 这里演示最简单的拼接方式
 
-cat prompts/production_check.txt data/input_code.py > combined_prompt.txt
-
-# 2. 执行 Gemini
-# 注意：使用 -p 传入内容，指定模型，结果重定向到文件
-
-gemini -m gemini-3-pro-preview -p "$(cat combined_prompt.txt)" > reports/audit_result_v1.md
+mkdir -p reports
+cat prompts/production_check.txt data/input_code.py | <LLM_CLI> > reports/audit_result_v1.md
 
 # 3. (可选) 验证输出是否存在且不为空
 if [ -s "reports/audit_result_v1.md" ]; then

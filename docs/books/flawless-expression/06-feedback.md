@@ -101,7 +101,7 @@ prompts/
 
 ## 4. 最小自动化脚本（拿去用）
 
-这一步是把“人肉测试”变成“机器测试”的关键。你需要安装 Gemini CLI。
+这一步是把“人肉测试”变成“机器测试”的关键。你需要一个可脚本化的模型调用入口（CLI/API/SDK 皆可），并让它满足：stdin 输入 prompt，stdout 输出结果。
 
 ### 脚本 A：批量运行器 (`run_batch.sh`)
 
@@ -111,8 +111,9 @@ prompts/
 #!/usr/bin/env bash
 set -euo pipefail
 
-# 配置模型名称
-MODEL="gemini-3-pro-preview"
+# 配置模型调用命令与模型名（按需）
+LLM_CMD=${LLM_CMD:-llm}
+MODEL=${MODEL:-}
 
 PROMPT_FILE=${1:?用法: run_batch.sh <prompt_file> <cases_dir> <out_dir>}
 CASES_DIR=${2:?用法: run_batch.sh <prompt_file> <cases_dir> <out_dir>}
@@ -129,15 +130,14 @@ for case_dir in "$CASES_DIR"/*; do
 
   name=$(basename "$case_dir")
   
-  # 拼接 Prompt 和 Input 构造完整查询
-  # 注意：这里假设你的 Prompt 需要拼接 Input 才能工作
-  full_prompt=$(cat "$PROMPT_FILE" "$input")
-
   echo "正在运行 Case: $name"
   
-  # 调用 Gemini CLI，强制指定模型
-  # 结果直接写入输出目录
-  gemini -m "$MODEL" -p "$full_prompt" > "$OUT_DIR/$name.out"
+  # 将 Prompt 与 Input 拼接后喂给模型，并把结果写入输出目录
+  if [ -n "${MODEL}" ]; then
+    { cat "$PROMPT_FILE"; printf '\n\n'; cat "$input"; } | "$LLM_CMD" -m "$MODEL" > "$OUT_DIR/$name.out"
+  else
+    { cat "$PROMPT_FILE"; printf '\n\n'; cat "$input"; } | "$LLM_CMD" > "$OUT_DIR/$name.out"
+  fi
 
   # 稍微停顿，避免触发极其严格的速率限制（如果你的配额很低）
   sleep 1

@@ -87,16 +87,17 @@ prompts/
 
 ## 5) 最小命令集（可复现闭环）
 
-### 单次试跑（Gemini CLI）
+### 单次试跑（工具无关）
 
 把 Prompt 文件化后，单次试跑的最小方式是：把 Prompt 与输入拼成一个 query 再执行。
 
 ```bash
-MODEL="gemini-3-pro-preview"
+LLM_CMD="<LLM_CLI>"
 PROMPT_FILE="prompts/production/prompt_x.v1.txt"
 INPUT_FILE="prompts/regression/case_chatty_json/input.txt"
 
-gemini -m "$MODEL" -p "$( { cat "$PROMPT_FILE"; printf '\n\n输入：\n'; cat "$INPUT_FILE"; } )" > out/result.out
+mkdir -p out
+{ cat "$PROMPT_FILE"; printf '\n\n输入：\n'; cat "$INPUT_FILE"; } | $LLM_CMD > out/result.out
 ```
 
 ### 文档构建门禁（MkDocs）

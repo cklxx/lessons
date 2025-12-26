@@ -194,10 +194,13 @@ curl -X POST http://127.0.0.1:8787/chat \
 
 ### 4. 接入真实模型
 
-你可以用 Gemini 来做后端：
+你可以用一个外部 CLI 来做后端：
 
 ```bash
-python3 docs/examples/inference/budgeted_gateway.py --provider gemini --gemini-model gemini-3-pro-preview
+python3 docs/examples/inference/budgeted_gateway.py \
+  --provider cli \
+  --cli-cmd <LLM_CLI> \
+  --cli-model <MODEL>
 ```
 
 ## 推理引擎选型：把吞吐当工程题

@@ -39,13 +39,12 @@ text, letters, numbers, watermark, signature, handwriting, logo, photorealistic,
 aspect_ratio=16:9, quality=high
 ```
 
-## 3) 图片验收门禁（不通过就别提交）
+## 3) 图片验收门禁 (Visual Admission Gate)
 
-1. **零文字**：不得出现可识别字符、伪文字、水印、签名。
-2. **可叠字**：必须预留大块纯色留白；留白位置要稳定，方便统一叠标题与标签。
-3. **风格一致**：扁平向量、蓝白配色、干净背景、线条粗细一致；禁止混入写实与强材质。
-4. **信息增益**：图必须表达结构隐喻（分层/流向/闭环/门禁），而不是装饰背景。
-5. **可维护**：同类图用同一套构图规则；不要每张图都重新发明风格。
+1. **绝对零文字**：严禁出现伪文字、水印、乱码。若有文字，必须经后期 SVG 叠层处理。[L0]
+2. **构图留白 (Safe Zone)**：中心或侧边必须有 > 40% 的纯色留白，用于叠标题或指标。[L0]
+3. **风格底座一致性**：蓝白矢量风格，线条粗细分明，禁止混载 3D 渲染或照片风。[L0]
+4. **决策系统隐喻**：图必须体现“闭环”、“门禁”或“证据”的逻辑，而非单纯背景图。[L1]
 
 ![占位图（用于叠字演示）](../../assets/books/ai-assisted-software-product/placeholder-diagram.svg)
 
@@ -71,7 +70,7 @@ aspect_ratio=16:9, quality=high
 
 ### 方式 B：用仓库脚本生成图片（可选）
 
-仓库已有 `skills/genimage.py` 可直接生成插图并输出 Markdown 引用（图片生成依赖你本地的 Gemini Cookie 配置，详见仓库 `skills/index.md` 的说明）。
+仓库已有 `skills/genimage.py` 可直接生成插图并输出 Markdown 引用（图片生成依赖脚本所需的本地 Cookie 配置，详见仓库 `skills/index.md` 的说明）。
 
 示例：为第 7 章生成一张 CI/CD 管道的无文字底图，并输出可粘贴的 Markdown：
 

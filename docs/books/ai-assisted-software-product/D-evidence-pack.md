@@ -14,18 +14,18 @@ project-root/
 ├── docs/                     # 项目文档与设计规范（可选）
 ├── eval/                     # [核心] 评估体系（回归/红队/对比）
 │   ├── sets/                 # 评测集与失败样本（版本化）
-│   ├── scorers/              # 评分器/裁判（judge）与后处理
-│   └── configs/              # 评测参数（口径）配置
-├── reports/                  # [核心] 证据包归档（按日期/变更ID）
+│   ├── scorers/              # 评分器/裁判 (Gatekeeper Judge)
+│   └── configs/              # 评测参数配置 (Admission Policy)
+├── reports/                  # [核心] 证据包归档 (Evidence Pack)
 │   └── 2025-12-23/
 │       └── fix-rag-topk-a1b2c/
-├── runbooks/                 # [核心] 10 分钟止损手册（发布/降级/回滚）
+├── runbooks/                 # [核心] 10 分钟止损手册 (Rollback Triggers)
 │   ├── release.md
 │   └── rollback.md
-├── schemas/                  # 结构化输出契约（JSON Schema/OpenAPI 等）
-├── tools/                    # 工程化脚本（门禁、打包、校验）
-├── tests/                    # 单元/集成/E2E 测试
-└── Makefile (或 task runner) # 一条命令入口：gate/evidence/release
+├── schemas/                  # 结构化输出契约
+├── tools/                    # 门禁哨兵 (Gatekeeper Scripts)
+├── tests/                    # 单元/集成测试
+└── Makefile                  # 入口：gate / evidence / release
 ```
 
 ## D.2 证据包标准（Evidence Package）

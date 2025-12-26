@@ -62,12 +62,14 @@ Agent 的运行不仅仅是“思考-行动”，更是一个严密的 **“申�
 我们先用模型生成一份标准的工具定义，作为验证器的依据。
 
 ```bash
-gemini -m gemini-1.5-pro-latest -p "为'创建发票'工具写一份YAML格式的技术合同。要求：
+cat <<'PROMPT' | <LLM_CLI> > tool_contract.yaml
+为'创建发票'工具写一份YAML格式的技术合同。要求：
 1. 包含权限要求（角色、租户隔离）。
 2. 定义输入字段的强校验（正则、范围）。
 3. 明确副作用和回滚策略。
 4. 设定预算上限（调用次数）。
-只输出YAML内容。" > tool_contract.yaml
+只输出YAML内容。
+PROMPT
 ```
 
 **步骤 2：运行验证脚本（Python）**

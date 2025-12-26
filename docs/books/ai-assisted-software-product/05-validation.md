@@ -20,9 +20,9 @@
 本章的任务，是把 0→1 的中间地带变成固定节拍：每次迭代都有明确的“为什么改”、“改什么”、“怎么算成”、“失败了怎么办”。[4][6]
 
 ## 你将交付什么
-- **一张断点地图**：清楚列出用户在哪个环节流失，以及对应的恢复手段。
-- **一套迭代卡片**：包含假设、门槛、样本、失败判定、回滚策略。
-- **一个打磨优先级排序**：用“修复断点”替代“我觉得这样更好看”。[4]
+- **一张断点地图 (Breakpoint Map)**：标记用户流失点、恢复手段及其对应的日志点 (Evidence)。
+- **一套迭代卡片 (Iteration Card)**：包含假设、止损线、对比样本与回滚动作。
+- **验证门禁脚本 (Validation Gate)**：用自动化脚本判定实验是否达到“可发布”标准。
 
 ## 三层思考：验证与打磨的区别
 ### 第 1 层：读者目标
@@ -64,12 +64,12 @@
 
 ### 闭环断点地图模板
 
-| 步骤 | 用户动作 | 系统反馈 | 常见断点（Why） | 恢复入口（How） | 证据口径 |
+| 步骤 | 用户动作 | 系统反馈 (Success) | 常见断点 (Fail) | 恢复入口 (Recovery) | 证据点 (Evidence) |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **1** | 进入 | 展示第一步 | 不知从何下手 | 预置示例/模板 | 停留 > 30s 无动作 |
-| **2** | 输入/导入 | 校验并反馈 | 数据格式错/没数据 | 格式清洗/提供Demo数据 | 报错率/空输入率 |
-| **3** | 执行 | 进度条/中间态 | 等待焦虑/结果不可信 | 进度透传/引用来源 | 取消率/重试率 |
-| **4** | 采纳 | 保存/导出 | 不知怎么用/格式不通 | 复制/API/格式转换 | 复制率/下载率 |
+| **1. 启动** | 进入应用 | 引导/示例 | 不知从何下手 | 预置模板/Demo | `session_start_null` |
+| **2. 输入** | 注入数据/意图 | 格式校验 | 格式错/权限不足 | 洗数工具/权限申请 | `ingest_error_code` |
+| **3. 计算** | 等待生成 | 进度/引用 | 等待焦虑/不可信 | 取消/中间态透传 | `p95_latency`, `retry_hit` |
+| **4. 交付** | 采纳结果 | 保存/导出 | 格式不通/无法用 | 复制/格式转换 | `acceptance_rate` |
 
 ![图 5-2：闭环断点地图](../../assets/figure_05_2_loop_break_points_map_1766374229899.png)
 
@@ -200,39 +200,31 @@ Prompt 变量：{question: "2024年Q3净利润同比增长多少？", style: "co
 这是一个真实的验证脚本示例，你可以直接拿去改。
 
 ```python
-# 验证脚本: verify_prompt.sh
-# 依赖: gemini-cli (已配置 PATH)
+# gate_validation.py - 验证闭环哨兵
+import sys
+from pathlib import Path
 
-# 1. 准备输入与 Prompt
-cat <<EOF > input_context.txt
-产品 A 的 Q3 销量为 1000，同比增长 20%。
-产品 B 的 Q3 销量为 500，同比下降 5%。
-EOF
+def check_iteration_integrity(file_path):
+    required_fields = {
+        "止损线": "必须定义止损红线。严禁无限期实验。",
+        "回滚动作": "必须定义回滚动作。确保系统可退避。",
+        "对比表": "必须提供改动前后的数据对比。",
+        "守门指标": "必须包含成本或延迟等约束指标。"
+    }
+    
+    content = Path(file_path).read_text(encoding='utf-8')
+    missing = [v for k, v in required_fields.items() if k not in content]
+    
+    if missing:
+        print("❌ FAILED: 迭代验证不规范。缺失以下关键要素：")
+        for m in missing:
+            print(f"  - {m}")
+        sys.exit(1)
+    
+    print(f"✅ PASS: {file_path} 验证通过。准许合并迭代补丁。")
 
-cat <<EOF > prompt_template.txt
-基于以下上下文，请计算 Q3 总销量并分析趋势。
-上下文:
-{{CONTEXT}}
-要求: 输出 JSON 格式，包含 total_sales 和 trend_summary。
-EOF
-
-# 2. 组合并执行 (Gemini)
-# 注意：这里模拟组合过程，实际需用代码替换 {{CONTEXT}}
-# 假设 generated_prompt.txt 已经包含替换后的内容
-gemini -m gemini-3-pro-preview -p "$(cat prompt_template.txt | sed "s/{{CONTEXT}}/$(cat input_context.txt)/")" > result.md
-
-# 3. 自动判定 (简单的 Grep 检查)
-if grep -q "1500" result.md; then
-  echo "PASS: Total sales correct."
-else
-  echo "FAIL: Total sales incorrect."
-fi
-
-if grep -q "JSON" result.md || grep -q "{" result.md; then
-  echo "PASS: Format looks like JSON."
-else
-  echo "FAIL: Format error."
-fi
+if __name__ == "__main__":
+    check_iteration_integrity(sys.argv[1])
 ```
 
 **关键点：**

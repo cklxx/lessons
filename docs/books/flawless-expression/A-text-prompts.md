@@ -48,9 +48,9 @@
 <raw_text>
 ```
 
-### Gemini CLI
+### CLI（示例）
 ```bash
-gemini -m gemini-3-pro-preview -p "$( { cat prompts/summary.txt; printf '\n\n'; cat input.txt; } )" > out/summary.md
+{ cat prompts/summary.txt; printf '\n\n'; cat input.txt; } | <LLM_CLI> > out/summary.md
 ```
 
 ### 失败判定
@@ -113,9 +113,9 @@ JSON Schema（供你遵循）：
 <raw_text>
 ```
 
-### Gemini CLI
+### CLI（示例）
 ```bash
-gemini -m gemini-3-pro-preview -p "$( { cat prompts/extract-json.txt; printf '\n\n'; cat input.txt; } )" > out/result.json
+{ cat prompts/extract-json.txt; printf '\n\n'; cat input.txt; } | <LLM_CLI> > out/result.json
 ```
 
 ### 失败判定
@@ -155,9 +155,9 @@ gemini -m gemini-3-pro-preview -p "$( { cat prompts/extract-json.txt; printf '\n
 <material>
 ```
 
-### Gemini CLI
+### CLI（示例）
 ```bash
-gemini -m gemini-3-pro-preview -p "$( { cat prompts/evidence-matrix.txt; printf '\n\n'; cat input.txt; } )" > out/evidence.md
+{ cat prompts/evidence-matrix.txt; printf '\n\n'; cat input.txt; } | <LLM_CLI> > out/evidence.md
 ```
 
 ### 失败判定
@@ -196,9 +196,9 @@ gemini -m gemini-3-pro-preview -p "$( { cat prompts/evidence-matrix.txt; printf 
 <options>
 ```
 
-### Gemini CLI
+### CLI（示例）
 ```bash
-gemini -m gemini-3-pro-preview -p "$( { cat prompts/compare-table.txt; printf '\n\n'; cat input.txt; } )" > out/compare.md
+{ cat prompts/compare-table.txt; printf '\n\n'; cat input.txt; } | <LLM_CLI> > out/compare.md
 ```
 
 ### 失败判定
@@ -247,9 +247,9 @@ gemini -m gemini-3-pro-preview -p "$( { cat prompts/compare-table.txt; printf '\
 <code_or_diff>
 ```
 
-### Gemini CLI
+### CLI（示例）
 ```bash
-gemini -m gemini-3-pro-preview -p "$( { cat prompts/code-review.txt; printf '\n\n'; cat input.txt; } )" > out/review.md
+{ cat prompts/code-review.txt; printf '\n\n'; cat input.txt; } | <LLM_CLI> > out/review.md
 ```
 
 ### 失败判定
@@ -299,9 +299,9 @@ gemini -m gemini-3-pro-preview -p "$( { cat prompts/code-review.txt; printf '\n\
 <context>
 ```
 
-### Gemini CLI
+### CLI（示例）
 ```bash
-gemini -m gemini-3-pro-preview -p "$( { cat prompts/bug-triage.txt; printf '\n\n'; cat input.txt; } )" > out/triage.md
+{ cat prompts/bug-triage.txt; printf '\n\n'; cat input.txt; } | <LLM_CLI> > out/triage.md
 ```
 
 ### 失败判定
@@ -348,9 +348,9 @@ gemini -m gemini-3-pro-preview -p "$( { cat prompts/bug-triage.txt; printf '\n\n
 <request>
 ```
 
-### Gemini CLI
+### CLI（示例）
 ```bash
-gemini -m gemini-3-pro-preview -p "$( { cat prompts/clarify-requirement.txt; printf '\n\n'; cat input.txt; } )" > out/clarify.md
+{ cat prompts/clarify-requirement.txt; printf '\n\n'; cat input.txt; } | <LLM_CLI> > out/clarify.md
 ```
 
 ### 失败判定
@@ -388,9 +388,9 @@ gemini -m gemini-3-pro-preview -p "$( { cat prompts/clarify-requirement.txt; pri
 <task_spec>
 ```
 
-### Gemini CLI
+### CLI（示例）
 ```bash
-gemini -m gemini-3-pro-preview -p "$( { cat prompts/rubric.txt; printf '\n\n'; cat input.txt; } )" > out/rubric.md
+{ cat prompts/rubric.txt; printf '\n\n'; cat input.txt; } | <LLM_CLI> > out/rubric.md
 ```
 
 ### 失败判定
@@ -440,9 +440,9 @@ gemini -m gemini-3-pro-preview -p "$( { cat prompts/rubric.txt; printf '\n\n'; c
 <failure_context>
 ```
 
-### Gemini CLI
+### CLI（示例）
 ```bash
-gemini -m gemini-3-pro-preview -p "$( { cat prompts/make-regression-case.txt; printf '\n\n'; cat input.txt; } )" > out/case.md
+{ cat prompts/make-regression-case.txt; printf '\n\n'; cat input.txt; } | <LLM_CLI> > out/case.md
 ```
 
 ### 失败判定
@@ -484,7 +484,7 @@ gemini -m gemini-3-pro-preview -p "$( { cat prompts/make-regression-case.txt; pr
 | 失败判定 | <...> |
 | 回滚/降级 | <...> |
 
-## Prompt 正文（可直接用于 gemini -p）
+## Prompt 正文（可直接用于 CLI/API）
 - Role: <...>
 - Task: <...>
 - Constraints: <...>
@@ -500,9 +500,9 @@ gemini -m gemini-3-pro-preview -p "$( { cat prompts/make-regression-case.txt; pr
 约束：<constraints>
 ```
 
-### Gemini CLI
+### CLI（示例）
 ```bash
-gemini -m gemini-3-pro-preview -p "$( { cat prompts/prompt-generator.txt; printf '\n\n'; cat input.txt; } )" > out/generated-prompt.md
+{ cat prompts/prompt-generator.txt; printf '\n\n'; cat input.txt; } | <LLM_CLI> > out/generated-prompt.md
 ```
 
 ### 失败判定
@@ -549,9 +549,9 @@ gemini -m gemini-3-pro-preview -p "$( { cat prompts/prompt-generator.txt; printf
 <material>
 ```
 
-### Gemini CLI
+### CLI（示例）
 ```bash
-gemini -m gemini-3-pro-preview -p "$( { cat prompts/refuse-with-gaps.txt; printf '\n\n'; cat input.txt; } )" > out/answer.md
+{ cat prompts/refuse-with-gaps.txt; printf '\n\n'; cat input.txt; } | <LLM_CLI> > out/answer.md
 ```
 
 ### 失败判定
@@ -590,9 +590,9 @@ gemini -m gemini-3-pro-preview -p "$( { cat prompts/refuse-with-gaps.txt; printf
 <draft_md>
 ```
 
-### Gemini CLI
+### CLI（示例）
 ```bash
-gemini -m gemini-3-pro-preview -p "$( { cat prompts/rewrite.md.txt; printf '\n\n'; cat input.md; } )" > out/rewrite.md
+{ cat prompts/rewrite.md.txt; printf '\n\n'; cat input.md; } | <LLM_CLI> > out/rewrite.md
 ```
 
 ### 失败判定
@@ -634,9 +634,9 @@ gemini -m gemini-3-pro-preview -p "$( { cat prompts/rewrite.md.txt; printf '\n\n
 输入主题：<主题>
 ```
 
-### Gemini CLI
+### CLI（示例）
 ```bash
-gemini -m gemini-3-pro-preview -p "$(cat <<'EOF'
+cat <<'EOF' | <LLM_CLI> > out/chapter-outline.md
 你是一个严苛的编辑。请为主题 分布式一致性 构建一个详细的写作骨架。
 目标读者是 资深后端工程师。
 
@@ -647,7 +647,6 @@ gemini -m gemini-3-pro-preview -p "$(cat <<'EOF'
    - 验收门禁：写完该章节后，必须回答哪三个具体问题才算合格？
 3. 保持层级清晰，不要直接生成正文。
 EOF
-)" > out/chapter-outline.md
 ```
 
 ### 失败判定
@@ -690,9 +689,9 @@ EOF
 4. 禁止输出寒暄语与解释性前言。
 ```
 
-### Gemini CLI
+### CLI（示例）
 ```bash
-gemini -m gemini-3-pro-preview -p "$(cat <<'EOF'
+cat <<'EOF' | <LLM_CLI> > out/rag-answer.md
 你是证据核对员。请只基于上下文回答。
 
 上下文（每条含来源 id）：
@@ -708,7 +707,6 @@ doc-b: 当错误码为 RATE_LIMIT 时，必须退避重试并记录告警。
 3. 若上下文不足以回答，直接输出 INFO_MISSING，并列出缺口字段清单（最多 6 条）。
 4. 禁止输出寒暄语与解释性前言。
 EOF
-)" > out/rag-answer.md
 ```
 
 ### 失败判定
@@ -749,9 +747,9 @@ EOF
 4. title 必须以动词开头，且可执行（禁止“跟进一下”）。
 ```
 
-### Gemini CLI
+### CLI（示例）
 ```bash
-gemini -m gemini-3-pro-preview -p "$(cat <<'EOF'
+cat <<'EOF' | <LLM_CLI> > out/meeting-actions.json
 你是项目经理。把输入速记转成可执行行动项。
 
 输入：
@@ -764,7 +762,6 @@ gemini -m gemini-3-pro-preview -p "$(cat <<'EOF'
 3. owner 未明确时写 UNASSIGNED；deadline 未明确时写 TBD。
 4. title 必须以动词开头，且可执行。
 EOF
-)" > out/meeting-actions.json
 ```
 
 ### 失败判定
@@ -807,9 +804,9 @@ EOF
 4. 回滚/降级方案必须可执行：写清回滚粒度（配置/代码/数据）与注意事项。
 ```
 
-### Gemini CLI
+### CLI（示例）
 ```bash
-gemini -m gemini-3-pro-preview -p "$(cat <<'EOF'
+cat <<'EOF' | <LLM_CLI> > out/release-notes.md
 你是发布经理。把变更列表改写为面向用户的 Release Notes。
 
 输入：
@@ -827,7 +824,6 @@ gemini -m gemini-3-pro-preview -p "$(cat <<'EOF'
 3. 不要输出任何多余解释；每条变更一行短句。
 4. 回滚/降级方案必须可执行：写清回滚粒度（配置/代码/数据）与注意事项。
 EOF
-)" > out/release-notes.md
 ```
 
 ### 失败判定
@@ -870,9 +866,9 @@ EOF
 4. 必须覆盖：正常路径、边界条件、异常输入（各至少 3 条）。
 ```
 
-### Gemini CLI
+### CLI（示例）
 ```bash
-gemini -m gemini-3-pro-preview -p "$(cat <<'EOF'
+cat <<'EOF' | <LLM_CLI> > out/test-matrix.md
 你是测试工程师。请为输入逻辑生成测试用例矩阵。
 
 逻辑描述：
@@ -887,7 +883,6 @@ amount: number
 3. Failure Criteria 必须具体可检测。
 4. 必须覆盖：正常路径、边界条件、异常输入。
 EOF
-)" > out/test-matrix.md
 ```
 
 ### 失败判定
@@ -930,9 +925,9 @@ EOF
 3. 只输出 Markdown 清单；禁止额外解释。
 ```
 
-### Gemini CLI
+### CLI（示例）
 ```bash
-gemini -m gemini-3-pro-preview -p "$(cat <<'EOF'
+cat <<'EOF' | <LLM_CLI> > out/task-tree.md
 你是技术负责人。把需求拆成工程任务树。
 
 输入：
@@ -944,7 +939,6 @@ gemini -m gemini-3-pro-preview -p "$(cat <<'EOF'
 2. 每个任务必须包含 DoD / Stop Condition / Risk Gate。
 3. 只输出 Markdown 清单；禁止额外解释。
 EOF
-)" > out/task-tree.md
 ```
 
 ### 失败判定
@@ -982,9 +976,9 @@ EOF
 3. 每条规则必须可裁决：给出触发条件与处理动作。
 ```
 
-### Gemini CLI
+### CLI（示例）
 ```bash
-gemini -m gemini-3-pro-preview -p "$(cat <<'EOF'
+cat <<'EOF' | <LLM_CLI> > out/data-rules.md
 你是数据负责人。请为数据用途 评测集 生成清洗与标注规范。
 
 原始数据样本：
@@ -997,7 +991,6 @@ gemini -m gemini-3-pro-preview -p "$(cat <<'EOF'
 2. 必须包含：保留/丢弃标准、清洗规则、标注规范、边缘案例裁决。
 3. 每条规则必须可裁决：给出触发条件与处理动作。
 EOF
-)" > out/data-rules.md
 ```
 
 ### 失败判定
@@ -1044,9 +1037,9 @@ EOF
 - <回滚粒度与操作步骤>
 ```
 
-### Gemini CLI
+### CLI（示例）
 ```bash
-gemini -m gemini-3-pro-preview -p "$(cat <<'EOF'
+cat <<'EOF' | <LLM_CLI> > out/refactor-risk.md
 你是魔鬼代言人。不要说好话，只列风险与验证动作。
 
 输入：
@@ -1064,7 +1057,6 @@ gemini -m gemini-3-pro-preview -p "$(cat <<'EOF'
 ## 回滚策略
 - <回滚粒度与操作步骤>
 EOF
-)" > out/refactor-risk.md
 ```
 
 ### 失败判定

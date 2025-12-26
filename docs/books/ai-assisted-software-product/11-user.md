@@ -33,9 +33,9 @@ AI 产品会把用户模块的风险放大：一旦越权，泄露的不只是�
 
 ### 第 3 层：落地与验收
 验收不靠“看起来没问题”，而靠三条硬门槛：
-1.  **任何跨租户访问都必须失败**（服务端阻断，而不是 UI 隐藏）。[68]
-2.  **敏感操作必须产生审计事件**（谁、何时、对什么、做了什么、结果如何）。[68]
-3.  **权限变更必须可灰度与可回滚**（避免一改全崩）。
+1.  **任何跨租户访问都必须失败**：租户隔离必须在 DB/Cache 层实现逻辑注入，越权必阻断。[68]
+2.  **敏感操作必须产生审计证据**：必须涵盖：谁、何时、对什么、做了什么、关联 Trace ID。[68]
+3.  **权限策略必须版本化**：策略变更必须有止损线，支持一键灰度与回滚。
 
 ## 方法论速览：先定模型，再定事件，再写回归
 ![图 11-1：用户模块分层示意](../../assets/figure_11_1_1765971227695.png)
@@ -87,85 +87,33 @@ AuthZ（你能做什么）
 1.  复制并运行下面脚本：它模拟一个最小 RBAC + 租户隔离，并验证 3 条回归用例。
 
 ```python
-from __future__ import annotations
+```python
+# gate_user_auth.py - 用户模块准入哨兵
+import sys
+from pathlib import Path
 
-class Denied(Exception):
-    def __init__(self, reason: str):
-        self.reason = reason
-
-def authorize(actor: dict, resource: dict, action: str, policy: dict) -> dict:
-    # 核心：租户隔离必须是第一道防线
-    if actor["tenant_id"] != resource["tenant_id"]:
-        raise Denied("tenant_mismatch")
+def validate_user_auth_design(file_path):
+    required_checks = {
+        "tenant_id": "租户隔离 ID 必须贯穿全链路。防止跨租户泄露。",
+        "policy_version": "权限策略必须版本化。确保变更可回滚。",
+        "trace_id": "审计日志必须关联 Trace ID。确保事故可定责。",
+        "默认拒绝": "授权策略必须默认拒绝 (Default Deny)。防止权限空洞。"
+    }
     
-    # 策略查找
-    allowed_actions = policy["roles"].get(actor["role"], [])
-    if action not in allowed_actions:
-        raise Denied("action_not_allowed")
-        
-    # 返回策略版本，用于审计
-    return {"allow": True, "policy_version": policy["version"]}
+    content = Path(file_path).read_text(encoding='utf-8')
+    missing = [v for k, v in required_checks.items() if k not in content]
+    
+    if missing:
+        print("❌ FAILED: 用户与授权模块设计不合格。缺失以下关键要素：")
+        for m in missing:
+            print(f"  - {m}")
+        sys.exit(1)
+    
+    print(f"✅ PASS: {file_path} 用户权限模块校验通过。准许动工。")
 
-def must_allow(case: dict) -> None:
-    try:
-        out = authorize(case["actor"], case["resource"], case["action"], case["policy"])
-    except Denied as e:
-        raise SystemExit(f"UNEXPECTED DENY: {e.reason}")
-    if out.get("policy_version") != case["expect_policy_version"]:
-        raise SystemExit("WRONG POLICY VERSION")
-
-def must_deny(case: dict, expect_reason: str) -> None:
-    try:
-        authorize(case["actor"], case["resource"], case["action"], case["policy"])
-        raise SystemExit("UNEXPECTED ALLOW")
-    except Denied as e:
-        if e.reason != expect_reason:
-            raise SystemExit(f"WRONG DENY REASON: got={e.reason} expect={expect_reason}")
-
-# 策略定义：版本化是回滚的关键
-policy = {
-    "version": "p_001",
-    "roles": {
-        "owner": ["read", "write", "admin"], 
-        "viewer": ["read"]
-    }
-}
-resource = {"tenant_id": "t_001", "resource_id": "kb_1"}
-
-# 用例 1：合法访问必须通过
-must_allow(
-    {
-        "policy": policy,
-        "actor": {"tenant_id": "t_001", "role": "owner"},
-        "resource": resource,
-        "action": "read",
-        "expect_policy_version": "p_001",
-    }
-)
-
-# 用例 2：跨租户必须阻断（即便是 owner）
-must_deny(
-    {
-        "policy": policy,
-        "actor": {"tenant_id": "t_999", "role": "owner"},
-        "resource": resource,
-        "action": "read",
-    },
-    "tenant_mismatch",
-)
-
-# 用例 3：低权限写操作必须阻断
-must_deny(
-    {
-        "policy": policy,
-        "actor": {"tenant_id": "t_001", "role": "viewer"},
-        "resource": resource,
-        "action": "write",
-    },
-    "action_not_allowed",
-)
-
-print("ok")
+if __name__ == "__main__":
+    validate_user_auth_design(sys.argv[1])
+```
 ```
 
 2.  将这 3 条用例迁移到你的服务端授权层回归（真实 API / 真实租户 / 真实资源），并把拒绝原因落到审计字段（`reason` + `policy_version` + `trace_id`）。

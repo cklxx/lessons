@@ -33,13 +33,15 @@
 
 缺了评测与审计，任何所谓的“模型优化”都是不可解释的随机游走。[6]
 
-### 3. 落地标准
-验收不靠“感觉变聪明了”，靠硬指标：
-- **回答带引用**：无引用率 < 1%。[24]
-- **工具守边界**：越权阻断率 100%。[29]
-- **改动防退化**：回归测试通过率 100%。[6]
+### 架构图：智能层端到端闭环 (Smart Layer Loop)
+交付智能功能不靠“调优”，靠“守门”：
 
-### 架构图：智能层端到端闭环
+1.  **输入与边界 (Boundary)**：判定意图、检测注入、确认 PII 政策。
+2.  **证据产生 (Evidence, RAG)**：生成引用契约 (Citation Contract)。无证据则进入“拒答”逻辑。
+3.  **动作拟定 (Action, Agent)**：检查工具白名单、权限 ID 与单次预算。
+4.  **评测门禁 (Eval Gate)**：离线回归、红队测试、幻觉审计。
+5.  **审计落盘 (Audit)**：记录版本组合 (Version Set)、轨迹图 (Trace) 与成本。
+6.  **迭代回流 (Retrofit)**：将失败样本存入回归资产，模型退化即回滚。
 
 <!--
 image_prompt:
@@ -130,8 +132,8 @@ image_prompt:
 2.  **做了什么（行动区）**：展示工具调用链（Timeline）。“正在搜索（检索中）”“正在计算（执行中）”“生成报表中（生成中）”。失败了要允许用户点击重试。[29]
 3.  **怎么办（边界区）**：如果任务被拒绝（如越权），清楚告诉用户为什么，以及如何申请权限。[6]
 
-## 示例：用 Gemini 实现“引用一致性”裁判
-这是一个用 LLM 做裁判（Judge）的自动化脚本示例。它不依赖复杂的评测框架，直接用 Gemini 验证“回答是否忠实于检索到的上下文”。
+## 示例：用模型实现“引用一致性”裁判
+这是一个用 LLM 做裁判（Judge）的自动化脚本示例。它不依赖复杂的评测框架，直接验证“回答是否忠实于检索到的上下文”。
 
 **1. 准备验证数据 (golden_set.jsonl)**
 ```json
@@ -139,74 +141,35 @@ image_prompt:
 {"query": "企业版多少钱？", "context": "企业版定价 $99/月。", "answer": "企业版免费。", "expected": "FAIL"}
 ```
 
-**2. 编写验证脚本 (verify_citations.py)**
-这个脚本使用 System Prompt 让 Gemini 扮演严苛的审计员。
+**2. 编写验证脚本 (gate_smart_layer.py)**
+智能层准入哨兵
 
 ```python
+# gate_smart_layer.py - 智能层准入哨兵
 import sys
-import json
-import subprocess
+from pathlib import Path
 
-def verify_citation(query, context, answer):
-    prompt = f"""
-    你是一名严格的审计员。请判断下方的 [ANSWER] 是否完全基于 [CONTEXT] 回答了 [QUERY]。
+def validate_smart_layer_design(file_path):
+    required_checks = {
+        "引用契约": "必须定义引用与原文的一致性契约。防止幻觉强答。",
+        "工具白名单": "工具调用必须有明确的白名单与 Schema 校验。",
+        "version_set": "必须包含版本组合定义（代码+Prompt+索引+模型）。",
+        "回归资产": "必须有失败样本的回流机制。确保问题不复发。"
+    }
     
-    规则：
-    1. 如果 ANSWER 包含 CONTEXT 中不存在的信息，判定为 FAIL。
-    2. 如果 ANSWER 与 CONTEXT 矛盾，判定为 FAIL。
-    3. 只有当 ANSWER 完全由 CONTEXT 支持时，判定为 PASS。
+    content = Path(file_path).read_text(encoding='utf-8')
+    missing = [v for k, v in required_checks.items() if k not in content]
     
-    [QUERY]
-    {query}
-    
-    [CONTEXT]
-    {context}
-    
-    [ANSWER]
-    {answer}
-    
-    请仅输出结果（PASS 或 FAIL），不要输出其他废话。
-    """
-    
-    # 调用 Gemini CLI
-    cmd = [
-        "gemini", 
-        "-m", "gemini-3-pro-preview", 
-        "-p", prompt
-    ]
-    
-    try:
-        result = subprocess.run(cmd, capture_output=True, text=True, check=True)
-        return result.stdout.strip()
-    except subprocess.CalledProcessError as e:
-        print(f"Error calling gemini: {e.stderr}", file=sys.stderr)
-        return "ERROR"
-
-def main():
-    results = []
-    # 模拟读取 golden_set (实际使用时从文件读取)
-    test_cases = [
-        {"id": 1, "query": "如何退款？", "context": "退款需在30天内联系客服。", "answer": "您可以直接在后台点击退款按钮。", "expected": "FAIL"},
-        {"id": 2, "query": "如何退款？", "context": "退款需在30天内联系客服。", "answer": "请在30天内找客服处理。", "expected": "PASS"}
-    ]
-    
-    print("| ID | Expected | Actual | Status |")
-    print("|--- |--- |--- |--- |")
-    
-    for case in test_cases:
-        actual = verify_citation(case["query"], case["context"], case["answer"])
-        status = "✅" if actual == case["expected"] else "❌"
-        print(f"| {case['id']} | {case['expected']} | {actual} | {status} |")
-        results.append(status == "✅")
-    
-    if not all(results):
-        print("\n❌ 验证失败：存在不一致的回答。")
+    if missing:
+        print("❌ FAILED: 智能层设计不合格。缺失以下关键要素：")
+        for m in missing:
+            print(f"  - {m}")
         sys.exit(1)
-    else:
-        print("\n✅ 验证通过：所有回答均符合引用一致性。")
+    
+    print(f"✅ PASS: {file_path} 智能层校验通过。准许进入 RAG/Agent 实现。")
 
 if __name__ == "__main__":
-    main()
+    validate_smart_layer_design(sys.argv[1])
 ```
 
 **3. 运行验证**

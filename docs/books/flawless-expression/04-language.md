@@ -65,12 +65,12 @@
 **错误示范**：
 > 帮我看看这段代码，写得好一点，加上注释，别太长。
 
-**正确示范（Gemini CLI 可执行版）**：
+**正确示范（可执行版）**：
 
 此命令将任务定义为一次严格的“代码审计”，并输出了回滚方案，直接存为文件。
 
 ```bash
-gemini -m gemini-3-pro-preview -p "
+cat <<'PROMPT' | <LLM_CLI> > refactored_code.md
 角色：你是一个 Python 代码审计与重构工具。
 
 输入：一段 Python 遗留代码。
@@ -104,7 +104,7 @@ def process_data(data):
         if i in res: continue
         res.append(i)
     return res
-" > refactored_code.md
+PROMPT
 ```
 
 ## 图片 Prompt 实战：风格一致性控制

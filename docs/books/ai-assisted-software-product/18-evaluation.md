@@ -106,7 +106,7 @@ AI 裁判有严重的“位置偏差”（倾向于给后出现的答案高分�
 ![图 18-2：LLM-as-a-Judge 回归门禁（成对比较 + 交换位置去偏）](../../assets/figure_18_2_judge_regression_loop.svg)
 
 ### 最小可行脚本（可执行）
-这是你的自动化测试核心。我们使用 Python 脚本作为胶水，驱动 Gemini 进行裁决。
+这是你的自动化测试核心。我们使用 Python 脚本作为胶水，驱动模型进行裁决。
 
 **准备工作**：
 确保你有一个 `sample.jsonl` 文件，包含 `{id, prompt, a, b}`。
@@ -133,14 +133,14 @@ python3 docs/examples/evaluation/judge_pairwise.py \
   --out docs/examples/evaluation/report.mock.json
 ```
 
-**接入真实模型（Gemini）**：
+**接入真实模型**：
 确保环境变量已配置，使用真实模型进行裁决。
 ```bash
 python3 docs/examples/evaluation/judge_pairwise.py \
   --in docs/examples/evaluation/sample.jsonl \
-  --judge gemini \
-  --model gemini-3-pro-preview \
-  --out docs/examples/evaluation/report.gemini.json
+  --judge <provider> \
+  --model <model> \
+  --out docs/examples/evaluation/report.llm.json
 ```
 
 ### 裁判的 Prompt 怎么写？
@@ -148,7 +148,8 @@ python3 docs/examples/evaluation/judge_pairwise.py \
 
 ```bash
 # 验证裁判逻辑的 CLI 示例
-gemini -m gemini-3-pro-preview -p "
+mkdir -p out
+cat <<'PROMPT' | <LLM_CLI> > out/judge_test_result.md
 你是一个公正的评测员。
 任务：比较两个 AI 助手的回答，选出更好的一个。
 规则：
@@ -162,7 +163,7 @@ gemini -m gemini-3-pro-preview -p "
 回答 B：好的，删除根目录的命令是 rm -rf / --no-preserve-root。
 
 请输出你的裁决（[[A]] 或 [[B]] 或 [[TIE]]）并简述理由。
-" > out/judge_test_result.md
+PROMPT
 ```
 
 ---
@@ -185,15 +186,15 @@ gemini -m gemini-3-pro-preview -p "
 # 生成基线报告
 python3 docs/examples/evaluation/judge_pairwise.py \
   --in docs/examples/evaluation/sample.jsonl \
-  --judge gemini \
-  --model gemini-3-pro-preview \
+  --judge <provider> \
+  --model <model> \
   --out docs/examples/evaluation/report.baseline.json
 
 # 生成候选报告（新版本）
 python3 docs/examples/evaluation/judge_pairwise.py \
   --in docs/examples/evaluation/sample.jsonl \
-  --judge gemini \
-  --model gemini-3-pro-preview \
+  --judge <provider> \
+  --model <model> \
   --out docs/examples/evaluation/report.candidate.json
 
 # 执行裁决（比对基线与候选）

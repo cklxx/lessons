@@ -24,12 +24,15 @@
 
 如果你跳过第一步（门槛与约束），后面每一步都会变成无休止的解释和修补工作。正确的链路是：
 
-1.  **门槛与口径**：定义好坏标准。
-2.  **最小变更范围**：圈定改动边界。
-3.  **生成补丁**：AI 执行填空。
-4.  **自动检查**：机器拦截低级错误。
-5.  **人工审查**：人脑拦截逻辑风险。
-6.  **灰度与回滚**：最后一道防线。[6]
+### AI 交付准入链 (Admission Chain)
+从灵感到上线，必须经过这层硬过滤：
+
+1.  **准入 (Admission)**：校验任务卡是否包含止损线与回滚预案。
+2.  **生成 (Patch)**：AI 输出 Unified Diff 格式的最小补丁。
+3.  **检查 (Check)**：自动化跑完 UT/IT、Lint、安全扫描。
+4.  **评审 (Review)**：人工审计逻辑、成本与权限边界。
+5.  **发布 (Canary)**：分步骤灰度，盯着守门指标 (Guardrails)。
+6.  **回滚 (Rollback)**：一旦指标越位，按表一键复原。
 
 ## 方法论：把 AI 输出变成可交付变更
 
@@ -61,11 +64,33 @@
 
 本仓库的最小门禁脚本是 `tools/run_quality_gates.py`。它的逻辑非常粗暴：按顺序跑检查，任何一步挂了就退出。
 
-```bash
-python3 tools/run_quality_gates.py
-```
+```python
+# gate_engineering.py - 交付准入哨兵
+import sys
+from pathlib import Path
 
-把入口统一后，你的 CI（持续集成）配置就会变得极其简单。更重要的是，这迫使你在本地开发时就养成习惯：**跑不过门禁的代码，AI 写得再花哨也是垃圾**。
+def validate_engineering_gate(patch_file):
+    required_checks = {
+        "rollback_plan": "必须定义回滚方案。不准裸奔上线。",
+        "guardrail_metrics": "必须包含守门指标。确保成本与风险可控。",
+        "target_version": "必须指定目标版本号。确保变更可追溯。",
+        "unit_test_passed": "单元测试必须全绿。确保核心逻辑不退化。"
+    }
+    
+    content = Path(patch_file).read_text(encoding='utf-8')
+    missing = [v for k, v in required_checks.items() if k not in content]
+    
+    if missing:
+        print("❌ FAILED: 工程化准入失败。缺失以下关键要素：")
+        for m in missing:
+            print(f"  - {m}")
+        sys.exit(1)
+    
+    print(f"✅ PASS: {patch_file} 准许合并。开启 CI/CD 流水线。")
+
+if __name__ == "__main__":
+    validate_engineering_gate(sys.argv[1])
+```
 
 ### 3. 用 DORA 指标校准你的“提效”
 
@@ -148,7 +173,12 @@ AI 最容易踩的红线不是语法错误，而是合规：隐私泄露、密�
 **步骤 2：执行 AI 生成（使用 CLI 模式）**
 
 ```bash
-gemini -m gemini-3-pro-preview -p "你是资深后端工程师。阅读 docs/changes/chg-001.md 的要求。读取 src/utils/csv_parser.py 的内容。输出修复后的代码 diff。严禁修改其他文件。严禁引入新依赖。" > out/chg-001.diff
+mkdir -p out
+cat <<'PROMPT' | <LLM_CLI> > out/chg-001.diff
+你是资深后端工程师。阅读 docs/changes/chg-001.md 的要求。
+读取 src/utils/csv_parser.py 的内容。
+输出修复后的代码 diff。严禁修改其他文件。严禁引入新依赖。
+PROMPT
 ```
 
 **步骤 3：验证与应用**

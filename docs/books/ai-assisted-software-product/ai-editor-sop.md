@@ -1,4 +1,4 @@
-# AI 校对与审稿 SOP（基于 gemini CLI）
+# AI 校对与审稿 SOP（工具无关）
 
 > 目标：让 AI 做校对、找漏洞、补桥接、查一致性，而不是替代作者决策；所有建议必须能回到可验收的改动。
 
@@ -24,7 +24,7 @@
 ai_review() {
   local target_file=$1  # e.g. docs/books/ai-assisted-software-product/02-discovery.md
   local lines=$2        # e.g. 1,160p
-  local model=${3:-${GEMINI_MODEL:-gemini-3-pro-preview}}
+  local llm_cmd=${3:-${LLM_CMD:-<LLM_CLI>}}
   local context_files=${4:-} # 可选：额外上下文文件（空格分隔）
 
   {
@@ -41,34 +41,27 @@ ai_review() {
     printf '\n\n章节摘录（带行号）：\n<<<\n'
     sed -n $lines $target_file | nl -ba -w 4
     printf '\n>>>\n'
-  } | gemini -m "$model" -o text
+  } | "$llm_cmd"
 }
 
 # 用法示例：
-# ai_review docs/books/ai-assisted-software-product/02-discovery.md 1,160p gemini-3-pro-preview <<'EOF'
+# ai_review docs/books/ai-assisted-software-product/02-discovery.md 1,160p "<LLM_CLI>" <<'EOF'
 # 你是中文技术书编辑。请做结构完整性检查。
 # 输出：缺失项列表 + 每项一条补写建议（带验收标准）。
 # EOF
 #
 # 带“真值表”示例（术语/格式一致性检查常用）：
-# ai_review docs/books/ai-assisted-software-product/02-discovery.md 1,160p gemini-3-pro-preview \
+# ai_review docs/books/ai-assisted-software-product/02-discovery.md 1,160p "<LLM_CLI>" \
 #   "docs/books/ai-assisted-software-product/style-guide.md docs/books/ai-assisted-software-product/glossary.md" <<'EOF'
 # <...>
 # EOF
 ```
 
-### 2.2 批量扩写与一致性门禁（可选，但省命）
+### 2.2 多章改动的做法（避免打地鼠）
 
-当你要对多章做同一类改动（补“复现步骤/门禁/回滚”、统一术语、补桥接），不要在网页里手工打地鼠。用仓库脚本批量跑一遍，先生成候选稿再人工裁决：
+当你要对多章做同一类改动（补“复现步骤/门禁/回滚”、统一术语、补桥接），建议按章节分批次输出补丁，每一批都先跑一次文档门禁，再继续下一批。这样可以尽早发现死链、引用编号与格式问题，避免在最后一刻返工。
 
 ```bash
-# 生成候选稿到目录（不覆盖原文）
-python3 skills/gemini_md.py \
-  --prompt-file skills/prompts/ai-assisted-software-product-enrich.txt \
-  --out-dir /tmp/gemini-out \
-  docs/books/ai-assisted-software-product
-
-# 跑文档门禁（死链与引用）
 bash skills/check_docs.sh
 ```
 
