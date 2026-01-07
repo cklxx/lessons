@@ -1,80 +1,145 @@
 # Claude Agent 文档合订本（官方文档与博客汇总）
 
-> 目标：把 Claude/Anthropic 与 Agent 相关的官方文档与博客要点整理为一份可直接落地的手册，帮助你把 Agent 设计成**可控、可测、可回滚**的工作流。
+> 目标：把 Claude/Anthropic 与 Agent 相关的官方文档与博客要点整理为一份可落地手册，帮助你把 Agent 设计成**可控、可测、可回滚**的工作流。
 
 ## 读者与使用方式
-- **适合谁**：产品/架构/工程负责人，负责落地 Agent、工具调用与自动化流程。
-- **怎么用**：先看“文档地图”快速定位能力，再按章节使用“落地要点”和“检查清单”实施。
+- **适合谁**：产品/架构/工程负责人，负责落地 Agent、工具调用、自动化流程与安全治理。
+- **怎么用**：先看“文档地图”定位能力，再按“官方要点”和“落地流程”实施，最后用“检查清单”收尾。
 
 ## 内容获取说明
-- 本书以“摘要 + 实施要点”为主，保留原文链接以便核查。
-- 原文通常受版权保护，因此此处只保留简短摘要，不复制完整正文。
+- 覆盖范围：Claude 官方文档（Agents & Tools + Agent SDK）与 Anthropic 官方博客/研究。
+- 原文受版权保护，因此只保留摘要与可落地要点，完整内容请查看“原文索引”。
+- 本文按“设计 → 实现 → 安全 → 运营”顺序组织，避免只堆链接。
 
 ---
 
 ## 文档地图（按能力）
 
-### 1) Agent 基础与工作流能力
-- **Agents & Tools 总览**：统一理解 Agent 的能力边界、可控性与安全门禁。
-- **Agent Skills（overview/quickstart/best practices）**：如何把任务拆成阶段、定义终止条件、设置检查点与评估。
-
-### 2) 工具调用与执行环境
-- **Tool use（overview/implement/programmatic）**：工具输入输出契约、错误语义、重试与幂等。
-- **Computer use tool**：让 Agent 操作真实环境时的权限控制、审计、风险限制。
-- **专用工具**：Web search / Web fetch / Memory / Code execution / Bash / Text editor。
-
-### 3) 连接外部系统的标准协议
-- **MCP connector + Remote MCP servers**：通过统一协议接入外部能力，集中治理权限与数据边界。
-
-### 4) 官方博客（Agent 生态与策略）
-- **MCP 基金会与生态治理**：官方对 Agent 生态、协议与治理的公开定位。
-- **Claude Code 相关公告**：从工程实践角度理解 Agent 的“落地载体”。
+| 能力 | 关键文档 | 落地关注点 |
+| --- | --- | --- |
+| Agent 定义与工作流 | Building Effective Agents（研究） | 何时用 workflow / 何时用 agent，任务拆解与验收 |
+| Agent Skills | Agent Skills（overview/quickstart/best practices） | Skill 结构、触发条件、写作规范与安全审计 |
+| Tool Use 基础 | Tool use overview / implement / programmatic | 工具契约、schema、幂等与错误处理 |
+| 内建工具 | Web search / Web fetch / Memory / Code execution / Bash / Text editor / Computer use / Tool search | 能力边界、风险与参数限制 |
+| MCP 协议 | MCP connector / Remote MCP servers + modelcontextprotocol.io | 统一接入外部工具、集中权限治理 |
+| Agent SDK（Claude Code 运行时） | Agent SDK overview / quickstart / python / typescript | 运行时、权限、hooks、sessions、subagents |
+| 安全与部署 | permissions / secure-deployment / computer-use | 最小权限、隔离、审计与防注入 |
+| 运维与可观测 | cost-tracking / structured-outputs / checkpointing | 费用、可追踪输出、可回滚文件变更 |
 
 ---
 
-## 核心原则（从文档中提炼的共同规律）
-
-### 1) 可控性优先
-- 每个 Agent 任务都要有明确的开始、终止条件与失败回退，避免无限循环。
-- 把“模型能力”拆成**可度量的任务阶段**，阶段之间有检查点与验收。
-
-### 2) 工具契约即门禁
-- 工具调用必须有结构化输入、输出、错误语义和权限边界。
-- 避免在提示词里“包打天下”，把操作落实到工具契约和执行策略。
-
-### 3) 把 Agent 设计成工作流
-- 用任务分解、状态管理、检查点与审计日志替代“长提示词”。
-- 对关键动作引入人工确认或自动验收，防止不可控扩散。
-
-### 4) 真实环境访问最小化
-- 让 Agent 进入真实环境必须有最小权限原则与审计日志。
-- 高风险动作（支付、权限变更、删除）必须人工确认或分级审批。
+## 核心概念速览（先统一词汇）
+- **Agent vs Workflow**：Workflow 是预定义流程编排；Agent 是由模型动态决定步骤与工具调用。
+- **Tool Use**：基于 `name/description/input_schema` 的工具契约，让模型在结构化输入下调用工具。
+- **Agent Skills**：可复用的 `SKILL.md` 指令包，按需加载并自动触发。
+- **Programmatic Tool Calling**：允许在 code execution 容器内再调用工具，支持更复杂的数据流。
+- **MCP（Model Context Protocol）**：统一接入外部系统与工具的协议层。
+- **Agent SDK**：把 Claude Code 的 agent loop、工具和上下文管理作为库提供。
+- **Sessions / Subagents**：会话续航与子代理分工机制。
+- **Hooks / Permissions**：在工具调用前后进行拦截、审批、审计与安全控制。
 
 ---
 
-## 能力块落地指南
+## 官方文档要点（可直接落地）
 
-### A. Agent 设计与工作流拆解
-1. **明确目标与终止条件**：确保任务可停、可回滚。
-2. **拆分阶段与检查点**：每一阶段有输入/输出契约。
-3. **内置失败路径**：设计“失败就退回上一步”或“转人工”的策略。
-4. **输出结构化结果**：让评估与回归可自动化。
+### 1) Agent Skills（API + SDK）
+- **Skill 结构**：必须包含 `SKILL.md` + YAML frontmatter（`name`/`description`），名称需小写、短、可读。  
+  `description` 要写清“做什么”和“什么时候用”，否则模型不会触发。
+- **加载机制**：只预加载元信息；真正执行时才读取正文，因此要简洁，避免占用上下文。
+- **安全建议**：仅使用可信来源 Skill；不可信 Skill 必须人工审计。
+- **SDK 中的存放位置**：项目技能 `.claude/skills/`，用户技能 `~/.claude/skills/`；通过 `setting_sources`/`settingSources` 启用。
+- **工具限制**：SDK 中工具权限由 `allowedTools` 控制，`SKILL.md` 的 `allowed-tools` 仅对 Claude Code CLI 生效。
+- **预置能力**：官方提供 Office/PDF 等预置 Skills（PPTX/XLSX/DOCX）用于文档类任务。
 
-### B. Tool Use（工具调用）
-1. **定义工具契约**：输入 schema、输出 schema、错误语义。
-2. **设计幂等策略**：能安全重试，避免重复副作用。
-3. **限制权限与范围**：确保工具只做“最小动作”。
-4. **保留审计日志**：输入、输出、失败原因可追溯。
+### 2) Tool Use（基础契约 + 编排）
+- **工具定义**：`name`、`description`、`input_schema` 是最小必需；复杂工具可加 `input_examples`。
+- **描述越详细越好**：明确“何时用/何时不用/边界条件”，否则模型难以稳定调用。
+- **严格 schema**：配合 Structured Outputs / `strict` 工具定义，避免参数漂移。
+- **执行链路**：`tool_use` → 你执行工具 → `tool_result` 回传；所有错误语义要结构化。
+- **Programmatic Tool Calling**：可在 code execution 容器内调用工具；用 `allowed_callers` 限制调用来源，并留意容器超时与复用。
+- **Fine-grained Tool Streaming**：适用于长耗时工具；需要处理无效 JSON、分段输出与缓冲重试。
 
-### C. Computer Use（真实环境操作）
-1. **最小权限**：只开放必要的系统或浏览器能力。
-2. **敏感操作门禁**：关键动作必须确认或审批。
-3. **回放与审计**：日志可回溯，出现问题可复盘。
+### 3) 内建工具速查（能力 + 风险）
+| 工具 | 适合场景 | 风险/限制 | 关键控制项 |
+| --- | --- | --- | --- |
+| Web search | 获取最新事实 | 结果可能含注入指令 | 缓存、批量限制 |
+| Web fetch | 抓取网页内容 | 内容不可信 | `allowed_domains`、`max_uses` |
+| Memory | 跨会话记忆 | 隐私与漂移 | 保存/删除策略 |
+| Code execution | 代码运行/数据处理 | 容器有效期 | 容器复用/超时 |
+| Bash | 系统命令/脚本 | 破坏性操作 | 沙箱、命令白名单 |
+| Text editor | 精准编辑文件 | 误改范围 | 只开放必要目录 |
+| Computer use | UI/桌面自动化 | 高风险、可扩散 | 最小权限、审计 |
+| Tool search | 大量工具筛选 | 误选工具 | Regex/BM25 策略 |
 
-### D. MCP（Model Context Protocol）
-1. **统一接入外部能力**：用协议而非“私有脚本”。
-2. **权限集中管理**：服务端统一治理权限与数据边界。
-3. **可审计、可替换**：工具服务可替换，能力可扩展。
+### 4) MCP（Model Context Protocol）
+- **MCP Connector**：通过 API 直接接入 MCP 服务器，无需自建客户端。
+- **配置粒度**：支持工具 allowlist/denylist、OAuth Bearer、单请求多服务器。
+- **Remote MCP servers**：推荐把外部系统统一成 MCP 服务，便于权限治理与替换。
+
+### 5) Agent SDK（Claude Code 作为库）
+- **运行时**：依赖 Claude Code CLI；Python/TypeScript 均可使用。
+- **能力面板**：Read/Write/Edit/Bash/Glob/Grep/WebSearch/WebFetch 等内建工具；支持 hooks、plugins、自定义工具与 MCP。
+- **权限模型（四层）**：Permission modes → `canUseTool` → Hooks → `settings.json` 规则。
+- **Sessions**：自动生成 `session_id`，支持续航与 fork 分支实验。
+- **Subagents**：可按 `.claude/agents/` 或参数定义子代理，限定工具范围。
+- **Structured outputs**：用 Zod/Pydantic 定义 schema，强制输出 JSON 结构。
+- **Cost tracking**：`usage` 中包含 token 与 `total_cost_usd`，适合做计费与限额。
+- **Checkpointing**：追踪 Write/Edit/NotebookEdit 文件变更，支持一键回滚（Bash 修改不在内）。
+- **安全部署**：最小权限、隔离、沙箱、静态分析与 Web 搜索摘要降低注入风险。
+
+---
+
+## 官方博客与研究要点（策略层补充）
+
+### Agent 设计方法论
+- **Building Effective Agents**：强调简单可组合模式优先，区分 workflow 与 agent，避免过度框架化。
+- **When not to use agents**：高确定性、低复杂度任务优先走 workflow，减少不可控性。
+
+### 安全与治理
+- **Safe & trustworthy agents 框架**：强调人类可控、行为透明、隐私保护与安全边界。
+- **Agentic misalignment / Sleeper agents**：研究提示需要对代理行为进行审计与隔离，避免“隐性目标”风险。
+
+### Computer Use 与 Agent 运行时
+- **Developing computer use**：强调能力提升与安全设计并行推进。
+- **Introducing computer use**：展示模型可通过 UI 执行任务，但必须强化权限控制与审计。
+
+### Claude Code 与组织级落地
+- **Claude Code 自主性增强**：新增 VS Code extension、长任务与 checkpoints，适合任务型代理。
+- **团队/企业控制**：引入管理控制与合规模块，强调成本与权限治理。
+
+### MCP 生态
+- **Introducing MCP / Donating MCP to AAIF**：MCP 正式开源并进入基金会治理，生态可预期。
+
+---
+
+## 落地流程（目标 → 前置 → 步骤 → 验证 → 失败标准 → 回滚）
+
+**目标**
+- 明确 Agent 要完成的“结果”而不是“过程”，写入一页任务定义文档。
+
+**前置**
+- 账号/权限：Anthropic 账号、API key、Claude Code CLI（如使用 Agent SDK）。
+- 系统/工具：可调用的工具清单、访问边界、数据分类等级。
+
+**步骤**
+1. 任务拆解为 workflow + agent 组合，定义终止条件与人工介入点。
+2. 设计工具契约（schema + 说明 + 错误语义），必要时启用 strict。
+3. 最小权限接入工具与数据源（allowlist/denylist）。
+4. 加入 hooks 与 permissions，落地审批与审计日志。
+5. 设置成本与行为监控（usage、tool 调用链路、错误率）。
+6. 在 staging 跑基准场景，记录输出与失败案例。
+
+**验证**
+- 工具调用命中率与失败率在预设阈值内（证据：日志/报表）。
+- 关键任务输出可回放、可复现（证据：审计记录与输出存档）。
+
+**失败标准**
+- 超过成本/延迟上限，或出现未授权工具调用。
+- 无法复现关键输出或出现不可解释的偏差。
+
+**回滚**
+- 停用对应 Skill/Tool 配置，恢复到上一个版本。
+- 恢复文件 checkpoint 或 git revert，关闭外部工具权限。
 
 ---
 
@@ -86,94 +151,92 @@
 
 ---
 
-## 来源摘要（按模块）
-
-### Agent Skills 与工作流设计
-- **Agents & Tools 总览**：强调 Agent 的职责边界、可控性与安全门禁，避免“一条长链”。
-- **Agent Skills（overview/quickstart/best practices）**：强调拆分任务、检查点、终止条件与可回归的评估流程。
-
-### Tool Use 与执行环境
-- **Tool use（overview/implement/programmatic）**：明确工具输入输出契约、错误语义与幂等策略。
-- **Fine-grained tool streaming**：强调工具调用的阶段化输出与可观测性。
-- **Tool search tool**：强调在可控范围内为 Agent 搜索可用工具。
-- **Computer use tool**：强调真实环境操作的最小权限、审计与风险限制。
-- **Web search / Web fetch**：强调信息获取与检索边界的可控性。
-- **Memory tool**：强调可追溯的记忆与上下文管理。
-- **Code execution / Bash / Text editor**：强调用专用工具完成窄任务并记录操作轨迹。
-
-### MCP 生态与外部能力接入
-- **MCP connector / Remote MCP servers**：强调用统一协议治理权限、边界与审计。
-
-### 官方博客（Agent 生态与工程落地）
-- **MCP 基金会公告**：强调协议开放与生态治理方向。
-- **Building Effective Agents**：强调用任务分解、工具契约与评估闭环提升 Agent 可控性。
-- **Claude Code 相关公告**：强调把 Agent 能力落地为可复用的工程化工具。
-- **Snowflake × Anthropic**：强调企业级场景的 agentic AI 落地与协作模式。
-
----
-
-## 落地检查清单（可复制）
+## 落地检查清单（含证据）
 
 **目标与边界**
-- [ ] 有清晰的目标定义与停止条件。
-- [ ] 高风险动作有人工确认或审批流程。
-
-**工作流与阶段拆分**
-- [ ] 每一阶段有输入/输出与验收标准。
-- [ ] 失败路径定义清晰（重试/回退/转人工）。
+- [ ] 目标、终止条件、人工介入点已记录（证据：需求文档/Runbook 链接）。
+- [ ] 风险动作有审批或确认机制（证据：权限规则或审核记录）。
 
 **工具契约与权限**
-- [ ] 工具输入输出为结构化协议。
-- [ ] 权限边界明确，最小权限原则落实。
+- [ ] 所有工具具备 schema 与详细描述（证据：工具定义 JSON）。
+- [ ] `allowedTools`/allowlist/denylist 配置生效（证据：配置文件或日志）。
+- [ ] `canUseTool` 或 hooks 已记录阻断策略（证据：hook 代码与触发日志）。
 
-**审计与复盘**
-- [ ] 有完整日志与可回放记录。
-- [ ] 关键错误能追踪到工具调用链路。
+**安全与隔离**
+- [ ] 沙箱或最小权限策略已启用（证据：settings.json 或部署说明）。
+- [ ] 对外部网页内容有输入过滤/摘要策略（证据：处理逻辑说明）。
+
+**可观测与成本**
+- [ ] 记录 usage 与成本字段（证据：日志样本）。
+- [ ] 工具调用链路可追踪（证据：链路日志或审计记录）。
+
+**发布与回滚**
+- [ ] staging 场景跑通并归档结果（证据：测试报告）。
+- [ ] rollback 策略可执行（证据：checkpoint 记录或回滚演练记录）。
 
 ---
 
 ## 原文索引（官方文档）
-- https://platform.claude.com/docs/en/agents-and-tools
-- https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview
-- https://platform.claude.com/docs/en/agents-and-tools/agent-skills/quickstart
-- https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices
-- https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview
-- https://platform.claude.com/docs/en/agents-and-tools/tool-use/implement-tool-use
-- https://platform.claude.com/docs/en/agents-and-tools/tool-use/programmatic-tool-calling
-- https://platform.claude.com/docs/en/agents-and-tools/tool-use/computer-use-tool
-- https://platform.claude.com/docs/en/agents-and-tools/tool-use/fine-grained-tool-streaming
-- https://platform.claude.com/docs/en/agents-and-tools/tool-use/tool-search-tool
-- https://platform.claude.com/docs/en/agents-and-tools/tool-use/web-search-tool
-- https://platform.claude.com/docs/en/agents-and-tools/tool-use/web-fetch-tool
-- https://platform.claude.com/docs/en/agents-and-tools/tool-use/memory-tool
-- https://platform.claude.com/docs/en/agents-and-tools/tool-use/code-execution-tool
-- https://platform.claude.com/docs/en/agents-and-tools/tool-use/bash-tool
-- https://platform.claude.com/docs/en/agents-and-tools/tool-use/text-editor-tool
-- https://platform.claude.com/docs/en/agents-and-tools/mcp-connector
-- https://platform.claude.com/docs/en/agents-and-tools/remote-mcp-servers
 
-## 原文索引（官方博客与生态）
-- https://www.anthropic.com/news/donating-the-model-context-protocol-and-establishing-of-the-agentic-ai-foundation
-- https://www.anthropic.com/research/building-effective-agents
-- https://www.anthropic.com/news/anthropic-acquires-bun-as-claude-code-reaches-usd1b-milestone
-- https://www.anthropic.com/news/snowflake-anthropic-expanded-partnership
+### Agent Skills
+- https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview.md
+- https://platform.claude.com/docs/en/agents-and-tools/agent-skills/quickstart.md
+- https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices.md
+
+### Tool Use
+- https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview.md
+- https://platform.claude.com/docs/en/agents-and-tools/tool-use/implement-tool-use.md
+- https://platform.claude.com/docs/en/agents-and-tools/tool-use/programmatic-tool-calling.md
+- https://platform.claude.com/docs/en/agents-and-tools/tool-use/fine-grained-tool-streaming.md
+- https://platform.claude.com/docs/en/agents-and-tools/tool-use/tool-search-tool.md
+- https://platform.claude.com/docs/en/agents-and-tools/tool-use/web-search-tool.md
+- https://platform.claude.com/docs/en/agents-and-tools/tool-use/web-fetch-tool.md
+- https://platform.claude.com/docs/en/agents-and-tools/tool-use/memory-tool.md
+- https://platform.claude.com/docs/en/agents-and-tools/tool-use/code-execution-tool.md
+- https://platform.claude.com/docs/en/agents-and-tools/tool-use/bash-tool.md
+- https://platform.claude.com/docs/en/agents-and-tools/tool-use/text-editor-tool.md
+- https://platform.claude.com/docs/en/agents-and-tools/tool-use/computer-use-tool.md
+
+### MCP
+- https://platform.claude.com/docs/en/agents-and-tools/mcp-connector.md
+- https://platform.claude.com/docs/en/agents-and-tools/remote-mcp-servers.md
 - https://modelcontextprotocol.io/
 
-## 其他 Research Blog 索引（仅链接）
-- https://www.anthropic.com/research/alignment-faking
-- https://www.anthropic.com/research/anthropic-interviewer
-- https://www.anthropic.com/research/bloom
-- https://www.anthropic.com/research/constitutional-classifiers
-- https://www.anthropic.com/research/deprecation-commitments
-- https://www.anthropic.com/research/emergent-misalignment-reward-hacking
-- https://www.anthropic.com/research/estimating-productivity-gains
-- https://www.anthropic.com/research/how-ai-is-transforming-work-at-anthropic
-- https://www.anthropic.com/research/introspection
-- https://www.anthropic.com/research/project-fetch-robot-dog
-- https://www.anthropic.com/research/project-vend-2
-- https://www.anthropic.com/research/prompt-injection-defenses
-- https://www.anthropic.com/research/tracing-thoughts-language-model
-- https://www.anthropic.com/research/team/alignment
-- https://www.anthropic.com/research/team/economic-research
-- https://www.anthropic.com/research/team/interpretability
-- https://www.anthropic.com/research/team/societal-impacts
+### Agent SDK
+- https://platform.claude.com/docs/en/agent-sdk/overview.md
+- https://platform.claude.com/docs/en/agent-sdk/quickstart.md
+- https://platform.claude.com/docs/en/agent-sdk/python.md
+- https://platform.claude.com/docs/en/agent-sdk/typescript.md
+- https://platform.claude.com/docs/en/agent-sdk/typescript-v2-preview.md
+- https://platform.claude.com/docs/en/agent-sdk/skills.md
+- https://platform.claude.com/docs/en/agent-sdk/subagents.md
+- https://platform.claude.com/docs/en/agent-sdk/hooks.md
+- https://platform.claude.com/docs/en/agent-sdk/permissions.md
+- https://platform.claude.com/docs/en/agent-sdk/custom-tools.md
+- https://platform.claude.com/docs/en/agent-sdk/mcp.md
+- https://platform.claude.com/docs/en/agent-sdk/structured-outputs.md
+- https://platform.claude.com/docs/en/agent-sdk/cost-tracking.md
+- https://platform.claude.com/docs/en/agent-sdk/file-checkpointing.md
+- https://platform.claude.com/docs/en/agent-sdk/streaming-vs-single-mode.md
+- https://platform.claude.com/docs/en/agent-sdk/sessions.md
+- https://platform.claude.com/docs/en/agent-sdk/slash-commands.md
+- https://platform.claude.com/docs/en/agent-sdk/plugins.md
+- https://platform.claude.com/docs/en/agent-sdk/modifying-system-prompts.md
+- https://platform.claude.com/docs/en/agent-sdk/hosting.md
+- https://platform.claude.com/docs/en/agent-sdk/secure-deployment.md
+- https://platform.claude.com/docs/en/agent-sdk/migration-guide.md
+- https://platform.claude.com/docs/en/agent-sdk/todo-tracking.md
+
+## 原文索引（官方博客与研究）
+- https://www.anthropic.com/research/building-effective-agents
+- https://www.anthropic.com/news/our-framework-for-developing-safe-and-trustworthy-agents
+- https://www.anthropic.com/news/model-context-protocol
+- https://www.anthropic.com/news/donating-the-model-context-protocol-and-establishing-of-the-agentic-ai-foundation
+- https://www.anthropic.com/news/developing-computer-use
+- https://www.anthropic.com/news/3-5-models-and-computer-use
+- https://www.anthropic.com/news/enabling-claude-code-to-work-more-autonomously
+- https://www.anthropic.com/news/claude-code-on-team-and-enterprise
+- https://www.anthropic.com/news/anthropic-acquires-bun-as-claude-code-reaches-usd1b-milestone
+- https://www.anthropic.com/research/agentic-misalignment
+- https://www.anthropic.com/research/probes-catch-sleeper-agents
+- https://www.anthropic.com/research/sleeper-agents-training-deceptive-llms-that-persist-through-safety-training
