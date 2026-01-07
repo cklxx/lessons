@@ -101,6 +101,8 @@ nav:
               - 附录 B：图片 Prompt 配方库（无文字底图）: books/flawless-expression/B-image-prompts.md
               - 附录 C：质量控制与复现清单（Prompt 版）: books/flawless-expression/C-quality-checklist.md
           - 结语：让提示词成为默认交付物（文本+图片）: books/flawless-expression/conclusion.md
+      - Claude Agent 文档合订本:
+          - 总览: books/claude-agents/index.md
   - 资料池:
       - AI 辅助软件产品 / 资料池说明: materials/ai-assisted-software-product/README.md
       - AI 辅助软件产品 / 精选资料: materials/ai-assisted-software-product/filtered/top-resources.md
