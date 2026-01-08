@@ -103,6 +103,17 @@ nav:
           - 结语：让提示词成为默认交付物（文本+图片）: books/flawless-expression/conclusion.md
       - Claude Agent 文档合订本:
           - 总览: books/claude-agents/index.md
+          - 第 1 章：什么是 Agent，什么不是: books/claude-agents/01-first-principles.md
+          - 第 2 章：工具是合同，不是魔法: books/claude-agents/02-tools-and-skills.md
+          - 第 3 章：Agent SDK 是运行时，不是包装: books/claude-agents/03-agent-sdk.md
+          - 第 4 章：MCP 把工具接入变成协议: books/claude-agents/04-mcp.md
+          - 第 5 章：Computer Use 与屏幕操作: books/claude-agents/05-computer-use.md
+          - 第 6 章：安全研究告诉我们什么: books/claude-agents/06-safety-and-research.md
+          - 第 7 章：Claude Code 的产品化轨迹: books/claude-agents/07-claude-code-at-scale.md
+          - 第 8 章：上下文工程与长任务: books/claude-agents/08-context-and-harnesses.md
+          - 第 9 章：多代理协作与研究系统: books/claude-agents/09-multi-agent-systems.md
+          - 原文快照: books/claude-agents/sources.md
+          - Sources: books/claude-agents/references.md
   - 资料池:
       - AI 辅助软件产品 / 资料池说明: materials/ai-assisted-software-product/README.md
       - AI 辅助软件产品 / 精选资料: materials/ai-assisted-software-product/filtered/top-resources.md
