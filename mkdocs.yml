@@ -153,6 +153,25 @@ nav:
               - SWE-agent: books/claude-agents/papers/swe-agent.md
           - 原文快照: books/claude-agents/sources.md
           - Sources: books/claude-agents/references.md
+      - 推理优化论文合订本:
+          - 总览: books/inference-optimization/index.md
+          - 第 1 章：推理优化关键论文与实验清单:
+              - 总览: books/inference-optimization/01-inference-papers-and-experiments.md
+              - EAGLE-3: books/inference-optimization/papers/eagle-3.md
+              - Speculative Sampling: books/inference-optimization/papers/speculative-sampling.md
+              - SpecDec: books/inference-optimization/papers/speculative-decoding.md
+              - Online Speculative Decoding: books/inference-optimization/papers/online-speculative-decoding.md
+              - Staged Speculative Decoding: books/inference-optimization/papers/staged-speculative-decoding.md
+              - ParallelSpec: books/inference-optimization/papers/parallelspec.md
+              - Medusa: books/inference-optimization/papers/medusa.md
+              - FlashAttention: books/inference-optimization/papers/flashattention.md
+              - FlashAttention-2: books/inference-optimization/papers/flashattention-2.md
+              - PagedAttention / vLLM: books/inference-optimization/papers/pagedattention-vllm.md
+              - GPTQ: books/inference-optimization/papers/gptq.md
+              - SmoothQuant: books/inference-optimization/papers/smoothquant.md
+              - GQA: books/inference-optimization/papers/gqa.md
+          - 原文快照: books/inference-optimization/sources.md
+          - Sources: books/inference-optimization/references.md
   - 资料池:
       - AI 辅助软件产品 / 资料池说明: materials/ai-assisted-software-product/README.md
       - AI 辅助软件产品 / 精选资料: materials/ai-assisted-software-product/filtered/top-resources.md
