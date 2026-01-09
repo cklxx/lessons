@@ -95,3 +95,7 @@
 93. Mind2Web: Towards a Generalist Agent for the Web. https://arxiv.org/abs/2306.06070
 94. WebVoyager: Building an End-to-End Web Agent with Large Multimodal Models. https://arxiv.org/abs/2401.13919
 95. OSWorld: Benchmarking Multimodal Agents for Open-Ended Tasks in Real Computer Environments. https://arxiv.org/abs/2404.07972
+96. SWE-bench Goes Live!. https://arxiv.org/abs/2505.23419
+97. OSWorld-Human: Benchmarking the Efficiency of Computer-Use Agents. https://arxiv.org/abs/2506.16042
+98. Mobile-Agent-v3: Fundamental Agents for GUI Automation. https://arxiv.org/abs/2508.15144
+99. MCP-Bench: Benchmarking Tool-Using LLM Agents with Complex Real-World Tasks via MCP Servers. https://arxiv.org/abs/2508.20453

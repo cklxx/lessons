@@ -141,6 +141,10 @@ nav:
               - Mind2Web: books/claude-agents/papers/mind2web.md
               - WebVoyager: books/claude-agents/papers/webvoyager.md
               - OSWorld: books/claude-agents/papers/osworld.md
+              - SWE-bench Goes Live!: books/claude-agents/papers/swe-bench-goes-live.md
+              - OSWorld-Human: books/claude-agents/papers/osworld-human.md
+              - Mobile-Agent-v3: books/claude-agents/papers/mobile-agent-v3.md
+              - MCP-Bench: books/claude-agents/papers/mcp-bench.md
               - ALFWorld: books/claude-agents/papers/alfworld.md
               - SWE-bench: books/claude-agents/papers/swe-bench.md
               - SWE-agent: books/claude-agents/papers/swe-agent.md
