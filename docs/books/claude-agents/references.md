@@ -89,3 +89,9 @@
 87. ALFWorld: Aligning Text and Embodied Environments for Interactive Learning. https://arxiv.org/abs/2010.03768
 88. SWE-bench: Can Language Models Resolve Real-World GitHub Issues?. https://arxiv.org/abs/2310.06770
 89. SWE-agent: Agent-Computer Interfaces Enable Automated Software Engineering. https://arxiv.org/abs/2405.15793
+90. Tree of Thoughts: Deliberate Problem Solving with Large Language Models. https://arxiv.org/abs/2305.10601
+91. Graph of Thoughts: Solving Elaborate Problems with Large Language Models. https://arxiv.org/abs/2308.09687
+92. StableToolBench: Towards Stable Large-Scale Benchmarking on Tool Learning of Large Language Models. https://arxiv.org/abs/2403.07714
+93. Mind2Web: Towards a Generalist Agent for the Web. https://arxiv.org/abs/2306.06070
+94. WebVoyager: Building an End-to-End Web Agent with Large Multimodal Models. https://arxiv.org/abs/2401.13919
+95. OSWorld: Benchmarking Multimodal Agents for Open-Ended Tasks in Real Computer Environments. https://arxiv.org/abs/2404.07972
