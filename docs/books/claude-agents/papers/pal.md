@@ -2,6 +2,12 @@
 
 原文链接： [PAL: Program-aided Language Models](https://arxiv.org/abs/2211.10435) [67]
 
+## 论文信息
+- 年份：2022 [67]
+- 作者：Luyu Gao, Aman Madaan, Shuyan Zhou, Uri Alon, Pengfei Liu, Yiming Yang, Jamie Callan, Graham Neubig [67]
+- 作者背景（研究领域）：程序推理/符号计算 [67]
+- 前后血缘关系（同主题）：前序：无（程序辅助推理代表）；后续：[ReAct](react.md)、[ReWOO](rewoo.md)
+
 ## 主旨
 PAL 的主旨是让语言模型输出可执行程序，而不是直接输出答案。通过“先生成代码、再运行得到结果”的方式，模型把复杂推理外包给执行器，从而提高可验证性与稳定性，尤其适用于算术与符号推理场景。[67]
 

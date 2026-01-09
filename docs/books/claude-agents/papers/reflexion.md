@@ -2,6 +2,12 @@
 
 原文链接： [Reflexion: Language Agents with Verbal Reinforcement Learning](https://arxiv.org/abs/2303.11366) [72]
 
+## 论文信息
+- 年份：2023 [72]
+- 作者：Noah Shinn, Federico Cassano, Edward Berman, Ashwin Gopinath, Karthik Narasimhan, Shunyu Yao [72]
+- 作者背景（研究领域）：语言代理/自我改进 [72]
+- 前后血缘关系（同主题）：前序：[ReAct](react.md)；后续：[MemGPT](memgpt.md)
+
 ## 主旨
 Reflexion 的主旨是让代理从失败中总结“反思”，并把反思写入记忆，作为下一次行动的约束条件。它试图用语言级反馈替代复杂的强化学习，从而在少量试错中实现性能提升。[72]
 

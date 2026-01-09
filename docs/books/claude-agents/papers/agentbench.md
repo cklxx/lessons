@@ -2,6 +2,12 @@
 
 原文链接： [AgentBench: Evaluating LLMs as Agents](https://arxiv.org/abs/2308.03688) [84]
 
+## 论文信息
+- 年份：2023 [84]
+- 作者：Xiao Liu, Hao Yu, Hanchen Zhang, Yifan Xu, Xuanyu Lei, Hanyu Lai, Yu Gu, Hangliang Ding, Kaiwen Men, Kejuan Yang, Shudan Zhang, Xiang Deng, Aohan Zeng, Zhengxiao Du, Chenhui Zhang, Sheng Shen, Tianjun Zhang, Yu Su, Huan Sun, Minlie Huang, Yuxiao Dong, Jie Tang [84]
+- 作者背景（研究领域）：代理评测/基准 [84]
+- 前后血缘关系（同主题）：前序：[WebShop](webshop.md)、[WebArena](webarena.md)；后续：无（跨任务评测代表）
+
 ## 主旨
 AgentBench 的主旨是建立覆盖多任务的评测框架，用于衡量 LLM 在代理场景中的真实能力。论文强调，单一任务指标无法揭示系统性短板，必须通过跨场景评测来判断代理的通用性与稳定性。[84]
 

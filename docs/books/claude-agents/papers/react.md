@@ -2,6 +2,12 @@
 
 原文链接： [ReAct: Synergizing Reasoning and Acting in Language Models](https://arxiv.org/abs/2210.03629) [68]
 
+## 论文信息
+- 年份：2022 [68]
+- 作者：Shunyu Yao, Jeffrey Zhao, Dian Yu, Nan Du, Izhak Shafran, Karthik Narasimhan, Yuan Cao [68]
+- 作者背景（研究领域）：语言模型推理/工具交互 [68]
+- 前后血缘关系（同主题）：前序：[MRKL Systems](mrkl-systems.md)、[PAL](pal.md)；后续：[ReWOO](rewoo.md)、[Reflexion](reflexion.md)
+
 ## 主旨
 ReAct 的核心主旨是把“推理”和“行动”绑在一个循环里：模型先给出思考，再执行行动获取观察，并把观察作为下一步推理的输入。这样可以在多步任务中持续校验假设，显著减少幻觉并提升任务完成率。[68]
 

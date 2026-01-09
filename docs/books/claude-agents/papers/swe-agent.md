@@ -2,6 +2,12 @@
 
 原文链接： [SWE-agent: Agent-Computer Interfaces Enable Automated Software Engineering](https://arxiv.org/abs/2405.15793) [89]
 
+## 论文信息
+- 年份：2024 [89]
+- 作者：John Yang, Carlos E. Jimenez, Alexander Wettig, Kilian Lieret, Shunyu Yao, Karthik Narasimhan, Ofir Press [89]
+- 作者背景（研究领域）：软件工程代理/工具接口 [89]
+- 前后血缘关系（同主题）：前序：[SWE-bench](swe-bench.md)；后续：无（工程化接口方向代表）
+
 ## 主旨
 SWE-agent 的主旨是证明“工具接口设计”在自动化软件工程中的关键作用。论文提出 Agent-Computer Interface，把模型与命令行工具、文件系统等基础操作统一起来，从而提高任务完成率与可控性。[89]
 

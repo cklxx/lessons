@@ -2,6 +2,12 @@
 
 原文链接： [ChatDev: Communicative Agents for Software Development](https://arxiv.org/abs/2307.07924) [82]
 
+## 论文信息
+- 年份：2023 [82]
+- 作者：Chen Qian, Wei Liu, Hongzhang Liu, Nuo Chen, Yufan Dang, Jiahao Li, Cheng Yang, Weize Chen, Yusheng Su, Xin Cong, Juyuan Xu, Dahai Li, Zhiyuan Liu, Maosong Sun [82]
+- 作者背景（研究领域）：对话驱动软件开发 [82]
+- 前后血缘关系（同主题）：前序：[AutoGen](autogen.md)、[MetaGPT](metagpt.md)；后续：无（对话驱动开发代表）
+
 ## 主旨
 ChatDev 的主旨是用角色化对话模拟软件公司开发流程，从需求到实现形成闭环。论文强调，通过分角色对话协调需求、设计与实现，可以在没有传统工具链的情况下形成相对完整的软件交付流程。[82]
 

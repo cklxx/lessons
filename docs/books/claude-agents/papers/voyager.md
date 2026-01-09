@@ -2,6 +2,12 @@
 
 原文链接： [Voyager: An Open-Ended Embodied Agent with Large Language Models](https://arxiv.org/abs/2305.16291) [76]
 
+## 论文信息
+- 年份：2023 [76]
+- 作者：Guanzhi Wang, Yuqi Xie, Yunfan Jiang, Ajay Mandlekar, Chaowei Xiao, Yuke Zhu, Linxi Fan, Anima Anandkumar [76]
+- 作者背景（研究领域）：开放式具身学习 [76]
+- 前后血缘关系（同主题）：前序：[SayCan](saycan.md)、[ALFWorld](alfworld.md)；后续：无（开放式学习代表）
+
 ## 主旨
 Voyager 的主旨是让代理在开放式环境中持续学习，通过自动生成课程和技能库，实现长期能力积累。论文强调，持续成长来自“任务生成 + 技能复用”，而不是无目标的探索。[76]
 

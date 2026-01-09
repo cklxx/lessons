@@ -2,6 +2,12 @@
 
 原文链接： [WebGPT: Browser-assisted question-answering with human feedback](https://arxiv.org/abs/2112.09332) [70]
 
+## 论文信息
+- 年份：2021 [70]
+- 作者：Reiichiro Nakano, Jacob Hilton, Suchir Balaji, Jeff Wu, Long Ouyang, Christina Kim, Christopher Hesse, Shantanu Jain, Vineet Kosaraju, William Saunders, Xu Jiang, Karl Cobbe, Tyna Eloundou, Gretchen Krueger, Kevin Button, Matthew Knight, Benjamin Chess, John Schulman [70]
+- 作者背景（研究领域）：网页检索问答/人类反馈 [70]
+- 前后血缘关系（同主题）：前序：无（网页检索代理早期代表）；后续：[WebShop](webshop.md)、[WebArena](webarena.md)
+
 ## 主旨
 WebGPT 的主旨是让模型在回答问题时必须浏览网页并提供引用，从而提高事实性与可审计性。论文强调，只有把“证据”纳入训练目标，模型才会倾向于寻找可靠来源而不是凭空生成内容。[70]
 

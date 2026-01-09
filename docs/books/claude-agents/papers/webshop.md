@@ -2,6 +2,12 @@
 
 原文链接： [WebShop: Towards Scalable Real-World Web Interaction with Grounded Language Agents](https://arxiv.org/abs/2207.01206) [86]
 
+## 论文信息
+- 年份：2022 [86]
+- 作者：Shunyu Yao, Howard Chen, John Yang, Karthik Narasimhan [86]
+- 作者背景（研究领域）：电商网页任务/评测 [86]
+- 前后血缘关系（同主题）：前序：[WebGPT](webgpt.md)；后续：[WebArena](webarena.md)、[AgentBench](agentbench.md)
+
 ## 主旨
 WebShop 的主旨是通过电商购物任务评估代理在多步网页交互中的可靠性。论文强调，购物流程包含搜索、筛选、比较与决策等环节，是检验长程规划与信息整合能力的典型场景。[86]
 

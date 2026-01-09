@@ -2,6 +2,12 @@
 
 原文链接： [ALFWorld: Aligning Text and Embodied Environments for Interactive Learning](https://arxiv.org/abs/2010.03768) [87]
 
+## 论文信息
+- 年份：2020 [87]
+- 作者：Mohit Shridhar, Xingdi Yuan, Marc-Alexandre Côté, Yonatan Bisk, Adam Trischler, Matthew Hausknecht [87]
+- 作者背景（研究领域）：具身任务文本环境 [87]
+- 前后血缘关系（同主题）：前序：无（文本化具身环境早期代表）；后续：[SayCan](saycan.md)、[Voyager](voyager.md)
+
 ## 主旨
 ALFWorld 的主旨是把具身任务转化为文本交互环境，从而降低训练与评测成本，同时保留任务的结构性与约束条件。论文强调，文本化环境能让研究者更高效地验证代理算法，而不必依赖昂贵的真实机器人平台。[87]
 

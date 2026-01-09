@@ -2,6 +2,12 @@
 
 原文链接： [Generative Agents: Interactive Simulacra of Human Behavior](https://arxiv.org/abs/2304.03442) [75]
 
+## 论文信息
+- 年份：2023 [75]
+- 作者：Joon Sung Park, Joseph C. O'Brien, Carrie J. Cai, Meredith Ringel Morris, Percy Liang, Michael S. Bernstein [75]
+- 作者背景（研究领域）：社会模拟/人机交互 [75]
+- 前后血缘关系（同主题）：前序：[MemGPT](memgpt.md)；后续：无（社会化代理方向代表）
+
 ## 主旨
 Generative Agents 的主旨是用“记忆—反思—计划”的组合，构建能够长期持续、具备社会行为的代理。论文强调，代理的连贯行为来自结构化记忆与日程安排，而不是即时语言生成。[75]
 

@@ -2,6 +2,12 @@
 
 原文链接： [Gorilla: Large Language Model Connected with Massive APIs](https://arxiv.org/abs/2305.15334) [78]
 
+## 论文信息
+- 年份：2023 [78]
+- 作者：Shishir G. Patil, Tianjun Zhang, Xin Wang, Joseph E. Gonzalez [78]
+- 作者背景（研究领域）：API 调用/工具检索 [78]
+- 前后血缘关系（同主题）：前序：[Toolformer](toolformer.md)；后续：[ToolLLM](toollm.md)
+
 ## 主旨
 Gorilla 的主旨是让模型在调用 API 时基于真实文档检索结果，而不是依赖内化记忆。通过“检索文档 + 监督微调”，模型能够在大规模 API 环境中更准确地生成调用指令。[78]
 

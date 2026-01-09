@@ -2,6 +2,12 @@
 
 原文链接： [Toolformer: Language Models Can Teach Themselves to Use Tools](https://arxiv.org/abs/2302.04761) [69]
 
+## 论文信息
+- 年份：2023 [69]
+- 作者：Timo Schick, Jane Dwivedi-Yu, Roberto Dessì, Roberta Raileanu, Maria Lomeli, Luke Zettlemoyer, Nicola Cancedda, Thomas Scialom [69]
+- 作者背景（研究领域）：工具学习/自监督训练 [69]
+- 前后血缘关系（同主题）：前序：[MRKL Systems](mrkl-systems.md)；后续：[Gorilla](gorilla.md)、[ToolLLM](toollm.md)
+
 ## 主旨
 Toolformer 的主旨是让语言模型自己生成工具调用数据，并通过训练把工具使用“内化”为模型能力，从而减少人工标注依赖。论文强调，关键不是简单地添加工具，而是用自举数据让模型学会何时、如何调用工具。[69]
 

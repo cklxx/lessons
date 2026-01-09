@@ -2,6 +2,12 @@
 
 原文链接： [WebArena: A Realistic Web Environment for Building Autonomous Agents](https://arxiv.org/abs/2307.13854) [85]
 
+## 论文信息
+- 年份：2023 [85]
+- 作者：Shuyan Zhou, Frank F. Xu, Hao Zhu, Xuhui Zhou, Robert Lo, Abishek Sridhar, Xianyi Cheng, Tianyue Ou, Yonatan Bisk, Daniel Fried, Uri Alon, Graham Neubig [85]
+- 作者背景（研究领域）：网页交互/评测 [85]
+- 前后血缘关系（同主题）：前序：[WebShop](webshop.md)、[WebGPT](webgpt.md)；后续：[AgentBench](agentbench.md)
+
 ## 主旨
 WebArena 的主旨是用真实网页环境评估代理的 UI 操作能力。论文强调，只有在接近真实的网页生态中测试，才能暴露代理在动态交互、复杂页面结构与不确定环境中的真实表现。[85]
 

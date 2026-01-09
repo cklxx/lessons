@@ -2,6 +2,12 @@
 
 原文链接： [MetaGPT: Meta Programming for A Multi-Agent Collaborative Framework](https://arxiv.org/abs/2308.00352) [81]
 
+## 论文信息
+- 年份：2023 [81]
+- 作者：Sirui Hong, Mingchen Zhuge, Jiaqi Chen, Xiawu Zheng, Yuheng Cheng, Ceyao Zhang, Jinlin Wang, Zili Wang, Steven Ka Shing Yau, Zijuan Lin, Liyang Zhou, Chenyu Ran, Lingfeng Xiao, Chenglin Wu, Jürgen Schmidhuber [81]
+- 作者背景（研究领域）：软件工程流程/多代理 [81]
+- 前后血缘关系（同主题）：前序：[AutoGen](autogen.md)、[CAMEL](camel.md)；后续：[ChatDev](chatdev.md)
+
 ## 主旨
 MetaGPT 的主旨是把软件研发流程拆成多个角色协作，并通过结构化交付物保证一致性。论文强调，角色化协作只有在流程与产物标准化后才能真正提升质量，而不是简单的“多代理聊天”。[81]
 

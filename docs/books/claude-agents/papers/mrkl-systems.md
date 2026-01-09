@@ -2,6 +2,12 @@
 
 原文链接： [MRKL Systems: A modular, neuro-symbolic architecture that combines large language models, external knowledge sources and discrete reasoning](https://arxiv.org/abs/2205.00445) [66]
 
+## 论文信息
+- 年份：2022 [66]
+- 作者：Ehud Karpas, Omri Abend, Yonatan Belinkov, Barak Lenz, Opher Lieber, Nir Ratner, Yoav Shoham, Hofit Bata, Yoav Levine, Kevin Leyton-Brown, Dor Muhlgay, Noam Rozen, Erez Schwartz, Gal Shachaf, Shai Shalev-Shwartz, Amnon Shashua, Moshe Tenenholtz [66]
+- 作者背景（研究领域）：神经符号/NLP/工具路由 [66]
+- 前后血缘关系（同主题）：前序：无（模块化工具路线早期代表）；后续：[Toolformer](toolformer.md)、[Gorilla](gorilla.md)、[ToolLLM](toollm.md)
+
 ## 主旨
 MRKL Systems 的主旨是把大语言模型从“全能推理器”变成“意图路由器”。模型负责理解用户问题、选择合适的外部专家模块，并把模块输出整理成回答，而确定性计算与事实检索由外部模块承担，从而扩展系统能力并降低幻觉风险。[66]
 

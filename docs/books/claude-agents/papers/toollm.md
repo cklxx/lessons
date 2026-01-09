@@ -2,6 +2,12 @@
 
 原文链接： [ToolLLM: Facilitating Large Language Models to Master 16000+ Real-world APIs](https://arxiv.org/abs/2307.16789) [83]
 
+## 论文信息
+- 年份：2023 [83]
+- 作者：Yujia Qin, Shihao Liang, Yining Ye, Kunlun Zhu, Lan Yan, Yaxi Lu, Yankai Lin, Xin Cong, Xiangru Tang, Bill Qian, Sihan Zhao, Lauren Hong, Runchu Tian, Ruobing Xie, Jie Zhou, Mark Gerstein, Dahai Li, Zhiyuan Liu, Maosong Sun [83]
+- 作者背景（研究领域）：工具调用数据/泛化 [83]
+- 前后血缘关系（同主题）：前序：[Toolformer](toolformer.md)、[Gorilla](gorilla.md)；后续：无（大规模工具数据代表）
+
 ## 主旨
 ToolLLM 的主旨是用大规模、多样化的 API 调用数据训练模型，使其获得通用的工具使用能力。论文强调，真正的泛化来自数据覆盖面与调用结构的系统化整理，而不是单一工具或少量示例。[83]
 

@@ -2,6 +2,12 @@
 
 原文链接： [CAMEL: Communicative Agents for "Mind" Exploration of Large Language Model Society](https://arxiv.org/abs/2303.17760) [80]
 
+## 论文信息
+- 年份：2023 [80]
+- 作者：Guohao Li, Hasan Abed Al Kader Hammoud, Hani Itani, Dmitrii Khizbullin, Bernard Ghanem [80]
+- 作者背景（研究领域）：多代理角色扮演数据 [80]
+- 前后血缘关系（同主题）：前序：无（多代理对话生成代表）；后续：[AutoGen](autogen.md)、[MetaGPT](metagpt.md)
+
 ## 主旨
 CAMEL 的主旨是通过角色扮演式对话生成复杂协作过程与高质量任务数据。论文强调，给模型明确角色与目标后，代理之间的对话会自然形成更结构化、更可控的协作轨迹。[80]
 

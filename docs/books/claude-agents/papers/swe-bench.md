@@ -2,6 +2,12 @@
 
 原文链接： [SWE-bench: Can Language Models Resolve Real-World GitHub Issues?](https://arxiv.org/abs/2310.06770) [88]
 
+## 论文信息
+- 年份：2023 [88]
+- 作者：Carlos E. Jimenez, John Yang, Alexander Wettig, Shunyu Yao, Kexin Pei, Ofir Press, Karthik Narasimhan [88]
+- 作者背景（研究领域）：软件工程评测/代码修复 [88]
+- 前后血缘关系（同主题）：前序：无（真实代码修复评测代表）；后续：[SWE-agent](swe-agent.md)
+
 ## 主旨
 SWE-bench 的主旨是用真实 GitHub issue 评测模型解决实际软件工程问题的能力。论文强调，真实仓库带来的上下文复杂度、依赖关系与测试约束，是衡量代理能力的关键因素。[88]
 

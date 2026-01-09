@@ -2,6 +2,12 @@
 
 原文链接： [ReWOO: Decoupling Reasoning from Observations for Efficient Augmented Language Models](https://arxiv.org/abs/2305.18323) [73]
 
+## 论文信息
+- 年份：2023 [73]
+- 作者：Binfeng Xu, Zhiyuan Peng, Bowen Lei, Subhabrata Mukherjee, Yuchen Liu, Dongkuan Xu [73]
+- 作者背景（研究领域）：规划与工具效率优化 [73]
+- 前后血缘关系（同主题）：前序：[ReAct](react.md)；后续：无（与 ReAct 同线效率优化）
+
 ## 主旨
 ReWOO 的主旨是把“规划”与“观察”解耦。模型先生成完整的推理与工具调用计划，再执行获得观察结果并填充计划，从而减少反复的思考-行动循环，提高效率与稳定性。[73]
 

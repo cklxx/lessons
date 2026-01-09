@@ -2,6 +2,12 @@
 
 原文链接： [MemGPT: Towards LLMs as Operating Systems](https://arxiv.org/abs/2310.08560) [74]
 
+## 论文信息
+- 年份：2023 [74]
+- 作者：Charles Packer, Sarah Wooders, Kevin Lin, Vivian Fang, Shishir G. Patil, Ion Stoica, Joseph E. Gonzalez [74]
+- 作者背景（研究领域）：长上下文记忆管理/系统 [74]
+- 前后血缘关系（同主题）：前序：[Reflexion](reflexion.md)；后续：[Generative Agents](generative-agents.md)
+
 ## 主旨
 MemGPT 的主旨是将“记忆管理”从隐式上下文窗口中剥离出来，设计显式的短期与长期记忆机制。通过可控读写，代理能够在长任务中保持关键状态，而不是依赖更长的上下文或重复提示。[74]
 
