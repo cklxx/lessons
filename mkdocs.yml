@@ -144,6 +144,9 @@ nav:
               - SWE-bench Goes Live!: books/claude-agents/papers/swe-bench-goes-live.md
               - OSWorld-Human: books/claude-agents/papers/osworld-human.md
               - Mobile-Agent-v3: books/claude-agents/papers/mobile-agent-v3.md
+              - MobileUse: books/claude-agents/papers/mobileuse.md
+              - MagicGUI: books/claude-agents/papers/magicgui.md
+              - UI-Evol: books/claude-agents/papers/ui-evol.md
               - MCP-Bench: books/claude-agents/papers/mcp-bench.md
               - ALFWorld: books/claude-agents/papers/alfworld.md
               - SWE-bench: books/claude-agents/papers/swe-bench.md

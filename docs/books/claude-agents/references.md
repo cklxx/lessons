@@ -99,3 +99,6 @@
 97. OSWorld-Human: Benchmarking the Efficiency of Computer-Use Agents. https://arxiv.org/abs/2506.16042
 98. Mobile-Agent-v3: Fundamental Agents for GUI Automation. https://arxiv.org/abs/2508.15144
 99. MCP-Bench: Benchmarking Tool-Using LLM Agents with Complex Real-World Tasks via MCP Servers. https://arxiv.org/abs/2508.20453
+100. MobileUse: A GUI Agent with Hierarchical Reflection for Autonomous Mobile Operation. https://arxiv.org/abs/2507.16853
+101. MagicGUI: A Foundational Mobile GUI Agent with Scalable Data Pipeline and Reinforcement Fine-tuning. https://arxiv.org/abs/2508.03700
+102. UI-Evol: Automatic Knowledge Evolving for Computer Use Agents. https://arxiv.org/abs/2505.21964
