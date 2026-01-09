@@ -124,9 +124,12 @@ nav:
               - Reflexion: books/claude-agents/papers/reflexion.md
               - MemGPT: books/claude-agents/papers/memgpt.md
               - Generative Agents: books/claude-agents/papers/generative-agents.md
+              - Tree of Thoughts: books/claude-agents/papers/tree-of-thoughts.md
+              - Graph of Thoughts: books/claude-agents/papers/graph-of-thoughts.md
               - HuggingGPT: books/claude-agents/papers/hugginggpt.md
               - Gorilla: books/claude-agents/papers/gorilla.md
               - ToolLLM: books/claude-agents/papers/toollm.md
+              - StableToolBench: books/claude-agents/papers/stable-toolbench.md
               - AutoGen: books/claude-agents/papers/autogen.md
               - CAMEL: books/claude-agents/papers/camel.md
               - MetaGPT: books/claude-agents/papers/metagpt.md
@@ -135,6 +138,16 @@ nav:
               - AgentBench: books/claude-agents/papers/agentbench.md
               - WebArena: books/claude-agents/papers/webarena.md
               - WebShop: books/claude-agents/papers/webshop.md
+              - Mind2Web: books/claude-agents/papers/mind2web.md
+              - WebVoyager: books/claude-agents/papers/webvoyager.md
+              - OSWorld: books/claude-agents/papers/osworld.md
+              - SWE-bench Goes Live!: books/claude-agents/papers/swe-bench-goes-live.md
+              - OSWorld-Human: books/claude-agents/papers/osworld-human.md
+              - Mobile-Agent-v3: books/claude-agents/papers/mobile-agent-v3.md
+              - MobileUse: books/claude-agents/papers/mobileuse.md
+              - MagicGUI: books/claude-agents/papers/magicgui.md
+              - UI-Evol: books/claude-agents/papers/ui-evol.md
+              - MCP-Bench: books/claude-agents/papers/mcp-bench.md
               - ALFWorld: books/claude-agents/papers/alfworld.md
               - SWE-bench: books/claude-agents/papers/swe-bench.md
               - SWE-agent: books/claude-agents/papers/swe-agent.md

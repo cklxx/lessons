@@ -89,3 +89,16 @@
 87. ALFWorld: Aligning Text and Embodied Environments for Interactive Learning. https://arxiv.org/abs/2010.03768
 88. SWE-bench: Can Language Models Resolve Real-World GitHub Issues?. https://arxiv.org/abs/2310.06770
 89. SWE-agent: Agent-Computer Interfaces Enable Automated Software Engineering. https://arxiv.org/abs/2405.15793
+90. Tree of Thoughts: Deliberate Problem Solving with Large Language Models. https://arxiv.org/abs/2305.10601
+91. Graph of Thoughts: Solving Elaborate Problems with Large Language Models. https://arxiv.org/abs/2308.09687
+92. StableToolBench: Towards Stable Large-Scale Benchmarking on Tool Learning of Large Language Models. https://arxiv.org/abs/2403.07714
+93. Mind2Web: Towards a Generalist Agent for the Web. https://arxiv.org/abs/2306.06070
+94. WebVoyager: Building an End-to-End Web Agent with Large Multimodal Models. https://arxiv.org/abs/2401.13919
+95. OSWorld: Benchmarking Multimodal Agents for Open-Ended Tasks in Real Computer Environments. https://arxiv.org/abs/2404.07972
+96. SWE-bench Goes Live!. https://arxiv.org/abs/2505.23419
+97. OSWorld-Human: Benchmarking the Efficiency of Computer-Use Agents. https://arxiv.org/abs/2506.16042
+98. Mobile-Agent-v3: Fundamental Agents for GUI Automation. https://arxiv.org/abs/2508.15144
+99. MCP-Bench: Benchmarking Tool-Using LLM Agents with Complex Real-World Tasks via MCP Servers. https://arxiv.org/abs/2508.20453
+100. MobileUse: A GUI Agent with Hierarchical Reflection for Autonomous Mobile Operation. https://arxiv.org/abs/2507.16853
+101. MagicGUI: A Foundational Mobile GUI Agent with Scalable Data Pipeline and Reinforcement Fine-tuning. https://arxiv.org/abs/2508.03700
+102. UI-Evol: Automatic Knowledge Evolving for Computer Use Agents. https://arxiv.org/abs/2505.21964
