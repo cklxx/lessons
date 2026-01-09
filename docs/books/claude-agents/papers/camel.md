@@ -1,5 +1,7 @@
 # CAMEL：角色扮演式对话的数据生成
 
+原文链接： [CAMEL: Communicative Agents for "Mind" Exploration of Large Language Model Society](https://arxiv.org/abs/2303.17760) [80]
+
 ## 主旨
 CAMEL 的主旨是通过角色扮演式对话生成复杂协作过程与高质量任务数据。论文强调，给模型明确角色与目标后，代理之间的对话会自然形成更结构化、更可控的协作轨迹。[80]
 

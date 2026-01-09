@@ -1,5 +1,7 @@
 # ReAct：思考与行动交替的代理范式
 
+原文链接： [ReAct: Synergizing Reasoning and Acting in Language Models](https://arxiv.org/abs/2210.03629) [68]
+
 ## 主旨
 ReAct 的核心主旨是把“推理”和“行动”绑在一个循环里：模型先给出思考，再执行行动获取观察，并把观察作为下一步推理的输入。这样可以在多步任务中持续校验假设，显著减少幻觉并提升任务完成率。[68]
 

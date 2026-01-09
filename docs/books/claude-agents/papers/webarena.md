@@ -1,5 +1,7 @@
 # WebArena：真实网页环境的代理评测
 
+原文链接： [WebArena: A Realistic Web Environment for Building Autonomous Agents](https://arxiv.org/abs/2307.13854) [85]
+
 ## 主旨
 WebArena 的主旨是用真实网页环境评估代理的 UI 操作能力。论文强调，只有在接近真实的网页生态中测试，才能暴露代理在动态交互、复杂页面结构与不确定环境中的真实表现。[85]
 

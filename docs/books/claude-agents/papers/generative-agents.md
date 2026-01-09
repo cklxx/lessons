@@ -1,5 +1,7 @@
 # Generative Agents：记忆、反思与计划驱动的社会化代理
 
+原文链接： [Generative Agents: Interactive Simulacra of Human Behavior](https://arxiv.org/abs/2304.03442) [75]
+
 ## 主旨
 Generative Agents 的主旨是用“记忆—反思—计划”的组合，构建能够长期持续、具备社会行为的代理。论文强调，代理的连贯行为来自结构化记忆与日程安排，而不是即时语言生成。[75]
 

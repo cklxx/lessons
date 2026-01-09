@@ -1,5 +1,7 @@
 # MemGPT：把上下文管理显式化
 
+原文链接： [MemGPT: Towards LLMs as Operating Systems](https://arxiv.org/abs/2310.08560) [74]
+
 ## 主旨
 MemGPT 的主旨是将“记忆管理”从隐式上下文窗口中剥离出来，设计显式的短期与长期记忆机制。通过可控读写，代理能够在长任务中保持关键状态，而不是依赖更长的上下文或重复提示。[74]
 

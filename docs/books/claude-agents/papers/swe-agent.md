@@ -1,5 +1,7 @@
 # SWE-agent：面向软件工程的工具接口设计
 
+原文链接： [SWE-agent: Agent-Computer Interfaces Enable Automated Software Engineering](https://arxiv.org/abs/2405.15793) [89]
+
 ## 主旨
 SWE-agent 的主旨是证明“工具接口设计”在自动化软件工程中的关键作用。论文提出 Agent-Computer Interface，把模型与命令行工具、文件系统等基础操作统一起来，从而提高任务完成率与可控性。[89]
 

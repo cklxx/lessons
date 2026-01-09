@@ -1,5 +1,7 @@
 # WebGPT：浏览驱动的可验证回答
 
+原文链接： [WebGPT: Browser-assisted question-answering with human feedback](https://arxiv.org/abs/2112.09332) [70]
+
 ## 主旨
 WebGPT 的主旨是让模型在回答问题时必须浏览网页并提供引用，从而提高事实性与可审计性。论文强调，只有把“证据”纳入训练目标，模型才会倾向于寻找可靠来源而不是凭空生成内容。[70]
 

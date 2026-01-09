@@ -1,5 +1,7 @@
 # MetaGPT：制度化的多角色软件协作
 
+原文链接： [MetaGPT: Meta Programming for A Multi-Agent Collaborative Framework](https://arxiv.org/abs/2308.00352) [81]
+
 ## 主旨
 MetaGPT 的主旨是把软件研发流程拆成多个角色协作，并通过结构化交付物保证一致性。论文强调，角色化协作只有在流程与产物标准化后才能真正提升质量，而不是简单的“多代理聊天”。[81]
 

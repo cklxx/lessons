@@ -1,5 +1,7 @@
 # Gorilla：文档检索驱动的 API 调用
 
+原文链接： [Gorilla: Large Language Model Connected with Massive APIs](https://arxiv.org/abs/2305.15334) [78]
+
 ## 主旨
 Gorilla 的主旨是让模型在调用 API 时基于真实文档检索结果，而不是依赖内化记忆。通过“检索文档 + 监督微调”，模型能够在大规模 API 环境中更准确地生成调用指令。[78]
 

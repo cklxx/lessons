@@ -1,5 +1,7 @@
 # HuggingGPT：多模态工具调度框架
 
+原文链接： [HuggingGPT: Solving AI Tasks with ChatGPT and its Friends in Hugging Face](https://arxiv.org/abs/2303.17580) [77]
+
 ## 主旨
 HuggingGPT 的主旨是把 LLM 定位为“任务调度器”，利用外部多模态专家模型完成具体执行。通过规划、调用与校验的链路，系统能够处理跨模态、跨模型的复杂任务，突破单一模型能力边界。[77]
 

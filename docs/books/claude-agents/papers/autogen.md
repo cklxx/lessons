@@ -1,5 +1,7 @@
 # AutoGen：角色对话驱动的多代理协作
 
+原文链接： [AutoGen: Enabling Next-Gen LLM Applications via Multi-Agent Conversation](https://arxiv.org/abs/2308.08155) [79]
+
 ## 主旨
 AutoGen 的主旨是用多代理对话机制完成复杂任务。通过把任务拆分给不同角色或代理，并让它们在对话中互相协作、校验与修正，系统能够获得比单一代理更高的完成度与鲁棒性。[79]
 

@@ -1,5 +1,7 @@
 # ChatDev：对话驱动的软件开发流程
 
+原文链接： [ChatDev: Communicative Agents for Software Development](https://arxiv.org/abs/2307.07924) [82]
+
 ## 主旨
 ChatDev 的主旨是用角色化对话模拟软件公司开发流程，从需求到实现形成闭环。论文强调，通过分角色对话协调需求、设计与实现，可以在没有传统工具链的情况下形成相对完整的软件交付流程。[82]
 

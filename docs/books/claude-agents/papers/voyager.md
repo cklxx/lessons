@@ -1,5 +1,7 @@
 # Voyager：课程生成与技能库的持续学习
 
+原文链接： [Voyager: An Open-Ended Embodied Agent with Large Language Models](https://arxiv.org/abs/2305.16291) [76]
+
 ## 主旨
 Voyager 的主旨是让代理在开放式环境中持续学习，通过自动生成课程和技能库，实现长期能力积累。论文强调，持续成长来自“任务生成 + 技能复用”，而不是无目标的探索。[76]
 

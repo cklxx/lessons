@@ -1,5 +1,7 @@
 # AgentBench：跨任务的代理评测框架
 
+原文链接： [AgentBench: Evaluating LLMs as Agents](https://arxiv.org/abs/2308.03688) [84]
+
 ## 主旨
 AgentBench 的主旨是建立覆盖多任务的评测框架，用于衡量 LLM 在代理场景中的真实能力。论文强调，单一任务指标无法揭示系统性短板，必须通过跨场景评测来判断代理的通用性与稳定性。[84]
 

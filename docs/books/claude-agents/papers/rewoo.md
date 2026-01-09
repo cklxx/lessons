@@ -1,5 +1,7 @@
 # ReWOO：先规划后观察的高效推理
 
+原文链接： [ReWOO: Decoupling Reasoning from Observations for Efficient Augmented Language Models](https://arxiv.org/abs/2305.18323) [73]
+
 ## 主旨
 ReWOO 的主旨是把“规划”与“观察”解耦。模型先生成完整的推理与工具调用计划，再执行获得观察结果并填充计划，从而减少反复的思考-行动循环，提高效率与稳定性。[73]
 

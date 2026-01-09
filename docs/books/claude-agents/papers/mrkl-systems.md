@@ -1,5 +1,7 @@
 # MRKL Systems：模块化路由的专家协作架构
 
+原文链接： [MRKL Systems: A modular, neuro-symbolic architecture that combines large language models, external knowledge sources and discrete reasoning](https://arxiv.org/abs/2205.00445) [66]
+
 ## 主旨
 MRKL Systems 的主旨是把大语言模型从“全能推理器”变成“意图路由器”。模型负责理解用户问题、选择合适的外部专家模块，并把模块输出整理成回答，而确定性计算与事实检索由外部模块承担，从而扩展系统能力并降低幻觉风险。[66]
 

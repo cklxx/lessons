@@ -1,5 +1,7 @@
 # ALFWorld：文本化具身任务环境
 
+原文链接： [ALFWorld: Aligning Text and Embodied Environments for Interactive Learning](https://arxiv.org/abs/2010.03768) [87]
+
 ## 主旨
 ALFWorld 的主旨是把具身任务转化为文本交互环境，从而降低训练与评测成本，同时保留任务的结构性与约束条件。论文强调，文本化环境能让研究者更高效地验证代理算法，而不必依赖昂贵的真实机器人平台。[87]
 

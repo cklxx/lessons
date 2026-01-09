@@ -1,5 +1,7 @@
 # ToolLLM：规模化工具调用数据的通用化训练
 
+原文链接： [ToolLLM: Facilitating Large Language Models to Master 16000+ Real-world APIs](https://arxiv.org/abs/2307.16789) [83]
+
 ## 主旨
 ToolLLM 的主旨是用大规模、多样化的 API 调用数据训练模型，使其获得通用的工具使用能力。论文强调，真正的泛化来自数据覆盖面与调用结构的系统化整理，而不是单一工具或少量示例。[83]
 

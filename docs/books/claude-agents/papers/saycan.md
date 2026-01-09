@@ -1,5 +1,7 @@
 # SayCan：语言规划与可行性分离
 
+原文链接： [Do As I Can, Not As I Say: Grounding Language in Robotic Affordances](https://arxiv.org/abs/2204.01691) [71]
+
 ## 主旨
 SayCan 的主旨是把高层语言规划与低层可行性判断分离。LLM 负责提出“能做什么”的计划，而机器人或环境模型负责判断“是否可做”，从而让规划既有灵活性又具可执行性。[71]
 

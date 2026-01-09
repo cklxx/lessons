@@ -1,5 +1,7 @@
 # Reflexion：用反思驱动自我改进
 
+原文链接： [Reflexion: Language Agents with Verbal Reinforcement Learning](https://arxiv.org/abs/2303.11366) [72]
+
 ## 主旨
 Reflexion 的主旨是让代理从失败中总结“反思”，并把反思写入记忆，作为下一次行动的约束条件。它试图用语言级反馈替代复杂的强化学习，从而在少量试错中实现性能提升。[72]
 

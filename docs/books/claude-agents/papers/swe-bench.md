@@ -1,5 +1,7 @@
 # SWE-bench：真实仓库问题的代码修复基准
 
+原文链接： [SWE-bench: Can Language Models Resolve Real-World GitHub Issues?](https://arxiv.org/abs/2310.06770) [88]
+
 ## 主旨
 SWE-bench 的主旨是用真实 GitHub issue 评测模型解决实际软件工程问题的能力。论文强调，真实仓库带来的上下文复杂度、依赖关系与测试约束，是衡量代理能力的关键因素。[88]
 
