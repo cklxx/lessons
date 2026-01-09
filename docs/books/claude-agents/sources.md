@@ -1,6 +1,6 @@
 # 原文快照
 
-这里按编号列出本书使用的原文快照。每条链接指向本地文件，原始 URL 已写在文件头部。编号与 [references.md](references.md) 对照。
+这里按编号列出 Claude 官方资料的原文快照。每条链接指向本地文件，原始 URL 已写在文件头部。编号与 [references.md](references.md) 对照；第 10 章的论文与实验只在 [references.md](references.md) 提供外部链接，不做快照。
 
 1. [Agent Skills](sources/platform-claude-com-docs-en-agents-and-tools-agent-skills-overvi-54dab1b2fa39.md)
 2. [Get started with Agent Skills in the API](sources/platform-claude-com-docs-en-agents-and-tools-agent-skills-quicks-52b2b8c9d07d.md)

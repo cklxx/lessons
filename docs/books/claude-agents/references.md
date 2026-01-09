@@ -65,3 +65,27 @@
 63. Equipping agents for the real world with Agent Skills. https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills
 64. How we built our multi-agent research system. https://www.anthropic.com/engineering/multi-agent-research-system
 65. Writing effective tools for AI agents - using AI agents. https://www.anthropic.com/engineering/writing-tools-for-agents
+66. MRKL Systems: A modular, neuro-symbolic architecture that combines large language models, external knowledge sources and discrete reasoning. https://arxiv.org/abs/2205.00445
+67. PAL: Program-aided Language Models. https://arxiv.org/abs/2211.10435
+68. ReAct: Synergizing Reasoning and Acting in Language Models. https://arxiv.org/abs/2210.03629
+69. Toolformer: Language Models Can Teach Themselves to Use Tools. https://arxiv.org/abs/2302.04761
+70. WebGPT: Browser-assisted question-answering with human feedback. https://arxiv.org/abs/2112.09332
+71. Do As I Can, Not As I Say: Grounding Language in Robotic Affordances. https://arxiv.org/abs/2204.01691
+72. Reflexion: Language Agents with Verbal Reinforcement Learning. https://arxiv.org/abs/2303.11366
+73. ReWOO: Decoupling Reasoning from Observations for Efficient Augmented Language Models. https://arxiv.org/abs/2305.18323
+74. MemGPT: Towards LLMs as Operating Systems. https://arxiv.org/abs/2310.08560
+75. Generative Agents: Interactive Simulacra of Human Behavior. https://arxiv.org/abs/2304.03442
+76. Voyager: An Open-Ended Embodied Agent with Large Language Models. https://arxiv.org/abs/2305.16291
+77. HuggingGPT: Solving AI Tasks with ChatGPT and its Friends in Hugging Face. https://arxiv.org/abs/2303.17580
+78. Gorilla: Large Language Model Connected with Massive APIs. https://arxiv.org/abs/2305.15334
+79. AutoGen: Enabling Next-Gen LLM Applications via Multi-Agent Conversation. https://arxiv.org/abs/2308.08155
+80. CAMEL: Communicative Agents for "Mind" Exploration of Large Language Model Society. https://arxiv.org/abs/2303.17760
+81. MetaGPT: Meta Programming for A Multi-Agent Collaborative Framework. https://arxiv.org/abs/2308.00352
+82. ChatDev: Communicative Agents for Software Development. https://arxiv.org/abs/2307.07924
+83. ToolLLM: Facilitating Large Language Models to Master 16000+ Real-world APIs. https://arxiv.org/abs/2307.16789
+84. AgentBench: Evaluating LLMs as Agents. https://arxiv.org/abs/2308.03688
+85. WebArena: A Realistic Web Environment for Building Autonomous Agents. https://arxiv.org/abs/2307.13854
+86. WebShop: Towards Scalable Real-World Web Interaction with Grounded Language Agents. https://arxiv.org/abs/2207.01206
+87. ALFWorld: Aligning Text and Embodied Environments for Interactive Learning. https://arxiv.org/abs/2010.03768
+88. SWE-bench: Can Language Models Resolve Real-World GitHub Issues?. https://arxiv.org/abs/2310.06770
+89. SWE-agent: Agent-Computer Interfaces Enable Automated Software Engineering. https://arxiv.org/abs/2405.15793

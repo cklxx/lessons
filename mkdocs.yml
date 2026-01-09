@@ -112,6 +112,32 @@ nav:
           - 第 7 章：Claude Code 的产品化轨迹: books/claude-agents/07-claude-code-at-scale.md
           - 第 8 章：上下文工程与长任务: books/claude-agents/08-context-and-harnesses.md
           - 第 9 章：多代理协作与研究系统: books/claude-agents/09-multi-agent-systems.md
+          - 第 10 章：Agent 关键论文与实验清单:
+              - 总览: books/claude-agents/10-agent-papers-and-experiments.md
+              - MRKL Systems: books/claude-agents/papers/mrkl-systems.md
+              - PAL: books/claude-agents/papers/pal.md
+              - ReAct: books/claude-agents/papers/react.md
+              - Toolformer: books/claude-agents/papers/toolformer.md
+              - WebGPT: books/claude-agents/papers/webgpt.md
+              - SayCan: books/claude-agents/papers/saycan.md
+              - ReWOO: books/claude-agents/papers/rewoo.md
+              - Reflexion: books/claude-agents/papers/reflexion.md
+              - MemGPT: books/claude-agents/papers/memgpt.md
+              - Generative Agents: books/claude-agents/papers/generative-agents.md
+              - HuggingGPT: books/claude-agents/papers/hugginggpt.md
+              - Gorilla: books/claude-agents/papers/gorilla.md
+              - ToolLLM: books/claude-agents/papers/toollm.md
+              - AutoGen: books/claude-agents/papers/autogen.md
+              - CAMEL: books/claude-agents/papers/camel.md
+              - MetaGPT: books/claude-agents/papers/metagpt.md
+              - ChatDev: books/claude-agents/papers/chatdev.md
+              - Voyager: books/claude-agents/papers/voyager.md
+              - AgentBench: books/claude-agents/papers/agentbench.md
+              - WebArena: books/claude-agents/papers/webarena.md
+              - WebShop: books/claude-agents/papers/webshop.md
+              - ALFWorld: books/claude-agents/papers/alfworld.md
+              - SWE-bench: books/claude-agents/papers/swe-bench.md
+              - SWE-agent: books/claude-agents/papers/swe-agent.md
           - 原文快照: books/claude-agents/sources.md
           - Sources: books/claude-agents/references.md
   - 资料池:
